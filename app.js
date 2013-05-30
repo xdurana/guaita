@@ -2,8 +2,11 @@ var express = require('express');
 var http = require('http')
 var path = require('path');
 
-var ws = require('./routes/ws');
 var config = require('./config');
+
+var authservice = require('./ws/authservice');
+var infoacademicaservice = require('./ws/infoacademicaservice');
+var dadesacademiquesservice = require('./ws/dadesacademiquesservice');
 
 var app = express();
 
@@ -22,9 +25,18 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/ws/getAssignaturaByCodi', ws.getAssignaturaByCodi);
-app.get('/ws/getUserRoles', ws.getUserRoles);
-app.get('/ws/isUserAuthenticated', ws.isUserAuthenticated);
+app.get('/ws/getUserRoles', authservice.getUserRoles);
+app.get('/ws/isUserAuthenticated', authservice.isUserAuthenticated);
+app.get('/ws/getContextBySessionId', authservice.getContextBySessionId);
+
+app.get('/ws/getAssignaturaByCodi', infoacademicaservice.getAssignaturaByCodi);
+app.get('/ws/getAssignatures', infoacademicaservice.getAssignatures);
+app.get('/ws/getAulesByAssignatura', infoacademicaservice.getAulesByAssignatura);
+app.get('/ws/getAulaById', infoacademicaservice.getAulaById);
+app.get('/ws/getAulesByConsultor', infoacademicaservice.getAulesByConsultor);
+app.get('/ws/getPrasByAssignaturaAny', infoacademicaservice.getPrasByAssignaturaAny);
+
+app.get('/ws/getAssignaturesByResponsableAny', dadesacademiquesservice.getAssignaturesByResponsableAny);
 
 app.get('/', function(req, res){
   res.render('index', {
