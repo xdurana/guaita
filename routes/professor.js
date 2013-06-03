@@ -3,11 +3,19 @@ var service = require('../ws/service');
 
 exports.index = function(req, res) {
 	//http://localhost:3333/professor?idp=224475&anyAcademic=20122
-	service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesByResponsableAny', {
-		in0: req.query.idp,
-		in1: req.query.anyAcademic
-	}, function(err, result) {
-		if (err) throw new Error(err);
+
+	async.waterfall([
+		function(callback) {
+			var args = {
+				in0: req.query.idp,
+				in1: req.query.anyAcademic
+			}
+			service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesByResponsableAny', args, function(err, result) {
+				if (err) return callback(err);
+				callback(null, result);
+			});
+		}
+	], function (err, result) {
 		res.json(result);
 	});
 }
