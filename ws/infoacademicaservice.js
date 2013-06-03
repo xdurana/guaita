@@ -3,9 +3,9 @@ var url = 'http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL'
 
 //http://cv.uoc.edu/~grc_8842_w01/ws/html/wsdl/InfoacademicaService.xml
 
-exports.getAssignaturaByCodi = function(req, res) {
+exports.getAssignaturaByCodiWS = function(req, res) {
 
-	//http://localhost:3000/ws/getAssignaturaByCodi?in0=10.002&in1=ca
+	//http://localhost:3333/ws/getAssignaturaByCodi?in0=10.002&in1=ca
 
 	var args = {
 		in0: req.query.in0, //Codi Assignatura "10.002"
@@ -19,9 +19,9 @@ exports.getAssignaturaByCodi = function(req, res) {
 	});
 }
 
-exports.getAssignatures = function(req, res) {
+exports.getAssignaturesWS = function(req, res) {
 
-	//http://localhost:3000/ws/getAssignatures?in0=ca
+	//http://localhost:3333/ws/getAssignatures?in0=ca
 
 	var args = {
 		in0: req.query.in0 //Idioma "ca"
@@ -34,9 +34,9 @@ exports.getAssignatures = function(req, res) {
 	});
 }
 
-exports.getAulesByAssignatura = function(req, res) {
+exports.getAulesByAssignaturaWS = function(req, res) {
 
-	//http://localhost:3000/ws/getAulesByAssignatura?in0=M1.047&in1=20121
+	//http://localhost:3333/ws/getAulesByAssignatura?in0=M1.047&in1=20121
 
 	var args = {
 		in0: req.query.in0, //Codi Assignatura "M1.047"
@@ -50,9 +50,9 @@ exports.getAulesByAssignatura = function(req, res) {
 	});
 }
 
-exports.getAulaById = function(req, res) {
+exports.getAulaByIdWS = function(req, res) {
 
-	//http://localhost:3000/ws/getAulaById?in0=1&in1=M1.047&in2=20121
+	//http://localhost:3333/ws/getAulaById?in0=1&in1=M1.047&in2=20121
 
 	var args = {
 		in0: req.query.in0,	//Identificador de l'aula
@@ -67,9 +67,9 @@ exports.getAulaById = function(req, res) {
 	});
 }
 
-exports.getAulesByConsultor = function(req, res) {
+exports.getAulesByConsultorWS = function(req, res) {
 
-	//http://localhost:3000/ws/getAulesByConsultor?in0=224475&in1=20121
+	//http://localhost:3333/ws/getAulesByConsultor?in0=224475&in1=20121
 
 	var args = {
 		in0: req.query.in0,	//IDP del consultor
@@ -83,9 +83,9 @@ exports.getAulesByConsultor = function(req, res) {
 	});
 }
 
-exports.getPrasByAssignaturaAny = function(req, res) {
+exports.getPrasByAssignaturaAnyWS = function(req, res) {
 
-	//http://localhost:3000/ws/getPrasByAssignaturaAny?in0=M1.047&in1=20121
+	//http://localhost:3333/ws/getPrasByAssignaturaAny?in0=M1.047&in1=20121
 
 	var args = {
 		in0: req.query.in0, //Codi Assignatura "M1.047"

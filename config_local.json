@@ -1,5 +1,9 @@
 {
   "http": {
-    "port": "3000"
+    "port": "3333"
+  },
+  "wdsl": {
+  	"dadesacademiques": "http://esb.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
+  	"rac": "http://esb.uoc.es/rac-ws/services/RacService?WSDL"
   }
 }

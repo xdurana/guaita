@@ -3,9 +3,9 @@ var url = 'http://sa.uoc.es/remoteinterface/services/AuthService?WSDL';
 
 //http://cv.uoc.edu/~grc_8842_w01/ws/html/wsdl/AuthService.xml
 
-exports.getContextBySessionId = function(req, res) {
+exports.getContextBySessionIdWS = function(req, res) {
 
-	//http://localhost:3000/ws/getContextBySessionId?in0=<session>
+	//http://localhost:3333/ws/getContextBySessionId?in0=<session>
 
 	var args = {
 		in0: req.query.in0	//ID de la sessió
@@ -18,9 +18,9 @@ exports.getContextBySessionId = function(req, res) {
 	});
 }
 
-exports.isUserAuthenticated = function(req, res) {
+exports.isUserAuthenticatedWS = function(req, res) {
 
-	//http://localhost:3000/ws/isUserAuthenticated?in0=<session>
+	//http://localhost:3333/ws/isUserAuthenticated?in0=<session>
 
 	var args = {
 		in0: req.query.in0	//ID de la sessió
@@ -33,7 +33,7 @@ exports.isUserAuthenticated = function(req, res) {
 	});
 }
 
-exports.getUserRoles = function(req, res) {
+exports.getUserRolesWS = function(req, res) {
 
 
 	
