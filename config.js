@@ -13,6 +13,10 @@ exports.dadesacademiqueswsdl = function() {
 	return nconf.get('wsdl:dadesacademiques') || "http://esb.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL";
 }
 
+exports.infoacademicawsdl = function() {
+	return nconf.get('wsdl:infoacademica') || "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL";
+}
+
 exports.racwsdl = function() {
 	return nconf.get('wsdl:rac') || "http://esb.uoc.es/rac-ws/services/RacService?WSDL";
 }
