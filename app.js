@@ -11,6 +11,7 @@ var racservice = require('./ws/racservice');
 
 var professor = require('./routes/professor');
 var assignatura = require('./routes/assignatura');
+var aula = require('./routes/aula');
 
 var app = express();
 
@@ -52,6 +53,8 @@ app.get('/ws/getAula', racservice.getAula);
 app.get('/professor', professor.index);
 app.get('/assignatura/aules', assignatura.aules);
 app.get('/assignatura/consultors', assignatura.consultors);
+app.get('/assignatura/aula', aula.index);
+
 
 app.get('/', function(req, res){
   res.render('index', {

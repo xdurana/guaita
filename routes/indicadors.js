@@ -14,7 +14,17 @@ exports.getTotalAules = function(AulaVO) {
 
 exports.getAssignaturesIdentiques = function() {
 	//TODO
-	return {};
+	return [];
+}
+
+exports.getActivitatsAssignatura = function() {
+	//TODO
+	return [];
+}
+
+exports.getEinesAssignatura = function() {
+	//TODO
+	return [];
 }
 
 exports.getTotalEstudiantsRepetidors = function() {
@@ -27,7 +37,17 @@ exports.getClicksAcumulatsAula = function() {
 	return 0;
 }
 
+exports.getClicksAcumulatsAulaEina = function() {
+	//TODO
+	return 0;
+}
+
 exports.getLecturesPendentsAula = function() {
+	//TODO
+	return 0;
+}
+
+exports.getLecturesPendentsAulaEina = function() {
 	//TODO
 	return 0;
 }
@@ -37,7 +57,17 @@ exports.getParticipacionsAula = function() {
 	return 0;
 }
 
+exports.getParticipacionsAulaEina = function() {
+	//TODO
+	return 0;
+}
+
 exports.getSeguimentACAula = function() {
+	//TODO
+	return 0;
+}
+
+exports.getSeguimentACAulaActivitat = function() {
 	//TODO
 	return 0;
 }
@@ -47,7 +77,17 @@ exports.getSuperacioACAula = function() {
 	return 0;
 }
 
+exports.getSuperacioACAulaActivitat = function() {
+	//TODO
+	return 0;
+}
+
 exports.getDarreraActivitatLliuradaAula = function() {
+	//TODO
+	return 0;
+}
+
+exports.getDarreraActivitatLliuradaAulaActivitat = function() {
 	//TODO
 	return 0;
 }
@@ -57,7 +97,7 @@ exports.getDarreraActivitatSuperadaAula = function() {
 	return 0;
 }
 
-exports.getActivitatsAssignatura = function() {
+exports.getDarreraActivitatSuperadaAulaActivitat = function() {
 	//TODO
 	return 0;
 }

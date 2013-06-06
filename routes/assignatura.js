@@ -5,7 +5,7 @@ var indicadors = require('./indicadors');
 var service = require('../ws/service');
 
 exports.aules = function(req, res) {
-	//http://localhost:3333/assignatura/aules?codAssignatura=M1.047&anyAcademic=20122
+	//http://localhost:3333/assignatures/aules?codAssignatura=M1.047&anyAcademic=20122
 	var classrooms = {};
 
 	var args = {
@@ -32,7 +32,7 @@ exports.aules = function(req, res) {
 }
 
 exports.consultors = function(req, res) {
-	//http://localhost:3333/assignatura/consultors?codAssignatura=M1.047&anyAcademic=20122
+	//http://localhost:3333/assignatures/consultors?codAssignatura=M1.047&anyAcademic=20122
 
 	var consultants = {};
 	var getConsultantStats = function(item, callback) {
