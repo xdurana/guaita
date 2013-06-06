@@ -1,6 +1,7 @@
 var async = require('async');
 
 var config = require('../config');
+var indicadors = require('./indicadors');
 var service = require('../ws/service');
 
 exports.index = function(req, res) {
@@ -38,21 +39,17 @@ exports.index = function(req, res) {
 			function(callback) {
 				var args = {
 					in0: item.codAssignatura,
-					in1: item.anyAcademic
-				}
+					in1: req.query.anyAcademic
+				}				
 				service.operation(config.infoacademicawsdl(), 'getAulesByAssignatura', args, function(err, result) {
-					if (err) return callback(err);
-
-					course = courses[item.codAssignatura];
-					course.aules = 0;
-					course.estudiants = 0;
-					if (result.out.AulaVO) {
-						course.aules = result.out.AulaVO.length;
-						result.out.AulaVO.forEach(function(aula) {
-							course.estudiants += parseInt(aula.numPlacesAssignades);
-						});
+					if (err) {
+						console.log(err);
+						return callback(err);
 					}
-
+					course = courses[item.codAssignatura];
+					course.aules = indicadors.getTotalAules(result.out.AulaVO);
+					course.estudiants = indicadors.getTotalEstudiants(result.out.AulaVO);
+					course.estudiantsRepetidors = indicadors.getTotalEstudiantsRepetidors();
 					callback();
 				});
 			}
