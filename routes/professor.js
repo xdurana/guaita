@@ -87,15 +87,3 @@ exports.anys = function(req, res) {
 		res.json(result);
 	});
 }
-
-exports.aula = function(req, res) {
-	//http://localhost:3333/aula?anyAcademic=20122&codAssignatura=M1.047&numAula=1
-	service.operation(config.racwsdl(), 'getAula', {
-		in0: req.query.anyAcademic,
-		in1: req.query.codAssignatura,
-		in2: req.query.numAula
-	}, function(err, result) {
-		if (err) throw new Error(err);
-		res.json(result);
-	});
-}

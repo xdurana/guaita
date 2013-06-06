@@ -42,13 +42,13 @@ app.get('/ws/getPrasByAssignaturaAny', infoacademicaservice.getPrasByAssignatura
 app.get('/ws/getAssignaturesByResponsableAny', dadesacademiquesservice.getAssignaturesByResponsableAny);
 app.get('/ws/getAllAssignaturesRelacionades', dadesacademiquesservice.getAllAssignaturesRelacionades);
 app.get('/ws/getAllCampsPlaDocentAssignatura', dadesacademiquesservice.getAllCampsPlaDocentAssignatura);
+app.get('/ws/getAllAnysAcademics', dadesacademiquesservice.getAllAnysAcademics);
 
 app.get('/ws/getIndicadorsByResponsable', racservice.getIndicadorsByResponsable);
 app.get('/ws/calcularIndicadorsAssignatura', racservice.calcularIndicadorsAssignatura);
+app.get('/ws/getAula', racservice.getAula);
 
 app.get('/professor', professor.index);
-app.get('/anys', professor.anys);
-app.get('/aula', professor.aula);
 
 app.get('/', function(req, res){
   res.render('index', {
