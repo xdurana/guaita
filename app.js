@@ -7,6 +7,7 @@ var config = require('./config');
 var authservice = require('./ws/authservice');
 var infoacademicaservice = require('./ws/infoacademicaservice');
 var dadesacademiquesservice = require('./ws/dadesacademiquesservice');
+var racservice = require('./ws/racservice');
 
 var professor = require('./routes/professor');
 
@@ -27,18 +28,23 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/ws/getUserRoles', authservice.getUserRolesWS);
-app.get('/ws/isUserAuthenticated', authservice.isUserAuthenticatedWS);
-app.get('/ws/getContextBySessionId', authservice.getContextBySessionIdWS);
+app.get('/ws/getUserRoles', authservice.getUserRoles);
+app.get('/ws/isUserAuthenticated', authservice.isUserAuthenticated);
+app.get('/ws/getContextBySessionId', authservice.getContextBySessionId);
 
-app.get('/ws/getAssignaturaByCodi', infoacademicaservice.getAssignaturaByCodiWS);
-app.get('/ws/getAssignatures', infoacademicaservice.getAssignaturesWS);
-app.get('/ws/getAulesByAssignatura', infoacademicaservice.getAulesByAssignaturaWS);
-app.get('/ws/getAulaById', infoacademicaservice.getAulaByIdWS);
-app.get('/ws/getAulesByConsultor', infoacademicaservice.getAulesByConsultorWS);
-app.get('/ws/getPrasByAssignaturaAny', infoacademicaservice.getPrasByAssignaturaAnyWS);
+app.get('/ws/getAssignaturaByCodi', infoacademicaservice.getAssignaturaByCodi);
+app.get('/ws/getAssignatures', infoacademicaservice.getAssignatures);
+app.get('/ws/getAulesByAssignatura', infoacademicaservice.getAulesByAssignatura);
+app.get('/ws/getAulaById', infoacademicaservice.getAulaById);
+app.get('/ws/getAulesByConsultor', infoacademicaservice.getAulesByConsultor);
+app.get('/ws/getPrasByAssignaturaAny', infoacademicaservice.getPrasByAssignaturaAny);
 
-app.get('/ws/getAssignaturesByResponsableAny', dadesacademiquesservice.getAssignaturesByResponsableAnyWS);
+app.get('/ws/getAssignaturesByResponsableAny', dadesacademiquesservice.getAssignaturesByResponsableAny);
+app.get('/ws/getAllAssignaturesRelacionades', dadesacademiquesservice.getAllAssignaturesRelacionades);
+app.get('/ws/getAllCampsPlaDocentAssignatura', dadesacademiquesservice.getAllCampsPlaDocentAssignatura);
+
+app.get('/ws/getIndicadorsByResponsable', racservice.getIndicadorsByResponsable);
+app.get('/ws/calcularIndicadorsAssignatura', racservice.calcularIndicadorsAssignatura);
 
 app.get('/professor', professor.index);
 app.get('/anys', professor.anys);

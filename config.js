@@ -20,3 +20,7 @@ exports.infoacademicawsdl = function() {
 exports.racwsdl = function() {
 	return nconf.get('wsdl:rac') || "http://esb.uoc.es/rac-ws/services/RacService?WSDL";
 }
+
+exports.authwdsl = function() {
+	return nconf.get('wsdl:auth') || "http://sa.uoc.es/remoteinterface/services/AuthService?WSDL";
+}

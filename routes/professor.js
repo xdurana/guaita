@@ -44,7 +44,14 @@ exports.index = function(req, res) {
 					if (err) return callback(err);
 
 					course = courses[item.codAssignatura];
-					course.aules = result.out.AulaVO;
+					course.aules = 0;
+					course.estudiants = 0;
+					if (result.out.AulaVO) {
+						course.aules = result.out.AulaVO.length;
+						result.out.AulaVO.forEach(function(aula) {
+							course.estudiants += parseInt(aula.numPlacesAssignades);
+						});
+					}
 
 					callback();
 				});
