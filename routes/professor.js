@@ -38,7 +38,7 @@ exports.index = function(req, res) {
 			function(callback) {
 				var args = {
 					in0: item.codAssignatura,
-					in1: '20121'
+					in1: item.anyAcademic
 				}
 				service.operation(config.infoacademicawsdl(), 'getAulesByAssignatura', args, function(err, result) {
 					if (err) return callback(err);
@@ -70,20 +70,12 @@ exports.index = function(req, res) {
 			service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesByResponsableAny', args, function(err, result) {
 				if (err) return callback(err);
 				async.each(result.out.AssignaturaReduidaVO, getCourseStats, function(err) {
+					if (err) return callback(err);
 					callback(null, courses);
 				});
 			});
 		}
 	], function (err, result) {
-		res.json(result);
-	});
-}
-
-exports.anys = function(req, res) {
-	//http://localhost:3333/anys
-	service.operation(config.dadesacademiqueswsdl(), 'getAllAnysAcademics', {
-	}, function(err, result) {
-		if (err) throw new Error(err);
 		res.json(result);
 	});
 }

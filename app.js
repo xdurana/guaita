@@ -10,6 +10,7 @@ var dadesacademiquesservice = require('./ws/dadesacademiquesservice');
 var racservice = require('./ws/racservice');
 
 var professor = require('./routes/professor');
+var assignatura = require('./routes/assignatura');
 
 var app = express();
 
@@ -49,6 +50,8 @@ app.get('/ws/calcularIndicadorsAssignatura', racservice.calcularIndicadorsAssign
 app.get('/ws/getAula', racservice.getAula);
 
 app.get('/professor', professor.index);
+app.get('/assignatura/aules', assignatura.aules);
+app.get('/assignatura/consultors', assignatura.consultors);
 
 app.get('/', function(req, res){
   res.render('index', {
