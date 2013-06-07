@@ -10,17 +10,17 @@ exports.port = function() {
 }
 
 exports.dadesacademiqueswsdl = function() {
-	return nconf.get('wsdl:dadesacademiques') || "http://esb.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL";
+	return nconf.get('wsdl:dadesacademiques') || "http://sa-pre.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL";
 }
 
 exports.infoacademicawsdl = function() {
-	return nconf.get('wsdl:infoacademica') || "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL";
+	return nconf.get('wsdl:infoacademica') || "http://sa-pre.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL";
 }
 
 exports.racwsdl = function() {
-	return nconf.get('wsdl:rac') || "http://esb.uoc.es/rac-ws/services/RacService?WSDL";
+	return nconf.get('wsdl:rac') || "http://sa-pre.uoc.es/rac-ws/services/RacService?WSDL";
 }
 
 exports.authwdsl = function() {
-	return nconf.get('wsdl:auth') || "http://sa.uoc.es/remoteinterface/services/AuthService?WSDL";
+	return nconf.get('wsdl:auth') || "http://sa-pre.uoc.es/remoteinterface/services/AuthService?WSDL";
 }

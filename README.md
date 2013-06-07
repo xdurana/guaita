@@ -1,4 +1,4 @@
-# maula
+# maules
 
 Serveis de monitorització de l'aula i les seves eines
 
@@ -13,10 +13,10 @@ Install node.js
     ./configure
     make -j2 && sudo make install
 
-Install maula
+Install maules
 
-    git clone git://github.com/xdurana/maula.git
-    cd maula
+    git clone git://github.com/xdurana/maules.git
+    cd maules
     npm install
 
 Run
