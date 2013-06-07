@@ -1,6 +1,6 @@
-# learning-aware
+# maula
 
-A way to awareness through learning analytics
+Serveis de monitorització de l'aula i les seves eines
 
 Install
 -----------
@@ -13,10 +13,10 @@ Install node.js
     ./configure
     make -j2 && sudo make install
 
-Install learning-aware
+Install maula
 
-    git clone git://github.com/xdurana/learning-aware.git
-    cd learning-aware
+    git clone git://github.com/xdurana/maula.git
+    cd maula
     npm install
 
 Run
