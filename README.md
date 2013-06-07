@@ -1,6 +1,6 @@
 # maules
 
-Serveis de monitorització de l'aula i les seves eines
+Serveis de monitorització de les aules i llurs eines
 
 Install
 -----------
