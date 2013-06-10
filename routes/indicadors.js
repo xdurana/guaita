@@ -12,14 +12,28 @@ exports.getTotalEstudiants = function(AulaVO) {
 	return estudiants;
 }
 
+var getIndicador = function(indicadors, nom) {
+	var total = 0;
+	if (indicadors) {
+		indicadors.forEach(function(item) {
+			if (item.indicador[0].codIndicador[0] == nom) {
+				total = /^(\d+)*/g.exec(item.valor[0])[0];
+			}
+		})
+	}
+	return parseInt(total);
+}
+
 exports.getTotalEstudiantsRepetidors = function(indicadors) {
-	var repetidors = 0;
-	indicadors.forEach(function(item) {
-		if (item.indicador[0].codIndicador[0] == 'ESTUD_REPITE') {
-			repetidors = /^(\d+)*/g.exec(item.valor[0])[0];
-		}
-	});
-	return parseInt(repetidors);
+	return getIndicador(indicadors, 'ESTUD_REPITE');
+}
+
+exports.getSeguimentACAula = function(indicadors) {
+	return getIndicador(indicadors, 'ESTUD_PARTICIPA_AC');
+}
+
+exports.getSuperacioACAula = function(indicadors) {
+	return getIndicador(indicadors, 'ESTUD_SUPERA_AC');
 }
 
 exports.getCodiMare = function(relacions) {
@@ -71,17 +85,7 @@ exports.getParticipacionsAulaEina = function() {
 	return 0;
 }
 
-exports.getSeguimentACAula = function() {
-	//TODO
-	return 0;
-}
-
 exports.getSeguimentACAulaActivitat = function() {
-	//TODO
-	return 0;
-}
-
-exports.getSuperacioACAula = function() {
 	//TODO
 	return 0;
 }

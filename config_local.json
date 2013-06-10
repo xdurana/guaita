@@ -3,8 +3,9 @@
     "port": "3333"
   },
   "wdsl": {
-  	"dadesacademiques": "http://esb.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
-  	"infoacademica": "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
-  	"rac": "http://esb.uoc.es/rac-ws/services/RacService?WSDL"
+  	"dadesacademiques": "http://sa-pre.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
+  	"infoacademica": "http://sa-pre.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
+  	"rac": "http://sa-pre.uoc.es/rac-ws/services/RacService?WSDL",
+  	"auth": "http://sa-pre.uoc.es/remoteinterface/services/AuthService?WSDL"
   }
 }

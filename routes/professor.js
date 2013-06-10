@@ -33,6 +33,7 @@ exports.index = function(req, res) {
 	});
 
 	var getAssignaturesRelacionades = function(item, callback) {
+
 		var codAssignatura = item.codAssignatura[0];
 		var args = {
 			in0: 1,
@@ -59,6 +60,7 @@ exports.index = function(req, res) {
 	}
 
 	var getCourseStats = function(key, callback) {
+
 		var course = courses[key];
 		async.parallel([
 		    function(callback) {
@@ -95,6 +97,7 @@ exports.index = function(req, res) {
 	}
 
 	var getGroupStats = function(key, callback) {
+
 		var group = groups[key];
 		group.indicadors = {
 			estudiants: 0,
@@ -108,5 +111,4 @@ exports.index = function(req, res) {
 		});
 		callback();
 	}
-
 }
