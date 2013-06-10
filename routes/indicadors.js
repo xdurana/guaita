@@ -1,3 +1,7 @@
+exports.getTotalAules = function(AulaVO) {
+	return AulaVO ? AulaVO.length : 0;
+}
+
 exports.getTotalEstudiants = function(AulaVO) {
 	var estudiants = 0;
 	if (AulaVO) {
@@ -8,8 +12,18 @@ exports.getTotalEstudiants = function(AulaVO) {
 	return estudiants;
 }
 
-exports.getTotalAules = function(AulaVO) {
-	return AulaVO ? AulaVO.length : 0;
+exports.getTotalEstudiantsRepetidors = function(indicadors) {
+	var repetidors = 0;
+	indicadors.forEach(function(item) {
+		if (item.indicador[0].codIndicador[0] == 'ESTUD_REPITE') {
+			repetidors = /^(\d+)*/g.exec(item.valor[0])[0];
+		}
+	});
+	return parseInt(repetidors);
+}
+
+exports.getCodiMare = function(relacions) {
+	return relacions && relacions[0].tipusRelacio == 'I' ? relacions[0].codi[0] : false;
 }
 
 exports.getAssignaturesIdentiques = function() {
@@ -25,11 +39,6 @@ exports.getActivitatsAssignatura = function() {
 exports.getEinesAssignatura = function() {
 	//TODO
 	return [];
-}
-
-exports.getTotalEstudiantsRepetidors = function() {
-	//TODO
-	return 0;
 }
 
 exports.getClicksAcumulatsAula = function() {
