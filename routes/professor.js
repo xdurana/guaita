@@ -20,10 +20,8 @@ exports.index = function(req, res) {
 
 		async.each(result.out.AssignaturaReduidaVO, getAssignaturesRelacionades, function(err) {
 			if(err) { console.log(err); callback(true); return; }
-
 			async.each(Object.keys(courses), getCourseStats, function(err) {
 				if(err) { console.log(err); callback(true); return; }
-
 				async.each(Object.keys(groups), getGroupStats, function(err) {
 					if(err) { console.log(err); callback(true); return; }
 					res.json(groups);
