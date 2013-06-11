@@ -2,9 +2,9 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var service = require('../ws/service');
+var service = require('../service');
 
-exports.index = function(req, res) {
+exports.assignatures = function(req, res) {
 
 	//http://localhost:3333/professor?idp=224475&anyAcademic=20122
 

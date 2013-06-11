@@ -2,7 +2,7 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var service = require('../ws/service');
+var service = require('../service');
 
 exports.index = function(req, res) {
 
@@ -128,7 +128,6 @@ exports.estudiants = function(req, res) {
 		if(err) { console.log(err); callback(true); return; }
 		res.json(estudiants);
 	});
-
 }
 
 var getDarreraNotaEstudiant = function(anyAcademic, codAssignatura, numAula, estudiant, callback) {
@@ -154,5 +153,27 @@ var getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, callba
 	service.operation(config.racwsdl(), 'getEstudiantsByAula', args, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
 		callback(null, result);
+	});
+}
+
+var getActivitatsByEstudiantAulaResponse = function(anyAcademic, codAssignatura, numAula, numExpedient, callback) {
+	var args = {
+		in0: numExpedient,
+		in1: anyAcademic,
+		in2: codAssignatura,
+		in3: numAula
+	}
+	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAula', args, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		callback(null, result.out);
+	});
+}
+
+exports.estudiant = function(req, res) {
+	var estudiant = {};
+	getActivitatsByEstudiantAulaResponse(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, req.query.numExpedient, function(err, result) {
+		if(err) { console.log(err); return; }
+		estudiant.activitats = result;
+		res.json(estudiant);
 	});
 }

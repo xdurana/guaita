@@ -2,7 +2,7 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var service = require('../ws/service');
+var service = require('../service');
 
 exports.aules = function(req, res) {
 	//http://localhost:3333/assignatures/aules?codAssignatura=M1.047&anyAcademic=20122
