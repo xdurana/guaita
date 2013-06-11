@@ -98,5 +98,61 @@ exports.index = function(req, res) {
 			item.indicadors.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 			callback();
 		});		
-	}	
+	}
+}
+
+exports.estudiants = function(req, res) {
+
+	var estudiants = [];
+	async.series([
+		function(callback) {
+			getEstudiantsPerAula(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, function(err, result) {
+				if(err) { console.log(err); callback(true); return; }
+				estudiants = result.out.EstudiantAulaVO;
+				callback();
+			});
+		},
+	  function(callback) {
+	  	async.each(estudiants, function (estudiant, callback) {
+	  		getDarreraNotaEstudiant(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, estudiant, function(err, result) {
+	  			if(err) { console.log(err); callback(true); return; }
+					estudiant.darreraNota = result;
+					callback();
+				});
+	  	}, function(err) {
+	  		if(err) { console.log(err); callback(true); return; }
+				callback();
+			});
+	  }
+	], function(err, results) {
+		if(err) { console.log(err); callback(true); return; }
+		res.json(estudiants);
+	});
+
+}
+
+var getDarreraNotaEstudiant = function(anyAcademic, codAssignatura, numAula, estudiant, callback) {
+	var args = {
+		in0: estudiant.numExpedient,
+		in1: anyAcademic,
+		in2: codAssignatura,
+		in3: numAula,
+		in4: '2'
+	}
+	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAulaOrdre', args, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		callback(null, result.out.codQualificacio);
+	});
+}
+
+var getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, callback) {
+	var args = {
+		in0: anyAcademic,
+		in1: codAssignatura,
+		in2: numAula
+	}
+	service.operation(config.racwsdl(), 'getEstudiantsByAula', args, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		callback(null, result);
+	});
 }

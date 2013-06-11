@@ -54,6 +54,7 @@ app.get('/professor', professor.index);
 app.get('/assignatura/aules', assignatura.aules);
 app.get('/assignatura/consultors', assignatura.consultors);
 app.get('/assignatura/aula', aula.index);
+app.get('/assignatura/aula/estudiants', aula.estudiants);
 
 
 app.get('/', function(req, res){
