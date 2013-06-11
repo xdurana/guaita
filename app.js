@@ -32,6 +32,14 @@ app.get('/assignatures/aules/estudiants', aula.estudiants);
 app.get('/assignatures/aules/estudiant', aula.estudiant);
 app.get('/assignatures/consultors', assignatura.consultors);
 
+
+app.get('/assignatures', function (req, res) {
+	return assignatures.bypra(req.query.idp, req.quer.anyAcademic, function (err, result) {
+
+	});
+});
+
+
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Home'

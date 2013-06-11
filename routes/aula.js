@@ -2,7 +2,10 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var service = require('../service');
+
+var rac = require('../ws/rac');
+var dadesacademiques = require('../ws/dadesacademiques');
+var infoacademica = require('../ws/infoacademica');
 
 exports.index = function(req, res) {
 
@@ -17,49 +20,40 @@ exports.index = function(req, res) {
 	service.operation(config.racwsdl(), 'getAula', args, function(err, result) {
 		aula = result.out;
 		async.parallel([
-		  getUltimaActivitatAmbNotaByAula,
-		  getActivitatsByAula,
+		  rac.getUltimaActivitatAmbNotaByAula(anyAcademic, codAssignatura, numAula, function(err, result) {
+		  	aula.ultima = result.out.ordre;
+		  }),
+		  rac.getActivitatsByAula(anyAcademic, codAssignatura, numAula, function(err, result) {
+				aula.activitats = result.out.ActivitatVO;
+				async.each(aula.activitats, getIndicadorsActivitat, function(err) {
+					callback();
+				});
+		  })
 		], function(err, results) {
 			if(err) { console.log(err); callback(true); return; }
 			res.json(aula);
 		});		
 	});
 
-	var getUltimaActivitatAmbNotaByAula = function(callback) {
-		var args = {
-			in0: req.query.anyAcademic,
-			in1: req.query.codAssignatura,
-			in2: req.query.numAula
-		}
-		service.operation(config.racwsdl(), 'getUltimaActivitatAmbNotaByAula', args, function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
-			aula.ultima = result.out.ordre;
-			callback();
-		});
-	}
-
-	var getActivitatsByAula = function(callback) {
-		var args = {
-			in0: req.query.anyAcademic,
-			in1: req.query.codAssignatura,
-			in2: req.query.numAula
-		}
-		service.operation(config.racwsdl(), 'getActivitatsByAula', args, function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
-			aula.activitats = result.out.ActivitatVO;
-			async.each(aula.activitats, getIndicadorsActivitat, function(err) {
-				callback();
-			});
-		});
-	}
-
 	var getIndicadorsActivitat = function(item, callback) {
 		async.parallel([
 			function(callback) {
-	    	getNumEstudiantsQualificatsByActivitat(item, callback);
+	    	getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
+					item.qualificats = result.out;
+	    	});
 			},
 			function(callback) {
-	    	calcularIndicadorsAula(item, callback);
+
+				var tipusIndicador = 'RAC_CONSULTOR_AC';
+				var comptarEquivalents = '0';
+				var comptarRelacions = '0';
+
+	    	rac.calcularIndicadorsAula(tipusIndicador, codAssignatura, anyAcademic, numAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
+	    		item.indicadors = {};
+					item.indicadors.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+					item.indicadors.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+				});
+
 			}
 		], function(err, results) {
 			if(err) { console.log(err); callback(true); return; }
@@ -67,38 +61,6 @@ exports.index = function(req, res) {
 		});
 	}
 
-	var getNumEstudiantsQualificatsByActivitat = function(item, callback) {
-		var args = {
-			in0: req.query.anyAcademic,
-			in1: req.query.codAssignatura,
-			in2: req.query.numAula,
-			in3: item.ordre
-		}
-		service.operation(config.racwsdl(), 'getNumEstudiantsQualificatsByActivitat', args, function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
-			item.qualificats = result.out;
-			callback();
-		});
-	}
-
-	var calcularIndicadorsAula = function(item, callback) {
-		var args = {
-			in0: 'RAC_CONSULTOR_AC',
-			in1: req.query.codAssignatura,
-			in2: req.query.anyAcademic,
-			in3: req.query.numAula,
-			in4: item.ordre,
-			in5: '0',
-			in6: '0'
-		}
-		service.operation(config.racwsdl(), 'calcularIndicadorsAula', args, function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
-			item.indicadors = {};
-			item.indicadors.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-			item.indicadors.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-			callback();
-		});		
-	}
 }
 
 exports.estudiants = function(req, res) {
@@ -114,9 +76,10 @@ exports.estudiants = function(req, res) {
 		},
 	  function(callback) {
 	  	async.each(estudiants, function (estudiant, callback) {
-	  		getDarreraNotaEstudiant(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, estudiant, function(err, result) {
+	  		var ordre = '2';
+	  		getActivitatsByEstudiantAulaOrdre(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, ordre, estudiant.numExpedient, function(err, result) {
 	  			if(err) { console.log(err); callback(true); return; }
-					estudiant.darreraNota = result;
+					estudiant.darreraNota = result.out.codQualificacio;
 					callback();
 				});
 	  	}, function(err) {
@@ -130,50 +93,11 @@ exports.estudiants = function(req, res) {
 	});
 }
 
-var getDarreraNotaEstudiant = function(anyAcademic, codAssignatura, numAula, estudiant, callback) {
-	var args = {
-		in0: estudiant.numExpedient,
-		in1: anyAcademic,
-		in2: codAssignatura,
-		in3: numAula,
-		in4: '2'
-	}
-	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAulaOrdre', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
-		callback(null, result.out.codQualificacio);
-	});
-}
-
-var getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, callback) {
-	var args = {
-		in0: anyAcademic,
-		in1: codAssignatura,
-		in2: numAula
-	}
-	service.operation(config.racwsdl(), 'getEstudiantsByAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
-		callback(null, result);
-	});
-}
-
-var getActivitatsByEstudiantAulaResponse = function(anyAcademic, codAssignatura, numAula, numExpedient, callback) {
-	var args = {
-		in0: numExpedient,
-		in1: anyAcademic,
-		in2: codAssignatura,
-		in3: numAula
-	}
-	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
-		callback(null, result.out);
-	});
-}
-
 exports.estudiant = function(req, res) {
 	var estudiant = {};
-	getActivitatsByEstudiantAulaResponse(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, req.query.numExpedient, function(err, result) {
+	rac.getActivitatsByEstudiantAulaResponse(req.query.anyAcademic, req.query.codAssignatura, req.query.numAula, req.query.numExpedient, function(err, result) {
 		if(err) { console.log(err); return; }
-		estudiant.activitats = result;
+		estudiant.activitats = result.out;
 		res.json(estudiant);
 	});
 }
