@@ -130,3 +130,15 @@ exports.calcularIndicadorsAssignatura = function(tipusIndicador, anyAcademic, co
 		callback(null, result);
 	});
 }
+
+exports.getAula = function(codAssignatura, anyAcademic, numAula, callback) {
+	var args = {
+		in0: anyAcademic,
+		in1: codAssignatura,
+		in2: numAula
+	}
+	service.operation(config.racwsdl(), 'getAula', args, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		callback(null, result);
+	});
+}

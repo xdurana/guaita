@@ -4,7 +4,9 @@ var path = require('path');
 
 var config = require('./config');
 
-var professor = require('./routes/professor');
+var assignatures = require('./routes/assignatures');
+var aules = require('./routes/aules');
+
 var assignatura = require('./routes/assignatura');
 var aula = require('./routes/aula');
 
@@ -25,20 +27,26 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/*
 app.get('/professors/assignatures', professor.assignatures);
 app.get('/assignatures/aula', aula.index);
 app.get('/assignatures/aules', assignatura.aules);
 app.get('/assignatures/aules/estudiants', aula.estudiants);
 app.get('/assignatures/aules/estudiant', aula.estudiant);
 app.get('/assignatures/consultors', assignatura.consultors);
-
+*/
 
 app.get('/assignatures', function (req, res) {
-	return assignatures.bypra(req.query.idp, req.quer.anyAcademic, function (err, result) {
-
+	return assignatures.bypra(req.query.idp, req.query.anyAcademic, function (err, result) {
+		res.json(result);
 	});
 });
 
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
+	return aules.index(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
+		res.json(result);
+	});
+});
 
 app.get('/', function(req, res){
   res.render('index', {

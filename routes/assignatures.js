@@ -2,52 +2,103 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var service = require('../service');
+
+var rac = require('../ws/rac');
+var dadesacademiques = require('../ws/dadesacademiques');
+var infoacademica = require('../ws/infoacademica');
 
 exports.bypra = function(idp, anyAcademic, callback) {
 
-	getAssignaturesByResponsableAny(idp, anyAcedemic, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+	//http://localhost:3333/assignatures/?idp=224473&anyAcademic=20122
 
-		async.each(result.out.AssignaturaReduidaVO, getAssignaturesRelacionades, function(err) {
+	var struct = {
+		idp: idp,
+		anyAcademic: anyAcademic,
+		groups: {
+		},
+		courses: {
+		}
+	}
+
+	dadesacademiques.getAssignaturesByResponsableAny(idp, anyAcademic, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		
+		async.each(result.out.AssignaturaReduidaVO, getEquivalents, function (err) {
 			if(err) { console.log(err); callback(true); return; }
 
-			async.each(Object.keys(courses), getCourseStats, function(err) {
+			async.each(Object.keys(struct.courses), getCourseStats, function(err) {
 				if(err) { console.log(err); callback(true); return; }
 
-				async.each(Object.keys(groups), getGroupStats, function(err) {
+				async.each(Object.keys(struct.groups), getGroupStats, function(err) {
 					if(err) { console.log(err); callback(true); return; }
+					callback(null, struct);
 
-					res.json(groups);
 				});
 			});
 		});
 	});
-}
 
-var getAssignaturesRelacionades = function(item, callback) {
+	var getEquivalents = function(item, callback) {
 
-	var codAssignatura = item.codAssignatura[0];
-	var args = {
-		in0: 1,
-		in1: codAssignatura,
-		in2: req.query.anyAcademic,
-		in3: 'ca'
+		var codAssignatura = item.codAssignatura[0];
+		item.filles = [];
+		item.indicadors = {};
+		struct.courses[codAssignatura] = item;
+
+		dadesacademiques.getAssignaturesRelacionades(1, struct.anyAcademic, codAssignatura, 'ca', function(err, result) {
+			item.relacions = result.out.AssignaturaRelacionadaVO;
+			codiMare = indicadors.getCodiMare(item.relacions);
+			codi = codiMare ? codiMare : codAssignatura;
+			struct.groups[codi] = struct.groups[codi] ? struct.groups[codi] : {};
+			struct.groups[codi].assignatures = struct.groups[codi].assignatures ? struct.groups[codi].assignatures : [];
+			struct.groups[codi].assignatures.push(item);
+			if (codiMare) {
+				struct.courses[codiMare].filles.push(item);
+			}			
+			callback();
+		});
 	}
-	item.filles = [];
-	item.indicadors = {};
-	courses[codAssignatura] = item;
-	service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesRelacionades', args, function(err, result) {
 
-		item.relacions = result.out.AssignaturaRelacionadaVO;
-		codiMare = indicadors.getCodiMare(item.relacions);
-		codi = codiMare ? codiMare : codAssignatura;
-		groups[codi] = groups[codi] ? groups[codi] : {};
-		groups[codi].assignatures = groups[codi].assignatures ? groups[codi].assignatures : [];
-		groups[codi].assignatures.push(item);
-		if (codiMare) {
-			courses[codiMare].filles.push(item);
-		}			
+	var getCourseStats = function(key, callback) {
+
+		var course = struct.courses[key];
+		var codAssignatura = course.codAssignatura;
+
+		async.parallel([
+		    function(callback) {
+		    	infoacademica.getAulesByAssignatura(struct.anyAcademic, codAssignatura, function(err, result) {
+		    		if(err) { console.log(err); callback(true); return; }
+						course.aules = result.out.AulaVO;
+						course.indicadors.numAules = indicadors.getTotalAules(result.out.AulaVO);
+						course.indicadors.estudiants = indicadors.getTotalEstudiants(result.out.AulaVO);
+						callback();
+		    	});
+		    },
+		    function(callback) {
+		    	rac.calcularIndicadorsAssignatura('RAC_PRA_2', struct.anyAcademic, codAssignatura, '0', '0', function(err, result) {
+						if(err) { console.log(err); callback(true); return; }
+						course.indicadors.estudiantsRepetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
+						callback();
+		    	});
+				}
+		], function(err, results) {
+			if(err) { console.log(err); callback(true); return; }
+			callback();
+		});
+	}
+
+	var getGroupStats = function(key, callback) {
+		var group = struct.groups[key];
+		group.indicadors = {
+			estudiants: 0,
+			estudiantsRepetidors: 0,
+			numAules: 0
+		};
+		group.assignatures.forEach(function(assignatura) {
+			group.indicadors.estudiants += assignatura.indicadors.estudiants;
+			group.indicadors.estudiantsRepetidors += assignatura.indicadors.estudiantsRepetidors;
+			group.indicadors.numAules += assignatura.indicadors.numAules;
+		});
 		callback();
-	});
+	}
 }
