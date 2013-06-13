@@ -28,7 +28,15 @@ GET /assignatures/{codAssignatura}/{anyAcademic}/aules
 ] }
 
 Indicadors globals d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}'
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Indicadors dels recursos d'una aula
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/recursos
 < 200
 < Content-Type: application/json
 { "items": [
@@ -36,7 +44,7 @@ GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}'
 ] }
 
 Indicadors dels estudiants d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants'
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants
 < 200
 < Content-Type: application/json
 { "items": [
@@ -44,7 +52,15 @@ GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants'
 ] }
 
 Indicadors d'un estudiant dins d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}'
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Llista de connexions d'un estudiant a una aula determinada
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}/connexions
 < 200
 < Content-Type: application/json
 { "items": [
@@ -52,7 +68,7 @@ GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{num
 ] }
 
 Indicadors dels consultors d'una assignatura per un any acadèmic
-GET /assignatures/{codAssignatura}/{anyAcademic}/consultors'
+GET /assignatures/{codAssignatura}/{anyAcademic}/consultors
 < 200
 < Content-Type: application/json
 { "items": [
