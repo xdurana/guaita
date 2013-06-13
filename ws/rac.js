@@ -37,7 +37,7 @@ exports.getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, ca
 	});
 }
 
-exports.getActivitatsByEstudiantAulaResponse = function(anyAcademic, codAssignatura, numAula, numExpedient, callback) {
+exports.getActivitatsByEstudiantAula = function(anyAcademic, codAssignatura, numAula, numExpedient, callback) {
 	var args = {
 		in0: numExpedient,
 		in1: anyAcademic,
@@ -50,7 +50,7 @@ exports.getActivitatsByEstudiantAulaResponse = function(anyAcademic, codAssignat
 	});
 }
 
-exports.getDarreraNotaEstudiant = function(anyAcademic, codAssignatura, numAula, ordre, numExpedient, callback) {
+exports.getActivitatsByEstudiantAulaOrdre = function(anyAcademic, codAssignatura, numAula, ordre, numExpedient, callback) {
 	var args = {
 		in0: numExpedient,
 		in1: anyAcademic,
