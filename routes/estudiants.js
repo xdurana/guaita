@@ -27,14 +27,7 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 			});
 		},
 	  function(callback) {
-	  	async.each(struct.estudiants, function (estudiant, callback) {
-	  		var ordre = '2';
-	  		rac.getActivitatsByEstudiantAulaOrdre(struct.anyAcademic, struct.codAssignatura, struct.numAula, ordre, estudiant.numExpedient, function(err, result) {
-	  			if(err) { console.log(err); callback(true); return; }
-					estudiant.darreraNota = result.out.codQualificacio;
-					callback();
-				});
-	  	}, function(err) {
+	  	async.each(struct.estudiants, getIndicadorsActivitat, function (err) {
 	  		if(err) { console.log(err); callback(true); return; }
 				callback();
 			});
@@ -43,6 +36,15 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 		if(err) { console.log(err); callback(true); return; }
 		callback(null, struct);
 	});
+
+	var getIndicadorsActivitat = function(estudiant, callback) {
+		var ordre = '2';
+		rac.getActivitatsByEstudiantAulaOrdre(struct.anyAcademic, struct.codAssignatura, struct.codAula, ordre, estudiant.numExpedient[0], function(err, result) {
+			if(err) { console.log(err); callback(true); return; }
+			estudiant.darreraNota = result.out.codQualificacio;
+			callback();
+		});
+	}
 }
 
 exports.one = function(codAssignatura, anyAcademic, codAula, numExpedient, callback) {

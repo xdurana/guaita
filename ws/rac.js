@@ -58,6 +58,7 @@ exports.getActivitatsByEstudiantAulaOrdre = function(anyAcademic, codAssignatura
 		in3: numAula,
 		in4: ordre
 	}
+
 	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAulaOrdre', args, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
 		callback(null, result);
