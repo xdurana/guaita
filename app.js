@@ -6,8 +6,10 @@ var config = require('./config');
 
 var assignatures = require('./routes/assignatures');
 var aules = require('./routes/aules');
+var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
+var connexions = require('./routes/connexions');
 
 var app = express();
 
@@ -44,6 +46,12 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (r
 	});
 });
 
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/eines', function (req, res) {
+	return eines.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
+		res.json(result);
+	});
+});
+
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants', function (req, res) {
 	return estudiants.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
 		res.json(result);
@@ -52,6 +60,12 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants', 
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants/:numExpedient', function (req, res) {
 	return estudiants.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.numExpedient, function (err, result) {
+		res.json(result);
+	});
+});
+
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants/:numExpedient/connexions', function (req, res) {
+	return connexions.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.numExpedient, function (err, result) {
 		res.json(result);
 	});
 });
