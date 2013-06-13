@@ -1,0 +1,60 @@
+HOST: http://www.google.com/
+
+--- MAULES ---
+
+---
+Serveis de Monitorització de les Aules i llurs Eines
+---
+
+--
+Professor
+Serveis de la pàgina d'aules del professor
+--
+
+Llista d'assignatures d'un professor per un any acadèmic, agrupades per assignatures idèntiques
+GET /assignatures{?idp,anyAcademic}
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Llista d'aules d'una assignatura per un any acadèmic
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Indicadors globals d'una aula
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}'
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Indicadors dels estudiants d'una aula
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants'
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Indicadors d'un estudiant dins d'una aula
+GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}'
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
+
+Indicadors dels consultors d'una assignatura per un any acadèmic
+GET /assignatures/{codAssignatura}/{anyAcademic}/consultors'
+< 200
+< Content-Type: application/json
+{ "items": [
+{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
+] }
