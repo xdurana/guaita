@@ -76,6 +76,12 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/consultors', function (req, 
 	});
 });
 
+app.get('/assignatures/phpBB3', function (req, res) {
+	return eines.phpBB3(req.query.domainId, req.query.forumId, function (err, result) {
+		res.json(result);
+	});
+});
+
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Home'

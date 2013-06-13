@@ -11,6 +11,7 @@
     "jade": "*",
     "nconf": "*",
     "soap": "*",
-    "async": "*"
+    "async": "*",
+    "request": "*"
   }
 }
