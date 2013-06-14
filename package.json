@@ -1,6 +1,6 @@
 {
-  "name": "learning-aware",
-  "description": "Learning Aware",
+  "name": "guaita",
+  "description": "Serveis de monitorització de l'activitat docent a les aules i llurs eines",
   "version": "0.0.1",
   "private": true,
   "scripts": {

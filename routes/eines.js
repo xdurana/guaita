@@ -18,6 +18,7 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 		eines: []
 	}
 
+	//TODO llista d'eines d'una aula
 	callback(null, struct);
 }
 

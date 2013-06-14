@@ -1,6 +1,6 @@
-# maules
+# guaita
 
-Serveis de monitorització de les aules i llurs eines
+Serveis de monitorització de l'activitat docent a les aules i llurs eines
 
 Install
 -----------
@@ -13,10 +13,10 @@ Install node.js
     ./configure
     make -j2 && sudo make install
 
-Install maules
+Install guaita
 
-    git clone git://github.com/xdurana/maules.git
-    cd maules
+    git clone git://github.com/xdurana/guaita.git
+    cd guaita
     npm install
 
 Run
