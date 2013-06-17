@@ -6,7 +6,7 @@ exports.get = function(param) {
 }
 
 exports.port = function() {
-	return process.env.PORT || nconf.get('http:port') || 3000;
+	return process.env.PORT || 3000;
 }
 
 exports.dadesacademiqueswsdl = function() {

@@ -14,8 +14,6 @@ var connexions = require('./routes/connexions');
 var app = express();
 
 app.set('port', config.port());
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -80,12 +78,6 @@ app.get('/assignatures/phpBB3', function (req, res) {
 	return eines.phpBB3(req.query.domainId, req.query.forumId, function (err, result) {
 		res.json(result);
 	});
-});
-
-app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Home'
-  });
 });
 
 http.createServer(app).listen(app.get('port'), function() {

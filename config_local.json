@@ -1,7 +1,4 @@
 {
-  "http": {
-    "port": "3333"
-  },
   "wdsl": {
   	"dadesacademiques": "http://sa-pre.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
   	"infoacademica": "http://sa-pre.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
