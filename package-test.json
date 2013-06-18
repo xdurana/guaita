@@ -2,22 +2,20 @@
   "name": "guaita",
   "description": "Serveis de monitorització de l'activitat docent a les aules i llurs eines",
   "version": "0.0.1",
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/xdurana/guaita.git"
-  },
   "private": true,
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express":"*",
+    "express":"2.x.x",
+    "qs":"0.4.x",
     "nconf": "*",
-    "soap": "*",
-    "async": "*",
-    "request":"*"
+    "soap": "0.1.x",
+    "node-expat":"1.6.x",
+    "async": "*"
   },
   "engines": {
-    "node": "0.10.11"
+    "node": "0.6.12",
+    "npm": "1.1.4"
   }
 }
