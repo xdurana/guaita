@@ -16,8 +16,5 @@
     "soap": "*",
     "async": "*",
     "request":"*"
-  },
-  "engines": {
-    "node": "0.10.11"
   }
 }
