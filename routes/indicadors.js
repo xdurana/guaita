@@ -24,8 +24,16 @@ var getIndicador = function(indicadors, nom) {
 	return parseInt(total);
 }
 
+exports.getTotalEstudiantsTotal = function(indicadors) {
+	return getIndicador(indicadors, 'ESTUD_TOTAL');
+}
+
 exports.getTotalEstudiantsRepetidors = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_REPITE');
+}
+
+exports.getTotalEstudiantsPrimeraMatricula = function(indicadors) {
+	return getIndicador(indicadors, 'ESTUD_1A_MATR');
 }
 
 exports.getSeguimentACAula = function(indicadors) {

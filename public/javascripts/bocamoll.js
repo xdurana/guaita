@@ -58,8 +58,8 @@ $(document).ready(function() {
   var tincan = new TinCan ({
     recordStores: [{
           //endpoint: "https://cloud.scorm.com/ScormEngineInterface/TCAPI/public/",
-          //endpoint: "http://localhost:3000/xapi/",
-          endpoint: "http://uoc-lrs.herokuapp.com/xapi/",
+          endpoint: "http://localhost:3040/xapi/",
+          //endpoint: "http://uoc-lrs.herokuapp.com/xapi/",
           username: "<Test User>",
           password: "<Test User's Password>"
       }

@@ -6,33 +6,41 @@ var indicadors = require('./indicadors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
+var auth = require('../ws/auth');
 
-exports.bypra = function(idp, anyAcademic, callback) {
+exports.bypra = function(s, anyAcademic, callback) {
 
-	//http://localhost:3333/assignatures/?idp=224473&anyAcademic=20122
+	//http://localhost:3333/assignatures/?s=&anyAcademic=20122
 
 	var struct = {
-		idp: idp,
 		anyAcademic: anyAcademic,
 		groups: {
 		},
 		courses: {
 		}
-	}
+	}	
 
-	dadesacademiques.getAssignaturesByResponsableAny(idp, anyAcademic, function(err, result) {
+	auth.getContextBySessionId(s, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
-		
-		async.each(result.out.AssignaturaReduidaVO, getEquivalents, function (err) {
-			if(err) { console.log(err); callback(true); return; }
 
-			async.each(Object.keys(struct.courses), getCourseStats, function(err) {
+		console.log(result.out.idp);
+
+		struct.idp = result.out.idp;
+
+		dadesacademiques.getAssignaturesByResponsableAny(struct.idp, anyAcademic, function(err, result) {
+			if(err) { console.log(err); callback(true); return; }
+			
+			async.each(result.out.AssignaturaReduidaVO, getEquivalents, function (err) {
 				if(err) { console.log(err); callback(true); return; }
 
-				async.each(Object.keys(struct.groups), getGroupStats, function(err) {
+				async.each(Object.keys(struct.courses), getCourseStats, function(err) {
 					if(err) { console.log(err); callback(true); return; }
-					callback(null, struct);
 
+					async.each(Object.keys(struct.groups), getGroupStats, function(err) {
+						if(err) { console.log(err); callback(true); return; }
+						callback(null, struct);
+
+					});
 				});
 			});
 		});

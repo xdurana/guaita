@@ -22,6 +22,37 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 	callback(null, struct);
 }
 
+exports.one = function(codAssignatura, anyAcademic, codAula, codEina, callback) {
+
+	//http://localhost:3333/assignatures/05.002/20122/aules/1/eines/717635
+
+	var struct = {
+		codAssignatura: codAssignatura,
+		anyAcademic: anyAcademic,
+		codAula: codAula,
+		codEina: codEina
+	}
+
+	//TODO indicadors de l'eina
+	callback(null, struct);
+}
+
+exports.activitat = function(codAssignatura, anyAcademic, codAula, codActivitat, callback) {
+
+	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats/696566/eines
+
+	var struct = {
+		codAssignatura: codAssignatura,
+		anyAcademic: anyAcademic,
+		codAula: codAula,
+		codActivitat: codActivitat,
+		eines: []
+	}
+
+	//TODO llista d'eines d'una aula
+	callback(null, struct);
+}
+
 exports.phpBB3 = function(domainId, forumId, callback) {
 
 	//http://localhost:3333/assignatures/phpBB3?domainId=321292&forumId=50591
@@ -40,7 +71,7 @@ exports.phpBB3 = function(domainId, forumId, callback) {
 
 	var request = require("request");
 	request({
-	  url: "http://cv-pre.uoc.edu/app/phpBB3/service.php?domainId=" + domainId + "&forumId=" + forumId + "&type=SEGUIMENT",
+	  url: "http://cv-test.uoc.edu/app/phpBB3/service.php?domainId=" + domainId + "&forumId=" + forumId + "&type=SEGUIMENT",
 	  method: "GET"
 	}, function (error, response, body) {
 		if (error) { console.log(err); callback(true); return; }
