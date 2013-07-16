@@ -44,6 +44,8 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 
 exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 
+	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats/1
+
 	var struct = {
 		codAssignatura: codAssignatura,
 		anyAcademic: anyAcademic,
@@ -62,15 +64,5 @@ exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 		struct.avaluacio.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 		struct.avaluacio.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 		callback(null, struct);
-	});
-}
-
-exports.ultima = function(codAssignatura, anyAcademic, codAula, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats/?q=ultima
-
-	rac.getUltimaActivitatAmbNotaByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
-		callback(null, result);
 	});
 }

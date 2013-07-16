@@ -51,15 +51,15 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (r
 });
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/activitats', function (req, res) {
-	if (req.query.q) {
-		return activitats.ultima(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-			res.json(result);
-		});
-	} else {
-		return activitats.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-			res.json(result);
-		});		
-	}
+	return activitats.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
+		res.json(result);
+	});		
+});
+
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/activitats/:ordre', function (req, res) {
+	return activitats.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.ordre, function (err, result) {
+		res.json(result);
+	});		
 });
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/eines', function (req, res) {
