@@ -62,6 +62,10 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 		codAula: codAula,		
 		aula: {
 		},
+		activitat: {
+		},
+		avaluacio: {
+		},
 		estudiants: {
 		}
 	}
@@ -77,6 +81,16 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 			struct.aula.ordre = result.out.ordre;
 
 			async.parallel([
+				
+				function (callback) {
+			    	rac.getActivitat(codAssignatura, anyAcademic, codAula, struct.aula.ordre, function(err, result) {
+			    		if(err) { console.log(err); callback(true); return; }
+						struct.activitat.campusId = result.out.campusId;
+						struct.activitat.dataLliurament = result.out.dataLliurament;
+						struct.activitat.dataPublicacio = result.out.dataPublicacio;
+						callback();
+					});
+				},
 				function (callback) {
 
 					var tipusIndicador = 'RAC_PRA_2';
@@ -99,8 +113,8 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 
 			    	rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, struct.aula.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
 			    		if(err) { console.log(err); callback(true); return; }
-						struct.estudiants.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-						struct.estudiants.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+						struct.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+						struct.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 						callback();
 					});
 				}

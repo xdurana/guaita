@@ -143,3 +143,16 @@ exports.getAula = function(codAssignatura, anyAcademic, numAula, callback) {
 		callback(null, result);
 	});
 }
+
+exports.getActivitat = function(codAssignatura, anyAcademic, numAula, ordre, callback) {
+	var args = {
+		in0: anyAcademic,
+		in1: codAssignatura,
+		in2: numAula,
+		in3: ordre
+	}
+	service.operation(config.racwsdl(), 'getActivitat', args, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		callback(null, result);
+	});
+}

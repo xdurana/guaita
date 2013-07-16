@@ -51,18 +51,37 @@ exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 		anyAcademic: anyAcademic,
 		codAula: codAula,
 		ordre: ordre,
+		activitat: {
+		},
 		avaluacio: {
 		}
 	}
 
-	var tipusIndicador = 'RAC_CONSULTOR_AC';
-	var comptarEquivalents = '0';
-	var comptarRelacions = '0';
+	async.parallel([
+		function (callback) {
+	    	rac.getActivitat(codAssignatura, anyAcademic, codAula, ordre, function(err, result) {
+	    		if(err) { console.log(err); callback(true); return; }
+				struct.activitat.campusId = result.out.campusId;
+				struct.activitat.dataLliurament = result.out.dataLliurament;
+				struct.activitat.dataPublicacio = result.out.dataPublicacio;
+				callback();
+			});
+		},
+		function (callback) {
 
-	rac.calcularIndicadorsAula(tipusIndicador, codAssignatura, anyAcademic, codAula, ordre, comptarEquivalents, comptarRelacions, function(err, result) {
+			var tipusIndicador = 'RAC_CONSULTOR_AC';
+			var comptarEquivalents = '0';
+			var comptarRelacions = '0';
+
+			rac.calcularIndicadorsAula(tipusIndicador, codAssignatura, anyAcademic, codAula, ordre, comptarEquivalents, comptarRelacions, function(err, result) {
+				if(err) { console.log(err); callback(true); return; }
+				struct.avaluacio.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+				struct.avaluacio.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+				callback();
+			});
+		}
+	], function(err, results) {
 		if(err) { console.log(err); callback(true); return; }
-		struct.avaluacio.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-		struct.avaluacio.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 		callback(null, struct);
 	});
 }
