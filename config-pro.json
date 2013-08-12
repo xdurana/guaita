@@ -1,0 +1,8 @@
+{
+  "wdsl": {
+    "dadesacademiques": "http://sa.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
+    "infoacademica": "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
+    "rac": "http://sa.uoc.es/rac-ws/services/RacService?WSDL",
+    "auth": "http://sa.uoc.es/remoteinterface/services/AuthService?WSDL"
+  }
+}

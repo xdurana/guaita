@@ -1,5 +1,5 @@
 var nconf = require('nconf');
-nconf.argv().env().file({ file: 'config-' + process.env.NODE_ENV + '.json' });
+nconf.argv().env().file({ file: process.env.NODE_CONFIG });
 
 exports.get = function(param) {
 	return nconf.get(param);

@@ -16,7 +16,7 @@ var app = express();
 
 app.set('port', config.port());
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -104,10 +104,8 @@ app.get('/assignatures/phpBB3', function (req, res) {
 	});
 });
 
-app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Home'
-  });
+app.get('/', function(req, res) {
+  res.json({status: 'Express server listening on port ' + app.get('port') });
 });
 
 http.createServer(app).listen(app.get('port'), function() {
