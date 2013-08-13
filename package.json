@@ -16,6 +16,7 @@
     "soap": "*",
     "async": "*",
     "request":"*",
-    "jade":"*"
+    "consolidate":"*",
+    "swig":"*"
   }
 }

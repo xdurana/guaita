@@ -1,6 +1,9 @@
 var express = require('express');
 var http = require('http')
 var path = require('path');
+var request = require('request');
+var cons = require('consolidate');
+var swig = require('swig');
 
 var config = require('./config');
 
@@ -15,8 +18,18 @@ var connexions = require('./routes/connexions');
 var app = express();
 
 app.set('port', config.port());
+
+app.engine('.html', cons.swig);
+app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-//app.set('view engine', 'jade');
+swig.init({
+    root: __dirname + '/views',
+	autoescape: true,
+	cache: true,
+	encoding: 'utf8',
+    allowErrors: true
+});
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -25,8 +38,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(app.router);
 
+app.use(function(err, req, res, next) {
+	res.status(500);
+	res.json({ error: err });
+});
+
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+	app.use(express.errorHandler());
 }
 
 //TODO: authenticate IDP
@@ -38,7 +56,6 @@ app.get('/assignatures', function (req, res) {
 });
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res) {
-	console.log(config.racwsdl())
 	return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
 		res.json(result);
 	});
@@ -105,8 +122,26 @@ app.get('/assignatures/phpBB3', function (req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.json({status: 'Express server listening on port ' + app.get('port') });
+	res.render('pra', { title: 'The index page!' })
+	//res.json({status: 'Express server listening on port ' + app.get('port') });
 });
+
+app.get('/pra', function(req, res, next) {
+	if (req.query.s && req.query.idp) {
+		var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + req.query.idp + "&s=" + req.query.s;
+		request(url, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				//res.json(JSON.parse(body));
+				res.render('pra.html', { subjects: body.subjects })
+			} else {
+				next('error al carregar assignatures del idp');
+			}
+		});
+	} else {
+		next('manquen algun dels parametres de la crida [s, idp]');
+	}
+});
+
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
