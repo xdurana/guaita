@@ -47,18 +47,42 @@ if ('development' == app.get('env')) {
 	app.use(express.errorHandler());
 }
 
-//TODO: authenticate IDP
-
-app.get('/assignatures', function (req, res) {
-	return assignatures.bypra(req.query.s, req.query.anyAcademic, function (err, result) {
-		res.json(result);
-	});
+/**
+ * IDP course list
+ * @mockup: aulas_pra.html
+ */
+app.get('/assignatures', function (req, res, callback) {
+	if (req.query.s && req.query.idp) {
+		return assignatures.byidp(req.query.s, req.query.idp, "20122", function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				res.render('pra.html', { object: result });
+			}
+		});
+	} else {
+		callback('manquen algun dels parametres de la crida [s, idp]');
+	}
 });
 
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res) {
-	return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
-		res.json(result);
-	});
+/**
+ * Course classroom list
+ * @mockup: tabs_pra.html
+ */
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, callback) {
+	if (req.query.s) {
+		return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				res.render('aula-estudiants-activitats.html', { object: result });
+			}
+		});
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
 });
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
@@ -124,25 +148,6 @@ app.get('/assignatures/phpBB3', function (req, res) {
 app.get('/', function(req, res) {
 	res.render('pra', { title: 'The index page!' })
 	//res.json({status: 'Express server listening on port ' + app.get('port') });
-});
-
-app.get('/pra', function(req, res, next) {
-	if (req.query.s && req.query.idp) {
-		var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + req.query.idp + "&s=" + req.query.s;
-		request(url, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var object = JSON.parse(body);
-				object.subjects = object.subjects.filter(function(assignatura) {
-				    return (assignatura.anyAcademic === "20122");
-				});
-				res.render('pra.html', { object: object })
-			} else {
-				next('error al carregar assignatures del idp');
-			}
-		});
-	} else {
-		next('manquen algun dels parametres de la crida [s, idp]');
-	}
 });
 
 http.createServer(app).listen(app.get('port'), function() {

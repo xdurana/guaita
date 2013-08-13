@@ -1,0 +1,75 @@
+<div class="block-inside">
+	<div class="tabs-header">
+		<ul>
+			<li class="students-header">
+				<span class="wrap-lbl">
+					<span class="icon"></span>
+					<span class="lbl">Estudiants</span>
+				</span>
+			</li>
+		    <li class="consultors-header">
+		    	<span class="wrap-lbl">
+		    		<span class="icon"></span>
+					<span class="lbl">Consultors</span>
+				</span>
+			</li>
+
+		</ul>
+	</div>
+	<div class="tabs">
+		<ul>
+	    	<li><a href="#tabs-1" class="tab">Activitats</a></li>
+	    	<li><a href="#tabs-2" class="tab">Eines</a></li>
+	    	<li><a href="#tabs-3" class="tab">Avaluació</a></li>
+	    	<li><a href="#tabs-4" class="tab">Activitats</a></li>
+	    	<li><a href="#tabs-5" class="tab">Eines</a></li>
+		</ul>
+	  	<div class="tab-content" id="tabs-1">
+	    	<table class="tbl tbl-subject">
+				<caption>Activitats estudiants</caption>
+                {% block estudiants_activitats %}
+                {% endblock %}
+			</table>
+	  	</div>
+	  	<div id="tabs-2">
+	    	<table class="tbl tbl-subject">
+				<caption>Eines estudiants</caption>
+                {% block estudiants_eines %}
+                {% endblock %}
+			</table>
+	  	</div>
+	  	<div id="tabs-3">
+	    	<table class="tbl tbl-subject">
+				<caption>Avaluació estudiants</caption>
+				{% block estudiants_avaluacio %}
+				{% endblock %}
+			</table>
+	  	</div>
+	  	<div id="tabs-4">
+	  		<div class="options">
+				<a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>Escriure als seleccionats <i class="arrow"></i></a>
+			</div>
+	    	<table class="tbl tbl-subject tbl-users">
+				<caption>Activitats consultors</caption>
+				{% block consultors_activitats %}
+				{% endblock %}
+			</table>
+	  	</div>
+	  	<div id="tabs-5">
+	    	<div class="options">
+				<a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>Escribir a los seleccionados <i class="arrow"></i></a>
+			</div>
+	    	<table class="tbl tbl-subject tbl-users">
+				<caption>Eines consultors</caption>
+				{% block consultors_eines %}
+				{% endblock %}
+			</table>
+	  	</div>
+	</div>
+	<div class="tabs-links-wrap">
+		<div class="tabs-links">
+			<a href="#" class="lnk-extern">Fitxa de l'assignatura<i class="icon"></i></a>
+			<a href="#" class="lnk-extern">Diseny de l'aula<i class="icon"></i></a>
+		</div>
+	</div>
+</div>
