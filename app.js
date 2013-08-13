@@ -131,8 +131,11 @@ app.get('/pra', function(req, res, next) {
 		var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + req.query.idp + "&s=" + req.query.s;
 		request(url, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				//res.json(JSON.parse(body));
-				res.render('pra.html', { subjects: body.subjects })
+				var object = JSON.parse(body);
+				object.subjects = object.subjects.filter(function(assignatura) {
+				    return (assignatura.anyAcademic === "20122");
+				});
+				res.render('pra.html', { object: object })
 			} else {
 				next('error al carregar assignatures del idp');
 			}
@@ -141,7 +144,6 @@ app.get('/pra', function(req, res, next) {
 		next('manquen algun dels parametres de la crida [s, idp]');
 	}
 });
-
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
