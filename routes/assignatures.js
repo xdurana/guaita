@@ -14,14 +14,11 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 	var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + idp + "&s=" + s;
 
 	request(url, function (error, response, body) {
-		console.log('wfwfwergerg');
 		if (!error && response.statusCode == 200) {
 			var object = JSON.parse(body);
-			console.log(object);
 			object.subjects = object.subjects.filter(function(assignatura) {
 			    return (assignatura.anyAcademic === anyAcademic);
 			});
-			console.log(object);
 			callback(null, object);
 		} else {
 			callback('error al carregar assignatures del idp');

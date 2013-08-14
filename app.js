@@ -58,6 +58,7 @@ app.get('/assignatures', function (req, res, callback) {
 			if (req.query.format) {
 				res.json(result);
 			} else {
+				result.s = req.query.s;
 				res.render('pra.html', { object: result });
 			}
 		});
@@ -77,6 +78,7 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, 
 			if (req.query.format) {
 				res.json(result);
 			} else {
+				result.s = req.query.s;
 				res.render('aula-estudiants-activitats.html', { object: result });
 			}
 		});

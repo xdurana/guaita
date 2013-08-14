@@ -7,6 +7,7 @@ var UOCAulas = (function($) {
 
     var baseURL = '';
     var userRole = 'student'; // student, pra, consultor, aula
+    var s = '';
 
     /* Método importado de uoc/common.js */
     var getWinNm = function() {
@@ -198,13 +199,16 @@ var UOCAulas = (function($) {
     };
 
     /* Accordeon bloques principales de asignaturas (PRA/Consultor): jqueryui accordion */
-    var setupAccordionSubjects = function(){
+    var setupAccordionSubjects = function() {
         $(".accordion").on('click', '.block-head', function(ev) {
             var self = this;
             var acc = $(self).parent();
             var url = UOCAulas.baseURL;
-            if(userRole === 'pra'){
-                url += 'ajax/tabs_pra.html';
+            var assignatura = $(self).attr("data-guaita-assignatura");
+            var anyacademic = $(self).attr("data-guaita-anyacademic");
+            if (userRole === 'pra') {
+                url += '/assignatures/' + assignatura + '/' + anyacademic + '/aules/?s=' + s;
+                //url += 'ajax/tabs_pra.html';
             }else{
                 url += 'ajax/tabs_consultor.html';
             }
@@ -374,8 +378,9 @@ var UOCAulas = (function($) {
     };
 
     /* Initialize application */
-    var init = function(role) {
+    var init = function(role, session) {
         userRole = role;
+        s = session;
 
         switch (userRole){
             case 'aula':
@@ -396,7 +401,9 @@ var UOCAulas = (function($) {
 
     return { // public
         init: init,
-        baseURL: baseURL
+        baseURL: baseURL,
+        userRole: userRole,
+        s: s
     };
 
 }(jQuery));

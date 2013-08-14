@@ -32,9 +32,9 @@
     <tr>
         <td>
             <span class="user-item">
-                <a href="#item_4_{{ consultor.idp }}" class="lnk-expand" title="expandir"></a>
+                <a href="#item_4_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
                 <input type="checkbox" class="check-user" name="check_users_4[]" value="1">
-                <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ consultor.nom }}</a>
+                <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ consultor.nom }} - A{{ aula.codAula }}</a>
             </span>
         </td>
         <td class="bd">-</td>
@@ -43,7 +43,7 @@
         <td class="bd-open">-/-/-</td>
     </tr>
     <tr class="tr-wrap">
-        <td colspan="5" class="td-wrap"><div class="acc-content" id="item_4_{{ consultor.nom }}"></div></td>
+        <td colspan="5" class="td-wrap"><div class="acc-content" id="item_4_{{ aula.codAula }}"></div></td>
     </tr>
 </tbody>
 {% endfor %}
