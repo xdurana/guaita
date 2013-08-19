@@ -72,18 +72,56 @@ app.get('/assignatures', function (req, res, callback) {
  * @mockup: tabs_pra.html
  */
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, callback) {
-	if (req.query.s) {
-		return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
-			if (err) callback(err);
-			if (req.query.format) {
-				res.json(result);
-			} else {
-				result.s = req.query.s;
-				res.render('aula-estudiants-activitats.html', { object: result });
-			}
-		});
+	if (req.query.s && req.query.tab) {
+		if (req.query.tab == '1') {
+			/*
+			var result = {
+				aules: [
+					{
+						codAula: 1
+					}
+				]
+			};
+			result.s = req.query.s;
+			res.render('aula-estudiants-activitats.html', { object: result });
+			*/
+			
+			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+				if (err) callback(err);
+				if (req.query.format) {
+					res.json(result);
+				} else {
+					result.s = req.query.s;
+					res.render('aula-estudiants-activitats.html', { object: result });
+				}
+			});
+			
+		} else if (req.query.tab == '2') {
+
+			var result = {
+				aules: [
+					{
+						codAula: 1
+					}
+				]
+			};
+			result.s = req.query.s;
+			res.render('aula-estudiants-eines.html', { object: result });
+
+			/*
+			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+				if (err) callback(err);
+				if (req.query.format) {
+					res.json(result);
+				} else {
+					result.s = req.query.s;
+					res.render('aula-estudiants-eines.html', { object: result });
+				}
+			});
+			*/
+		}
 	} else {
-		callback('manquen algun dels parametres de la crida [s]');
+		callback('manquen algun dels parametres de la crida [s, tab]');
 	}
 });
 

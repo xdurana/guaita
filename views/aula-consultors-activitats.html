@@ -1,50 +1,55 @@
-{% extends 'tabs_pra.html' %}
 {% block consultors_activitats %}
-<colgroup>
-    <col>
-    <col style="width:18%">
-    <col style="width:18%">
-    <col style="width:18%">
-    <col style="width:18%">
-</colgroup>
-<thead>
-    <tr>
-        <th>
-            <input type="checkbox" class="check-all-users" name="check_all_users_4" id="check_all_users_4"><label for="check_all_users_4">Seleccionar tots</label>
-        </th>
-        <th>Clics acumulats</th>
-        <th>Lectures pendents acumulades</th>
-        <th>Participacions</th>
-        <th>Última connexió</th>
-    </tr>
-</thead>
-<tbody class="totals">
-    <tr>
-        <td>Total:</td>
-        <td class="bd">-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-    </tr>
-</tbody>
-{% for consultor in object.consultors %}
-<tbody class="acc activ-consultor-acc">
-    <tr>
-        <td>
-            <span class="user-item">
-                <a href="#item_4_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
-                <input type="checkbox" class="check-user" name="check_users_4[]" value="1">
-                <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ consultor.nom }} - A{{ aula.codAula }}</a>
-            </span>
-        </td>
-        <td class="bd">-</td>
-        <td class="bd-open">-</td>
-        <td class="bd-open">-</td>
-        <td class="bd-open">-/-/-</td>
-    </tr>
-    <tr class="tr-wrap">
-        <td colspan="5" class="td-wrap"><div class="acc-content" id="item_4_{{ aula.codAula }}"></div></td>
-    </tr>
-</tbody>
-{% endfor %}
+<div class="options">
+    <a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>Escriure als seleccionats <i class="arrow"></i></a>
+</div>
+<table class="tbl tbl-subject tbl-users">
+    <caption>Activitats consultors</caption>
+    <colgroup>
+        <col>
+        <col style="width:18%">
+        <col style="width:18%">
+        <col style="width:18%">
+        <col style="width:18%">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+                <input type="checkbox" class="check-all-users" name="check_all_users_4" id="check_all_users_4"><label for="check_all_users_4">Seleccionar tots</label>
+            </th>
+            <th>Clics acumulats</th>
+            <th>Lectures pendents acumulades</th>
+            <th>Participacions</th>
+            <th>Última connexió</th>
+        </tr>
+    </thead>
+    <tbody class="totals">
+        <tr>
+            <td>Total:</td>
+            <td class="bd">-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </tbody>
+    {% for consultor in object.consultors %}
+    <tbody class="acc activ-consultor-acc">
+        <tr>
+            <td>
+                <span class="user-item">
+                    <a href="#item_4_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
+                    <input type="checkbox" class="check-user" name="check_users_4[]" value="1">
+                    <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ consultor.nom }} - A{{ aula.codAula }}</a>
+                </span>
+            </td>
+            <td class="bd">-</td>
+            <td class="bd-open">-</td>
+            <td class="bd-open">-</td>
+            <td class="bd-open">-/-/-</td>
+        </tr>
+        <tr class="tr-wrap">
+            <td colspan="5" class="td-wrap"><div class="acc-content" id="item_4_{{ aula.codAula }}"></div></td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
 {% endblock %}

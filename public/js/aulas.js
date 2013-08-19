@@ -199,44 +199,19 @@ var UOCAulas = (function($) {
     };
 
     /* Accordeon bloques principales de asignaturas (PRA/Consultor): jqueryui accordion */
-    var setupAccordionSubjects = function() {
+    var setupAccordionSubjects = function(){
+
         $(".accordion").on('click', '.block-head', function(ev) {
             var self = this;
             var acc = $(self).parent();
-            var url = UOCAulas.baseURL;
-            var assignatura = $(self).attr("data-guaita-assignatura");
-            var anyacademic = $(self).attr("data-guaita-anyacademic");
-            if (userRole === 'pra') {
-                url += '/assignatures/' + assignatura + '/' + anyacademic + '/aules/?s=' + s;
-                //url += 'ajax/tabs_pra.html';
-            }else{
-                url += 'ajax/tabs_consultor.html';
-            }
-            if(acc.hasClass('loaded')){
-                toggleSubject(acc);
-            }else{
-                if(!acc.hasClass('loading')){
-                    acc.addClass('loading');
-                    $(self).children('.ui-icon').spin('tiny');
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        dataType: "html"
-                    }).done(function(data){
-                        acc.find('.block-content').html(data);
-                        addSubjectEvents(acc);
-                    }).fail(function(jqXHR, status, error) {
-                        acc.find('.block-content').html('<div class="error-row">' + status + ": " + error+'</div>');
-                        //console.log('Error:' + status + " > " + error);
-                    }).always(function() {
-                        $(self).children('.ui-icon').spin(false);
-                        acc.removeClass('loading').addClass('loaded');
-                        toggleSubject(acc);
-                    });
-                }
-            }  
 
-        }); 
+            if (acc.hasClass('loaded')) {
+                toggleSubject(acc);
+            } else {
+                getDataTab(acc, '1');
+                toggleSubject(acc);
+            }
+        });
 
         $( ".accordion" ).each(function(){
             var self = this;
@@ -261,6 +236,7 @@ var UOCAulas = (function($) {
         $(".block-top").unbind("click").click(function(ev){ ev.stopPropagation(); });
 
     };
+
 
     /* Gestión toggle accordion principal subjects */
     var toggleSubject = function(acc){
@@ -338,14 +314,49 @@ var UOCAulas = (function($) {
     };
 
     /* Declaración eventos tabs: jqueryui tab */
-    var addTabsEvents = function(tabs){
+    var addTabsEvents = function(tabs) {
         $(tabs).tabs({
             active: 0,
             hide: 100,
             show: 300
         });
+
+        $.each([1, 2, 3, 4, 5], function(index, value) {
+            $(tabs).on('click', '.tab-' + value, function(ev) {
+                var acc = $(tabs).closest(".accordion");
+                getDataTab(acc, value);
+            });
+        });
     };
 
+    var getDataTab = function(acc, value) {
+
+        var content = $(acc).find('#tabs-' + value);
+        var block = $(acc).find('.block-head');
+
+        var assignatura = $(block).attr('data-guaita-assignatura');
+        var anyacademic = $(block).attr('data-guaita-anyacademic');
+        var url = UOCAulas.baseURL;
+
+        if (userRole === 'pra') {
+            url += '/assignatures/' + assignatura + '/' + anyacademic + '/aules/?tab=' + value + '&s=' + s;
+        } else {
+            url += 'ajax/tabs_consultor.html';
+        }
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "html"
+        }).done(function(data){
+            $(content).html(data);
+        }).fail(function(jqXHR, status, error) {
+            $(content).html('<div class="error-row">' + status + ": " + error+'</div>');
+        }).always(function() {
+            $(acc).children('.ui-icon').spin(false);
+            addSubjectEvents(acc);
+            acc.removeClass('loading').addClass('loaded');
+        });
+    }
 
     /* Metodo provisional para la obtención de subtablas vía ajax */
     var getTable = function(elm, url, events){

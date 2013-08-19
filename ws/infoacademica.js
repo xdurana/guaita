@@ -7,7 +7,7 @@ exports.getAulesByAssignatura = function(anyAcademic, codAssignatura, callback) 
 		in1: anyAcademic
 	}
 	service.operation(config.infoacademicawsdl(), 'getAulesByAssignatura', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
