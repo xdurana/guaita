@@ -93,6 +93,16 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, 
 					res.render('aula-estudiants-eines.html', { subject: result });
 				}
 			});
+		} else if (req.query.tab == '3') {
+			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+				if (err) callback(err);
+				if (req.query.format) {
+					res.json(result);
+				} else {
+					result.s = req.query.s;
+					res.render('aula-estudiants-avaluacio.html', { subject: result });
+				}
+			});
 		}
 	} else {
 		callback('manquen algun dels parametres de la crida [s, tab]');

@@ -31,7 +31,8 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 			},
 			avaluacio: {
 				seguiment: '0,00%',
-				superacio: '0,00%'
+				superacio: '0,00%',
+				dataEntrega: '-'
 			}
 		}
 	}
@@ -62,7 +63,8 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 					},
 					avaluacio: {
 						seguiment: '0,00%',
-						superacio: '0,00%'
+						superacio: '0,00%',
+						dataEntrega: '-'
 					}
 				});
 
