@@ -52,8 +52,8 @@ if ('development' == app.get('env')) {
  * @mockup: aulas_pra.html
  */
 app.get('/assignatures', function (req, res, callback) {
-	if (req.query.s && req.query.idp) {
-		return assignatures.byidp(req.query.s, req.query.idp, "20122", function (err, result) {
+	if (req.query.s && req.query.idp && req.query.anyAcademic) {
+		return assignatures.byidp(req.query.s, req.query.idp, req.query.anyAcademic, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -63,7 +63,7 @@ app.get('/assignatures', function (req, res, callback) {
 			}
 		});
 	} else {
-		callback('manquen algun dels parametres de la crida [s, idp]');
+		callback('manquen algun dels parametres de la crida [s, idp, anyAcademic]');
 	}
 });
 
@@ -74,51 +74,25 @@ app.get('/assignatures', function (req, res, callback) {
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, callback) {
 	if (req.query.s && req.query.tab) {
 		if (req.query.tab == '1') {
-			/*
-			var result = {
-				aules: [
-					{
-						codAula: 1
-					}
-				]
-			};
-			result.s = req.query.s;
-			res.render('aula-estudiants-activitats.html', { object: result });
-			*/
-			
 			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
 				if (err) callback(err);
 				if (req.query.format) {
 					res.json(result);
 				} else {
 					result.s = req.query.s;
-					res.render('aula-estudiants-activitats.html', { object: result });
+					res.render('aula-estudiants-activitats.html', { subject: result });
 				}
-			});
-			
+			});			
 		} else if (req.query.tab == '2') {
-
-			var result = {
-				aules: [
-					{
-						codAula: 1
-					}
-				]
-			};
-			result.s = req.query.s;
-			res.render('aula-estudiants-eines.html', { object: result });
-
-			/*
 			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
 				if (err) callback(err);
 				if (req.query.format) {
 					res.json(result);
 				} else {
 					result.s = req.query.s;
-					res.render('aula-estudiants-eines.html', { object: result });
+					res.render('aula-estudiants-eines.html', { subject: result });
 				}
 			});
-			*/
 		}
 	} else {
 		callback('manquen algun dels parametres de la crida [s, tab]');

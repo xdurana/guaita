@@ -19,13 +19,41 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 			object.subjects = object.subjects.filter(function(assignatura) {
 			    return (assignatura.anyAcademic === anyAcademic);
 			});
-			callback(null, object);
+			async.each(object.subjects, resumAssignatura, function(err) {
+				if(err) { console.log(err); callback(true); return; }
+				callback(null, object);
+			});
 		} else {
 			callback('error al carregar assignatures del idp');
 		}
 	});
+
+	var resumAssignatura = function(subject, callback) {
+		//TODO
+		subject.resum = {
+			aules: {
+				total: 0
+			},
+			estudiants: {
+				total: 0,
+				repetidors: 0
+			},
+			comunicacio: {
+				clicsAcumulats: 0,
+				lecturesPendentsAcumulades: 0,
+				lecturesPendents: 0,
+				participacions: 0
+			},
+			avaluacio: {
+				seguiment: '0,00%',
+				superacio: '0,00%'
+			}
+		}
+		callback(null);
+	}
 }
 
+/*
 exports.bypra = function(s, anyAcademic, callback) {
 
 	//http://localhost:3333/assignatures/?s=&anyAcademic=20122
@@ -36,7 +64,7 @@ exports.bypra = function(s, anyAcademic, callback) {
 		},
 		courses: {
 		}
-	}	
+	}
 
 	auth.getContextBySessionId(s, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
@@ -128,3 +156,4 @@ exports.bypra = function(s, anyAcademic, callback) {
 		callback();
 	}
 }
+*/

@@ -10,19 +10,38 @@ var infoacademica = require('../ws/infoacademica');
 
 exports.all = function(codAssignatura, anyAcademic, callback) {
 
-	//http://localhost:3333/assignatures/05.002/20122/aules
-
 	var struct = {
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
 		aules: [
-		]
+		],
+		resum: {
+			aules: {
+				total: 0
+			},
+			estudiants: {
+				total: 0,
+				repetidors: 0
+			},
+			comunicacio: {
+				clicsAcumulats: 0,
+				lecturesPendentsAcumulades: 0,
+				lecturesPendents: 0,
+				participacions: 0
+			},
+			avaluacio: {
+				seguiment: '0,00%',
+				superacio: '0,00%'
+			}
+		}
 	}
 
 	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
+
 		if (result.out.AulaVO) {			
 			result.out.AulaVO.forEach(function(aula) {
+
 				struct.aules.push({
 					codAula: aula.codAula,
 					codAulaTFC: aula.codAulaTFC,
@@ -31,21 +50,24 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 					dataModificacio: aula.dataModificacio,
 					idpConsultor: aula.idpConsultor,
 					indConsOficial: aula.indConsOficial,
-					numPlacesAssignades: aula.numPlacesAssignades
+					estudiants: {
+						total: aula.numPlacesAssignades[0],
+						repetidors: 0
+					},
+					comunicacio: {
+						clicsAcumulats: 0,
+						lecturesPendentsAcumulades: 0,
+						lecturesPendents: 0,
+						participacions: 0
+					},
+					avaluacio: {
+						seguiment: '0,00%',
+						superacio: '0,00%'
+					}
 				});
 
-				/*
-				classroom = struct.aules[aula.codAula];
-				classroom.clicksAcumulats = indicadors.getClicksAcumulatsAula();
-				classroom.lecturesPendents = indicadors.getLecturesPendentsAula();
-				classroom.lecturesPendents = indicadors.getLecturesPendentsAula();
-				classroom.participacions = indicadors.getParticipacionsAula();
-				classroom.seguimentAC = indicadors.getSeguimentACAula();
-				classroom.superacioAC = indicadors.getSuperacioACAula();
-				classroom.darreraActivitatLliurada = indicadors.getDarreraActivitatLliuradaAula();
-				classroom.darreraActivitatSuperada = indicadors.getDarreraActivitatSuperadaAula();
-				*/
-
+				struct.resum.aules.total += 1;
+				struct.resum.estudiants.total += parseInt(aula.numPlacesAssignades[0]);
 			});
 		}
 		callback(null, struct);

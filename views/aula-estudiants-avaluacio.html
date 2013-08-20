@@ -22,14 +22,14 @@
     <tbody class="totals">
         <tr>
             <td>Total:</td>
-            <td>-</td>
-            <td>-</td>
-            <td class="bd">-.-%</td>
-            <td>-.-%</td>
+            <td>{{ subject.resum.estudiants.total }}</td>
+            <td>{{ subject.resum.estudiants.repetidors }}</td>
+            <td class="bd">{{ subject.resum.avaluacio.seguiment }}</td>
+            <td>{{ subject.resum.avaluacio.superacio }}</td>
             <td>-</td>
         </tr>
     </tbody>
-    {% for aula in object.aules %}
+    {% for aula in subject.aules %}
     <tbody class="acc eval-student-acc">
         <tr>
             <td>
@@ -39,12 +39,11 @@
                     <a href="aulas_individual.html" class="lnk-more" title="més"></a>
                 </span>
             </td>
-            <td>-</td>
-            <td>-</td>
-            <td class="bd">-.-%</td>
-            <td class="bd-open">-.-%</td>
-            <td class="bd-open">-</td>
-        </tr>
+            <td>{{ aula.estudiants.total }}</td>
+            <td>{{ aula.estudiants.repetidors }}</td>
+            <td class="bd">{{ aula.comunicacio.clicsAcumulats }}</td>
+            <td class="bd-open">{{ aula.comunicacio.lecturesPendentsAcumulades }}</td>
+            <td class="bd-open"><span class="em">{{ aula.comunicacio.lecturesPendents }} /</span> {{ aula.comunicacio.participacions }}<        </tr>
         <tr class="tr-wrap">
             <td colspan="6" class="td-wrap"><div class="acc-content" id="item_3_{{ aula.codAula }}"></div></td>
         </tr>

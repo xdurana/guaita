@@ -44,14 +44,14 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>-</td>
-                    <td class="bd">-</td>
-                    <td>-</td>
-                    <td class="bd">-</td>
-                    <td>-</td>
-                    <td><span class="em">- /</span> -</td>
-                    <td class="bd">-,- %</td>
-                    <td>-,- %</td>
+                    <td>{{ subject.resum.aules.total }}</td>
+                    <td class="bd">{{ subject.resum.estudiants.total }}</td>
+                    <td>{{ subject.resum.estudiants.repetidors }}</td>
+                    <td class="bd">{{ subject.resum.comunicacio.clicsAcumulats }}</td>
+                    <td>{{ subject.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                    <td><span class="em">{{ subject.resum.comunicacio.lecturesPendents }} /</span> {{ subject.resum.comunicacio.participacions }}</td>
+                    <td class="bd">{{ subject.resum.avaluacio.seguiment }}</td>
+                    <td>{{ subject.resum.avaluacio.superacio }}</td>
                 </tr>
             </tbody>
         </table>
