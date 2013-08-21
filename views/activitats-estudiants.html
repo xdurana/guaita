@@ -6,11 +6,11 @@
         <col style="width:22%">
     </colgroup>
     {% for activitat in aula.activitats %}
-    <tbody class="acc activ-acc" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainIdActivitat="{{ activitat.domainIdActivitat }}">
+    <tbody class="acc activ-acc" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-eventId="{{ activitat.eventId }}">
         <tr>
             <td>
                 <span class="activ-item">
-                    <a href="#activ_student_{{ activitat.domainIdActivitat }}" class="lnk-expand" title="expandir"></a>
+                    <a href="#activ_student_{{ activitat.eventId }}" class="lnk-expand" title="expandir"></a>
                     <span class="lbl">{{ activitat.nom }}</span>
                 </span>
             </td>
@@ -19,7 +19,7 @@
             <td class="bd-open"><span class="em">{{ activitat.resum.comunicacio.lecturesPendents }} /</span> {{ activitat.resum.comunicacio.participacions }}</td>
         </tr>
         <tr class="tr-wrap">
-            <td colspan="4" class="td-wrap"><div class="acc-content" id="activ_student_{{ activitat.domainIdActivitat }}"></div></td>
+            <td colspan="4" class="td-wrap"><div class="acc-content" id="activ_student_{{ activitat.eventId }}"></div></td>
         </tr>
     </tbody>
     {% endfor %}

@@ -7,6 +7,43 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 
+exports.aula = function(domainId, domainIdAula, s, callback) {
+	var request = require("request");
+
+	domainId = '382784';
+	domainIdAula = '382785';
+
+	var struct = {
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		activitats: [
+		]
+	};
+
+	request({
+	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s,
+	  method: "GET"
+	}, function (error, response, body) {
+		if (error) { console.log(err); callback(true); return; }
+		if (response.statusCode == '200') {
+			var object = JSON.parse(body);
+			struct.activitats = object.activities;
+			struct.activitats.forEach(function(activitat) {
+				activitat.nom = activitat.name;
+				activitat.resum = {
+					comunicacio: {
+						clicsAcumulats: 0,
+						lecturesPendentsAcumulades: 0,
+						lecturesPendents: 0,
+						participacions: 0
+					}
+				}
+			});
+		}
+		callback(null, struct);
+	});
+}
+
 exports.all = function(domainId, domainIdAula, callback) {
 
 	var struct = {
@@ -15,7 +52,7 @@ exports.all = function(domainId, domainIdAula, callback) {
 		activitats: [
 			{
 				nom: 'Activitat 1 Lorem ipsum dolor',
-				domainIdActivitat: '696566',
+				eventId: '696566',
 				resum: {
 					comunicacio: {
 						clicsAcumulats: 0,
@@ -27,7 +64,7 @@ exports.all = function(domainId, domainIdAula, callback) {
 			},
 			{
 				nom: 'Activitat 2 Consectur ips magna curator',
-				domainIdActivitat: '694961',
+				eventId: '694961',
 				resum: {
 					comunicacio: {
 						clicsAcumulats: 0,

@@ -325,8 +325,8 @@ var UOCAulas = (function($) {
                 var block = $(this).closest('.acc');
                 var domainId = $(block).attr('data-guaita-domainId');
                 var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-                var domainIdActivitat = $(block).attr('data-guaita-domainIdActivitat');
-                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + domainIdActivitat + '/eines?s=' + s;
+                var eventId = $(block).attr('data-guaita-eventId');
+                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + eventId + '/eines?s=' + s;
                 getTable(this, URLActivitatsEstudiants, false);
             } else {
                 getTable(this, UOCAulas.baseURL + 'ajax/actividad_consultores.html', false);

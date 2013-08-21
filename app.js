@@ -119,7 +119,7 @@ app.get('/assignatures/:domainId/aules', function (req, res, callback) {
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res) {
 	if (req.query.s) {
-		return activitats.all(req.params.domainId, req.params.domainIdAula, function (err, result) {
+		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -137,9 +137,9 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
  * Activities tools
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:domainIdActivitat/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res) {
 	if (req.query.s) {
-		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.domainIdActivitat, req.query.s, function (err, result) {
+		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.query.s, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -153,6 +153,8 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:domainIdActivit
 	}
 });
 
+
+/*
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
 	return aules.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
 		res.json(result);
@@ -211,6 +213,7 @@ app.get('/', function(req, res) {
 	res.render('pra', { title: 'The index page!' })
 	//res.json({status: 'Express server listening on port ' + app.get('port') });
 });
+*/
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

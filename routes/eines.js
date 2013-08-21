@@ -7,22 +7,18 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 
-exports.activitat = function(domainId, domainIdAula, domainIdActivitat, s, callback) {
+exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 	var request = require("request");
 	var struct = {
 		domainId: domainId,
 		domainIdAula: domainIdAula,
-		domainIdActivitat: domainIdActivitat,
+		eventId: eventId,
 		eines: [
 		]
 	};
 
-	domainId = '382784';
-	domainIdAula = '382785';
-	domainIdActivitat = '697120';
-
 	request({
-	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + domainIdActivitat + "/eines?s=" + s,
+	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + eventId + "/eines?s=" + s,
 	  method: "GET"
 	}, function (error, response, body) {
 		if (error) { console.log(err); callback(true); return; }
@@ -41,7 +37,6 @@ exports.activitat = function(domainId, domainIdAula, domainIdActivitat, s, callb
 				}
 			});
 		}
-		console.log(struct);
 		callback(null, struct);
 	});
 }
