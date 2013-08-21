@@ -41,6 +41,39 @@ exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 	});
 }
 
+exports.aula = function(domainId, domainIdAula, s, callback) {
+	var request = require("request");
+	var struct = {
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		eines: [
+		]
+	};
+
+	request({
+	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/eines?s=" + s,
+	  method: "GET"
+	}, function (error, response, body) {
+		if (error) { console.log(err); callback(true); return; }
+		if (response.statusCode == '200') {
+			var object = JSON.parse(body);
+			struct.eines = object.tools;
+			struct.eines.forEach(function(eina) {
+				eina.nom = eina.description;
+				eina.resum = {
+					comunicacio: {
+						clicsAcumulats: 0,
+						lecturesPendentsAcumulades: 0,
+						lecturesPendents: 0,
+						participacions: 0
+					}
+				}
+			});
+		}
+		callback(null, struct);
+	});
+}
+
 exports.phpBB3 = function(domainId, forumId, callback) {
 
 	//http://localhost:3333/assignatures/phpBB3?domainId=321292&forumId=50591

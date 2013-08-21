@@ -30,7 +30,7 @@
         </tr>
     </tbody>
     {% for aula in assignatura.aules %}
-    <tbody class="acc tools-student-acc">
+    <tbody class="acc tools-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
         <tr>
             <td>
                 <span class="aula-item">

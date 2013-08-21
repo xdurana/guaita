@@ -1,4 +1,4 @@
-<table class="tbl tbl-activ">
+<table class="tbl tbl-aula tbl-tools">
     <colgroup>
         <col>
         <col style="width:22%">
@@ -6,7 +6,7 @@
         <col style="width:22%">
     </colgroup>
     <tbody> 
-        {% for eina in activitat.eines %}
+        {% for eina in aula.eines %}
         <tr>
             <td><span class="lbl">{{ eina.nom }}</span></td>
             <td class="bd">{{ eina.resum.comunicacio.clicsAcumulats }}</td>

@@ -15,7 +15,7 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 
 	request(url, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
-			var object = JSON.parse(body);
+			var object = JSON.parse(body);			
 			object.subjects = object.subjects.filter(function(assignatura) {
 			    return (assignatura.anyAcademic === anyAcademic);
 			});
@@ -30,6 +30,8 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 
 	var resumAssignatura = function(subject, callback) {
 		//TODO
+		subject.s = s;
+		subject.domainId = '382785';
 		subject.resum = {
 			aules: {
 				total: 0

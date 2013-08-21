@@ -134,7 +134,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
 });
 
 /**
- * Activities tools
+ * Eines per activitat
  * @mockup: actividades_aula.html
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res) {
@@ -146,6 +146,26 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines',
 			} else {
 				result.s = req.query.s;
 				res.render('eines-activitats-estudiants.html', { activitat: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
+/**
+ * Eines per aula
+ * @mockup: herramientas_estudiantes.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res) {
+	if (req.query.s) {
+		return eines.aula(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('eines-estudiants.html', { aula: result });
 			}
 		})
 	} else {
@@ -165,12 +185,6 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/activitats/:o
 	return activitats.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.ordre, function (err, result) {
 		res.json(result);
 	});		
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/eines', function (req, res) {
-	return eines.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-		res.json(result);
-	});
 });
 
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/eines/:codEina', function (req, res) {

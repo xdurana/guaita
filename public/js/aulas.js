@@ -283,7 +283,11 @@ var UOCAulas = (function($) {
 
         $(acc).find('.tools-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/herramientas_estudiantes.html', false);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var URLEinesEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/eines?s=' + s;
+            getTable(this, URLEinesEstudiants, false);
         });
 
         $(acc).find('.eval-student-acc .lnk-expand').on('click', function(ev) {
