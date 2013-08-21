@@ -7,50 +7,43 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 
-exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/aules/1/eines
-
+exports.activitat = function(domainId, domainIdAula, domainIdActivitat, s, callback) {
+	var request = require("request");
 	var struct = {
-		codAssignatura: codAssignatura,
-		anyAcademic: anyAcademic,
-		codAula: codAula,
-		eines: []
-	}
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		domainIdActivitat: domainIdActivitat,
+		eines: [
+		]
+	};
 
-	//TODO llista d'eines d'una aula
-	callback(null, struct);
-}
+	domainId = '382784';
+	domainIdAula = '382785';
+	domainIdActivitat = '697120';
 
-exports.one = function(codAssignatura, anyAcademic, codAula, codEina, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/aules/1/eines/717635
-
-	var struct = {
-		codAssignatura: codAssignatura,
-		anyAcademic: anyAcademic,
-		codAula: codAula,
-		codEina: codEina
-	}
-
-	//TODO indicadors de l'eina
-	callback(null, struct);
-}
-
-exports.activitat = function(codAssignatura, anyAcademic, codAula, codActivitat, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats/696566/eines
-
-	var struct = {
-		codAssignatura: codAssignatura,
-		anyAcademic: anyAcademic,
-		codAula: codAula,
-		codActivitat: codActivitat,
-		eines: []
-	}
-
-	//TODO llista d'eines d'una aula
-	callback(null, struct);
+	request({
+	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + domainIdActivitat + "/eines?s=" + s,
+	  method: "GET"
+	}, function (error, response, body) {
+		if (error) { console.log(err); callback(true); return; }
+		if (response.statusCode == '200') {
+			var object = JSON.parse(body);
+			struct.eines = object.tools;
+			struct.eines.forEach(function(eina) {
+				eina.nom = eina.description;
+				eina.resum = {
+					comunicacio: {
+						clicsAcumulats: 0,
+						lecturesPendentsAcumulades: 0,
+						lecturesPendents: 0,
+						participacions: 0
+					}
+				}
+			});
+		}
+		console.log(struct);
+		callback(null, struct);
+	});
 }
 
 exports.phpBB3 = function(domainId, forumId, callback) {

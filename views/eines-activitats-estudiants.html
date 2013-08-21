@@ -1,0 +1,18 @@
+<table class="tbl tbl-activ">
+    <colgroup>
+        <col>
+        <col style="width:22%">
+        <col style="width:22%">
+        <col style="width:22%">
+    </colgroup>
+    <tbody> 
+        {% for activitat in activitat.eines %}
+        <tr>
+            <td><span class="lbl">{{ activitat.nom }}</span></td>
+            <td class="bd">{{ activitat.resum.comunicacio.clicsAcumulats }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+            <td class="bd-open"><span class="em">{{ activitat.resum.comunicacio.lecturesPendents }} /</span> {{ activitat.resum.comunicacio.participacions }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

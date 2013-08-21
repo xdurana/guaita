@@ -271,30 +271,45 @@ var UOCAulas = (function($) {
     /* Declaración de eventos tbl-subject por tipo */
     var addSubjectEvents = function(acc){
         addTabsEvents(acc.find('.tabs'));
+
         $(acc).find('.activ-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/actividades_estudiantes.html', true);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats?s=' + s;
+            getTable(this, URLActivitatsEstudiants, true);
         });
+
         $(acc).find('.tools-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             getTable(this, UOCAulas.baseURL + 'ajax/herramientas_estudiantes.html', false);
         });
+
         $(acc).find('.eval-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             getTable(this, UOCAulas.baseURL + 'ajax/evaluacion_estudiantes.html', false);
         });
+
         $(acc).find('.activ-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             getTable(this, UOCAulas.baseURL + 'ajax/actividades_consultores.html', true);
         });
+
         $(acc).find('.tools-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             getTable(this, UOCAulas.baseURL + 'ajax/herramientas_consultores.html', false);
         });
+
         $(acc).find('.activ-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/actividades_aula.html', true);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var URLActivitatsAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats?s=' + s;
+            getTable(this, URLActivitatsAula, true);
         });
+
         $(acc).find('.tools-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             getTable(this, UOCAulas.baseURL + 'ajax/herramientas_aula.html', false);
@@ -305,9 +320,15 @@ var UOCAulas = (function($) {
     var addAulaEvents = function(acc){
         $(acc).find('.activ-item > .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            if(acc.hasClass('activ-student-acc')){
-                getTable(this, UOCAulas.baseURL + 'ajax/actividad_estudiantes.html', false);
-            }else{
+
+            if (acc.hasClass('activ-student-acc')) {
+                var block = $(this).closest('.acc');
+                var domainId = $(block).attr('data-guaita-domainId');
+                var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+                var domainIdActivitat = $(block).attr('data-guaita-domainIdActivitat');
+                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + domainIdActivitat + '/eines?s=' + s;
+                getTable(this, URLActivitatsEstudiants, false);
+            } else {
                 getTable(this, UOCAulas.baseURL + 'ajax/actividad_consultores.html', false);
             }
         });
@@ -336,10 +357,11 @@ var UOCAulas = (function($) {
 
         var assignatura = $(block).attr('data-guaita-assignatura');
         var anyacademic = $(block).attr('data-guaita-anyacademic');
+        var domainId = $(block).attr('data-guaita-domainId');
         var url = UOCAulas.baseURL;
 
         if (userRole === 'pra') {
-            url += '/assignatures/' + assignatura + '/' + anyacademic + '/aules/?tab=' + value + '&s=' + s;
+            url += '/assignatures/' + domainId + '/aules/?tab=' + value + '&s=' + s;
         } else {
             url += 'ajax/tabs_consultor.html';
         }

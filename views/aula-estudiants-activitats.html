@@ -22,15 +22,15 @@
     <tbody class="totals">
         <tr>
             <td>Total:</td>
-            <td>{{ subject.resum.estudiants.total }}</td>
-            <td>{{ subject.resum.estudiants.repetidors }}</td>
-            <td class="bd">{{ subject.resum.comunicacio.clicsAcumulats }}</td>
-            <td>{{ subject.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-            <td><span class="em">{{ subject.resum.comunicacio.lecturesPendents }} /</span> {{ subject.resum.comunicacio.participacions }}</td>
+            <td>{{ assignatura.resum.estudiants.total }}</td>
+            <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+            <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
+            <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+            <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
         </tr>
     </tbody>
-    {% for aula in subject.aules %}
-    <tbody class="acc activ-student-acc">
+    {% for aula in assignatura.aules %}
+    <tbody class="acc activ-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
         <tr>
             <td>
                 <span class="aula-item">

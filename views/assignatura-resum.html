@@ -1,7 +1,7 @@
 <li class="block accordion" id="module_1" data-id="1">
 
-    <div class="block-head" data-guaita-assignatura="{{ subject.codi }}" data-guaita-anyacademic="{{ subject.anyAcademic }}">
-        <h3><span class="lbl">{{ subject.codi }} {{ subject.title }}</span></h3>
+    <div class="block-head" data-guaita-assignatura="{{ assignatura.codi }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}">
+        <h3><span class="lbl">{{ assignatura.codi }} {{ assignatura.title }}</span></h3>
         <ul class="block-top">
             <li><span class="icon-move" title="Ordenar"><i class="icon"></i></span></li>
         </ul>
@@ -14,7 +14,7 @@
 
     <div id="resum_1" class="block-resum">
         <table class="tbl tbl-resum">
-            <caption>Resum: {{ subject.title }}</caption>
+            <caption>Resum: {{ assignatura.title }}</caption>
             <colgroup>
                 <col style="width:10%">
                 <col style="width:6%">
@@ -44,14 +44,14 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ subject.resum.aules.total }}</td>
-                    <td class="bd">{{ subject.resum.estudiants.total }}</td>
-                    <td>{{ subject.resum.estudiants.repetidors }}</td>
-                    <td class="bd">{{ subject.resum.comunicacio.clicsAcumulats }}</td>
-                    <td>{{ subject.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-                    <td><span class="em">{{ subject.resum.comunicacio.lecturesPendents }} /</span> {{ subject.resum.comunicacio.participacions }}</td>
-                    <td class="bd">{{ subject.resum.avaluacio.seguiment }}</td>
-                    <td>{{ subject.resum.avaluacio.superacio }}</td>
+                    <td>{{ assignatura.resum.aules.total }}</td>
+                    <td class="bd">{{ assignatura.resum.estudiants.total }}</td>
+                    <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+                    <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
+                    <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                    <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
+                    <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
+                    <td>{{ assignatura.resum.avaluacio.superacio }}</td>
                 </tr>
             </tbody>
         </table>

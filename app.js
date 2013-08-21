@@ -71,36 +71,40 @@ app.get('/assignatures', function (req, res, callback) {
  * Course classroom list
  * @mockup: tabs_pra.html
  */
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, callback) {
+app.get('/assignatures/:domainId/aules', function (req, res, callback) {
+
+	var codAssignatura = '01.503';
+	var anyAcademic = '20122';
+
 	if (req.query.s && req.query.tab) {
 		if (req.query.tab == '1') {
-			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
 				if (err) callback(err);
 				if (req.query.format) {
 					res.json(result);
 				} else {
 					result.s = req.query.s;
-					res.render('aula-estudiants-activitats.html', { subject: result });
+					res.render('aula-estudiants-activitats.html', { assignatura: result });
 				}
 			});			
 		} else if (req.query.tab == '2') {
-			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
 				if (err) callback(err);
 				if (req.query.format) {
 					res.json(result);
 				} else {
 					result.s = req.query.s;
-					res.render('aula-estudiants-eines.html', { subject: result });
+					res.render('aula-estudiants-eines.html', { assignatura: result });
 				}
 			});
 		} else if (req.query.tab == '3') {
-			return aules.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
+			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
 				if (err) callback(err);
 				if (req.query.format) {
 					res.json(result);
 				} else {
 					result.s = req.query.s;
-					res.render('aula-estudiants-avaluacio.html', { subject: result });
+					res.render('aula-estudiants-avaluacio.html', { assignatura: result });
 				}
 			});
 		}
@@ -109,14 +113,48 @@ app.get('/assignatures/:codAssignatura/:anyAcademic/aules', function (req, res, 
 	}
 });
 
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
-	return aules.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-		res.json(result);
-	});
+/**
+ * Classroom activities
+ * @mockup: actividades_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res) {
+	if (req.query.s) {
+		return activitats.all(req.params.domainId, req.params.domainIdAula, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('activitats-estudiants.html', { aula: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
 });
 
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/activitats', function (req, res) {
-	return activitats.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
+/**
+ * Activities tools
+ * @mockup: actividades_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:domainIdActivitat/eines', function (req, res) {
+	if (req.query.s) {
+		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.domainIdActivitat, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('eines-activitats-estudiants.html', { activitat: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
+app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
+	return aules.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
 		res.json(result);
 	});		
 });

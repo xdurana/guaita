@@ -35,8 +35,8 @@
 
             <ul class="blocks sortable">
 
-                {% for subject in object.subjects %}
-                {% set object.current = subject %}
+                {% for assignatura in object.subjects %}
+                {% set object.current = assignatura %}
                 {% set session = object.s %}
                 {% include "assignatura-resum.html" %}
                 {% endfor %}

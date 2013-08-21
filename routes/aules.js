@@ -8,11 +8,12 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 
-exports.all = function(codAssignatura, anyAcademic, callback) {
+exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 
 	var struct = {
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
+		domainId: domainId,
 		aules: [
 		],
 		resum: {
@@ -47,6 +48,7 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 					codAula: aula.codAula,
 					codAulaTFC: aula.codAulaTFC,
 					codTFC: aula.codTFC,
+					domainIdAula: '382784',
 					dataCreacio: aula.dataCreacio,
 					dataModificacio: aula.dataModificacio,
 					idpConsultor: aula.idpConsultor,
