@@ -73,11 +73,8 @@ app.get('/assignatures', function (req, res, callback) {
  */
 app.get('/assignatures/:domainId/aules', function (req, res, callback) {
 
-	var codAssignatura = '01.503';
-	var anyAcademic = '20122';
-
 	if (req.query.s) {
-		return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
+		return aules.all(req.query.codAssignatura, req.query.anyAcademic, req.params.domainId, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);

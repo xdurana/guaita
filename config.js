@@ -18,7 +18,8 @@ exports.infoacademicawsdl = function() {
 }
 
 exports.racwsdl = function() {
-	return nconf.get('wsdl:rac') || "http://sa-test.uoc.es/rac-ws/services/RacService?WSDL";
+    return "http://sa.uoc.es/rac-ws/services/RacService?WSDL";
+	//return nconf.get('wsdl:rac') || "http://sa-test.uoc.es/rac-ws/services/RacService?WSDL";
 }
 
 exports.authwdsl = function() {

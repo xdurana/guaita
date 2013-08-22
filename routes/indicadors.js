@@ -24,6 +24,18 @@ var getIndicador = function(indicadors, nom) {
 	return parseInt(total);
 }
 
+var getIndicadorSenseFiltrar = function(indicadors, nom) {
+	var total = 0;
+	if (indicadors) {
+		indicadors.forEach(function(item) {
+			if (item.indicador[0].codIndicador[0] == nom) {
+				total = item.valor[0];
+			}
+		})
+	}
+	return total;
+}
+
 exports.getTotalEstudiantsTotal = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_TOTAL');
 }
@@ -37,11 +49,11 @@ exports.getTotalEstudiantsPrimeraMatricula = function(indicadors) {
 }
 
 exports.getSeguimentACAula = function(indicadors) {
-	return getIndicador(indicadors, 'ESTUD_PARTICIPA_AC');
+	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_PARTICIPA_AC');
 }
 
 exports.getSuperacioACAula = function(indicadors) {
-	return getIndicador(indicadors, 'ESTUD_SUPERA_AC');
+	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
 }
 
 exports.getCodiMare = function(relacions) {

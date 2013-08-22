@@ -40,44 +40,76 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 
 	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
-
-		if (result.out.AulaVO) {			
-			result.out.AulaVO.forEach(function(aula) {
-
-				struct.aules.push({
-					codAula: aula.codAula,
-					codAulaTFC: aula.codAulaTFC,
-					codTFC: aula.codTFC,
-					domainIdAula: '382784',
-					dataCreacio: aula.dataCreacio,
-					dataModificacio: aula.dataModificacio,
-					idpConsultor: aula.idpConsultor,
-					indConsOficial: aula.indConsOficial,
-					estudiants: {
-						total: aula.numPlacesAssignades[0],
-						repetidors: 0
-					},
-					comunicacio: {
-						clicsAcumulats: 0,
-						lecturesPendentsAcumulades: 0,
-						lecturesPendents: 0,
-						participacions: 0
-					},
-					avaluacio: {
-						seguiment: '0,00%',
-						superacio: '0,00%',
-						dataEntrega: '-'
-					}
-				});
-
-				struct.resum.aules.total += 1;
-				struct.resum.estudiants.total += parseInt(aula.numPlacesAssignades[0]);
-			});
-		}
-		callback(null, struct);
+		async.each(result.out.AulaVO, resumAula, function(err) {
+			if(err) { console.log(err); callback(true); return; }
+			callback(null, struct);
+		});
 	});
+
+
+	var resumAula = function(aulaVO, callback) {
+
+		var aula = {
+			codAula: aulaVO.codAula,
+			codAulaTFC: aulaVO.codAulaTFC,
+			codTFC: aulaVO.codTFC,
+			domainIdAula: '382784',
+			dataCreacio: aulaVO.dataCreacio,
+			dataModificacio: aulaVO.dataModificacio,
+			idpConsultor: aulaVO.idpConsultor,
+			indConsOficial: aulaVO.indConsOficial,
+			resum: {
+				estudiants: {
+					total: aulaVO.numPlacesAssignades[0],
+					repetidors: 0
+				},
+				comunicacio: {
+					clicsAcumulats: 0,
+					lecturesPendentsAcumulades: 0,
+					lecturesPendents: 0,
+					participacions: 0
+				},
+				avaluacio: {
+					seguiment: '0,00%',
+					superacio: '0,00%',
+					dataEntrega: '-'
+				}
+			}
+		};
+
+		struct.aules.push(aula);
+
+		struct.resum.aules.total += 1;
+		struct.resum.estudiants.total += parseInt(aulaVO.numPlacesAssignades[0]);
+
+		async.parallel([
+			function (callback) {
+				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, '1', '0', '0', function(err, result) {
+					if(err) { console.log(err); callback(true); return; }
+					aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
+					aula.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
+					callback(null);
+				});
+			},
+			function (callback) {
+				rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, aula.codAula, '1', '0', '0', function(err, result) {
+					if(err) { console.log(err); callback(true); return; }
+					aula.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+					aula.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+					callback(null);
+				});
+			}
+		], function(err, result) {
+			if(err) { console.log(err); callback(true); return; }
+			callback(null, result);
+		});
+	}
 }
 
+
+
+
+/*
 exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 
 	//http://localhost:3333/assignatures/05.002/20122/aules/1
@@ -179,5 +211,6 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 			callback();
 		});
 	}
-	*/
+	*
 }
+*/

@@ -210,7 +210,7 @@ var UOCAulas = (function($) {
 		    var domainId = $(block).attr('data-guaita-domainId');
 		    var url = UOCAulas.baseURL;
 		    if (userRole === 'pra') {
-		        url += '/assignatures/' + domainId + '/aules/?s=' + s;
+		        url += '/assignatures/' + domainId + '/aules/?s=' + s + '&codAssignatura=' + assignatura + '&anyAcademic=' + anyacademic;
 		    } else {
 		        url += 'ajax/tabs_consultor.html';
 		    }
