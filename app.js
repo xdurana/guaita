@@ -173,6 +173,26 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res)
 	}
 });
 
+/**
+ * Avaluació per aula
+ * @mockup: evaluacion_estudiantes.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, res) {
+	if (req.query.s) {
+		return activitats.avaluacio(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('avaluacio-estudiants.html', { aula: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
 
 /*
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {

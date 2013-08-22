@@ -7,12 +7,9 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 
-exports.aula = function(domainId, domainIdAula, s, callback) {
+var getActivitatsAula = function(domainId, domainIdAula, s, callback) {
+
 	var request = require("request");
-
-	domainId = '382784';
-	domainIdAula = '382785';
-
 	var struct = {
 		domainId: domainId,
 		domainIdAula: domainIdAula,
@@ -28,23 +25,42 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		if (response.statusCode == '200') {
 			var object = JSON.parse(body);
 			struct.activitats = object.activities;
-			struct.activitats.forEach(function(activitat) {
-				activitat.nom = activitat.name;
-				activitat.resum = {
-					comunicacio: {
-						clicsAcumulats: 0,
-						lecturesPendentsAcumulades: 0,
-						lecturesPendents: 0,
-						participacions: 0
-					}
-				}
-			});
 		}
 		callback(null, struct);
+	});	
+}
+
+var getResumComunicacio = function(domainId, domainIdAula, eventId, s, callback) {
+	var comunicacio = {
+		clicsAcumulats: 0,
+		lecturesPendentsAcumulades: 0,
+		lecturesPendents: 0,
+		participacions: 0
+	}
+	callback(null, comunicacio);
+}
+
+exports.aula = function(domainId, domainIdAula, s, callback) {
+
+	domainId = '382784';
+	domainIdAula = '382785';
+
+	getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+		if(err) { console.log(err); callback(true); return; }
+		result.activitats.forEach(function(activitat) {
+			activitat.nom = activitat.name;
+			activitat.resum = {
+			}
+			getResumComunicacio(domainId, domainIdAula, activitat.domainId, s, function(err, struct) {
+				if(err) { console.log(err); callback(true); return; }
+				activitat.resum.comunicacio = struct;
+			});
+		});
+		callback(null, result);
 	});
 }
 
-exports.all = function(domainId, domainIdAula, callback) {
+exports.avaluacio = function(domainId, domainIdAula, s, callback) {
 
 	var struct = {
 		domainId: domainId,
@@ -54,11 +70,10 @@ exports.all = function(domainId, domainIdAula, callback) {
 				nom: 'Activitat 1 Lorem ipsum dolor',
 				eventId: '696566',
 				resum: {
-					comunicacio: {
-						clicsAcumulats: 0,
-						lecturesPendentsAcumulades: 0,
-						lecturesPendents: 0,
-						participacions: 0
+					avaluacio: {
+						seguiment: '0/0 0,00%',
+						superacio: '0/0 0,00%',
+						dataEntrega: '01/01/2014'
 					}
 				}
 			},
@@ -66,11 +81,10 @@ exports.all = function(domainId, domainIdAula, callback) {
 				nom: 'Activitat 2 Consectur ips magna curator',
 				eventId: '694961',
 				resum: {
-					comunicacio: {
-						clicsAcumulats: 0,
-						lecturesPendentsAcumulades: 0,
-						lecturesPendents: 0,
-						participacions: 0
+					avaluacio: {
+						seguiment: '0/0 0,00%',
+						superacio: '0/0 0,00%',
+						dataEntrega: '01/01/2014'
 					}
 				}
 			}
@@ -78,6 +92,10 @@ exports.all = function(domainId, domainIdAula, callback) {
 	}
 
 	/*
+	var anyAcademic = '20122';
+	var codAssignatura = '05.002';
+	var codAula = '1';
+
 	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 		if(err) { console.log(err); callback(true); return; }
 		struct.activitats = result.out.ActivitatVO;
@@ -85,48 +103,13 @@ exports.all = function(domainId, domainIdAula, callback) {
 			if(err) { console.log(err); return; }
 	  		callback(null, struct);
 		});
-	});		
-	*/	
+	});
+	*/
 
 	callback(null, struct);
 }
 
 /*
-exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats
-
-	var struct = {
-		codAssignatura: codAssignatura,
-		anyAcademic: anyAcademic,
-		codAula: codAula,
-		domainId: '382785',
-		activitats: [
-			{
-				nom: 'Activitat 1 Lorem ipsum dolor',
-				activityId: '696566'
-			},
-			{
-				nom: 'Activitat 2 Consectur ips magna curator',
-				activityId: '694961'
-			}
-		]
-	}
-
-	/*
-	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
-		struct.activitats = result.out.ActivitatVO;
-		async.each(struct.aula.activitats, getIndicadorsActivitat, function(err) {
-			if(err) { console.log(err); return; }
-	  		callback(null, struct);
-		});
-	});		
-	*
-
-	callback(null, struct);
-}
-*/
 exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 
 	//http://localhost:3333/assignatures/05.002/20122/aules/1/activitats/1
@@ -170,3 +153,4 @@ exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 		callback(null, struct);
 	});
 }
+*/

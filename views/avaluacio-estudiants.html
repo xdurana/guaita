@@ -1,0 +1,18 @@
+<table class="tbl tbl-aula tbl-eval">
+    <colgroup>
+        <col>
+        <col style="width:22%">
+        <col style="width:22%">
+        <col style="width:22%">
+    </colgroup>
+    <tbody> 
+        {% for activitat in aula.activitats %}
+        <tr>
+            <td><span class="lbl">{{ activitat.nom }}</span></td>
+            <td class="bd">{{ activitat.resum.avaluacio.seguiment }}</td>
+            <td class="bd-open">{{ activitat.resum.avaluacio.superacio }}</td>
+            <td class="bd-open">{{ activitat.resum.avaluacio.dataEntrega }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -292,7 +292,11 @@ var UOCAulas = (function($) {
 
         $(acc).find('.eval-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/evaluacion_estudiantes.html', false);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var URLAvaluacioEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/avaluacio?s=' + s;
+            getTable(this, URLAvaluacioEstudiants, false);
         });
 
         $(acc).find('.activ-consultor-acc .lnk-expand').on('click', function(ev) {
