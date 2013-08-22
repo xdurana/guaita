@@ -76,38 +76,16 @@ app.get('/assignatures/:domainId/aules', function (req, res, callback) {
 	var codAssignatura = '01.503';
 	var anyAcademic = '20122';
 
-	if (req.query.s && req.query.tab) {
-		if (req.query.tab == '1') {
-			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
-				if (err) callback(err);
-				if (req.query.format) {
-					res.json(result);
-				} else {
-					result.s = req.query.s;
-					res.render('aula-estudiants-activitats.html', { assignatura: result });
-				}
-			});			
-		} else if (req.query.tab == '2') {
-			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
-				if (err) callback(err);
-				if (req.query.format) {
-					res.json(result);
-				} else {
-					result.s = req.query.s;
-					res.render('aula-estudiants-eines.html', { assignatura: result });
-				}
-			});
-		} else if (req.query.tab == '3') {
-			return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
-				if (err) callback(err);
-				if (req.query.format) {
-					res.json(result);
-				} else {
-					result.s = req.query.s;
-					res.render('aula-estudiants-avaluacio.html', { assignatura: result });
-				}
-			});
-		}
+	if (req.query.s) {
+		return aules.all(codAssignatura, anyAcademic, req.params.domainId, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('tabs_pra.html', { assignatura: result });
+			}
+		});
 	} else {
 		callback('manquen algun dels parametres de la crida [s, tab]');
 	}

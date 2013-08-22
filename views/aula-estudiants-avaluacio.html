@@ -1,54 +1,56 @@
 {% block estudiants_avaluacio %}
-<table class="tbl tbl-subject">
-    <caption>Avaluació estudiants</caption>
-    <colgroup>
-        <col>
-        <col style="width:6%">
-        <col style="width:6%">
-        <col style="width:22%">
-        <col style="width:22%">
-        <col style="width:22%">
-    </colgroup>
-    <thead>
-        <tr>
-            <th>Aules</th>
-            <th><span class="icon-student" title="Estudiants"></span></th>
-            <th><span class="icon-repeater" title="Repetidors"></span></th>
-            <th>Seguiment AC</th>
-            <th>Superació AC</th>
-            <th>Data d'entrega</th>
-        </tr>
-    </thead>
-    <tbody class="totals">
-        <tr>
-            <td>Total:</td>
-            <td>{{ assignatura.resum.estudiants.total }}</td>
-            <td>{{ assignatura.resum.estudiants.repetidors }}</td>
-            <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
-            <td>{{ assignatura.resum.avaluacio.superacio }}</td>
-            <td>-</td>
-        </tr>
-    </tbody>
-    {% for aula in assignatura.aules %}
-    <tbody class="acc eval-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
-        <tr>
-            <td>
-                <span class="aula-item">
-                    <a href="#item_3_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
-                    <a href="#" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
-                    <a href="aulas_individual.html" class="lnk-more" title="més"></a>
-                </span>
-            </td>
-            <td>{{ aula.estudiants.total }}</td>
-            <td>{{ aula.estudiants.repetidors }}</td>
-            <td class="bd">{{ aula.avaluacio.seguiment }}</td>
-            <td class="bd-open">{{ aula.avaluacio.superacio }}</td>
-            <td class="bd-open">{{ aula.avaluacio.dataEntrega }}</td>
-        </tr>
-        <tr class="tr-wrap">
-            <td colspan="6" class="td-wrap"><div class="acc-content" id="item_3_{{ aula.codAula }}"></div></td>
-        </tr>
-    </tbody>
-    {% endfor %}
-</table>
+<div id="tabs-3">
+    <table class="tbl tbl-subject">
+        <caption>Avaluació estudiants</caption>
+        <colgroup>
+            <col>
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:22%">
+            <col style="width:22%">
+            <col style="width:22%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Aules</th>
+                <th><span class="icon-student" title="Estudiants"></span></th>
+                <th><span class="icon-repeater" title="Repetidors"></span></th>
+                <th>Seguiment AC</th>
+                <th>Superació AC</th>
+                <th>Data d'entrega</th>
+            </tr>
+        </thead>
+        <tbody class="totals">
+            <tr>
+                <td>Total:</td>
+                <td>{{ assignatura.resum.estudiants.total }}</td>
+                <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+                <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
+                <td>{{ assignatura.resum.avaluacio.superacio }}</td>
+                <td>-</td>
+            </tr>
+        </tbody>
+        {% for aula in assignatura.aules %}
+        <tbody class="acc eval-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
+            <tr>
+                <td>
+                    <span class="aula-item">
+                        <a href="#item_3_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
+                        <a href="#" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
+                        <a href="aulas_individual.html" class="lnk-more" title="més"></a>
+                    </span>
+                </td>
+                <td>{{ aula.estudiants.total }}</td>
+                <td>{{ aula.estudiants.repetidors }}</td>
+                <td class="bd">{{ aula.avaluacio.seguiment }}</td>
+                <td class="bd-open">{{ aula.avaluacio.superacio }}</td>
+                <td class="bd-open">{{ aula.avaluacio.dataEntrega }}</td>
+            </tr>
+            <tr class="tr-wrap">
+                <td colspan="6" class="td-wrap"><div class="acc-content" id="item_3_{{ aula.codAula }}"></div></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

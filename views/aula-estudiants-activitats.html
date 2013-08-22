@@ -1,54 +1,56 @@
 {% block estudiants_activitats %}
-<table class="tbl tbl-subject">
-    <caption>Activitats estudiants</caption>
-    <colgroup>
-        <col>
-        <col style="width:6%">
-        <col style="width:6%">
-        <col style="width:22%">
-        <col style="width:22%">
-        <col style="width:22%">
-    </colgroup>
-    <thead>
-        <tr>
-            <th>Aules</th>
-            <th><span class="icon-student" title="Estudiants"></span></th>
-            <th><span class="icon-repeater" title="Repetidors"></span></th>
-            <th>Clics acumulats</th>
-            <th>Lectures pendents acumulades</th>
-            <th><span class="em">Lectures pendents /</span> Participacions totals</th>
-        </tr>
-    </thead>
-    <tbody class="totals">
-        <tr>
-            <td>Total:</td>
-            <td>{{ assignatura.resum.estudiants.total }}</td>
-            <td>{{ assignatura.resum.estudiants.repetidors }}</td>
-            <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
-            <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-            <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
-        </tr>
-    </tbody>
-    {% for aula in assignatura.aules %}
-    <tbody class="acc activ-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
-        <tr>
-            <td>
-                <span class="aula-item">
-                    <a href="#item_1_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
-                    <a href="https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s={{ assignatura.s }}&domainId={{ aula.domainIdAula }}" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
-                    <a href="aulas_individual.html" class="lnk-more" title="més"></a>
-                </span>
-            </td>
-            <td>{{ aula.estudiants.total }}</td>
-            <td>{{ aula.estudiants.repetidors }}</td>
-            <td class="bd">{{ aula.comunicacio.clicsAcumulats }}</td>
-            <td class="bd-open">{{ aula.comunicacio.lecturesPendentsAcumulades }}</td>
-            <td class="bd-open"><span class="em">{{ aula.comunicacio.lecturesPendents }} /</span> {{ aula.comunicacio.participacions }}</td>
-        </tr>
-        <tr class="tr-wrap">
-            <td colspan="6" class="td-wrap"><div class="acc-content" id="item_1_{{ aula.codAula }}"></div></td>
-        </tr>
-    </tbody>
-    {% endfor %}
-</table>
+<div class="tab-content" id="tabs-1">
+    <table class="tbl tbl-subject">
+        <caption>Activitats estudiants</caption>
+        <colgroup>
+            <col>
+            <col style="width:6%">
+            <col style="width:6%">
+            <col style="width:22%">
+            <col style="width:22%">
+            <col style="width:22%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Aules</th>
+                <th><span class="icon-student" title="Estudiants"></span></th>
+                <th><span class="icon-repeater" title="Repetidors"></span></th>
+                <th>Clics acumulats</th>
+                <th>Lectures pendents acumulades</th>
+                <th><span class="em">Lectures pendents /</span> Participacions totals</th>
+            </tr>
+        </thead>
+        <tbody class="totals">
+            <tr>
+                <td>Total:</td>
+                <td>{{ assignatura.resum.estudiants.total }}</td>
+                <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+                <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
+                <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
+            </tr>
+        </tbody>
+        {% for aula in assignatura.aules %}
+        <tbody class="acc activ-student-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}">
+            <tr>
+                <td>
+                    <span class="aula-item">
+                        <a href="#item_1_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
+                        <a href="https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s={{ assignatura.s }}&domainId={{ aula.domainIdAula }}" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
+                        <a href="aulas_individual.html" class="lnk-more" title="més"></a>
+                    </span>
+                </td>
+                <td>{{ aula.estudiants.total }}</td>
+                <td>{{ aula.estudiants.repetidors }}</td>
+                <td class="bd">{{ aula.comunicacio.clicsAcumulats }}</td>
+                <td class="bd-open">{{ aula.comunicacio.lecturesPendentsAcumulades }}</td>
+                <td class="bd-open"><span class="em">{{ aula.comunicacio.lecturesPendents }} /</span> {{ aula.comunicacio.participacions }}</td>
+            </tr>
+            <tr class="tr-wrap">
+                <td colspan="6" class="td-wrap"><div class="acc-content" id="item_1_{{ aula.codAula }}"></div></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

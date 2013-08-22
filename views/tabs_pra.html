@@ -24,47 +24,11 @@
 	    	<li><a href="#tabs-4" class="tab tab-4">Activitats</a></li>
 	    	<li><a href="#tabs-5" class="tab tab-5">Eines</a></li>
 		</ul>
-        {% block estudiants_activitats %}
-	  	<div class="tab-content content-1" id="tabs-1">
-	    	<table class="tbl tbl-subject">
-				<caption>Activitats estudiants</caption>
-			</table>
-	  	</div>
-        {% endblock %}
-        {% block estudiants_eines %}
-	  	<div class="tab-content content-2" id="tabs-2">
-	    	<table class="tbl tbl-subject">
-				<caption>Eines estudiants</caption>
-			</table>
-	  	</div>
-        {% endblock %}
-		{% block estudiants_avaluacio %}
-	  	<div class="tab-content content-3" id="tabs-3">
-	    	<table class="tbl tbl-subject">
-				<caption>Avaluació estudiants</caption>
-			</table>
-	  	</div>
-		{% endblock %}
-		{% block consultors_activitats %}
-	  	<div class="tab-content content-4" id="tabs-4">
-	  		<div class="options">
-				<a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>Escriure als seleccionats <i class="arrow"></i></a>
-			</div>
-	    	<table class="tbl tbl-subject tbl-users">
-				<caption>Activitats consultors</caption>
-			</table>
-	  	</div>
-		{% endblock %}
-		{% block consultors_eines %}
-	  	<div class="tab-content content-5" id="tabs-5">
-	    	<div class="options">
-				<a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>Escribir a los seleccionados <i class="arrow"></i></a>
-			</div>
-	    	<table class="tbl tbl-subject tbl-users">
-				<caption>Eines consultors</caption>
-			</table>
-	  	</div>
-		{% endblock %}
+		{% include 'aula-estudiants-activitats.html' %}
+		{% include 'aula-estudiants-eines.html' %}
+		{% include 'aula-estudiants-avaluacio.html' %}
+		{% include 'aula-consultors-activitats.html' %}
+		{% include 'aula-consultors-eines.html' %}
 	</div>
 	<div class="tabs-links-wrap">
 		<div class="tabs-links">
