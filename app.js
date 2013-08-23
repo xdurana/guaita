@@ -100,7 +100,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula', function (req, res, callb
 				res.json(result);
 			} else {
 				result.s = req.query.s;
-				res.render('aula.html', { object: result });
+				res.render('aula.html', { aula: result });
 			}
 		});
 	} else {

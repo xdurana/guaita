@@ -3,6 +3,7 @@ var async = require('async');
 var config = require('../config');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
+var estudiants = require('./estudiants');
 
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
@@ -107,7 +108,28 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 }
 
 exports.one = function(s, domainId, domainIdAula, callback) {
-	callback(null, {});
+
+	var anyAcademic = '20122';
+	var codAssignatura = '05.002';
+	var codAula = '1';
+	var nomAssignatura = 'Dret financer i tributari I';
+
+	var struct = {
+		anyAcademic: anyAcademic,
+		codAssigntura: codAssignatura,
+		nomAssignatura: nomAssignatura,
+		codAula: codAula,
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		estudiants: [
+		]
+	}
+
+	estudiants.all(anyAcademic, codAssignatura, codAula, function(err, result) {
+		if(err) { console.log(err); callback(err); return; }
+		struct.estudiants = result;
+		callback(null, struct);
+	});
 }
 
 
