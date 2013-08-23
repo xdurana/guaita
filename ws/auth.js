@@ -6,7 +6,7 @@ exports.getContextBySessionId = function(s, callback) {
     in0: s
   }
   service.operation(config.authwdsl(), 'getContextBySessionId', args, function(err, result) {
-    if(err) { console.log(err); callback(true); return; }
+    if(err) { console.log(err); callback(err); return; }
     callback(null, result);
   });
 }

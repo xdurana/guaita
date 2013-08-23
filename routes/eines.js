@@ -21,7 +21,7 @@ exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + eventId + "/eines?s=" + s,
 	  method: "GET"
 	}, function (error, response, body) {
-		if (error) { console.log(err); callback(true); return; }
+		if (error) { console.log(err); callback(err); return; }
 		if (response.statusCode == '200') {
 			var object = JSON.parse(body);
 			struct.eines = object.tools;
@@ -54,7 +54,7 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/eines?s=" + s,
 	  method: "GET"
 	}, function (error, response, body) {
-		if (error) { console.log(err); callback(true); return; }
+		if (error) { console.log(err); callback(err); return; }
 		if (response.statusCode == '200') {
 			var object = JSON.parse(body);
 			struct.eines = object.tools;
@@ -95,7 +95,7 @@ exports.phpBB3 = function(domainId, forumId, callback) {
 	  url: "http://cv-test.uoc.edu/app/phpBB3/service.php?domainId=" + domainId + "&forumId=" + forumId + "&type=SEGUIMENT",
 	  method: "GET"
 	}, function (error, response, body) {
-		if (error) { console.log(err); callback(true); return; }
+		if (error) { console.log(err); callback(err); return; }
 		if (response.statusCode == '200') {
 			var object = JSON.parse(body);
 			struct.pendents = object.totalPendingUsersByClassroom;

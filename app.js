@@ -84,7 +84,27 @@ app.get('/assignatures/:domainId/aules', function (req, res, callback) {
 			}
 		});
 	} else {
-		callback('manquen algun dels parametres de la crida [s, tab]');
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
+/**
+ * Pàgina d'una aula
+ * @mockup: aulas_individual.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula', function (req, res, callback) {
+	if (req.query.s) {
+		return aules.one(req.query.s, req.params.domainId, req.params.domainIdAula, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('aula.html', { object: result });
+			}
+		});
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
 	}
 });
 

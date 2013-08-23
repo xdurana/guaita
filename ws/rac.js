@@ -7,7 +7,7 @@ exports.getAssignaturesByResponsableAny = function(idp, anyAcademic, callback) {
 		in1: anyAcademic
 	}
 	service.operation(config.racwsdl(), 'getAssignaturesByResponsableAny', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -20,7 +20,7 @@ exports.getAssignaturesRelacionades = function(rol, codAssignatura, anyAcademic,
 		in3: idioma
 	}
 	service.operation(config.racwsdl(), 'getAssignaturesRelacionades', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -32,7 +32,7 @@ exports.getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, ca
 		in2: numAula
 	}
 	service.operation(config.racwsdl(), 'getEstudiantsByAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -45,7 +45,7 @@ exports.getActivitatsByEstudiantAula = function(anyAcademic, codAssignatura, num
 		in3: numAula
 	}
 	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -60,7 +60,7 @@ exports.getActivitatsByEstudiantAulaOrdre = function(anyAcademic, codAssignatura
 	}
 
 	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAulaOrdre', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -76,7 +76,7 @@ exports.calcularIndicadorsAula = function(tipusIndicador, codAssignatura, anyAca
 		in6: comptarRelacions
 	}
 	service.operation(config.racwsdl(), 'calcularIndicadorsAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});		
 }
@@ -89,7 +89,7 @@ exports.getNumEstudiantsQualificatsByActivitat = function(anyAcademic, codAssign
 		in3: ordre
 	}
 	service.operation(config.racwsdl(), 'getNumEstudiantsQualificatsByActivitat', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -101,7 +101,7 @@ exports.getUltimaActivitatAmbNotaByAula = function(anyAcademic, codAssignatura, 
 		in2: numAula
 	}
 	service.operation(config.racwsdl(), 'getUltimaActivitatAmbNotaByAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -113,7 +113,7 @@ exports.getActivitatsByAula = function(anyAcademic, codAssignatura, numAula, cal
 		in2: numAula
 	}
 	service.operation(config.racwsdl(), 'getActivitatsByAula', args, function(err, result) {		
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		return(null, result);
 	});
 }
@@ -127,7 +127,7 @@ exports.calcularIndicadorsAssignatura = function(tipusIndicador, anyAcademic, co
 		in4: comptarRelacions
 	}
 	service.operation(config.racwsdl(), 'calcularIndicadorsAssignatura', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -139,7 +139,7 @@ exports.getAula = function(codAssignatura, anyAcademic, numAula, callback) {
 		in2: numAula
 	}
 	service.operation(config.racwsdl(), 'getAula', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -152,7 +152,7 @@ exports.getActivitat = function(codAssignatura, anyAcademic, numAula, ordre, cal
 		in3: ordre
 	}
 	service.operation(config.racwsdl(), 'getActivitat', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }

@@ -9,7 +9,7 @@ exports.getAssignaturesRelacionades = function(rol, anyAcademic, codAssignatura,
 		in3: idioma
 	}
 	service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesRelacionades', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }
@@ -20,7 +20,7 @@ exports.getAssignaturesByResponsableAny = function(idp, anyAcademic, callback) {
 		in1: anyAcademic
 	}
 	service.operation(config.dadesacademiqueswsdl(), 'getAssignaturesByResponsableAny', args, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, result);
 	});
 }

@@ -21,26 +21,26 @@ exports.all = function(codAssignatura, anyAcademic, codAula, callback) {
 	async.series([
 		function(callback) {
 			rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-				if(err) { console.log(err); callback(true); return; }
+				if(err) { console.log(err); callback(err); return; }
 				struct.estudiants = result.out.EstudiantAulaVO;
 				callback();
 			});
 		},
 	  function(callback) {
 	  	async.each(struct.estudiants, getIndicadorsActivitat, function (err) {
-	  		if(err) { console.log(err); callback(true); return; }
+	  		if(err) { console.log(err); callback(err); return; }
 				callback();
 			});
 	  }
 	], function(err, results) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, struct);
 	});
 
 	var getIndicadorsActivitat = function(estudiant, callback) {
 		var ordre = '2';
 		rac.getActivitatsByEstudiantAulaOrdre(struct.anyAcademic, struct.codAssignatura, struct.codAula, ordre, estudiant.numExpedient[0], function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			estudiant.darreraNota = result.out.codQualificacio;
 			callback();
 		});
@@ -61,7 +61,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, numExpedient, callb
 	}
 
 	rac.getActivitatsByEstudiantAula(anyAcademic, codAssignatura, codAula, numExpedient, function(err, result) {
-		if(err) { console.log(err); return; }
+		if(err) { console.log(err); callback(err); return; }
 		struct.estudiant.activitats = result.out;
 		callback(null, struct);
 	});

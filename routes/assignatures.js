@@ -20,7 +20,7 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 			    return (assignatura.anyAcademic === anyAcademic);
 			});
 			async.each(object.subjects, resumAssignatura, function(err) {
-				if(err) { console.log(err); callback(true); return; }
+				if(err) { console.log(err); callback(err); return; }
 				callback(null, object);
 			});
 		} else {
@@ -55,7 +55,7 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 		async.parallel([
 			function (callback) {
 				rac.calcularIndicadorsAssignatura('RAC_PRA_2', subject.anyAcademic, subject.codi, '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(true); return; }
+					if(err) { console.log(err); callback(err); return; }
 					subject.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
 					subject.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
 					callback(null);
@@ -63,14 +63,14 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 			},
 			function (callback) {
 				rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', subject.anyAcademic, subject.codi, '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(true); return; }
+					if(err) { console.log(err); callback(err); return; }
 					subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 					subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 					callback(null);
 				});
 			}
 		], function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			callback(null, result);
 		});
 	}

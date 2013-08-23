@@ -21,7 +21,7 @@ var getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s,
 	  method: "GET"
 	}, function (error, response, body) {
-		if (error) { console.log(err); callback(true); return; }
+		if (error) { console.log(err); callback(err); return; }
 		if (response.statusCode == '200') {
 			var object = JSON.parse(body);
 			struct.activitats = object.activities;
@@ -46,13 +46,13 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 	domainIdAula = '382785';
 
 	getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		result.activitats.forEach(function(activitat) {
 			activitat.nom = activitat.name;
 			activitat.resum = {
 			}
 			getResumComunicacio(domainId, domainIdAula, activitat.domainId, s, function(err, struct) {
-				if(err) { console.log(err); callback(true); return; }
+				if(err) { console.log(err); callback(err); return; }
 				activitat.resum.comunicacio = struct;
 			});
 		});
@@ -97,7 +97,7 @@ exports.avaluacio = function(domainId, domainIdAula, s, callback) {
 	var codAula = '1';
 
 	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		struct.activitats = result.out.ActivitatVO;
 		async.each(struct.aula.activitats, getIndicadorsActivitat, function(err) {
 			if(err) { console.log(err); return; }
@@ -128,7 +128,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 	async.parallel([
 		function (callback) {
 	    	rac.getActivitat(codAssignatura, anyAcademic, codAula, ordre, function(err, result) {
-	    		if(err) { console.log(err); callback(true); return; }
+	    		if(err) { console.log(err); callback(err); return; }
 				struct.activitat.campusId = result.out.campusId;
 				struct.activitat.dataLliurament = result.out.dataLliurament;
 				struct.activitat.dataPublicacio = result.out.dataPublicacio;
@@ -142,14 +142,14 @@ exports.one = function(codAssignatura, anyAcademic, codAula, ordre, callback) {
 			var comptarRelacions = '0';
 
 			rac.calcularIndicadorsAula(tipusIndicador, codAssignatura, anyAcademic, codAula, ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-				if(err) { console.log(err); callback(true); return; }
+				if(err) { console.log(err); callback(err); return; }
 				struct.avaluacio.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 				struct.avaluacio.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 				callback();
 			});
 		}
 	], function(err, results) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		callback(null, struct);
 	});
 }

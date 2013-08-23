@@ -39,9 +39,9 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 	}
 
 	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		async.each(result.out.AulaVO, resumAula, function(err) {
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
 	});
@@ -84,29 +84,31 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 
 		async.parallel([
 			function (callback) {
-				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, '1', '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(true); return; }
+				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
+					if(err) { console.log(err); callback(err); return; }
 					aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
 					aula.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
 					callback(null);
 				});
 			},
 			function (callback) {
-				rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, aula.codAula, '1', '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(true); return; }
+				rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
+					if(err) { console.log(err); callback(err); return; }
 					aula.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 					aula.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 					callback(null);
 				});
 			}
 		], function(err, result) {
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			callback(null, result);
 		});
 	}
 }
 
-
+exports.one = function(s, domainId, domainIdAula, callback) {
+	callback(null, {});
+}
 
 
 /*
@@ -130,19 +132,19 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 
 	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
 
-		if(err) { console.log(err); callback(true); return; }
+		if(err) { console.log(err); callback(err); return; }
 		struct.aula = result.out;
 
 		rac.getUltimaActivitatAmbNotaByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			struct.aula.ordre = result.out.ordre;
 
 			async.parallel([
 				
 				function (callback) {
 			    	rac.getActivitat(codAssignatura, anyAcademic, codAula, struct.aula.ordre, function(err, result) {
-			    		if(err) { console.log(err); callback(true); return; }
+			    		if(err) { console.log(err); callback(err); return; }
 						struct.activitat.campusId = result.out.campusId;
 						struct.activitat.dataLliurament = result.out.dataLliurament;
 						struct.activitat.dataPublicacio = result.out.dataPublicacio;
@@ -156,7 +158,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 					var comptarRelacions = '0';
 
 			    	rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, struct.aula.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-			    		if(err) { console.log(err); callback(true); return; }
+			    		if(err) { console.log(err); callback(err); return; }
 						struct.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
 						struct.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
 						struct.estudiants.primera_matricula = indicadors.getTotalEstudiantsPrimeraMatricula(result.out.ValorIndicadorVO);
@@ -170,14 +172,14 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 					var comptarRelacions = '0';
 
 			    	rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, struct.aula.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-			    		if(err) { console.log(err); callback(true); return; }
+			    		if(err) { console.log(err); callback(err); return; }
 						struct.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 						struct.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
 						callback();
 					});
 				}
 			], function(err, results) {
-				if(err) { console.log(err); callback(true); return; }
+				if(err) { console.log(err); callback(err); return; }
 				callback(null, struct);
 			});
 		});
@@ -188,7 +190,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 		async.parallel([
 			function(callback) {
 	    	getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
-	    		if(err) { console.log(err); callback(true); return; }
+	    		if(err) { console.log(err); callback(err); return; }
 					item.qualificats = result.out;
 	    	});
 			},
@@ -199,7 +201,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 				var comptarRelacions = '0';
 
 	    	rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-	    		if(err) { console.log(err); callback(true); return; }
+	    		if(err) { console.log(err); callback(err); return; }
 	    		item.indicadors = {};
 				item.indicadors.seguimentac = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
 				item.indicadors.superacioac = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
@@ -207,7 +209,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 
 			}
 		], function(err, results) {
-			if(err) { console.log(err); callback(true); return; }
+			if(err) { console.log(err); callback(err); return; }
 			callback();
 		});
 	}
