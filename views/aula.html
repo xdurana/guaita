@@ -38,7 +38,7 @@
                         <h3>
                             <span class="lbl-subject">{{ aula.codAssignatura }} {{ aula.nomAssignatura }}:</span>
                             <span class="lbl-aula">Aula {{ aula.codAula }} - </span>
-                            <span class="lbl-user">Susana Berol Villapla</span>
+                            <span class="lbl-user">{{ aula.consultor.nomComplert }}</span>
                         </h3>
                     </div>
                     
@@ -81,7 +81,7 @@
                                                     <span class="user-item">
                                                         <a href="#item_1_{{ estudiant.tercer[0].idp }}" class="lnk-expand" title="expandir"></a>
                                                         <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.tercer[0].idp }}">
-                                                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ estudiant.tercer[0].nom }} {{ estudiant.tercer[0].primerCognom }} {{ estudiant.tercer[0].segonCognom }}</a>
+                                                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
                                                 <td class="bd">{{ estudiant.resum.comunicacio.clicsAcumulats }}</td>
@@ -127,7 +127,7 @@
                                                     <span class="user-item">
                                                         <a href="#item_2_{{ estudiant.tercer[0].idp }}" class="lnk-expand" title="expandir"></a>
                                                         <input type="checkbox" class="check-user" name="check_users_2[]" value="{{ estudiant.tercer[0].idp }}">
-                                                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ estudiant.tercer[0].nom }} {{ estudiant.tercer[0].primerCognom }} {{ estudiant.tercer[0].segonCognom }}</a>
+                                                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
                                                 <td class="bd">{{ estudiant.resum.comunicacio.clicsAcumulats }}</td>

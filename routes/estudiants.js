@@ -22,6 +22,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 	});
 
 	var getResumEstudiant = function(estudiant, callback) {
+		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
 		estudiant.resum = {
 			comunicacio: {
 				clicsAcumulats: 0,

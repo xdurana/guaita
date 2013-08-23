@@ -4,6 +4,7 @@ var config = require('../config');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var estudiants = require('./estudiants');
+var consultors = require('./consultors');
 
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
@@ -116,18 +117,34 @@ exports.one = function(s, domainId, domainIdAula, callback) {
 
 	var struct = {
 		anyAcademic: anyAcademic,
-		codAssigntura: codAssignatura,
+		codAssignatura: codAssignatura,
 		nomAssignatura: nomAssignatura,
 		codAula: codAula,
 		domainId: domainId,
 		domainIdAula: domainIdAula,
+		consultor: {
+		},
 		estudiants: [
 		]
 	}
 
-	estudiants.all(anyAcademic, codAssignatura, codAula, function(err, result) {
+	async.parallel([
+		function (callback) {
+			estudiants.all(anyAcademic, codAssignatura, codAula, function(err, result) {
+				if(err) { console.log(err); callback(err); return; }
+				struct.estudiants = result;
+				callback(null, struct);
+			});
+		},
+		function (callback) {
+			consultors.aula(anyAcademic, codAssignatura, codAula, function(err, result) {
+				if(err) { console.log(err); callback(err); return; }
+				struct.consultor = result;
+				callback(null, struct);
+			});
+		},
+	], function(err, results) {
 		if(err) { console.log(err); callback(err); return; }
-		struct.estudiants = result;
 		callback(null, struct);
 	});
 }

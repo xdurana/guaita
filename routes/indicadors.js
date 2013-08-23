@@ -1,3 +1,15 @@
+exports.getNomComplert = function(tercer) {
+	var complert = '';
+	complert = tercer[0].nom[0] + ' ' + tercer[0].primerCognom[0];
+	if (typeof tercer[0].segonCognom[0] == 'string') {
+		complert += ' ' + tercer[0].segonCognom[0];
+	}
+	if (typeof tercer[0].tercerCognom == 'string') {
+		complert += ' ' + tercer[0].tercerCognom[0];
+	}
+	return complert;
+}
+
 exports.getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }

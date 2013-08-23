@@ -18,6 +18,7 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 	}
 
 	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
+		if (err) return callback(err);
 		async.each(result.out.AulaVO, getConsultantStats, function(err) {
 			if (err) return callback(err);
 		});
@@ -31,4 +32,13 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 			codAula: item.codAula[0]
 		});
 	}
+}
+
+exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
+	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
+		if (err) return callback(err);
+		var consultor = result.out.consultors[0].ConsultorAulaVO[0];
+		consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
+		callback(null, consultor);
+	});
 }
