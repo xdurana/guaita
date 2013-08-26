@@ -348,7 +348,13 @@ var UOCAulas = (function($) {
 
         $(acc).find('.tools-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/herramientas_aula.html', false);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var idpEstudiant = $(block).attr('data-guaita-idp');
+            var s = $(block).attr('data-guaita-s');
+            var URLEinesAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/eines?s=' + s;
+            getTable(this, URLEinesAula, false);
         });
     };
 
@@ -361,10 +367,18 @@ var UOCAulas = (function($) {
                 var domainId = $(block).attr('data-guaita-domainId');
                 var domainIdAula = $(block).attr('data-guaita-domainIdAula');
                 var eventId = $(block).attr('data-guaita-eventId');
+                var s = $(block).attr('data-guaita-s');
                 var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + eventId + '/eines?s=' + s;
                 getTable(this, URLActivitatsEstudiants, false);
             } else {
-                getTable(this, UOCAulas.baseURL + 'ajax/actividad_consultores.html', false);
+                var block = $(this).closest('.acc');
+                var domainId = $(block).attr('data-guaita-domainId');
+                var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+                var eventId = $(block).attr('data-guaita-eventId');
+                var idpEstudiant = $(block).attr('data-guaita-idp');
+                var s = $(block).attr('data-guaita-s');
+                var URLActivitatEstudiant = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/activitats/' + eventId + '/eines?s=' + s;
+                getTable(this, URLActivitatEstudiant, false);
             }
         });
     };

@@ -209,6 +209,46 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats'
 	}
 });
 
+/**
+ * Activity tools for a student
+ * @mockup: actividades_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res) {
+	if (req.query.s) {
+		return eines.activitatEstudiant(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.params.idp, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('eines-activitat-estudiant.html', { activitat: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
+/**
+ * Classroom tools for a student
+ * @mockup: actividades_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res) {
+	if (req.query.s) {
+		return eines.aulaEstudiant(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('eines-aula-estudiant.html', { aula: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
+
 /*
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
 	return aules.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {

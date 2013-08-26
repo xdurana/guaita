@@ -121,7 +121,7 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                        <tbody class="acc tools-aula-acc">
+                                        <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.tercer[0].idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
