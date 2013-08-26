@@ -7,28 +7,20 @@ var indicadors = require('./indicadors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
-var auth = require('../ws/auth');
+var aulaca = require('../ws/aulaca');
 
 exports.byidp = function(s, idp, anyAcademic, callback) {
 
-	var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + idp + "&s=" + s;
+    var struct = {
+        s: s,
+        idp: idp,
+        anyAcademic: anyAcademic,
+        assignatures: [
+        ]
+    };
 
-	request(url, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			var object = JSON.parse(body);			
-			object.subjects = object.subjects.filter(function(assignatura) {
-			    return (assignatura.anyAcademic === anyAcademic);
-			});
-			async.each(object.subjects, resumAssignatura, function(err) {
-				if(err) { console.log(err); callback(err); return; }
-				callback(null, object);
-			});
-		} else {
-			callback('error al carregar assignatures del idp');
-		}
-	});
-
-	var resumAssignatura = function(subject, callback) {
+    //TODO
+	var getResum = function(subject, callback) {
 
 		subject.s = s;
 		subject.domainId = '382785';
@@ -74,4 +66,13 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 			callback(null, result);
 		});
 	}
+
+	aulaca.getAssignaturesPerIdp(s, idp, anyAcademic, function(err, result) {
+		if(err) { console.log(err); callback(err); return; }
+		struct.assignatures = result;
+		async.each(struct.assignatures, getResum, function(err) {
+			if(err) { console.log(err); callback(err); return; }
+			callback(null, struct);
+		});
+	});
 }

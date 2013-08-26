@@ -119,6 +119,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
 			if (req.query.format) {
 				res.json(result);
 			} else {
+				console.log(req.query.s);
 				result.s = req.query.s;
 				res.render('activitats-estudiants.html', { aula: result });
 			}
@@ -188,6 +189,25 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, 
 	}
 });
 
+/**
+ * Classroom activities
+ * @mockup: actividades_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res) {
+	if (req.query.s) {
+		return activitats.estudiant(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+			if (err) callback(err);
+			if (req.query.format) {
+				res.json(result);
+			} else {
+				result.s = req.query.s;
+				res.render('activitats-aula.html', { aula: result });
+			}
+		})
+	} else {
+		callback('manquen algun dels parametres de la crida [s]');
+	}
+});
 
 /*
 app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {

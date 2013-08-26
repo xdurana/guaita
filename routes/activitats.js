@@ -1,4 +1,5 @@
 var async = require('async');
+var request = require('request');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -6,63 +7,104 @@ var indicadors = require('./indicadors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
+var aulaca = require('../ws/aulaca');
 
-var getActivitatsAula = function(domainId, domainIdAula, s, callback) {
-
-	var request = require("request");
-	var struct = {
-		domainId: domainId,
-		domainIdAula: domainIdAula,
-		activitats: [
-		]
-	};
-
-	request({
-	  url: "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s,
-	  method: "GET"
-	}, function (error, response, body) {
-		if (error) { console.log(err); callback(err); return; }
-		if (response.statusCode == '200') {
-			var object = JSON.parse(body);
-			struct.activitats = object.activities;
-		}
-		callback(null, struct);
-	});	
-}
-
-var getResumComunicacio = function(domainId, domainIdAula, eventId, s, callback) {
-	var comunicacio = {
-		clicsAcumulats: 0,
-		lecturesPendentsAcumulades: 0,
-		lecturesPendents: 0,
-		participacions: 0
-	}
-	callback(null, comunicacio);
-}
-
+/**
+ * Activitats d'una aula
+ * @param domainId
+ * @param domainIdAula
+ * @param s
+ */
 exports.aula = function(domainId, domainIdAula, s, callback) {
 
 	domainId = '382784';
 	domainIdAula = '382785';
 
-	getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
-		result.activitats.forEach(function(activitat) {
-			activitat.nom = activitat.name;
-			activitat.resum = {
+	var struct = {
+		s: s,
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		activitats: [
+		]
+	}
+
+	//TODO
+	var getResumComunicacio = function(activitat, callback) {
+		activitat.nom = activitat.name;
+		activitat.resum = {
+			comunicacio: {
+				clicsAcumulats: 0,
+				lecturesPendentsAcumulades: 0,
+				lecturesPendents: 0,
+				participacions: 0
 			}
-			getResumComunicacio(domainId, domainIdAula, activitat.domainId, s, function(err, struct) {
-				if(err) { console.log(err); callback(err); return; }
-				activitat.resum.comunicacio = struct;
-			});
+		}
+		callback(null, activitat);
+	}
+
+	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+		if(err) { console.log(err); callback(err); return; }
+		struct.activitats = result;
+		async.each(struct.activitats, getResumComunicacio, function(err) {
+			if(err) { console.log(err); callback(err); return; }
+			callback(null, struct);
 		});
-		callback(null, result);
 	});
 }
 
+/**
+ * Activitats d'un estudiant
+ * @param domainId
+ * @param domainIdAula
+ * @param idp
+ */
+exports.estudiant = function(domainId, domainIdAula, idp, s, callback) {
+
+	domainId = '382784';
+	domainIdAula = '382785';
+
+	var struct = {
+		s: s,
+		domainId: domainId,
+		domainIdAula: domainIdAula,
+		idp: idp,
+		activitats: [
+		]
+	}
+
+	//TODO
+	var getResumComunicacioActivitatEstudiant = function(activitat, callback) {
+		activitat.nom = activitat.name;
+		activitat.resum = {
+			comunicacio: {
+				clicsAcumulats: 0,
+				lecturesPendents: 0,
+				participacions: 0,
+				ultimaConnexio: '01/01/2014'
+			}
+		}
+		callback(null, activitat);
+	}
+
+	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+		if(err) { console.log(err); callback(err); return; }
+		struct.activitats = result;
+		async.each(struct.activitats, getResumComunicacioActivitatEstudiant, function(err) {
+			if(err) { console.log(err); callback(err); return; }
+			callback(null, struct);
+		});
+	});
+}
+
+/**
+ * Indicadors d'avaluació d'una aula
+ * @param domainId
+ * @param domainIdAula
+ */
 exports.avaluacio = function(domainId, domainIdAula, s, callback) {
 
 	var struct = {
+		s: s,
 		domainId: domainId,
 		domainIdAula: domainIdAula,
 		activitats: [

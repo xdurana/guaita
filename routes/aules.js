@@ -113,9 +113,10 @@ exports.one = function(s, domainId, domainIdAula, callback) {
 	var anyAcademic = '20122';
 	var codAssignatura = '05.002';
 	var codAula = '1';
-	var nomAssignatura = 'Dret financer i tributari I';
+	var nomAssignatura = 'Bases de dades I';
 
 	var struct = {
+		s: s,
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
 		nomAssignatura: nomAssignatura,

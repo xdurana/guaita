@@ -340,7 +340,9 @@ var UOCAulas = (function($) {
             var block = $(this).closest('.acc');
             var domainId = $(block).attr('data-guaita-domainId');
             var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URLActivitatsAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats?s=' + s;
+            var idpEstudiant = $(block).attr('data-guaita-idp');
+            var s = $(block).attr('data-guaita-s');
+            var URLActivitatsAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/activitats?s=' + s;
             getTable(this, URLActivitatsAula, true);
         });
 

@@ -6,55 +6,23 @@
         <col style="width:18%">
         <col style="width:18%">
     </colgroup>
-    <tbody class="acc activ-acc">
+    {% for activitat in aula.activitats %}
+    <tbody class="acc activ-acc" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-eventId="{{ activitat.eventId }}">
         <tr>
             <td>
                 <span class="activ-item">
-                    <a href="#activ_consultor_1" class="lnk-expand" title="expandir"></a>
-                    <span class="lbl">Actividad 1</span>
+                    <a href="#activ_consultor_{{ activitat.eventId }}" class="lnk-expand" title="expandir"></a>
+                    <span class="lbl">{{ activitat.nom }}</span>
                 </span>
             </td>
-            <td class="bd">136</td>
-            <td class="bd-open">11</td>
-            <td class="bd-open">24</td>
-            <td class="bd-open"></td>
+            <td class="bd">{{ activitat.resum.comunicacio.clicsAcumulats }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.lecturesPendents }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.participacions }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.ultimaConnexio }}</td>
         </tr>
         <tr class="tr-wrap">
-            <td colspan="5" class="td-wrap"><div class="acc-content" id="activ_consultor_1"></div></td>
+            <td colspan="5" class="td-wrap"><div class="acc-content" id="activ_consultor_{{ activitat.eventId }}"></div></td>
         </tr>
     </tbody>
-    <tbody class="acc activ-acc">
-        <tr>
-            <td>
-                <span class="activ-item">
-                    <a href="#activ_consultor_2" class="lnk-expand" title="expandir"></a>
-                    <span class="lbl">Actividad 2</span>
-                </span>
-            </td>
-            <td class="bd">136</td>
-            <td class="bd-open">11</td>
-            <td class="bd-open">24</td>
-            <td class="bd-open"></td>
-        </tr>
-        <tr class="tr-wrap">
-            <td colspan="5" class="td-wrap"><div class="acc-content" id="activ_consultor_2"></div></td>
-        </tr>
-    </tbody>
-    <tbody class="acc activ-acc">
-        <tr>
-            <td>
-                <span class="activ-item">
-                    <a href="#activ_consultor_3" class="lnk-expand" title="expandir"></a>
-                    <span class="lbl">Act 3 Lorem ipsum dolor sit amet sigma...</span>
-                </span>
-            </td>
-            <td class="bd">136</td>
-            <td class="bd-open">11</td>
-            <td class="bd-open">24</td>
-            <td class="bd-open"></td>
-        </tr>
-        <tr class="tr-wrap">
-            <td colspan="5" class="td-wrap"><div class="acc-content" id="activ_consultor_3"></div></td>
-        </tr>
-    </tbody>
+    {% endfor %}
 </table>
