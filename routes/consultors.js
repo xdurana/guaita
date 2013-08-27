@@ -42,3 +42,16 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
 		callback(null, consultor);
 	});
 }
+
+exports.getResumEines = function(aula, callback) {
+	//TODO
+	aula.consultor.resum = {
+		comunicacio: {
+			clicsAcumulats: 0,
+			lecturesPendentsAcumulades: 0,
+			participacions: 0,
+			ultimaConnexio: '01/01/2014'
+		}		
+	}
+	callback(null);
+}

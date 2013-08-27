@@ -90,9 +90,12 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 					if(err) { console.log(err); callback(err); return; }
 					aula.consultor = result.out.consultors[0].ConsultorAulaVO[0];
 					aula.consultor.nomComplert = indicadors.getNomComplert(aula.consultor.tercer);
-					callback(null);
+					consultors.getResumEines(aula, function(err, result) {
+						if(err) { console.log(err); callback(err); return; }
+						callback(null);
+					});
 				});
-			},			
+			},
 			function (callback) {
 				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
 					if(err) { console.log(err); callback(err); return; }

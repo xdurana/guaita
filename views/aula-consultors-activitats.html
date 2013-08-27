@@ -42,10 +42,10 @@
                         <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
                     </span>
                 </td>
-                <td class="bd">-</td>
-                <td class="bd-open">-</td>
-                <td class="bd-open">-</td>
-                <td class="bd-open">-/-/-</td>
+                <td class="bd">{{ aula.consultor.resum.comunicacio.clicsAcumulats }}</td>
+                <td class="bd-open">{{ aula.consultor.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                <td class="bd-open">{{ aula.consultor.resum.comunicacio.participacions }}</td>
+                <td class="bd-open">{{ aula.consultor.resum.comunicacio.ultimaConnexio }}</td>
             </tr>
             <tr class="tr-wrap">
                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_4_{{ aula.codAula }}"></div></td>
