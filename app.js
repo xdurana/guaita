@@ -59,6 +59,7 @@ app.get('/assignatures', function (req, res, callback) {
 				res.json(result);
 			} else {
 				result.s = req.query.s;
+				result.idp = req.query.idp;
 				res.render('pra.html', { object: result });
 			}
 		});
@@ -100,6 +101,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula', function (req, res, callb
 				res.json(result);
 			} else {
 				result.s = req.query.s;
+				result.idp = 
 				res.render('aula.html', { aula: result });
 			}
 		});

@@ -32,14 +32,14 @@
                 <td>-</td>
             </tr>
         </tbody>
-        {% for consultor in object.consultors %}
+        {% for aula in assignatura.aules %}
         <tbody class="acc activ-consultor-acc">
             <tr>
                 <td>
                     <span class="user-item">
                         <a href="#item_4_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
                         <input type="checkbox" class="check-user" name="check_users_4[]" value="1">
-                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ consultor.nom }} - A{{ aula.codAula }}</a>
+                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
                     </span>
                 </td>
                 <td class="bd">-</td>

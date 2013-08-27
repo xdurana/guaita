@@ -86,6 +86,14 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 
 		async.parallel([
 			function (callback) {
+				rac.getAula(codAssignatura, anyAcademic, aula.codAula, function(err, result) {
+					if(err) { console.log(err); callback(err); return; }
+					aula.consultor = result.out.consultors[0].ConsultorAulaVO[0];
+					aula.consultor.nomComplert = indicadors.getNomComplert(aula.consultor.tercer);
+					callback(null);
+				});
+			},			
+			function (callback) {
 				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
 					if(err) { console.log(err); callback(err); return; }
 					aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
