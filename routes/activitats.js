@@ -115,7 +115,7 @@ exports.avaluacio = function(domainId, domainIdAula, s, callback) {
 					avaluacio: {
 						seguiment: '0/0 0,00%',
 						superacio: '0/0 0,00%',
-						dataEntrega: '01/01/2014'
+						dataLliurament: '01/01/2014'
 					}
 				}
 			},
@@ -126,7 +126,7 @@ exports.avaluacio = function(domainId, domainIdAula, s, callback) {
 					avaluacio: {
 						seguiment: '0/0 0,00%',
 						superacio: '0/0 0,00%',
-						dataEntrega: '01/01/2014'
+						dataLliurament: '01/01/2014'
 					}
 				}
 			}

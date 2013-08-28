@@ -35,7 +35,7 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 			avaluacio: {
 				seguiment: '0,00%',
 				superacio: '0,00%',
-				dataEntrega: '-'
+				dataLliurament: '-'
 			}
 		}
 	}
@@ -74,7 +74,7 @@ exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 				avaluacio: {
 					seguiment: '0,00%',
 					superacio: '0,00%',
-					dataEntrega: '-'
+					dataLliurament: '-'
 				}
 			}
 		};
