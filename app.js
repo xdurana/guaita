@@ -56,7 +56,6 @@ app.use(function(err, req, res, next) {
 		url: req.url,
 		error: err 
 	});
-	next();
 });
 
 process.on('uncaughtException', function (err) {
