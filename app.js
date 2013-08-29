@@ -31,21 +31,37 @@ swig.init({
 });
 
 app.use(express.favicon());
-app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(app.router);
 
-app.use(function(err, req, res, next) {
-	res.status(500);
-	res.json({ error: err });
+app.use(function(req, res, next) {
+	res.json({
+		status: 404,
+		url: req.url
+	});
 });
 
-if ('development' == app.get('env')) {
-	app.use(express.errorHandler());
-}
+app.use(function(err, req, res, next) {
+	console.error(err.stack);
+	next(err);
+});
+
+app.use(function(err, req, res, next) {
+	res.status(500);
+	res.json({
+		status: 500,
+		url: req.url,
+		error: err 
+	});
+	next();
+});
+
+process.on('uncaughtException', function (err) {
+	console.log('Caught exception: ' + err);
+});
 
 /**
  * IDP course list
