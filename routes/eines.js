@@ -114,7 +114,7 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 	});
 }
 
-exports.aulaEstudiant = function(domainId, domainIdAula, idp, s, callback) {
+exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 
 	var struct = {
 		domainId: domainId,
@@ -125,7 +125,7 @@ exports.aulaEstudiant = function(domainId, domainIdAula, idp, s, callback) {
 	};
 
 	//TODO
-	var getResumComunicacioEstudiant = function (eina, callback) {
+	var getResumComunicacioIdp = function (eina, callback) {
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
@@ -141,7 +141,7 @@ exports.aulaEstudiant = function(domainId, domainIdAula, idp, s, callback) {
 	aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
 		if (err) { console.log(err); callback(err); return; }
 		struct.eines = result;
-		async.each(struct.eines, getResumComunicacioEstudiant, function(err) {
+		async.each(struct.eines, getResumComunicacioIdp, function(err) {
 			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});

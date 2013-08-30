@@ -327,12 +327,22 @@ var UOCAulas = (function($) {
 
         $(acc).find('.activ-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/actividades_consultores.html', true);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var idpConsultor = $(block).attr('data-guaita-idp');
+            var URLActivitatsConsultors = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/consultors/' + idpConsultor + '/activitats?s=' + s;
+            getTable(this, URLActivitatsConsultors, true);
         });
 
         $(acc).find('.tools-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
-            getTable(this, UOCAulas.baseURL + 'ajax/herramientas_consultores.html', false);
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var idpConsultor = $(block).attr('data-guaita-idp');
+            var URLEinesConsultors = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/consultors/' + idpConsultor + '/activitats?s=' + s;
+            getTable(this, URLEinesConsultors, true);
         });
 
         $(acc).find('.activ-aula-acc .lnk-expand').on('click', function(ev) {

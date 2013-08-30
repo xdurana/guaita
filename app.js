@@ -207,12 +207,12 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, 
 });
 
 /**
- * Classroom activities
+ * Classroom activities per student
  * @mockup: actividades_aula.html
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res) {
 	if (req.query.s) {
-		return activitats.estudiant(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+		return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -227,8 +227,28 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats'
 });
 
 /**
+ * Classroom activities per consultant
+ * @mockup: actividades_consultores.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res) {
+    if (req.query.s) {
+        return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+            if (err) callback(err);
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('activitats-consultors.html', { aula: result });
+            }
+        })
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
+});
+
+/**
  * Activity tools for a student
- * @mockup: actividades_aula.html
+ * @mockup: herramientas_estudiantes.html
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res) {
 	if (req.query.s) {
@@ -252,7 +272,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res) {
 	if (req.query.s) {
-		return eines.aulaEstudiant(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -264,6 +284,26 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', fun
 	} else {
 		callback('manquen algun dels parametres de la crida [s]');
 	}
+});
+
+/**
+ * Classroom tools for a consultant
+ * @mockup: herramientas_consultores.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res) {
+    if (req.query.s) {
+        return eines.aulaìdp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+            if (err) callback(err);
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('eines-aula-consultor.html', { aula: result });
+            }
+        })
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
 });
 
 /*

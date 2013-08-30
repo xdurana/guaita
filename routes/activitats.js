@@ -53,12 +53,12 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 }
 
 /**
- * Activitats d'un estudiant
+ * Activitats d'un idp
  * @param domainId
  * @param domainIdAula
  * @param idp
  */
-exports.estudiant = function(domainId, domainIdAula, idp, s, callback) {
+exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 
 	domainId = '382784';
 	domainIdAula = '382785';
@@ -73,7 +73,7 @@ exports.estudiant = function(domainId, domainIdAula, idp, s, callback) {
 	}
 
 	//TODO
-	var getResumComunicacioActivitatEstudiant = function(activitat, callback) {
+	var getResumComunicacioActivitatIdp = function(activitat, callback) {
 		activitat.nom = activitat.name;
 		activitat.resum = {
 			comunicacio: {
@@ -89,7 +89,7 @@ exports.estudiant = function(domainId, domainIdAula, idp, s, callback) {
 	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
 		if(err) { console.log(err); callback(err); return; }
 		struct.activitats = result;
-		async.each(struct.activitats, getResumComunicacioActivitatEstudiant, function(err) {
+		async.each(struct.activitats, getResumComunicacioActivitatIdp, function(err) {
 			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
