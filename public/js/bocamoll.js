@@ -2,7 +2,7 @@ function getActor() {
     var actor = $("meta[name=actor]");
     return {
         account: {
-            name: actor.attr('data-bocamoll-user-idp');
+            name: actor.attr('data-bocamoll-user-idp')
         }
     }
 }
@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     var tincan = new TinCan ({
         recordStores: [{
-            endpoint: "http://meta:3030/xapi/",
+            endpoint: "http://meta.uoc.es:3030/xapi/",
             username: "<Test User>",
             password: "<Test User's Password>"
         }]

@@ -1,5 +1,5 @@
 var config = require('../config');
-var service = require('../service');
+var service = require('./service');
 
 exports.getAssignaturesRelacionades = function(rol, anyAcademic, codAssignatura, idioma, callback) {
 	var args = {
