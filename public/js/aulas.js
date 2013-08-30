@@ -298,6 +298,17 @@ var UOCAulas = (function($) {
     var addSubjectEvents = function(acc){
         addTabsEvents(acc.find('.tabs'));
 
+        /*
+        $('.link-back').on('click', function(ev) {
+            $('.aula').remove();
+            $('.blocks').show();
+        });
+        */
+
+        $('.window-close').click(function(){
+            window.close();
+        });        
+
         $(acc).find('.activ-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
@@ -366,10 +377,43 @@ var UOCAulas = (function($) {
             var URLEinesAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/eines?s=' + s;
             getTable(this, URLEinesAula, false);
         });
+
+        /*
+        $(acc).find('.lnk-more').on('click', function(ev) {
+            ev.preventDefault();
+            var block = $(this).closest('.acc');
+            var domainId = $(block).attr('data-guaita-domainId');
+            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var URL = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '?s=' + s;
+            getAula(URL);
+        });
+        */
+
+        $('.lnk-more').click(function() {
+            $(this).attr('target', '_blank');
+        });
     };
+
+    /*
+    var getAula = function(url) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "html",
+        }).done(function(data){
+            $('.blocks').hide();
+            $('#content').append(data);
+        }).fail(function(jqXHR, status, error) {
+            //acc_content.html('<div class="error-row">' + status + ": " + error+'</div>');
+            //console.log('Error:' + status + " > " + error);
+        }).always(function() {
+        });
+    }
+    */
 
     /* Declaración de eventos tbl-aula */
     var addAulaEvents = function(acc){
+
         $(acc).find('.activ-item > .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             if (acc.hasClass('activ-student-acc')) {

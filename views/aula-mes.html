@@ -1,7 +1,3 @@
-{% extends 'layout.html' %}
-{% block title %}Aules: Pàgina d'aula{% endblock %}
-{% block content %}
-<!-- container -->
 <div id="container" class="aula">
 
     <ul id="accessibility" class="visuallyhidden">
@@ -23,7 +19,7 @@
         <div id="header">
 
             <div id="menu" class="nav clearfix">
-                <a href="#" class="window-close">‹ Tornar a la llista complerta d'aules</a>
+                <a href="#" class="link-back">‹ Tornar a la llista complerta d'aules</a>
             </div>
 
         </div><!-- /header -->
@@ -169,17 +165,9 @@
     <div id="footer" class="clearfix"></div>
     <div id="sombra-top"></div>
 
-</div><!-- /container -->
-
-<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="/js/jquery.ui.touch-punch.min.js"></script>
-<script type="text/javascript" src="/js/spin.min.js"></script>
-<script type="text/javascript" src="/js/helper.js"></script>
-<script type="text/javascript" src="/js/aulas.js"></script>
+</div>
 <script>
     $(document).ready(function() {
         UOCAulas.init('aula', '{{ session }}');
     });
 </script>
-{% endblock %}
