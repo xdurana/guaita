@@ -58,9 +58,11 @@ app.use(function(err, req, res, next) {
 	});
 });
 
+/*
 process.on('uncaughtException', function (err) {
 	console.log('Caught exception: ' + err);
 });
+*/
 
 /**
  * IDP course list
