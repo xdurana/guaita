@@ -3,6 +3,7 @@
   	"dadesacademiques": "http://sa-pre.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
   	"infoacademica": "http://sa-pre.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
   	"rac": "http://sa-pre.uoc.es/rac-ws/services/RacService?WSDL",
-  	"auth": "http://sa-pre.uoc.es/remoteinterface/services/AuthService?WSDL"
+  	"auth": "http://sa-pre.uoc.es/remoteinterface/services/AuthService?WSDL",
+    "aulaca": "http://cv-pre.uoc.edu/webapps/aulaca/classroom/"
   }
 }

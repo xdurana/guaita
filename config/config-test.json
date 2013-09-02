@@ -3,6 +3,7 @@
     "dadesacademiques": "http://sa-test.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL",
     "infoacademica": "http://sa-test.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
     "rac": "http://sa-test.uoc.es/rac-ws/services/RacService?WSDL",
-    "auth": "http://sa-test.uoc.es/remoteinterface/services/AuthService?WSDL"
+    "auth": "http://sa-test.uoc.es/remoteinterface/services/AuthService?WSDL",
+    "aulaca": "http://cv-test.uoc.edu/webapps/aulaca/classroom/"
   }
 }

@@ -1,8 +1,9 @@
+var config = require('../config');
 var request = require('request');
 
 exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 
-    var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s;
+    var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s;
     request({
       url: url,
       method: "GET"
@@ -18,7 +19,7 @@ exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 
 exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
 
-    var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures?idp=" + idp + "&s=" + s;
+    var url = config.aulaca() + "assignatures?idp=" + idp + "&s=" + s;
     request({
         url: url,
         method: "GET"
@@ -37,7 +38,7 @@ exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
 
 exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, callback) {
 
-    var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + eventId + "/eines?s=" + s;
+    var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + eventId + "/eines?s=" + s;
     request({
       url: url,
       method: "GET"
@@ -53,7 +54,7 @@ exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, call
 
 exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 
-    var url = "http://cv.uoc.edu/webapps/aulaca/classroom/assignatures/" + domainId + "/aules/" + domainIdAula + "/eines?s=" + s;
+    var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/eines?s=" + s;
     request({
       url: url,
       method: "GET"
