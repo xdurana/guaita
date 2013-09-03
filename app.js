@@ -2,7 +2,6 @@ var express = require('express');
 var http = require('http')
 var path = require('path');
 var request = require('request');
-var cons = require('consolidate');
 var swig = require('swig');
 
 var config = require('./config');
@@ -19,16 +18,10 @@ var app = express();
 
 app.set('port', config.port());
 
-app.engine('.html', cons.swig);
+app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-swig.init({
-    root: __dirname + '/views',
-	autoescape: true,
-	cache: true,
-	encoding: 'utf8',
-    allowErrors: true
-});
+app.set('view cache', false);
 
 app.use(express.favicon());
 app.use(express.bodyParser());
@@ -58,11 +51,14 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-/*
-process.on('uncaughtException', function (err) {
-	console.log('Caught exception: ' + err);
+/**
+ * Test
+ */
+app.get('/test', function (req, res, callback) {
+    res.json({
+        status: 'ok'
+    });
 });
-*/
 
 /**
  * IDP course list
@@ -131,7 +127,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula', function (req, res, callb
  * Classroom activities
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -152,7 +148,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
  * Eines per activitat
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -172,7 +168,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines',
  * Eines per aula
  * @mockup: herramientas_estudiantes.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.aula(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -192,7 +188,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res)
  * Avaluació per aula
  * @mockup: evaluacion_estudiantes.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.avaluacio(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -212,7 +208,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, 
  * Classroom activities per student
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -232,7 +228,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats'
  * Classroom activities per consultant
  * @mockup: actividades_consultores.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res, callback) {
     if (req.query.s) {
         return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if (err) callback(err);
@@ -252,7 +248,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats'
  * Activity tools for a student
  * @mockup: herramientas_estudiantes.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.activitatEstudiant(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.params.idp, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -272,7 +268,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/
  * Classroom tools for a student
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if (err) callback(err);
@@ -292,7 +288,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', fun
  * Classroom tools for a consultant
  * @mockup: herramientas_consultores.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res) {
+app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
         return eines.aulaìdp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if (err) callback(err);
@@ -307,61 +303,6 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', fun
         callback('manquen algun dels parametres de la crida [s]');
     }
 });
-
-/*
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula', function (req, res) {
-	return aules.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-		res.json(result);
-	});		
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/activitats/:ordre', function (req, res) {
-	return activitats.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.ordre, function (err, result) {
-		res.json(result);
-	});		
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/eines/:codEina', function (req, res) {
-	return eines.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.codEina, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants', function (req, res) {
-	return estudiants.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants/:numExpedient', function (req, res) {
-	return estudiants.one(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.numExpedient, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/aules/:codAula/estudiants/:numExpedient/connexions', function (req, res) {
-	return connexions.all(req.params.codAssignatura, req.params.anyAcademic, req.params.codAula, req.params.numExpedient, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/assignatures/:codAssignatura/:anyAcademic/consultors', function (req, res) {
-	return consultors.all(req.params.codAssignatura, req.params.anyAcademic, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/assignatures/phpBB3', function (req, res) {
-	return eines.phpBB3(req.query.domainId, req.query.forumId, function (err, result) {
-		res.json(result);
-	});
-});
-
-app.get('/', function(req, res) {
-	res.render('pra', { title: 'The index page!' })
-	//res.json({status: 'Express server listening on port ' + app.get('port') });
-});
-*/
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
