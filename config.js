@@ -32,3 +32,7 @@ exports.aulaca = function() {
 exports.lrs = function() {
     return nconf.get('wsdl:lrs');
 }
+
+exports.nc = function() {
+    return "(?)";
+}
