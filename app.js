@@ -86,10 +86,10 @@ app.get('/assignatures', function (req, res, callback) {
  * Course classroom list
  * @mockup: tabs_pra.html
  */
-app.get('/assignatures/:domainId/aules', function (req, res, callback) {
+app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
     if (req.query.s && req.query.idp) {
-        return aules.aulaca(req.params.domainId, req.query.idp, req.query.s, function (err, result) {
+        return aules.all(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.query.idp, req.query.s, function (err, result) {
             if (err) callback(err);
             if (req.query.format) {
                 res.json(result);
@@ -101,31 +101,15 @@ app.get('/assignatures/:domainId/aules', function (req, res, callback) {
     } else {
         callback('manquen algun dels parametres de la crida [s, idp]');
     }
-
-    /*
-	if (req.query.s) {
-		return aules.all(req.query.codAssignatura, req.query.anyAcademic, req.params.domainId, function (err, result) {
-			if (err) callback(err);
-			if (req.query.format) {
-				res.json(result);
-			} else {
-				result.s = req.query.s;
-				res.render('tabs_pra.html', { assignatura: result });
-			}
-		});
-	} else {
-		callback('manquen algun dels parametres de la crida [s]');
-	}
-    */
 });
 
 /**
  * Pàgina d'una aula
  * @mockup: aulas_individual.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula', function (req, res, callback) {
+app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
 	if (req.query.s) {
-		return aules.one(req.query.s, req.params.domainId, req.params.domainIdAula, function (err, result) {
+		return aules.one(req.params.anyAcademic, req.params.codAssignatura, req.params.codAula, req.query.s, req.params.domainId, req.params.domainIdAula, function (err, result) {
 			if (err) callback(err);
 			if (req.query.format) {
 				res.json(result);
@@ -151,7 +135,6 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
 			if (req.query.format) {
 				res.json(result);
 			} else {
-				console.log(req.query.s);
 				result.s = req.query.s;
 				res.render('activitats-estudiants.html', { aula: result });
 			}

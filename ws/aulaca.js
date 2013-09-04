@@ -4,7 +4,6 @@ var request = require('request');
 exports.getAulesAssignatura = function(domainId, idp, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules?s=" + s + "&idp=" + idp;
-    console.log(url);
     request({
       url: url,
       method: "GET"

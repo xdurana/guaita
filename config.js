@@ -36,3 +36,7 @@ exports.lrs = function() {
 exports.nc = function() {
     return "(?)";
 }
+
+exports.debug = function(msg) {
+    console.log(msg);
+}

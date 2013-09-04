@@ -26,10 +26,10 @@
         <tbody class="totals">
             <tr>
                 <td>Total:</td>
-                <td class="bd">-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
+                <td class="bd">{{ aula.resum.comunicacio.clicsAcumulats }}</td>
+                <td>{{ aula.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                <td>{{ aula.resum.comunicacio.participacions }}</td>
+                <td>{{ aula.resum.comunicacio.ultimaConnexio }}</td>
             </tr>
         </tbody>
         {% for aula in assignatura.aules %}

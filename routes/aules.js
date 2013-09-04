@@ -12,222 +12,100 @@ var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 var aulaca = require('../ws/aulaca');
 
-exports.aulaca = function(domainId, idp, s, callback) {
+var all = function(anyAcademic, codAssignatura, domainId, idp, s, callback) {
 
-    var indexAula = 1;
     var struct = {
+        s: s,
+        idp: idp,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
         domainId: domainId,
         aules: [
-        ],
-        resum: {
-            aules: {
-                total: config.nc()
-            },
-            estudiants: {
-                total: config.nc(),
-                repetidors: config.nc()
-            },
-            comunicacio: {
-                clicsAcumulats: config.nc(),
-                lecturesPendentsAcumulades: config.nc(),
-                lecturesPendents: config.nc(),
-                participacions: config.nc()
-            },
-            avaluacio: {
-                seguiment: config.nc(),
-                superacio: config.nc(),
-                dataLliurament: config.nc()
-            }
-        }
-    }
-
-    var resumAula = function(aulaca, callback) {
-
-        var aula = aulaca;
-        aula.codAula = indexAula;
-        indexAula += 1;
-        aula.codAssignatura = aulaca.codi;
-        aula.domainIdAula = aulaca.domainId;
-        aula.resum = {
-            estudiants: {
-                total: config.nc(),
-                repetidors: config.nc()
-            },
-            comunicacio: {
-                clicsAcumulats: config.nc(),
-                lecturesPendentsAcumulades: config.nc(),
-                lecturesPendents: config.nc(),
-                participacions: config.nc()
-            },
-            avaluacio: {
-                seguiment: config.nc(),
-                superacio: config.nc(),
-                dataLliurament: config.nc()
-            }
-        };
-
-        struct.aules.push(aula);
-
-        async.parallel([
-            function (callback) {
-                rac.getAula(aula.codAssignatura, aula.anyAcademic, aula.codAula, function(err, result) {
-                    if (err) { console.log(err); callback(); return; }
-                    aula.consultor = result.out.consultors[0].ConsultorAulaVO[0];
-                    aula.consultor.nomComplert = indicadors.getNomComplert(aula.consultor.tercer);
-                    consultors.getResumEines(aula, function(err, result) {
-                        if(err) { console.log(err); callback(); return; }
-                        callback();
-                    });
-                });
-            },
-            function (callback) {
-                rac.calcularIndicadorsAula('RAC_PRA_2', aula.codAssignatura, aula.anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-                    if(err) { console.log(err); callback(); return; }
-                    aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
-                    aula.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
-                    callback();
-                });
-            },
-            function (callback) {
-                rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', aula.codAssignatura, aula.anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-                    if(err) { console.log(err); callback(); return; }
-                    aula.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-                    aula.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-                    callback();
-                });
-            }
-        ], function(err, result) {
-            if(err) { console.log(err); callback(); return; }
-            callback();
-        });
+        ]
     }
 
     aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-        if(err) { console.log(err); callback(null, struct); return; }        
-        async.each(result, resumAula, function(err) {
+        if(err) { console.log(err); callback(null, struct); return; }      
+        async.each(result, getResum.bind('null', anyAcademic, codAssignatura, idp, s), function(err) {
             if(err) { console.log(err); }
-            callback(null, struct);
+            assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
+                if(err) { console.log(err); }
+                callback(null, struct);
+            });
         });
-    });    
+    });
+
+    var getResum = function(anyAcademic, codAssignatura, idp, s, classroom, callback) {
+        codAula = classroom.domainCode.slice(-1);
+        resum(s, idp, anyAcademic, codAssignatura, classroom, codAula, function(err, result) {
+            if (err) { console.log(err); }
+            struct.aules.push(classroom);
+            callback();
+        });
+    }
 }
 
-/*
-exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
+var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
 
-	var struct = {
-		anyAcademic: anyAcademic,
-		codAssignatura: codAssignatura,
-		domainId: domainId,
-		aules: [
-		],
-		resum: {
-			aules: {
-				total: 0
-			},
-			estudiants: {
-				total: 0,
-				repetidors: 0
-			},
-			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendentsAcumulades: 0,
-				lecturesPendents: 0,
-				participacions: 0
-			},
-			avaluacio: {
-				seguiment: '0,00%',
-				superacio: '0,00%',
-				dataLliurament: '-'
-			}
-		}
-	}
+    classroom.codAula = codAula;
+    classroom.codAssignatura = classroom.codi;
+    classroom.domainIdAula = classroom.domainId;
+    classroom.resum = {
+        estudiants: {
+            total: config.nc(),
+            repetidors: config.nc()
+        },
+        comunicacio: {
+            clicsAcumulats: config.nc(),
+            lecturesPendentsAcumulades: config.nc(),
+            lecturesPendents: config.nc(),
+            participacions: config.nc()
+        },
+        avaluacio: {
+            seguiment: config.nc(),
+            superacio: config.nc(),
+            dataLliurament: config.nc()
+        }
+    };
 
-	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
-		async.each(result.out.AulaVO, resumAula, function(err) {
-			if(err) { console.log(err); callback(err); return; }
-			callback(null, struct);
-		});
-	});
-
-
-	var resumAula = function(aulaVO, callback) {
-
-		var aula = {
-			codAula: aulaVO.codAula,
-			codAulaTFC: aulaVO.codAulaTFC,
-			codTFC: aulaVO.codTFC,
-			domainIdAula: '382784',
-			dataCreacio: aulaVO.dataCreacio,
-			dataModificacio: aulaVO.dataModificacio,
-			idpConsultor: aulaVO.idpConsultor,
-			indConsOficial: aulaVO.indConsOficial,
-			resum: {
-				estudiants: {
-					total: aulaVO.numPlacesAssignades[0],
-					repetidors: 0
-				},
-				comunicacio: {
-					clicsAcumulats: 0,
-					lecturesPendentsAcumulades: 0,
-					lecturesPendents: 0,
-					participacions: 0
-				},
-				avaluacio: {
-					seguiment: '0,00%',
-					superacio: '0,00%',
-					dataLliurament: '-'
-				}
-			}
-		};
-
-		struct.aules.push(aula);
-
-		struct.resum.aules.total += 1;
-		struct.resum.estudiants.total += parseInt(aulaVO.numPlacesAssignades[0]);
-
-		async.parallel([
-			function (callback) {
-				rac.getAula(codAssignatura, anyAcademic, aula.codAula, function(err, result) {
-					if(err) { console.log(err); callback(err); return; }
-					aula.consultor = result.out.consultors[0].ConsultorAulaVO[0];
-					aula.consultor.nomComplert = indicadors.getNomComplert(aula.consultor.tercer);
-					consultors.getResumEines(aula, function(err, result) {
-						if(err) { console.log(err); callback(err); return; }
-						callback(null);
-					});
-				});
-			},
-			function (callback) {
-				rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(err); return; }
-					aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
-					aula.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
-					callback(null);
-				});
-			},
-			function (callback) {
-				rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-					if(err) { console.log(err); callback(err); return; }
-					aula.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-					aula.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-					callback(null);
-				});
-			}
-		], function(err, result) {
-			if(err) { console.log(err); callback(err); return; }
-			callback(null, result);
-		});
-	}
+    async.parallel([
+        function (callback) {
+            rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                classroom.consultor = result.out.consultors[0].ConsultorAulaVO[0];
+                classroom.consultor.nomComplert = indicadors.getNomComplert(classroom.consultor.tercer);
+                consultors.getResumEines(classroom, function(err, result) {
+                    if(err) { console.log(err); callback(); return; }
+                    callback();
+                });
+            });
+        },
+        function (callback) {
+            rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
+                if(err) { console.log(err); callback(); return; }
+                classroom.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
+                classroom.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
+                callback();
+            });
+        },
+        function (callback) {
+            rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
+                if(err) { console.log(err); callback(); return; }
+                classroom.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+                classroom.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+                callback();
+            });
+        }
+    ], function(err, result) {
+        if(err) { console.log(err); callback(); return; }
+        callback();
+    });
 }
-*/
 
-exports.one = function(s, domainId, domainIdAula, callback) {
+var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAula, callback) {
 
-	var anyAcademic = '20122';
-	var codAssignatura = '05.002';
-	var codAula = '1';
-	var nomAssignatura = 'Bases de dades I';
+    //TODO
+	var nomAssignatura = 'Nom assignatura';
 
 	var struct = {
 		s: s,
@@ -370,3 +248,7 @@ exports.one = function(codAssignatura, anyAcademic, codAula, callback) {
 	*
 }
 */
+
+exports.all = all;
+exports.one = one;
+exports.resum = resum;

@@ -28,16 +28,16 @@ var byidp = function(s, idp, anyAcademic, callback) {
             callback(null, struct);
         });
     });
+
+    var getResum = function(s, idp, anyAcademic, subject, callback) {
+        resum(s, idp, anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
+            if (err) { console.log(err); }
+            callback();
+        });
+    }    
 }
 
-var getResum = function(s, idp, anyAcademic, subject, callback) {
-    one(s, idp, anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
-        if (err) { console.log(err); }
-        callback();
-    });
-}
-
-var one = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
+var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
 
     subject.resum = {
         aules: {
@@ -55,7 +55,8 @@ var one = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
         },
         avaluacio: {
             seguiment: config.nc(),
-            superacio: config.nc()
+            superacio: config.nc(),
+            dataLliurament: config.nc()
         }
     };
 
@@ -118,4 +119,4 @@ var one = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
 }
 
 exports.byidp = byidp;
-exports.one = one;
+exports.resum = resum;
