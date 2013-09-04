@@ -65,6 +65,7 @@ app.get('/test', function (req, res, callback) {
  * @mockup: aulas_pra.html
  */
 app.get('/assignatures', function (req, res, callback) {
+
 	if (req.query.s && req.query.idp && req.query.anyAcademic) {
 		return assignatures.byidp(req.query.s, req.query.idp, req.query.anyAcademic, function (err, result) {
 			if (err) callback(err);
@@ -87,6 +88,21 @@ app.get('/assignatures', function (req, res, callback) {
  */
 app.get('/assignatures/:domainId/aules', function (req, res, callback) {
 
+    if (req.query.s && req.query.idp) {
+        return aules.aulaca(req.params.domainId, req.query.idp, req.query.s, function (err, result) {
+            if (err) callback(err);
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('tabs_pra.html', { assignatura: result });
+            }
+        });
+    } else {
+        callback('manquen algun dels parametres de la crida [s, idp]');
+    }
+
+    /*
 	if (req.query.s) {
 		return aules.all(req.query.codAssignatura, req.query.anyAcademic, req.params.domainId, function (err, result) {
 			if (err) callback(err);
@@ -100,6 +116,7 @@ app.get('/assignatures/:domainId/aules', function (req, res, callback) {
 	} else {
 		callback('manquen algun dels parametres de la crida [s]');
 	}
+    */
 });
 
 /**
@@ -187,7 +204,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res,
 /**
  * Avaluació per aula
  * @mockup: evaluacion_estudiantes.html
- */
+ *
 app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.avaluacio(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
@@ -202,6 +219,28 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, 
 	} else {
 		callback('manquen algun dels parametres de la crida [s]');
 	}
+});
+*/
+
+/**
+ * Avaluació per aula
+ * @mockup: evaluacion_estudiantes.html
+ */
+app.get('/avaluacio/:anyAcademic/:codAssignatura/:codAula', function (req, res, callback) {
+
+    if (req.query.s) {
+        return activitats.avaluacio(req.params.anyAcademic, req.params.codAssignatura, req.params.codAula, req.query.s, function (err, result) {
+            if (err) callback(err);
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('avaluacio-estudiants.html', { aula: result });
+            }
+        })
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
 });
 
 /**

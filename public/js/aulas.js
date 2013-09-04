@@ -8,6 +8,7 @@ var UOCAulas = (function($) {
     var baseURL = '';
     var userRole = 'student'; // student, pra, consultor, aula
     var s = '';
+    var idp = '';
 
     /* Método importado de uoc/common.js */
     var getWinNm = function() {
@@ -210,7 +211,7 @@ var UOCAulas = (function($) {
 		    var domainId = $(block).attr('data-guaita-domainId');
 		    var url = UOCAulas.baseURL;
 		    if (userRole === 'pra') {
-		        url += '/assignatures/' + domainId + '/aules/?s=' + s + '&codAssignatura=' + assignatura + '&anyAcademic=' + anyacademic;
+		        url += '/assignatures/' + domainId + '/aules/?s=' + s + '&idp=' + idp;
 		    } else {
 		        url += 'ajax/tabs_consultor.html';
 		    }
@@ -332,7 +333,13 @@ var UOCAulas = (function($) {
             var block = $(this).closest('.acc');
             var domainId = $(block).attr('data-guaita-domainId');
             var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URLAvaluacioEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/avaluacio?s=' + s;
+
+            var head = $(acc).find('.block-head');
+            var codAssignatura = $(head).attr('data-guaita-assignatura');
+            var anyAcademic = $(head).attr('data-guaita-anyacademic');
+            var codAula = $(block).attr('data-guaita-codaula');
+
+            var URLAvaluacioEstudiants = UOCAulas.baseURL + '/avaluacio/' + anyAcademic + '/' + codAssignatura + '/' + codAula + '?s=' + s;
             getTable(this, URLAvaluacioEstudiants, false);
         });
 
@@ -478,9 +485,10 @@ var UOCAulas = (function($) {
     };
 
     /* Initialize application */
-    var init = function(role, session) {
+    var init = function(role, session, _idp) {
         userRole = role;
         s = session;
+        idp = _idp;
 
         switch (userRole){
             case 'aula':
@@ -503,7 +511,8 @@ var UOCAulas = (function($) {
         init: init,
         baseURL: baseURL,
         userRole: userRole,
-        s: s
+        s: s,
+        idp: idp
     };
 
 }(jQuery));

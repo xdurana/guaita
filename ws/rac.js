@@ -114,7 +114,7 @@ exports.getActivitatsByAula = function(anyAcademic, codAssignatura, numAula, cal
 	}
 	service.operation(config.racwsdl(), 'getActivitatsByAula', args, function(err, result) {		
 		if(err) { console.log(err); callback(err); return; }
-		return(null, result);
+		callback(null, result);
 	});
 }
 

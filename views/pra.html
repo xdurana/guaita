@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 {% block title %}Aules: PRA{% endblock %}
 {% block content %}
+
+{% set session = object.s %}
+{% set idp = object.idp %}
+
 <!-- container -->
 <div id="container" class="pra" data-guaita-pra="{{ object.idp }}">
 
@@ -36,9 +40,67 @@
             <ul class="blocks sortable">
 
                 {% for assignatura in object.assignatures %}
-                {% set object.current = assignatura %}
-                {% set session = object.s %}
-                {% include "assignatura-resum.html" %}
+
+                <li class="block accordion" id="module_1" data-id="1">
+
+                    <div class="block-head" data-guaita-assignatura="{{ assignatura.codi }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}">
+                        <h3><span class="lbl">{{ assignatura.codi }} {{ assignatura.title }}</span></h3>
+                        <ul class="block-top">
+                            <li><span class="icon-move-hidden" title="Ordenar"><i class="icon"></i></span></li>
+                        </ul>
+                    </div>
+                    
+                    
+                    <div id="content_1" class="block-content">
+                        {% include 'tabs_pra.html' %}
+                    </div>
+
+                    <div id="resum_1" class="block-resum">
+                        <table class="tbl tbl-resum">
+                            <caption>Resum: {{ assignatura.title }}</caption>
+                            <colgroup>
+                                <col style="width:10%">
+                                <col style="width:6%">
+                                <col style="width:6%">
+                                <col style="width:12%">
+                                <col style="width:18%">
+                                <col style="width:18%">
+                                <col style="width:15%">
+                                <col style="width:15%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Aules Totals</th>
+                                    <th colspan="2" class="bd">Estudiants</th>
+                                    <th colspan="3" class="bd">Comunicació Activitats i Eines</th>
+                                    <th colspan="2" class="bd">Avaluació</th>
+                                </tr>
+                                <tr>
+                                    <th class="bd"><span class="icon-student" title="Estudiants"></span></th>
+                                    <th><span class="icon-repeater" title="Repetidors"></span></th>
+                                    <th class="bd">Clics acumulats</th>
+                                    <th>Lectures pendents acumulades</th>
+                                    <th><span class="em">Lectures pendents /</span> Paricipacions totals</th>
+                                    <th class="bd">Seguiment AC</th>
+                                    <th>Superació AC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ assignatura.resum.aules.total }}</td>
+                                    <td class="bd">{{ assignatura.resum.estudiants.total }}</td>
+                                    <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+                                    <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
+                                    <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                                    <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
+                                    <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
+                                    <td>{{ assignatura.resum.avaluacio.superacio }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li><!-- /block -->
+                
                 {% endfor %}
 
             </ul><!-- /blockS -->
@@ -60,7 +122,7 @@
 <script type="text/javascript" src="/js/aulas.js"></script>
 <script>
     $(document).ready(function() {
-        UOCAulas.init('pra', '{{ session }}');
+        UOCAulas.init('pra', '{{ object.s }}', '{{ object.idp }}');
     });
 </script>
 {% endblock %}

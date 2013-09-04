@@ -10,22 +10,25 @@ exports.port = function() {
 }
 
 exports.dadesacademiqueswsdl = function() {
-	return nconf.get('wsdl:dadesacademiques') || "http://sa.uoc.es/dades-academiques-ws/services/DadesAcademiquesService?WSDL";
+	return nconf.get('wsdl:dadesacademiques');
 }
 
 exports.infoacademicawsdl = function() {
-	return nconf.get('wsdl:infoacademica') || "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL";
+	return nconf.get('wsdl:infoacademica');
 }
 
 exports.racwsdl = function() {
-    return "http://sa.uoc.es/rac-ws/services/RacService?WSDL";
-	//return nconf.get('wsdl:rac') || "http://sa.uoc.es/rac-ws/services/RacService?WSDL";
+	return nconf.get('wsdl:rac');
 }
 
 exports.authwdsl = function() {
-	return nconf.get('wsdl:auth') || "http://sa.uoc.es/remoteinterface/services/AuthService?WSDL";
+	return nconf.get('wsdl:auth');
 }
 
 exports.aulaca = function() {
-    return nconf.get('wsdl:aulaca') || "http://cv.uoc.edu/webapps/aulaca/classroom/";
+    return nconf.get('wsdl:aulaca');
+}
+
+exports.lrs = function() {
+    return nconf.get('wsdl:lrs');
 }

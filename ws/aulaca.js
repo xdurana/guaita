@@ -1,6 +1,23 @@
 var config = require('../config');
 var request = require('request');
 
+exports.getAulesAssignatura = function(domainId, idp, s, callback) {
+
+    var url = config.aulaca() + "assignatures/" + domainId + "/aules?s=" + s + "&idp=" + idp;
+    console.log(url);
+    request({
+      url: url,
+      method: "GET"
+    }, function (err, response, body) {
+        if (err) { console.log(err); callback(err); return; }
+        if (response.statusCode != '200') {
+            callback(url);
+        }
+        var object = JSON.parse(body);
+        callback(null, object.classrooms);
+    });
+}
+
 exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s;
@@ -20,6 +37,7 @@ exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
 
     var url = config.aulaca() + "assignatures?idp=" + idp + "&s=" + s;
+    console.log(url);
     request({
         url: url,
         method: "GET"

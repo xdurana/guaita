@@ -9,6 +9,109 @@ var consultors = require('./consultors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
+var aulaca = require('../ws/aulaca');
+
+exports.aulaca = function(domainId, idp, s, callback) {
+
+    var indexAula = 1;
+    var struct = {
+        domainId: domainId,
+        aules: [
+        ],
+        resum: {
+            aules: {
+                total: 0
+            },
+            estudiants: {
+                total: 0,
+                repetidors: 0
+            },
+            comunicacio: {
+                clicsAcumulats: 0,
+                lecturesPendentsAcumulades: 0,
+                lecturesPendents: 0,
+                participacions: 0
+            },
+            avaluacio: {
+                seguiment: '0,00%',
+                superacio: '0,00%',
+                dataLliurament: '-'
+            }
+        }
+    }
+
+    aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        async.each(result, resumAula, function(err) {
+            if(err) { console.log(err); callback(err); return; }
+            callback(null, struct);
+        });
+    });
+
+    var resumAula = function(aulaca, callback) {
+
+        var aula = aulaca;
+        aula.codAula = indexAula;
+        indexAula += 1;
+        aula.codAssignatura = aulaca.codi;
+        aula.domainIdAula = aulaca.domainId;
+        aula.resum = {
+            estudiants: {
+                total: 0,//aulaVO.numPlacesAssignades[0],
+                repetidors: 0
+            },
+            comunicacio: {
+                clicsAcumulats: 0,
+                lecturesPendentsAcumulades: 0,
+                lecturesPendents: 0,
+                participacions: 0
+            },
+            avaluacio: {
+                seguiment: '0,00%',
+                superacio: '0,00%',
+                dataLliurament: '-'
+            }
+        };
+
+        struct.aules.push(aula);
+
+        struct.resum.aules.total += 1;
+        struct.resum.estudiants.total += 0;
+
+        async.parallel([
+            function (callback) {
+                rac.getAula(aula.codAssignatura, aula.anyAcademic, aula.codAula, function(err, result) {
+                    if(err) { console.log(err); callback(err); return; }
+                    aula.consultor = result.out.consultors[0].ConsultorAulaVO[0];
+                    aula.consultor.nomComplert = indicadors.getNomComplert(aula.consultor.tercer);
+                    consultors.getResumEines(aula, function(err, result) {
+                        if(err) { console.log(err); callback(err); return; }
+                        callback(null);
+                    });
+                });
+            },
+            function (callback) {
+                rac.calcularIndicadorsAula('RAC_PRA_2', aula.codAssignatura, aula.anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
+                    if(err) { console.log(err); callback(err); return; }
+                    aula.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
+                    aula.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
+                    callback(null);
+                });
+            },
+            function (callback) {
+                rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', aula.codAssignatura, aula.anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
+                    if(err) { console.log(err); callback(err); return; }
+                    aula.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+                    aula.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+                    callback(null);
+                });
+            }
+        ], function(err, result) {
+            if(err) { console.log(err); callback(err); return; }
+            callback(null, result);
+        });
+    }    
+}
 
 exports.all = function(codAssignatura, anyAcademic, domainId, callback) {
 

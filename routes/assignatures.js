@@ -23,7 +23,6 @@ exports.byidp = function(s, idp, anyAcademic, callback) {
 	var getResum = function(subject, callback) {
 
 		subject.s = s;
-		subject.domainId = '382785';
 		subject.resum = {
 			aules: {
 				total: 0

@@ -4,6 +4,7 @@
     "infoacademica": "http://sa.uoc.es/infoacademica-ws/services/InfoacademicaService?WSDL",
     "rac": "http://sa.uoc.es/rac-ws/services/RacService?WSDL",
     "auth": "http://sa.uoc.es/remoteinterface/services/AuthService?WSDL",
-    "aulaca": "http://cv.uoc.edu/webapps/aulaca/classroom/"
+    "aulaca": "http://cv.uoc.edu/webapps/aulaca/classroom/",
+    "lrs": "http://meta.uoc.es:3030/"
   }
 }
