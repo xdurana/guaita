@@ -4,22 +4,6 @@ var request = require('request');
 exports.getAulesAssignatura = function(domainId, idp, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules?s=" + s + "&idp=" + idp;
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        if (err) { console.log(err); callback(err); return; }
-        if (response.statusCode != '200') {
-            callback(url);
-        }
-        var object = JSON.parse(body);
-        callback(null, object.classrooms);
-    });
-}
-
-exports.getAulesAssignatura = function(domainId, idp, s, callback) {
-
-    var url = config.aulaca() + "assignatures/" + domainId + "/aules?s=" + s + "&idp=" + idp;
     console.log(url);
     request({
       url: url,
@@ -101,3 +85,25 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
         callback(null, object.tools);
     });
 }
+
+/**
+ * TODO
+ */
+exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
+    callback(null);
+}
+
+/**
+ * TODO
+ */
+exports.getParticipacionsAssignatura = function(domainId, s, callback) {
+    callback(null);
+}
+
+/**
+ * TODO
+ */
+exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
+    callback(null);
+}
+
