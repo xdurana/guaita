@@ -1,71 +1,48 @@
 var config = require('../config');
+var service = require('./service');
 var request = require('request');
+var util = require('util');
 
 exports.getClicksByIdp = function(idp, s, callback) {
-    callback();
-    return;
-    var url = config.lrs() + "xapi/statements/filter/idp/" + idp;
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        if (err) { console.log(err); callback(err); return; }
-        if (response.statusCode != '200') {
-            callback(null);
-        }
-        var object = JSON.parse(body);
-        callback(null, object);
+
+    var url = util.format('%s/xapi/statements/filter/idp/%s',
+        config.lrs(),
+        idp
+    );
+
+    service.json(url, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(result);
     });
 }
 
 exports.getLastConnectionByIdp = function(idp, s, callback) {
     //TODO
     callback();
-    return;
-    var url = config.lrs() + "xapi/statements/filter/idp/" + idp;
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        if (err) { console.log(err); callback(err); return; }
-        if (response.statusCode != '200') {
-            callback(null);
-        }
-        var object = JSON.parse(body);
-        callback(null, object);
-    });
 }
 
 exports.getClicksBySubject = function(domainId, s, callback) {
-    callback();
-    return;
-    var url = config.lrs() + "xapi/statements/filter/subject/" + domainId;
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        if (err) { console.log(err); callback(err); return; }
-        if (response.statusCode != '200') {
-            callback(null);
-        }
-        var object = JSON.parse(body);
-        callback(null, object);
+
+    var url = util.format('%s/xapi/statements/filter/subject/%s',
+        config.lrs(),
+        domainId
+    );
+
+    service.json(url, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(result);
     });
 }
 
 exports.getClicksByClassroom = function(domainId, s, callback) {
-    callback();
-    return;
-    var url = config.lrs() + "xapi/statements/filter/classroom/" + domainId;
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        if (err) { console.log(err); callback(err); return; }
-        if (response.statusCode != '200') {
-            callback(null);
-        }
-        var object = JSON.parse(body);
-        callback(null, object);
+
+    var url = util.format('%s/xapi/statements/filter/classroom/%s',
+        config.lrs(),
+        domainId
+    );
+
+    service.json(url, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(result);
     });
 }

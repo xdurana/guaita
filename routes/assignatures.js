@@ -1,5 +1,6 @@
 var async = require('async');
 var request = require('request');
+var util = require('util');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -21,13 +22,17 @@ var byidp = function(s, idp, anyAcademic, callback) {
     };
 
     aulaca.getAssignaturesPerIdp(s, idp, anyAcademic, function(err, result) {
-        if (err) { console.log(err); callback(null, struct); }
-        struct.assignatures = result;
-        async.each(struct.assignatures, getResum.bind('null', s, idp, anyAcademic), function(err) {
-            if (err) { console.log(err); }
-            struct.assignatures.sort(ordenaAssignatures);
-            callback(null, struct);
-        });
+        if (err) { console.log(err); callback(); return; }
+        try {
+            struct.assignatures = result;
+            async.each(struct.assignatures, getResum.bind('null', s, idp, anyAcademic), function(err) {
+                if (err) { console.log(err); }
+                struct.assignatures.sort(ordenaAssignatures);
+                callback(null, struct);
+            });
+        } catch(e) {
+            callback(util.format("No s'han pogut obtenir les assignatures del idp [%s]", idp));
+        }
     });
 
     var getResum = function(s, idp, anyAcademic, subject, callback) {
@@ -38,18 +43,7 @@ var byidp = function(s, idp, anyAcademic, callback) {
     }
 
     var ordenaAssignatures = function(a, b) {
-
         return a.codi < b.codi ? -1 : b.codi < a.codi ? 1 : 0;
-
-        if (!(a.codi.match(/[0-9][0-9].[0-9][0-9][0-9]/)) && (b.codi.match(/[0-9][0-9].[0-9][0-9][0-9]/))) {
-            config.debug(a.codi + ', ' + b.codi);
-            return a.codi < b.codi ? -1 : b.codi > a.codi ? 1 : 0;
-        }
-        return a.codi.substr(1) < b.codi.substr(1) ? -1 : (
-            b.codi.substr(1) < a.codi.substr(1) ? 1 : (
-                a.codi < b.codi ? -1 : b.codi < a.codi ? 1 : 0
-            )
-        );
     }  
 }
 
@@ -94,17 +88,16 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
-            //TODO d'on obtenir la dada
-            /*
+            callback(); return;
             aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.aules.total = result ? result.length : config.nc();
                 callback();
             });
-            */
             callback();
         },
         function (callback) {
+            callback(); return;
             lrs.getClicksBySubject(domainId, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
@@ -112,6 +105,7 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
+            callback(); return;
             aulaca.getLecturesPendentsAcumuladesAssignatura(domainId, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
@@ -119,6 +113,7 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
+            callback(); return;
             aulaca.getParticipacionsAssignatura(domainId, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.comunicacio.participacions = result ? result : config.nc();
@@ -126,6 +121,7 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
+            callback(); return;
             aulaca.getLecturesPendentsIdpAssignatura(domainId, idp, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.comunicacio.lecturesPendents = result ? result : config.nc();

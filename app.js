@@ -12,7 +12,6 @@ var activitats = require('./routes/activitats');
 var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
-var connexions = require('./routes/connexions');
 
 var app = express();
 
@@ -66,9 +65,13 @@ app.get('/test', function (req, res, callback) {
  */
 app.get('/assignatures', function (req, res, callback) {
 
-	if (req.query.s && req.query.idp && req.query.anyAcademic) {
-		return assignatures.byidp(req.query.s, req.query.idp, req.query.anyAcademic, function (err, result) {
-			if (err) callback(err);
+	if (req.query.s && req.query.idp && req.query.anyAcademic) {        
+		return assignatures.byidp(
+            req.query.s,
+            req.query.idp,
+            req.query.anyAcademic,
+            function (err, result) {
+            if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
 			} else {
@@ -89,8 +92,14 @@ app.get('/assignatures', function (req, res, callback) {
 app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
     if (req.query.s && req.query.idp) {
-        return aules.all(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.query.idp, req.query.s, function (err, result) {
-            if (err) callback(err);
+        return aules.all(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.query.idp,
+            req.query.s,
+            function (err, result) {
+            if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
             } else {

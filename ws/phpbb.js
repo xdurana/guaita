@@ -1,13 +1,17 @@
+var config = require('../config');
+var service = require('./service');
 var request = require('request');
 
 exports.one = function(domainId, forumId, callback) {
 
-    request({
-      url: "http://cv-test.uoc.edu/app/phpBB3/service.php?domainId=" + domainId + "&forumId=" + forumId + "&type=SEGUIMENT",
-      method: "GET"
-    }, function (error, response, body) {
-        if (error) { console.log(err); callback(err); return; }
-        var object = JSON.parse(body);
-        callback(null, object);
+    var url = util.format('%s/service.php?domainId=%s&forumId=%s&type=SEGUIMENT',
+        config.phpbb(),
+        domainId,
+        forumId
+    );
+
+    service.json(url, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(result);
     });
 }

@@ -30,10 +30,10 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		activitat.nom = activitat.name;
 		activitat.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendentsAcumulades: 0,
-				lecturesPendents: 0,
-				participacions: 0
+				clicsAcumulats: config.nc(),
+				lecturesPendentsAcumulades: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc()
 			}
 		}
 		callback(null, activitat);
@@ -71,10 +71,10 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 		activitat.nom = activitat.name;
 		activitat.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendents: 0,
-				participacions: 0,
-				ultimaConnexio: '01/01/2014'
+				clicsAcumulats: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc(),
+				ultimaConnexio: config.nc()
 			}
 		}
 		callback(null, activitat);
@@ -120,9 +120,9 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
         item.nom = item.descripcio[0].DescripcioVO[0].valor;
         item.resum = {
             avaluacio: {
-                seguiment: '-',
-                superacio: '-',
-                dataLliurament: item.dataLliurament ? item.dataLliurament : '-'
+                seguiment: config.nc(),
+                superacio: config.nc(),
+                dataLliurament: item.dataLliurament ? item.dataLliurament : config.nc()
             }
         }
 

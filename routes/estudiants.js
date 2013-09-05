@@ -1,6 +1,7 @@
 var async = require('async');
 
 var indicadors = require('./indicadors');
+var config = require('../config');
 var rac = require('../ws/rac');
 
 /**
@@ -27,10 +28,10 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
 		estudiant.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendentsAcumulades: 0,
-				participacions: 0,
-				ultimaConnexio: '01/01/2014'
+				clicsAcumulats: config.nc(),
+				lecturesPendentsAcumulades: config.nc(),
+				participacions: config.nc(),
+				ultimaConnexio: config.nc()
 			}
 		};
 		callback(null, estudiant);

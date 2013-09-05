@@ -26,7 +26,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, callback) {
     }
 
     aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-        if(err) { console.log(err); callback(null, struct); return; }      
+        if(err) { console.log(err); callback(null, struct); return; }
         async.each(result, getResum.bind('null', anyAcademic, codAssignatura, idp, s), function(err) {
             if(err) { console.log(err); }
             struct.aules.sort(ordenaAules);
