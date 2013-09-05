@@ -12,7 +12,11 @@ function getContext() {
         extensions: {
             'uoc:lrs:subject:id': DATA_BOCAMOLL_SUBJECT_DOMAINID,
             'uoc:lrs:classroom:id': DATA_BOCAMOLL_CLASSROOM_DOMAINID,
-            'uoc:lrs:activity:id': DATA_BOCAMOLL_ACTIVITY_EVENTID
+            'uoc:lrs:activity:id': DATA_BOCAMOLL_ACTIVITY_EVENTID,
+            'uoc:lrs:session:id': SESSION,
+            'uoc:lrs:session:navigator:userAgent': navigator.userAgent,
+            'uoc:lrs:session:navigator:platform': navigator.platform,
+            'uoc:lrs:session:navigator:language': navigator.language
         }
     }
 }
@@ -52,6 +56,19 @@ function getMaterial(object) {
     }
 }
 
+function getFontsInformacio(object) {
+    return {
+        id: "F:" + object.attr('data-bocamoll-object-informationSourceId'),
+        type: 'fonts-informacio',
+        name: {
+            ca: object.attr('data-bocamoll-object-description')
+        },
+        extensions: {
+            "uoc:lrs:material:id": object.attr('data-bocamoll-object-informationSourceId'),
+        }
+    }
+}
+
 function registra(statement) {
     //TODO
     //tincan.sendStatement(statement);
@@ -74,6 +91,17 @@ $(document).ready(function() {
             context: getContext(),
             verb: getVerb(),
             object: getObject($(this))
+        };
+        registra(statement);
+    });
+
+    $("a[data-bocamoll-object-informationSourceId]").on("click", function (e) {
+        e.preventDefault();
+        var statement = {
+            actor: getActor(),
+            context: getContext(),
+            verb: getVerb(),
+            object: getFontsInformacio($(this))
         };
         registra(statement);
     });
