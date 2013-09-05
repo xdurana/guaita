@@ -30,6 +30,13 @@ function getVerb() {
     }
 }
 
+function getConnection() {
+    return {
+        id: "1",
+        type: "connection"
+    }
+}
+
 function getObject(object) {
     return {
         id: "T:" + object.attr('data-bocamoll-object-resourceid'),
@@ -82,6 +89,13 @@ $(document).ready(function() {
     var registra = function(statement) {
         tincan.sendStatement(statement);
     }
+
+    registra({
+        actor: getActor(),
+        context: getContext(),
+        verb: getVerb(),
+        object: getConnection()
+    });
 
     $("a[data-bocamoll-object-resourceid]").on("click", function (e) {
         e.preventDefault();

@@ -78,12 +78,16 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
         function (callback) {
             rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
-                classroom.consultor = result.out.consultors[0].ConsultorAulaVO[0];
-                classroom.consultor.nomComplert = indicadors.getNomComplert(classroom.consultor.tercer);
-                consultors.getResumEines(classroom, function(err, result) {
-                    if(err) { console.log(err); callback(); return; }
+                try {
+                    classroom.consultor = result.out.consultors[0].ConsultorAulaVO[0];
+                    classroom.consultor.nomComplert = indicadors.getNomComplert(classroom.consultor.tercer);
+                    consultors.getResumEines(classroom, function(err, result) {
+                        if(err) { console.log(err); callback(); return; }
+                        callback();
+                    });
+                } catch(e) {
                     callback();
-                });
+                }
             });
         },
         function (callback) {

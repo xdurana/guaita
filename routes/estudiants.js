@@ -18,10 +18,14 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 		if(err) { console.log(err); callback(err); return; }
 		struct = result.out.EstudiantAulaVO;
-		async.each(struct, getResumEstudiant, function(err) {
-			if(err) { console.log(err); callback(err); return; }
-			callback(null, struct);
-		});
+        try {
+    		async.each(struct, getResumEstudiant, function(err) {
+    			if(err) { console.log(err); callback(err); return; }
+    			callback(null, struct);
+    		});
+        } catch(e) {
+            callback(struct);
+        }
 	});
 
 	var getResumEstudiant = function(estudiant, callback) {
@@ -36,15 +40,4 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 		};
 		callback(null, estudiant);
 	}
-
-	/*
-	var getIndicadorsActivitat = function(estudiant, callback) {
-		var ordre = '2';
-		rac.getActivitatsByEstudiantAulaOrdre(struct.anyAcademic, struct.codAssignatura, struct.codAula, ordre, estudiant.numExpedient[0], function(err, result) {
-			if(err) { console.log(err); callback(err); return; }
-			estudiant.darreraNota = result.out.codQualificacio;
-			callback();
-		});
-	}
-	*/
 }

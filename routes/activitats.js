@@ -108,11 +108,15 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
 
 	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 		if(err) { console.log(err); callback(err); return; }
-		struct.activitats = result.out.ActivitatVO;
-		async.each(struct.activitats, getIndicadorsActivitat, function(err) {
-			if(err) { console.log(err); return; }
-	  		callback(null, struct);
-		});
+        try {
+    		struct.activitats = result.out.ActivitatVO;
+    		async.each(struct.activitats, getIndicadorsActivitat, function(err) {
+    			if(err) { console.log(err); return; }
+    	  		callback(null, struct);
+    		});
+        } catch(e) {            
+            callback(null, struct);
+        }
 	});
 
     var getIndicadorsActivitat = function(item, callback) {
@@ -122,7 +126,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
             avaluacio: {
                 seguiment: config.nc(),
                 superacio: config.nc(),
-                dataLliurament: item.dataLliurament ? item.dataLliurament : config.nc()
+                dataLliurament: indicadors.getDataLliurament(item.dataLliurament)
             }
         }
 

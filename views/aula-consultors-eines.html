@@ -39,7 +39,7 @@
                     <span class="user-item">
                         <a href="#item_5_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
                         <input type="checkbox" class="check-user" name="check_users_5[]" value="1">
-                        <a href="#" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
+                        <a href="{{ aula.consultor.fitxa }}" class="lnk-user LaunchesOWin" title="fitxa d'usuari">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
                     </span>
                 </td>
                 <td class="bd">{{ aula.consultor.resum.comunicacio.clicsAcumulats }}</td>

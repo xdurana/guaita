@@ -1,13 +1,18 @@
+var config = require('../config');
+
 exports.getNomComplert = function(tercer) {
-	var complert = '';
-	complert = tercer[0].nom[0] + ' ' + tercer[0].primerCognom[0];
-	if (typeof tercer[0].segonCognom[0] == 'string') {
-		complert += ' ' + tercer[0].segonCognom[0];
-	}
-	if (typeof tercer[0].tercerCognom == 'string') {
-		complert += ' ' + tercer[0].tercerCognom[0];
-	}
-	return complert;
+    var complert = '';
+    try {    
+    	complert = tercer[0].nom[0] + ' ' + tercer[0].primerCognom[0];
+    	if (typeof tercer[0].segonCognom[0] == 'string') {
+    		complert += ' ' + tercer[0].segonCognom[0];
+    	}
+    	if (typeof tercer[0].tercerCognom == 'string') {
+    		complert += ' ' + tercer[0].tercerCognom[0];
+    	}
+    } catch(e) {
+    }
+    return complert;
 }
 
 exports.getTotalAules = function(AulaVO) {
@@ -22,6 +27,11 @@ exports.getTotalEstudiants = function(AulaVO) {
 		});
 	}
 	return estudiants;
+}
+
+exports.getDataLliurament = function(data) {
+    //TODO
+    return data ? data : config.nc()
 }
 
 var getIndicador = function(indicadors, nom) {
