@@ -44,6 +44,7 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
 
 exports.getResumEines = function(aula, callback) {
 
+    aula.consultor.idp = aula.consultor.tercer[0].idp[0];
 	aula.consultor.resum = {
 		comunicacio: {
 			clicsAcumulats: config.nc(),

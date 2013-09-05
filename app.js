@@ -3,6 +3,7 @@ var http = require('http')
 var path = require('path');
 var request = require('request');
 var swig = require('swig');
+var util = require('util');
 
 var config = require('./config');
 
@@ -104,6 +105,8 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
                 res.json(result);
             } else {
                 result.s = req.query.s;
+                result.linkfitxaassignatura = '#'; //TODO
+                result.linkedicioaula = util.format('%s/Edit.action?s=%s&domainId=%s', config.aulaca(), req.query.s, req.params.domainId);                
                 res.render('tabs_pra.html', { assignatura: result });
             }
         });

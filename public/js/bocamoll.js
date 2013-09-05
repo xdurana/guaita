@@ -69,11 +69,6 @@ function getFontsInformacio(object) {
     }
 }
 
-function registra(statement) {
-    //TODO
-    //tincan.sendStatement(statement);
-}
-
 $(document).ready(function() {
 
     var tincan = new TinCan ({
@@ -83,6 +78,10 @@ $(document).ready(function() {
             password: "<Test User's Password>"
         }]
     }); 
+
+    var registra = function(statement) {
+        tincan.sendStatement(statement);
+    }
 
     $("a[data-bocamoll-object-resourceid]").on("click", function (e) {
         e.preventDefault();

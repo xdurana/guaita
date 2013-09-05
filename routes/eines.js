@@ -24,10 +24,10 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendentsAcumulades: 0,
-				lecturesPendents: 0,
-				participacions: 0
+				clicsAcumulats: config.nc(),
+				lecturesPendentsAcumulades: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc()
 			}
 		}
 		callback(null, eina);
@@ -59,10 +59,10 @@ exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendentsAcumulades: 0,
-				lecturesPendents: 0,
-				participacions: 0
+				clicsAcumulats: config.nc(),
+				lecturesPendentsAcumulades: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc()
 			}
 		}
 		callback(null, eina);
@@ -95,10 +95,10 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendents: 0,				
-				participacions: 0,
-				ultimaConnexio: '01/01/2014'
+				clicsAcumulats: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc(),
+				ultimaConnexio: config.nc()
 			}
 		}
 		callback(null, eina);
@@ -129,10 +129,10 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
-				clicsAcumulats: 0,
-				lecturesPendents: 0,				
-				participacions: 0,
-				ultimaConnexio: '01/01/2014'
+				clicsAcumulats: config.nc(),
+				lecturesPendents: config.nc(),
+				participacions: config.nc(),
+				ultimaConnexio: config.nc()
 			}
 		}
 		callback(null, eina);

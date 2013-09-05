@@ -88,13 +88,11 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
-            callback(); return;
             aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
                 subject.resum.aules.total = result ? result.length : config.nc();
                 callback();
             });
-            callback();
         },
         function (callback) {
             callback(); return;
