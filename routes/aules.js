@@ -29,6 +29,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, callback) {
         if(err) { console.log(err); callback(null, struct); return; }      
         async.each(result, getResum.bind('null', anyAcademic, codAssignatura, idp, s), function(err) {
             if(err) { console.log(err); }
+            struct.aules.sort(ordenaAules);
             assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
                 if(err) { console.log(err); }
                 callback(null, struct);
@@ -44,6 +45,10 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, callback) {
             callback();
         });
     }
+
+    var ordenaAules = function(a, b) {
+        return a.codAula < b.codAula ? -1 : b.codAula < a.codAula ? 1 : 0;
+    }    
 }
 
 var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
