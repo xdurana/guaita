@@ -6,10 +6,9 @@ var indicadors = require('./indicadors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
+var lrs = require('../ws/lrs');
 
 exports.all = function(codAssignatura, anyAcademic, callback) {
-
-	//http://localhost:3333/assignatures/05.002/20122/consultors
 
 	var struct = {
 		codAssignatura: codAssignatura,
@@ -44,14 +43,33 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
 }
 
 exports.getResumEines = function(aula, callback) {
-	//TODO
+
 	aula.consultor.resum = {
 		comunicacio: {
-			clicsAcumulats: 0,
-			lecturesPendentsAcumulades: 0,
-			participacions: 0,
-			ultimaConnexio: '01/01/2014'
-		}		
+			clicsAcumulats: config.nc(),
+			lecturesPendentsAcumulades: config.nc(),
+			participacions: config.nc(),
+			ultimaConnexio: config.nc()
+		}
 	}
-	callback(null);
+
+    async.parallel([
+        function (callback) {
+            lrs.getClicksByIdp(aula.consultor.idp, aula.s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                aula.consultor.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
+                callback();
+            });
+        },
+        function (callback) {
+            lrs.getLastConnectionByIdp(aula.consultor.idp, aula.s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                aula.consultor.resum.comunicacio.ultimaConnexio = result ? result : config.nc();
+                callback();
+            });
+        }
+    ], function(err, result) {
+        if(err) { console.log(err); callback(); return; }
+        callback();
+    });
 }

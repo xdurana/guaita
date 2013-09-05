@@ -4,6 +4,7 @@ var request = require('request');
 exports.getAulesAssignatura = function(domainId, idp, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules?s=" + s + "&idp=" + idp;
+    config.debug(url);
     request({
       url: url,
       method: "GET"
@@ -20,6 +21,7 @@ exports.getAulesAssignatura = function(domainId, idp, s, callback) {
 exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats?s=" + s;
+    config.debug(url);
     request({
       url: url,
       method: "GET"
@@ -36,7 +38,7 @@ exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
 
     var url = config.aulaca() + "assignatures?idp=" + idp + "&s=" + s;
-    console.log(url);
+    config.debug(url);
     request({
         url: url,
         method: "GET"
@@ -56,6 +58,7 @@ exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
 exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/activitats/" + eventId + "/eines?s=" + s;
+    config.debug(url);
     request({
       url: url,
       method: "GET"
@@ -72,6 +75,7 @@ exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, call
 exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 
     var url = config.aulaca() + "assignatures/" + domainId + "/aules/" + domainIdAula + "/eines?s=" + s;
+    config.debug(url);
     request({
       url: url,
       method: "GET"
@@ -103,6 +107,27 @@ exports.getParticipacionsAssignatura = function(domainId, s, callback) {
  * TODO
  */
 exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
+    callback(null);
+}
+
+/**
+ * TODO
+ */
+exports.getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
+    callback(null);
+}
+
+/**
+ * TODO
+ */
+exports.getParticipacionsAula = function(domainId, s, callback) {
+    callback(null);
+}
+
+/**
+ * TODO
+ */
+exports.getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
     callback(null);
 }
 

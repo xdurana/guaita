@@ -1,24 +1,18 @@
 function getActor() {
-    //var actor = $("meta[name=actor]");
     return {
         objectType: "Agent",
         account: {
-            //name: actor.attr('data-bocamoll-user-idp')
             name: DATA_BOCAMOLL_USER_IDP
         }
     }
 }
 
 function getContext() {
-    //var context = $("meta[name=context]");
     return {
         extensions: {
             'uoc:lrs:subject:id': DATA_BOCAMOLL_SUBJECT_DOMAINID,
-            //'uoc:lrs:subject:id': context.attr('data-bocamoll-subject-domainid'),
             'uoc:lrs:classroom:id': DATA_BOCAMOLL_CLASSROOM_DOMAINID,
-            //'uoc:lrs:classroom:id': context.attr('data-bocamoll-classroom-domainid'),
             'uoc:lrs:activity:id': DATA_BOCAMOLL_ACTIVITY_EVENTID
-            //'uoc:lrs:activity:id': context.attr('data-bocamoll-activity-eventid')            
         }
     }
 }
@@ -45,6 +39,24 @@ function getObject(object) {
     }
 }
 
+function getMaterial(object) {
+    return {
+        id: "M:" + object.attr('data-bocamoll-object-materialid'),
+        type: object.attr('data-bocamoll-object-format'),
+        name: {
+            ca: object.attr('data-bocamoll-object-description')
+        },
+        extensions: {
+            "uoc:lrs:material:id": object.attr('data-bocamoll-object-materialid'),
+        }
+    }
+}
+
+function registra(statement) {
+    //TODO
+    //tincan.sendStatement(statement);
+}
+
 $(document).ready(function() {
 
     var tincan = new TinCan ({
@@ -63,7 +75,18 @@ $(document).ready(function() {
             verb: getVerb(),
             object: getObject($(this))
         };
-        tincan.sendStatement(statement);
+        registra(statement);
+    });
+
+    $("a[data-bocamoll-object-materialid]").on("click", function (e) {
+        e.preventDefault();
+        var statement = {
+            actor: getActor(),
+            context: getContext(),
+            verb: getVerb(),
+            object: getMaterial($(this))
+        };
+        registra(statement);
     });
 });
 

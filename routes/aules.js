@@ -11,6 +11,7 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 var aulaca = require('../ws/aulaca');
+var lrs = require('../ws/lrs');
 
 var all = function(anyAcademic, codAssignatura, domainId, idp, s, callback) {
 
@@ -93,6 +94,34 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
                 if(err) { console.log(err); callback(); return; }
                 classroom.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                 classroom.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+                callback();
+            });
+        },
+        function (callback) {
+            lrs.getClicksByClassroom(classroom.domainId, s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                classroom.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
+                callback();
+            });
+        },
+        function (callback) {
+            aulaca.getLecturesPendentsAcumuladesAula(classroom.domainId, s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                classroom.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
+                callback();
+            });
+        },
+        function (callback) {
+            aulaca.getParticipacionsAula(classroom.domainId, s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                classroom.resum.comunicacio.participacions = result ? result : config.nc();
+                callback();
+            });
+        },
+        function (callback) {
+            aulaca.getLecturesPendentsIdpAula(classroom.domainId, idp, s, function(err, result) {
+                if (err) { console.log(err); callback(); return; }
+                classroom.resum.comunicacio.lecturesPendents = result ? result : config.nc();
                 callback();
             });
         }
