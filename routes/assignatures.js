@@ -95,10 +95,9 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
-            callback(); return;
-            lrs.getClicksBySubject(domainId, s, function(err, result) {
+            lrs.bysubject(domainId, s, function(err, result) {
                 if (err) { console.log(err); callback(err); return; }
-                subject.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
+                subject.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 callback();
             });
         },

@@ -66,16 +66,16 @@ exports.getResumEines = function(aula, callback) {
 
     async.parallel([
         function (callback) {
-            lrs.getClicksByIdp(aula.consultor.idp, aula.s, function(err, result) {
+            lrs.byidp(aula.consultor.idp, aula.s, function(err, result) {
                 if (err) { console.log(err); callback(err); return; }
-                aula.consultor.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
+                aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 callback();
             });
         },
         function (callback) {            
-            lrs.getLastConnectionByIdp(aula.consultor.idp, aula.s, function(err, result) {
+            lrs.byidplast(aula.consultor.idp, aula.s, function(err, result) {
                 if (err) { console.log(err); callback(err); return; }
-                aula.consultor.resum.comunicacio.ultimaConnexio = result ? result : config.nc();
+                aula.consultor.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
                 callback();
             });
         }

@@ -8,6 +8,7 @@ var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
 var aulaca = require('../ws/aulaca');
+var lrs = require('../ws/lrs');
 
 /**
  * Activitats d'una aula
@@ -25,8 +26,8 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		]
 	}
 
-	//TODO
 	var getResumComunicacio = function(activitat, callback) {
+
 		activitat.nom = activitat.name;
 		activitat.resum = {
 			comunicacio: {
@@ -36,17 +37,22 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 				participacions: config.nc()
 			}
 		}
-		callback(null, activitat);
+
+        lrs.byactivity(domainId, s, function(err, result) {
+            if (err) { console.log(err); callback(err); return; }
+            activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
+            callback();
+        });
 	}
 
-	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
-		struct.activitats = result;
-		async.each(struct.activitats, getResumComunicacio, function(err) {
-			if(err) { console.log(err); callback(err); return; }
-			callback(null, struct);
-		});
-	});
+    aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        struct.activitats = result;
+        async.each(struct.activitats, getResumComunicacio, function(err) {
+            if(err) { console.log(err); callback(err); return; }
+            callback(null, struct);
+        });
+    });
 }
 
 /**
@@ -66,7 +72,6 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 		]
 	}
 
-	//TODO
 	var getResumComunicacioActivitatIdp = function(activitat, callback) {
 		activitat.nom = activitat.name;
 		activitat.resum = {
@@ -77,7 +82,26 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 				ultimaConnexio: config.nc()
 			}
 		}
-		callback(null, activitat);
+
+        async.parallel([
+            function(callback) {
+                lrs.byidpandactivity(idp, domainId, s, function(err, result) {
+                    if (err) { console.log(err); callback(err); return; }
+                    activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
+                    callback();
+                });
+            },
+            function(callback) {
+                lrs.byidpandactivitylast(idp, domainId, s, function(err, result) {
+                    if (err) { console.log(err); callback(err); return; }
+                    activitat.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
+                    callback();
+                });
+            }
+        ], function(err, results) {
+            if(err) { console.log(err); callback(err); return; }
+            callback();
+        });
 	}
 
 	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {

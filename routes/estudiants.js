@@ -3,6 +3,7 @@ var async = require('async');
 var indicadors = require('./indicadors');
 var config = require('../config');
 var rac = require('../ws/rac');
+var lrs = require('../ws/lrs');
 
 /**
  * Estudiants d'una aula
@@ -10,7 +11,7 @@ var rac = require('../ws/rac');
  * @param anyAcademic
  * @param codAula
  */
-exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
+exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
 
 	var struct = [
 	];
@@ -30,6 +31,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
+        estudiant.idp = estudiant.tercer[0].idp[0];
 		estudiant.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -38,6 +40,25 @@ exports.all = function(anyAcademic, codAssignatura, codAula, callback) {
 				ultimaConnexio: config.nc()
 			}
 		};
-		callback(null, estudiant);
+
+        async.parallel([
+            function(callback) {
+                lrs.byidp(estudiant.idp, s, function(err, result) {
+                    if (err) { console.log(err); callback(err); return; }
+                    estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
+                    callback();
+                });
+            },
+            function(callback) {
+                lrs.byidplast(estudiant.idp, s, function(err, result) {
+                    if (err) { console.log(err); callback(err); return; }
+                    estudiant.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
+                    callback();
+                });
+            }
+        ], function(err, results) {
+            if(err) { console.log(err); callback(err); return; }
+            callback();
+        });
 	}
 }

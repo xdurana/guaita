@@ -13,16 +13,22 @@ exports.operation = function(url, service, args, callback) {
 }
 
 exports.json = function(url, callback) {
-    request({
-      url: url,
-      method: "GET"
-    }, function (err, response, body) {
-        //config.debug(url);
-        if (err) { console.log(err); return callback(err); }
-        try {
-            var body = JSON.parse(body);
-        } catch(e) {
-        }
-        return callback(null, body);
-    });
+    try {
+        config.debug(url);
+        request({
+          url: url,
+          method: "GET"
+        }, function (err, response, body) {
+            if (err) { console.log(err); return callback(err); }
+            try {
+                var object = JSON.parse(body);
+                return callback(null, object);
+            } catch (e) {
+                return callback(null, body);
+            }
+        });
+    } catch (e) {
+        console.log(util.format('Error en la crida [%s]', url));
+        return callback();
+    }
 }

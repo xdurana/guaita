@@ -29,10 +29,14 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
         if (err) { console.log(err); callback(err); return; }
         async.parallel([
             function (callback) {
-                async.each(aules, procesa.bind('null', anyAcademic, codAssignatura, idp, s, perfil), function(err) {
-                    if (err) { console.log(err); callback(err); return; }
+                if (aules) {
+                    async.each(aules, procesa.bind('null', anyAcademic, codAssignatura, idp, s, perfil), function(err) {
+                        if (err) { console.log(err); callback(err); return; }
+                        callback();
+                    });
+                } else {
                     callback();
-                });
+                }
             },
             function (callback) {
                 assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
@@ -116,9 +120,9 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         },
         function (callback) {
-            lrs.getClicksByClassroom(classroom.domainId, s, function(err, result) {
+            lrs.byclassroom(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); callback(); return; }
-                classroom.resum.comunicacio.clicsAcumulats = result ? result : config.nc();
+                classroom.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 callback();
             });
         },
@@ -170,7 +174,7 @@ var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAu
 
 	async.parallel([
 		function (callback) {
-			estudiants.all(anyAcademic, codAssignatura, codAula, function(err, result) {
+			estudiants.all(anyAcademic, codAssignatura, codAula, s, function(err, result) {
 				if (err) { console.log(err); callback(err); return; }
 				struct.estudiants = result;
 				callback(null, struct);
