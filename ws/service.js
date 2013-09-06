@@ -17,15 +17,12 @@ exports.json = function(url, callback) {
       url: url,
       method: "GET"
     }, function (err, response, body) {
-        config.debug(url);
-        if (err) { console.log(err); callback(err); return; }        
+        //config.debug(url);
+        if (err) { console.log(err); return callback(err); }
         try {
-            //config.debug(typeof body);
-            var object = JSON.parse(body);
-            callback(null, object);
+            var body = JSON.parse(body);
         } catch(e) {
-            callback(null, body);
-            //callback(util.format('Not a valid JSON response to [%s]', url));
         }
+        return callback(null, body);
     });
 }

@@ -11,14 +11,14 @@ exports.getClicksByIdp = function(idp, s, callback) {
     );
 
     service.json(url, function(err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        callback(result);
+        if(err) { console.log(err); return callback(err); }
+        return callback(result);
     });
 }
 
 exports.getLastConnectionByIdp = function(idp, s, callback) {
     //TODO
-    callback();
+    return callback();
 }
 
 exports.getClicksBySubject = function(domainId, s, callback) {
@@ -29,8 +29,8 @@ exports.getClicksBySubject = function(domainId, s, callback) {
     );
 
     service.json(url, function(err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        callback(result);
+        if(err) { console.log(err); return callback(err); }
+        return callback(result);
     });
 }
 
@@ -42,7 +42,7 @@ exports.getClicksByClassroom = function(domainId, s, callback) {
     );
 
     service.json(url, function(err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        callback(result);
+        if(err) { console.log(err); return callback(err); }
+        return callback(result);
     });
 }

@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+{% block title %}Aules: PRA{% endblock %}
+{% block content %}
+
+{% set session = object.s %}
+{% set idp = object.idp %}
+
+<!-- container -->
+<div id="container" class="pra" data-guaita-pra="{{ object.idp }}">
+
+    <ul id="accessibility" class="visuallyhidden">
+        <li><a href="#menu" accesskey="m" title="Acceso directo al menu de navegación">Acceso directo al menú de navegación</a></li>
+        <li><a href="#content" accesskey="s" title="Acceso directo al contenido">Acceso directo al contenido</a></li>
+    </ul>
+
+    <noscript>
+        <div class="alertjs-container">
+            <div class="alertjs">
+                <h5>JavaScript no está habilitado en tu navegador</h5>
+                <p>Para acceder a todas las características, activa JavaScript o actualiza tu navegador con una versión que acepte JavaScript.</p>
+            </div>
+        </div>
+    </noscript>
+
+    <div id="main" class="clearfix">
+
+        <div id="header">
+            <!--            
+            <div id="menu" class="nav clearfix">
+                <select name="menu-select" id="menu-select">
+                    <option value="1">Programa d’estudis: Grau de Dret</option>
+                    <option value="2">Lorem ipsum dolore sit consecutur dolor sit amget maxima</option>
+                    <option value="3">Morbi aliquam magna non nunc elementum dictum</option>
+                </select>
+            </div>
+            -->
+
+        </div><!-- /header -->
+        <div id="content" class="full-width">
+
+            <ul class="blocks sortable">
+
+                {% for assignatura in object.assignatures %}
+
+                <li class="block accordion" id="module_1" data-id="1">
+
+                    <div class="block-head" data-guaita-assignatura="{{ assignatura.codi }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}">
+                        <h3><span class="lbl">{{ assignatura.codi }} {{ assignatura.title }}</span></h3>
+                        <ul class="block-top">
+                            <li><span class="icon-move-hidden" title="Ordenar"><i class="icon"></i></span></li>
+                        </ul>
+                    </div>
+                    
+                    
+                    <div id="content_1" class="block-content">
+                        {% include 'tabs_pra.html' %}
+                    </div>
+
+                    <div id="resum_1" class="block-resum">
+                        <table class="tbl tbl-resum">
+                            <caption>Resum: {{ assignatura.title }}</caption>
+                            <colgroup>
+                                <col style="width:10%">
+                                <col style="width:6%">
+                                <col style="width:6%">
+                                <col style="width:12%">
+                                <col style="width:18%">
+                                <col style="width:18%">
+                                <col style="width:15%">
+                                <col style="width:15%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Aules Totals</th>
+                                    <th colspan="2" class="bd">Estudiants</th>
+                                    <th colspan="3" class="bd">Comunicació Activitats i Eines</th>
+                                    <th colspan="2" class="bd">Avaluació</th>
+                                </tr>
+                                <tr>
+                                    <th class="bd"><span class="icon-student" title="Estudiants"></span></th>
+                                    <th><span class="icon-repeater" title="Repetidors"></span></th>
+                                    <th class="bd">Clics acumulats</th>
+                                    <th>Lectures pendents acumulades</th>
+                                    <th><span class="em">Lectures pendents /</span> Paricipacions totals</th>
+                                    <th class="bd">Seguiment AC</th>
+                                    <th>Superació AC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ assignatura.resum.aules.total }}</td>
+                                    <td class="bd">{{ assignatura.resum.estudiants.total }}</td>
+                                    <td>{{ assignatura.resum.estudiants.repetidors }}</td>
+                                    <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
+                                    <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
+                                    <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
+                                    <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
+                                    <td>{{ assignatura.resum.avaluacio.superacio }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </li><!-- /block -->
+                
+                {% endfor %}
+
+            </ul><!-- /blockS -->
+
+        </div><!-- /content -->
+
+    </div><!-- /main -->
+
+    <div id="footer" class="clearfix"></div>
+    <div id="sombra-top"></div>
+
+</div><!-- /container -->
+
+<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/js/spin.min.js"></script>
+<script type="text/javascript" src="/js/helper.js"></script>
+<script type="text/javascript" src="/js/aulas.js"></script>
+<script>
+    $(document).ready(function() {
+        UOCAulas.init('consultor', '{{ object.s }}', '{{ object.idp }}');
+    });
+</script>
+{% endblock %}

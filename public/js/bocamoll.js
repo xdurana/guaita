@@ -10,6 +10,7 @@ function getActor() {
 function getContext() {
     return {
         extensions: {
+            'uoc:lrs:app': 'aulaca',
             'uoc:lrs:subject:id': DATA_BOCAMOLL_SUBJECT_DOMAINID,
             'uoc:lrs:classroom:id': DATA_BOCAMOLL_CLASSROOM_DOMAINID,
             'uoc:lrs:activity:id': DATA_BOCAMOLL_ACTIVITY_EVENTID,

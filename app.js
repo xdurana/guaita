@@ -66,7 +66,7 @@ app.get('/test', function (req, res, callback) {
  */
 app.get('/assignatures', function (req, res, callback) {
 
-	if (req.query.s && req.query.idp && req.query.anyAcademic) {        
+	if (req.query.s && req.query.idp && req.query.anyAcademic && req.query.perfil) {
 		return assignatures.byidp(
             req.query.s,
             req.query.idp,
@@ -78,11 +78,11 @@ app.get('/assignatures', function (req, res, callback) {
 			} else {
 				result.s = req.query.s;
 				result.idp = req.query.idp;
-				res.render('pra.html', { object: result });
+				res.render(req.query.perfil == 'pra' ? 'pra.html' : 'consultor.html', { object: result });
 			}
 		});
 	} else {
-		callback('manquen algun dels parametres de la crida [s, idp, anyAcademic]');
+		callback('manquen algun dels parametres de la crida [s, idp, anyAcademic, perfil]');
 	}
 });
 
@@ -92,13 +92,14 @@ app.get('/assignatures', function (req, res, callback) {
  */
 app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
-    if (req.query.s && req.query.idp) {
+    if (req.query.s && req.query.idp && req.query.perfil) {
         return aules.all(
             req.params.anyAcademic,
             req.params.codAssignatura,
             req.params.domainId,
             req.query.idp,
             req.query.s,
+            req.query.perfil,
             function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
@@ -107,11 +108,11 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
                 result.s = req.query.s;
                 result.linkfitxaassignatura = '#'; //TODO
                 result.linkedicioaula = util.format('%s/Edit.action?s=%s&domainId=%s', config.aulaca(), req.query.s, req.params.domainId);
-                res.render('tabs_pra.html', { assignatura: result });
+                res.render(req.query.perfil == 'pra' ? 'tabs_pra.html' : 'tabs_consultor.html', { assignatura: result });
             }
         });
     } else {
-        callback('manquen algun dels parametres de la crida [s, idp]');
+        callback('manquen algun dels parametres de la crida [s, idp, perfil]');
     }
 });
 
@@ -121,13 +122,19 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
  */
 app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
 	if (req.query.s) {
-		return aules.one(req.params.anyAcademic, req.params.codAssignatura, req.params.codAula, req.query.s, req.params.domainId, req.params.domainIdAula, function (err, result) {
-			if (err) callback(err);
+		return aules.one(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.codAula,
+            req.query.s,
+            req.params.domainId,
+            req.params.domainIdAula,
+            function (err, result) {
+            if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
 			} else {
 				result.s = req.query.s;
-				result.idp = 
 				res.render('aula.html', { aula: result });
 			}
 		});
@@ -324,7 +331,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', fun
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
-        return eines.aulaìdp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if (err) callback(err);
             if (req.query.format) {
                 res.json(result);
