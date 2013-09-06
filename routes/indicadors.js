@@ -19,6 +19,10 @@ exports.getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }
 
+exports.getUltimaConnexio = function(object) {
+    return object ? object.value : config.nc();
+}
+
 exports.getTotalEstudiants = function(AulaVO) {
 	var estudiants = 0;
 	if (AulaVO) {

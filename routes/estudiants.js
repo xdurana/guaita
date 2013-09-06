@@ -52,7 +52,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
             function(callback) {
                 lrs.byidplast(estudiant.idp, s, function(err, result) {
                     if (err) { console.log(err); callback(err); return; }
-                    estudiant.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
+                    estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     callback();
                 });
             }

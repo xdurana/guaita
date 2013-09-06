@@ -75,7 +75,7 @@ exports.getResumEines = function(aula, callback) {
         function (callback) {            
             lrs.byidplast(aula.consultor.idp, aula.s, function(err, result) {
                 if (err) { console.log(err); callback(err); return; }
-                aula.consultor.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
+                aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                 callback();
             });
         }

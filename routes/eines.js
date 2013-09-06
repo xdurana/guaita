@@ -158,7 +158,7 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
             function(callback) {
                 lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); callback(err); return; }
-                    eina.resum.comunicacio.ultimaConnexio = result ? result.value : config.nc();
+                    eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();
                 });
             }
