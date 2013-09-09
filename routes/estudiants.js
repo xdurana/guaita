@@ -57,7 +57,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
                 });
             }
         ], function(err, results) {
-            if(err) { console.log(err); callback(err); return; }
+            if(err) { console.log(err); }
             callback();
         });
 	}

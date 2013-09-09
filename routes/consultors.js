@@ -80,7 +80,7 @@ exports.getResumEines = function(aula, callback) {
             });
         }
     ], function(err, result) {
-        if (err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); }
         return callback();
     });
 }

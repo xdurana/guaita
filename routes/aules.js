@@ -148,21 +148,17 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         }
     ], function(err, result) {
-        if (err) { console.log(err); callback(); return; }
+        if (err) { console.log(err); }
         callback();
     });
 }
 
 var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAula, callback) {
 
-    //TODO
-	var nomAssignatura = 'Nom assignatura';
-
 	var struct = {
 		s: s,
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
-		nomAssignatura: nomAssignatura,
 		codAula: codAula,
 		domainId: domainId,
 		domainIdAula: domainIdAula,
@@ -173,6 +169,13 @@ var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAu
 	}
 
 	async.parallel([
+        function (callback) {
+            infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
+                if (err) { console.log(err); callback(err); return; }
+                struct.nomAssignatura = result.out.descAssignatura;
+                callback(null, struct);
+            });
+        },
 		function (callback) {
 			estudiants.all(anyAcademic, codAssignatura, codAula, s, function(err, result) {
 				if (err) { console.log(err); callback(err); return; }

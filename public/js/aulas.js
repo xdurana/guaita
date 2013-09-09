@@ -308,7 +308,7 @@ var UOCAulas = (function($) {
 
         $('.window-close').click(function(){
             window.close();
-        });        
+        });
 
         $(acc).find('.activ-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
@@ -399,24 +399,11 @@ var UOCAulas = (function($) {
         $('.lnk-more').click(function() {
             $(this).attr('target', '_blank');
         });
-    };
 
-    /*
-    var getAula = function(url) {
-        $.ajax({
-            type: "GET",
-            url: url,
-            dataType: "html",
-        }).done(function(data){
-            $('.blocks').hide();
-            $('#content').append(data);
-        }).fail(function(jqXHR, status, error) {
-            //acc_content.html('<div class="error-row">' + status + ": " + error+'</div>');
-            //console.log('Error:' + status + " > " + error);
-        }).always(function() {
+        $('.lnk-extern').click(function() {
+            $(this).attr('target', '_blank');
         });
-    }
-    */
+    };
 
     /* Declaración de eventos tbl-aula */
     var addAulaEvents = function(acc){

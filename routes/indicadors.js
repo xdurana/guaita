@@ -1,4 +1,6 @@
 var config = require('../config');
+var date = require('./date');
+var util = require('util');
 
 exports.getNomComplert = function(tercer) {
     var complert = '';
@@ -19,10 +21,6 @@ exports.getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }
 
-exports.getUltimaConnexio = function(object) {
-    return object ? object.value : config.nc();
-}
-
 exports.getTotalEstudiants = function(AulaVO) {
 	var estudiants = 0;
 	if (AulaVO) {
@@ -33,9 +31,31 @@ exports.getTotalEstudiants = function(AulaVO) {
 	return estudiants;
 }
 
+exports.getUltimaConnexio = function(object) {
+    try {
+        var dt = new Date(object.value);
+        if (isNaN(dt.getMilliseconds())) return config.nc();
+        return util.format('%s/%s/%s',
+            dt.getDate(),
+            dt.getMonth() + 1,
+            dt.getFullYear()
+        );
+    } catch(e) {
+        return config.nc();
+    }
+}
+
 exports.getDataLliurament = function(data) {
-    //TODO
-    return data ? data : config.nc()
+    try {
+        var dt = new Date(data[0]);
+        return util.format('%s/%s/%s',
+            dt.getDate(),
+            dt.getMonth() + 1,
+            dt.getFullYear()
+        );
+    } catch(e) {
+        return config.nc();
+    }
 }
 
 var getIndicador = function(indicadors, nom) {

@@ -11,3 +11,14 @@ exports.getAulesByAssignatura = function(anyAcademic, codAssignatura, callback) 
 		callback(null, result);
 	});
 }
+
+exports.getAssignaturaByCodi = function(anyAcademic, codAssignatura, callback) {
+    var args = {
+        in0: codAssignatura,
+        in1: anyAcademic
+    }
+    service.operation(config.infoacademicawsdl(), 'getAssignaturaByCodi', args, function(err, result) {
+        if(err) { console.log(err); callback(err); return; }
+        callback(null, result);
+    });
+}

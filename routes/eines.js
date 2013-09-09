@@ -42,7 +42,6 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		if (err) { console.log(err); callback(err); return; }
 		struct.eines = result;
 		async.each(struct.eines, getResumComunicacio, function(err) {
-			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
 	});
@@ -81,7 +80,6 @@ exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 		if (err) { console.log(err); callback(err); return; }
 		struct.eines = result;
 		async.each(struct.eines, getResumComunicacio, function(err) {
-			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
     });
@@ -121,7 +119,6 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 		if (err) { console.log(err); callback(err); return; }		
 		struct.eines = result;
 		async.each(struct.eines, getResumComunicacioEstudiant, function(err) {
-			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
 	});
@@ -138,6 +135,7 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 	};
 
 	var getResumComunicacioIdp = function (eina, callback) {
+
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
@@ -147,6 +145,7 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 				ultimaConnexio: config.nc()
 			}
 		}
+
         async.parallel([
             function(callback) {
                 lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
@@ -163,7 +162,6 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
                 });
             }
         ], function(err, results) {
-            if(err) { console.log(err); callback(err); return; }
             callback();
         });
 	}

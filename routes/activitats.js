@@ -49,7 +49,6 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
         if(err) { console.log(err); callback(err); return; }
         struct.activitats = result;
         async.each(struct.activitats, getResumComunicacio, function(err) {
-            if(err) { console.log(err); callback(err); return; }
             callback(null, struct);
         });
     });
@@ -108,7 +107,6 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 		if(err) { console.log(err); callback(err); return; }
 		struct.activitats = result;
 		async.each(struct.activitats, getResumComunicacioActivitatIdp, function(err) {
-			if(err) { console.log(err); callback(err); return; }
 			callback(null, struct);
 		});
 	});

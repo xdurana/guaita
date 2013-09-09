@@ -126,7 +126,7 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         }
     ], function(err, result) {
-        if (err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); }
         callback();
     });
 }

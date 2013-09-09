@@ -6,6 +6,7 @@ var config = require('../config');
 
 exports.operation = function(url, service, args, callback) {
     soap.createClient(url, function(err, client) {
+        if (err) { console.log(err); return callback(err); }
         client[service](args, function(err, result) {
             return callback(err, result);
         });
@@ -28,7 +29,7 @@ exports.json = function(url, callback) {
             }
         });
     } catch (e) {
-        console.log(util.format('Error en la crida [%s]', url));
-        return callback();
+        var err = util.format('Error en la crida [%s]', url);
+        console.log(err); return callback(err);
     }
 }
