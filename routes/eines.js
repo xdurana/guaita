@@ -18,6 +18,7 @@ var isPHPBB = function(eina) {
 }
 
 var isForum = function(eina) {
+    //TODO
     return false;
 }
 
@@ -43,7 +44,10 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
 		}
 
         async.parallel([
-            function(callback) {                
+            function(callback) {
+                if (isForum(eina)) {
+                    callback();
+                }
                 if (isPHPBB(eina)) {
                     async.parallel([
                         function(callback) {
@@ -212,6 +216,31 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 		}
 
         async.parallel([
+            function(callback) {
+                if (isPHPBB(eina)) {
+                    async.parallel([
+                        function(callback) {
+                            phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                eina.resum.comunicacio.participacions = result;
+                                return callback();
+                            });
+                        },
+                        function(callback) {
+                            phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                eina.resum.comunicacio.lecturesPendents = result;
+                                return callback();
+                            });
+                        }
+                    ], function(err, results) {
+                        if (err) { console.log(err); }
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            },
             function(callback) {
                 lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
