@@ -81,14 +81,29 @@ $(document).ready(function() {
 
     var tincan = new TinCan ({
         recordStores: [{
-            endpoint: "http://meta.uoc.es:3030/xapi/",
+            endpoint: "http://localhost:3030/xapi/",
             username: "<Test User>",
             password: "<Test User's Password>"
         }]
-    }); 
+    });
 
     var registra = function(statement) {
-        tincan.sendStatement(statement);
+        if (false) {
+            statement = tincan.prepareStatement(statement);
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:3030/xapi/statements',
+                data: statement,
+                success: function (json) {
+                    alert('succes');
+                },
+                error: function() {
+                    alert('error');
+                },
+            })
+        } else {
+            tincan.sendStatement(statement);
+        }
     }
 
     registra({

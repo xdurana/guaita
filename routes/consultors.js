@@ -18,11 +18,15 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 	}
 
 	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
-		if (err) { console.log(err); return callback(err); }
-		async.each(result.out.AulaVO, getConsultantStats, function(err) {
-			if (err) { console.log(err); return callback(err); }
-		});
-		callback(null, struct);
+		if (err) { console.log(err); return callback(); }
+        try {
+    		async.each(result.out.AulaVO, getConsultantStats, function(err) {
+    			if (err) { console.log(err); return callback(null, struct); }
+    		});
+        } catch(e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
 	});
 
 	var getConsultantStats = function(item, callback) {
@@ -38,7 +42,7 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
 
     var consultor = {};
 	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
-		if (err) { console.log(err); return callback(err); }
+		if (err) { console.log(err); return callback(); }
         try {
             consultor = result.out.consultors[0].ConsultorAulaVO[0];
             consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
@@ -46,6 +50,7 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
             //TODO
             consultor.fitxa = util.format('https://cv-test.uoc.edu/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=52347&appId=UOC&idLang=b&s=ad6e883da00b61dc2613226a9166363033ba80ea2892e1cd3efadbdf3b2e89fee01d855152f5a8ab5c4108a0881a92820ff5b24519633925cfbd14bd8384d276&l=b&id_usuario_conectado=281933')
         } catch(e) {
+            console.log(e.message);
             consultor.nomComplert = config.nc(),
             consultor.fitxa = '#';
         }
@@ -67,16 +72,16 @@ exports.getResumEines = function(aula, callback) {
     async.parallel([
         function (callback) {
             lrs.byidp(aula.consultor.idp, aula.s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                callback();
+                return callback();
             });
         },
         function (callback) {            
             lrs.byidplast(aula.consultor.idp, aula.s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
-                callback();
+                return callback();
             });
         }
     ], function(err, result) {

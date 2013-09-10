@@ -10,7 +10,18 @@ var phpbb = require('../ws/phpbb');
 var aulaca = require('../ws/aulaca');
 var lrs = require('../ws/lrs');
 
-exports.aula = function(domainId, domainIdAula, s, callback) {
+var isPHPBB = function(eina) {
+    //TODO
+    eina.domainId = '321292';
+    eina.resourceId = '50591';
+    return true;
+}
+
+var isForum = function(eina) {
+    return false;
+}
+
+exports.aula = function(domainId, domainIdAula, idp, s, callback) {
 
 	var struct = {
 		s: s,
@@ -31,23 +42,67 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 			}
 		}
 
-        lrs.bytool(eina.resourceId, s, function(err, result) {
-            if (err) { console.log(err); callback(err); return; }
-            eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-            return callback();
+        async.parallel([
+            function(callback) {                
+                if (isPHPBB(eina)) {
+                    async.parallel([
+                        function(callback) {
+                            phpbb.one(eina.domainId, eina.resourceId, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
+                                return callback();
+                            });
+                        },
+                        function(callback) {
+                            phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                eina.resum.comunicacio.participacions = result;
+                                return callback();
+                            });
+                        },
+                        function(callback) {
+                            phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                eina.resum.comunicacio.lecturesPendents = result;
+                                return callback();
+                            });
+                        }
+                    ], function(err, results) {
+                        if (err) { console.log(err); }
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            },
+            function(callback) {
+                lrs.bytool(eina.resourceId, s, function(err, result) {
+                    if (err) { console.log(err); return callback(); }
+                    eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
+                    return callback();
+                });
+            }
+        ], function(err, results) {
+            if (err) { console.log(err); }
+            callback();
         });
 	}
 
 	aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
-		if (err) { console.log(err); callback(err); return; }
+		if (err) { console.log(err); return callback(null, struct); }
 		struct.eines = result;
-		async.each(struct.eines, getResumComunicacio, function(err) {
-			callback(null, struct);
-		});
+        try {
+    		async.each(struct.eines, getResumComunicacio, function(err) {
+    			return callback(null, struct);
+    		});
+        } catch(e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
 	});
 }
 
-exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
+exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) {
 
     var struct = {
     	s: s,
@@ -70,18 +125,23 @@ exports.activitat = function(domainId, domainIdAula, eventId, s, callback) {
 		}
 
         lrs.bytool(eina.resourceId, s, function(err, result) {
-            if (err) { console.log(err); callback(err); return; }
+            if (err) { console.log(err); return callback(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
 
     aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
-		if (err) { console.log(err); callback(err); return; }
+		if (err) { console.log(err); return callback(null, struct); }
 		struct.eines = result;
-		async.each(struct.eines, getResumComunicacio, function(err) {
-			callback(null, struct);
-		});
+        try {
+    		async.each(struct.eines, getResumComunicacio, function(err) {
+    			return callback(null, struct);
+    		});
+        } catch (e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
     });
 }
 
@@ -109,18 +169,23 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 		}
 
         lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
-            if (err) { console.log(err); callback(err); return; }
+            if (err) { console.log(err); return callback(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
 
 	aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
-		if (err) { console.log(err); callback(err); return; }		
-		struct.eines = result;
-		async.each(struct.eines, getResumComunicacioEstudiant, function(err) {
-			callback(null, struct);
-		});
+        if (err) { console.log(err); return callback(null, struct); }
+        struct.eines = result;
+        try {
+            async.each(struct.eines, getResumComunicacioEstudiant, function(err) {
+                return callback(null, struct);
+            });
+        } catch (e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
 	});
 }
 
@@ -149,36 +214,34 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
         async.parallel([
             function(callback) {
                 lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
                 });
             },
             function(callback) {
                 lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();
                 });
             }
         ], function(err, results) {
-            callback();
+            if (err) { console.log(err); }
+            return callback();
         });
 	}
 
-	aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
-		if (err) { console.log(err); callback(err); return; }
-		struct.eines = result;
-		async.each(struct.eines, getResumComunicacioIdp, function(err) {
-			if(err) { console.log(err); callback(err); return; }
-			callback(null, struct);
-		});
-	});
-}
-
-exports.phpBB3 = function(domainId, forumId, callback) {
-	phpbb.one(domainId, forumId, s, function(err, result) {
-		if (error) { console.log(err); callback(err); return; }
-		callback(null, struct);
-	});
+    aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+        if (err) { console.log(err); return callback(null, struct); }
+        struct.eines = result;
+        try {
+            async.each(struct.eines, getResumComunicacioIdp, function(err) {
+                return callback(null, struct);
+            });
+        } catch (e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
+    });
 }

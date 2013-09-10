@@ -17,15 +17,16 @@ exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
 	];
 
 	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
+		if (err) { console.log(err); return callback(null, struct); }
 		struct = result.out.EstudiantAulaVO;
         try {
     		async.each(struct, getResumEstudiant, function(err) {
-    			if(err) { console.log(err); callback(err); return; }
-    			callback(null, struct);
+    			if (err) { console.log(err); }
+    			return callback(null, struct);
     		});
         } catch(e) {
-            callback(struct);
+            console.log(e.message);
+            return callback(null, struct);
         }
 	});
 
@@ -44,21 +45,21 @@ exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
         async.parallel([
             function(callback) {
                 lrs.byidp(estudiant.idp, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                    callback();
+                    return callback();
                 });
             },
             function(callback) {
                 lrs.byidplast(estudiant.idp, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
-                    callback();
+                    return callback();
                 });
             }
         ], function(err, results) {
-            if(err) { console.log(err); }
-            callback();
+            if (err) { console.log(err); }
+            return callback();
         });
 	}
 }

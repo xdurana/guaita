@@ -22,23 +22,24 @@ var byidp = function(s, idp, anyAcademic, callback) {
     };
 
     aulaca.getAssignaturesPerIdp(s, idp, anyAcademic, function(err, result) {
-        if (err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); return callback(null, struct); }
         try {
             struct.assignatures = result;
             async.each(struct.assignatures, getResum.bind('null', s, idp, anyAcademic), function(err) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(null, struct); }
                 struct.assignatures.sort(ordenaAssignatures);
-                callback(null, struct);
+                return callback(null, struct);
             });
         } catch(e) {
-            callback(util.format("No s'han pogut obtenir les assignatures del idp [%s]", idp));
+            console.log(e.message);
+            return callback(null, struct);
         }
     });
 
     var getResum = function(s, idp, anyAcademic, subject, callback) {
         resum(s, idp, anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
-            if (err) { console.log(err); callback(err); return; }
-            callback();
+            if (err) { console.log(err); }
+            return callback();
         });
     }
 
@@ -73,61 +74,61 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
     async.parallel([
         function (callback) {
             rac.calcularIndicadorsAssignatura('RAC_PRA_2', anyAcademic, codi, '0', '0', function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 subject.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
-                callback();
+                return callback();
             });
         },
         function (callback) {
             rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', anyAcademic, codi, '0', '0', function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                 subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-                callback();
+                return callback();
             });
         },
         function (callback) {
             aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.aules.total = result ? result.length : config.nc();
-                callback();
+                return callback();
             });
         },
         function (callback) {
             lrs.bysubject(domainId, s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                callback();
+                return callback();
             });
         },
         function (callback) {
-            callback(); return;
+            return callback();
             aulaca.getLecturesPendentsAcumuladesAssignatura(domainId, s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
-                callback();
+                return callback();
             });
         },
         function (callback) {
-            callback(); return;
+            return callback();
             aulaca.getParticipacionsAssignatura(domainId, s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.comunicacio.participacions = result ? result : config.nc();
-                callback();
+                return callback();
             });
         },
         function (callback) {
-            callback(); return;
+            return callback();
             aulaca.getLecturesPendentsIdpAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); callback(err); return; }
+                if (err) { console.log(err); return callback(); }
                 subject.resum.comunicacio.lecturesPendents = result ? result : config.nc();
-                callback();
+                return callback();
             });
         }
     ], function(err, result) {
         if (err) { console.log(err); }
-        callback();
+        return callback();
     });
 }
 

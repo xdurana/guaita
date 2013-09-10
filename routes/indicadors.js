@@ -1,5 +1,5 @@
 var config = require('../config');
-var date = require('./date');
+var encoder = require('./encoder');
 var util = require('util');
 
 exports.getNomComplert = function(tercer) {
@@ -35,7 +35,7 @@ exports.getUltimaConnexio = function(object) {
     try {
         var dt = new Date(object.value);
         if (isNaN(dt.getMilliseconds())) return config.nc();
-        return util.format('%s/%s/%s',
+        return util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
             dt.getFullYear()
@@ -45,10 +45,14 @@ exports.getUltimaConnexio = function(object) {
     }
 }
 
+exports.decodeHtmlEntity = function(html) {
+    return Encoder.htmlDecode(html);
+};
+
 exports.getDataLliurament = function(data) {
     try {
         var dt = new Date(data[0]);
-        return util.format('%s/%s/%s',
+        return util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
             dt.getFullYear()

@@ -28,7 +28,9 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 
 	var getResumComunicacio = function(activitat, callback) {
 
-		activitat.nom = activitat.name;
+        activitat.nom = activitat.name;
+        activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
+
 		activitat.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -39,18 +41,24 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		}
 
         lrs.byactivity(domainId, s, function(err, result) {
-            if (err) { console.log(err); callback(err); return; }
+            if (err) { console.log(err); return callback(); }
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-            callback();
+            return callback();
         });
 	}
 
     aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-        if(err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); return callback(null, struct); }
         struct.activitats = result;
-        async.each(struct.activitats, getResumComunicacio, function(err) {
-            callback(null, struct);
-        });
+        try {
+            async.each(struct.activitats, getResumComunicacio, function(err) {
+                if (err) { console.log(err); }
+                return callback(null, struct);
+            });
+        } catch(e) {
+            console.log(e.message);
+            return callback(null, struct);
+        }
     });
 }
 
@@ -72,7 +80,10 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 	}
 
 	var getResumComunicacioActivitatIdp = function(activitat, callback) {
-		activitat.nom = activitat.name;
+
+        activitat.nom = activitat.name;
+        activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
+
 		activitat.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -85,30 +96,36 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
         async.parallel([
             function(callback) {
                 lrs.byidpandactivity(idp, domainId, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                    callback();
+                    return callback();
                 });
             },
             function(callback) {
                 lrs.byidpandactivitylast(idp, domainId, s, function(err, result) {
-                    if (err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
-                    callback();
+                    return callback();
                 });
             }
         ], function(err, results) {
-            if(err) { console.log(err); callback(err); return; }
-            callback();
+            if (err) { console.log(err); }
+            return callback();
         });
 	}
 
 	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); return callback(null, struct); }
 		struct.activitats = result;
-		async.each(struct.activitats, getResumComunicacioActivitatIdp, function(err) {
-			callback(null, struct);
-		});
+        try {
+    		async.each(struct.activitats, getResumComunicacioActivitatIdp, function(err) {
+                if (err) { console.log(err); }
+                return callback(null, struct);
+    		});
+        } catch(e) {
+            console.log(e.message);
+            callback(null, struct);
+        }
 	});
 }
 
@@ -129,15 +146,16 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
 	}
 
 	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if(err) { console.log(err); callback(err); return; }
+        if (err) { console.log(err); return callback(null, struct); }
         try {
     		struct.activitats = result.out.ActivitatVO;
     		async.each(struct.activitats, getIndicadorsActivitat, function(err) {
-    			if(err) { console.log(err); return; }
-    	  		callback(null, struct);
+                if (err) { console.log(err); }
+    	  		return callback(null, struct);
     		});
-        } catch(e) {            
-            callback(null, struct);
+        } catch(e) {
+            console.log(e.message);
+            return callback(null, struct);
         }
 	});
 
@@ -154,7 +172,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
 
         async.parallel([
             function(callback) {
-                callback();
+                return callback();
                 /*
                 rac.getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
                     if(err) { console.log(err); callback(err); return; }
@@ -170,15 +188,15 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
                 var comptarRelacions = '0';
 
                 rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-                    if(err) { console.log(err); callback(err); return; }
+                    if (err) { console.log(err); return callback(); }
                     item.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                     item.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-                    callback();
+                    return callback();
                 });
             }
         ], function(err, results) {
-            if(err) { console.log(err); callback(err); return; }
-            callback();
+            if (err) { console.log(err); }
+            return callback();
         });
     }    
 }

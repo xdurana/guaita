@@ -324,7 +324,7 @@ var UOCAulas = (function($) {
             var block = $(this).closest('.acc');
             var domainId = $(block).attr('data-guaita-domainId');
             var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URLEinesEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/eines?s=' + s;
+            var URLEinesEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/eines?idp=' + idp + '&s=' + s;
             getTable(this, URLEinesEstudiants, false);
         });
 
@@ -417,7 +417,7 @@ var UOCAulas = (function($) {
             var s = $(block).attr('data-guaita-s');
 
             if (acc.hasClass('activ-student-acc')) {
-                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + eventId + '/eines?s=' + s;
+                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + eventId + '/eines?idp=' + idp + '&s=' + s;
                 getTable(this, URLActivitatsEstudiants, false);
             } else {
                 var idpEstudiant = $(block).attr('data-guaita-idp');
