@@ -54,7 +54,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
 
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
         var codAula = classroom.domainCode.slice(-1);
-        consultors.aula(anyAcademic, codAssignatura, codAula, function(err, result) {
+        consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             classroom.consultor = result;
             struct.aules.push(classroom);
@@ -154,7 +154,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     });
 }
 
-var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAula, callback) {
+var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domainIdAula, callback) {
 
 	var struct = {
 		s: s,
@@ -178,14 +178,14 @@ var one = function(anyAcademic, codAssignatura, codAula, s, domainId, domainIdAu
             });
         },
 		function (callback) {
-			estudiants.all(anyAcademic, codAssignatura, codAula, s, function(err, result) {
+			estudiants.all(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
 				struct.estudiants = result;
 				return callback();
 			});
 		},
 		function (callback) {
-			consultors.aula(anyAcademic, codAssignatura, codAula, function(err, result) {
+			consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
 				struct.consultor = result;
 				return callback();

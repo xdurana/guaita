@@ -6,19 +6,22 @@ var indicadors = require('./indicadors');
 var rac = require('../ws/rac');
 var dadesacademiques = require('../ws/dadesacademiques');
 var infoacademica = require('../ws/infoacademica');
+var forum = require('../ws/forum');
 var phpbb = require('../ws/phpbb');
 var aulaca = require('../ws/aulaca');
 var lrs = require('../ws/lrs');
 
 var isPHPBB = function(eina) {
-    //TODO
-    eina.domainId = '321292';
-    eina.resourceId = '50591';
-    return true;
+    if (eina.idTipoLink == 'BB_FORUMS') {
+        return true;
+    }
+    return false;
 }
 
 var isForum = function(eina) {
-    //TODO
+    if (eina.idTipoLink == 'PRIVATEBB') {
+        return true;
+    }
     return false;
 }
 
@@ -46,8 +49,30 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
         async.parallel([
             function(callback) {
                 if (isForum(eina)) {
+                    async.parallel([
+                        function(callback) {
+                            forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                //TODO
+                                //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
+                                return callback();
+                            });
+                        },
+                        function(callback) {
+                            callback();
+                        },
+                        function(callback) {
+                            callback();
+                        }
+                    ], function(err, results) {
+                        if (err) { console.log(err); }
+                        callback();
+                    });
+                } else {
                     callback();
                 }
+            },
+            function(callback) {
                 if (isPHPBB(eina)) {
                     async.parallel([
                         function(callback) {

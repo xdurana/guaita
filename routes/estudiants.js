@@ -11,13 +11,13 @@ var lrs = require('../ws/lrs');
  * @param anyAcademic
  * @param codAula
  */
-exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
+exports.all = function(anyAcademic, codAssignatura, codAula, idp, s, callback) {
 
 	var struct = [
 	];
 
 	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if (err) { console.log(err); return callback(null, struct); }
+		if (err) { console.log(err); return callback(null, struct); }        
 		struct = result.out.EstudiantAulaVO;
         try {
     		async.each(struct, getResumEstudiant, function(err) {
@@ -33,6 +33,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, s, callback) {
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
         estudiant.idp = estudiant.tercer[0].idp[0];
+        estudiant.fitxa = indicadors.getFitxa(estudiant.idp, s);
 		estudiant.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),

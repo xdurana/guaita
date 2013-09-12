@@ -33,12 +33,16 @@ exports.lrs = function() {
     return nconf.get('wsdl:lrs');
 }
 
+exports.cv = function() {
+    return nconf.get('wsdl:cv');
+}
+
 exports.phpbb = function() {
     return nconf.get('wsdl:phpbb');
 }
 
 exports.nc = function() {
-    return "(?)";
+    return "-";
 }
 
 exports.debug = function(msg) {

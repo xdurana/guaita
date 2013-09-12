@@ -38,7 +38,7 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 	}
 }
 
-exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
+exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) {
 
     var consultor = {};
 	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
@@ -47,8 +47,9 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, callback) {
             consultor = result.out.consultors[0].ConsultorAulaVO[0];
             consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
             consultor.idp = consultor.tercer[0].idp[0];
-            //TODO
-            consultor.fitxa = util.format('https://cv-test.uoc.edu/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=52347&appId=UOC&idLang=b&s=ad6e883da00b61dc2613226a9166363033ba80ea2892e1cd3efadbdf3b2e89fee01d855152f5a8ab5c4108a0881a92820ff5b24519633925cfbd14bd8384d276&l=b&id_usuario_conectado=281933')
+            consultor.fitxa = indicadors.getFitxa(consultor.idp, s);
+            
+
         } catch(e) {
             console.log(e.message);
             consultor.nomComplert = config.nc(),

@@ -17,6 +17,38 @@ exports.getNomComplert = function(tercer) {
     return complert;
 }
 
+exports.getFitxa = function(idp, s) {
+    
+    //TODO
+
+    var jsp = '/jsp/cercaContextual/curriculum.jsp';
+    var operacion = 'searchUser';
+    var USERID = idp;
+    var appId = 'UOC';
+    var l = '/a';
+    var id_usuario_conectado = '281933';
+    var dirFotos = 'http://cv.uoc.edu/UOC/mc-icons/fotos/';
+    var cercaActiveTab = 'cercaBasica';
+    var style = 'uoc';
+    var position = 'both';
+    var index = 'canter';
+    var maxPageItems = '20';
+    var MaxIndexPages = '0';
+    var fitxa = util.format('%s/webapps/cercaPersones/cercaContextualServlet?jsp=%s&operacion=%s&USERID=%s&appId=%s&idLang=%s&s=%s&l=%s&id_usuario_conectado=%s',
+        config.cv(),
+        jsp,
+        operacion,
+        USERID,
+        appId,
+        l,
+        s,
+        l,
+        id_usuario_conectado
+    );
+
+    return "#";
+}
+
 exports.getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }
@@ -104,93 +136,4 @@ exports.getSeguimentACAula = function(indicadors) {
 
 exports.getSuperacioACAula = function(indicadors) {
 	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
-}
-
-exports.getCodiMare = function(relacions) {
-	return relacions && relacions[0].tipusRelacio == 'I' ? relacions[0].codi[0] : false;
-}
-
-exports.getAssignaturesIdentiques = function() {
-	//TODO
-	return [];
-}
-
-exports.getActivitatsAssignatura = function() {
-	//TODO
-	return [];
-}
-
-exports.getEinesAssignatura = function() {
-	//TODO
-	return [];
-}
-
-exports.getClicksAcumulatsAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getClicksAcumulatsAulaEina = function() {
-	//TODO
-	return 0;
-}
-
-exports.getLecturesPendentsAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getLecturesPendentsAulaEina = function() {
-	//TODO
-	return 0;
-}
-
-exports.getParticipacionsAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getParticipacionsAulaEina = function() {
-	//TODO
-	return 0;
-}
-
-exports.getSeguimentACAulaActivitat = function() {
-	//TODO
-	return 0;
-}
-
-exports.getSuperacioACAulaActivitat = function() {
-	//TODO
-	return 0;
-}
-
-exports.getDarreraActivitatLliuradaAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getDarreraActivitatLliuradaAulaActivitat = function() {
-	//TODO
-	return 0;
-}
-
-exports.getDarreraActivitatSuperadaAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getDarreraActivitatSuperadaAulaActivitat = function() {
-	//TODO
-	return 0;
-}
-
-exports.getActivitatLliuradaAula = function() {
-	//TODO
-	return 0;
-}
-
-exports.getActivitatSuperadaAula = function() {
-	//TODO
-	return 0;
 }

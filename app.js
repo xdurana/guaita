@@ -106,6 +106,7 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
                 res.json(result);
             } else {
                 result.s = req.query.s;
+                result.idp = req.query.idp;
                 result.linkfitxaassignatura = util.format("http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=%s&cod_asignatura=%s&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S", req.params.anyAcademic, req.params.codAssignatura);
                 result.linkedicioaula = util.format('%s/Edit.action?s=%s&domainId=%s', config.aulaca(), req.query.s, req.params.domainId);
                 res.render(req.query.perfil == 'pra' ? 'tabs_pra.html' : 'tabs_consultor.html', { assignatura: result });
@@ -121,11 +122,12 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
  * @mockup: aulas_individual.html
  */
 app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
-	if (req.query.s) {
+	if (req.query.s && req.query.idp) {
 		return aules.one(
             req.params.anyAcademic,
             req.params.codAssignatura,
             req.params.codAula,
+            req.query.idp,
             req.query.s,
             req.params.domainId,
             req.params.domainIdAula,
