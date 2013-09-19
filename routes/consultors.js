@@ -47,7 +47,7 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) 
             consultor = result.out.consultors[0].ConsultorAulaVO[0];
             consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
             consultor.idp = consultor.tercer[0].idp[0];
-            consultor.fitxa = indicadors.getFitxa(consultor.idp, s);
+            consultor.fitxa = indicadors.getFitxa(consultor.idp, idp, s);
             
 
         } catch(e) {

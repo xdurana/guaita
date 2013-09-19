@@ -33,7 +33,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
         estudiant.idp = estudiant.tercer[0].idp[0];
-        estudiant.fitxa = indicadors.getFitxa(estudiant.idp, s);
+        estudiant.fitxa = indicadors.getFitxa(estudiant.idp, idp, s);
 		estudiant.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),

@@ -17,36 +17,14 @@ exports.getNomComplert = function(tercer) {
     return complert;
 }
 
-exports.getFitxa = function(idp, s) {
-    
-    //TODO
-
-    var jsp = '/jsp/cercaContextual/curriculum.jsp';
-    var operacion = 'searchUser';
-    var USERID = idp;
-    var appId = 'UOC';
-    var l = '/a';
-    var id_usuario_conectado = '281933';
-    var dirFotos = 'http://cv.uoc.edu/UOC/mc-icons/fotos/';
-    var cercaActiveTab = 'cercaBasica';
-    var style = 'uoc';
-    var position = 'both';
-    var index = 'canter';
-    var maxPageItems = '20';
-    var MaxIndexPages = '0';
-    var fitxa = util.format('%s/webapps/cercaPersones/cercaContextualServlet?jsp=%s&operacion=%s&USERID=%s&appId=%s&idLang=%s&s=%s&l=%s&id_usuario_conectado=%s',
+exports.getFitxa = function(userid, idp, s) {
+    return util.format(
+        '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
         config.cv(),
-        jsp,
-        operacion,
-        USERID,
-        appId,
-        l,
+        userid,
         s,
-        l,
-        id_usuario_conectado
+        idp
     );
-
-    return "#";
 }
 
 exports.getTotalAules = function(AulaVO) {
