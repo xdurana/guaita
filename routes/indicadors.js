@@ -65,7 +65,7 @@ exports.getTotalEstudiants = function(AulaVO) {
 
 exports.getUltimaConnexio = function(object) {
     try {
-        var dt = new Date(object.value);
+        var dt = new Date(object.value[0].stored);
         if (isNaN(dt.getMilliseconds())) return config.nc();
         return util.format('%s-%s-%s',
             dt.getDate(),

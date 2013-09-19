@@ -4,191 +4,113 @@ var request = require('request');
 var util = require('util');
 
 exports.byidp = function(idp, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s',
-        config.lrs(),
-        idp
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.bysubject = function(domainId, s, callback) {
-
-    var url = util.format('%s/guaita/subjects/%s',
-        config.lrs(),
-        domainId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byclassroom = function(domainId, s, callback) {
-
-    var url = util.format('%s/guaita/classrooms/%s',
-        config.lrs(),
-        domainId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byactivity = function(eventId, s, callback) {
-
-    var url = util.format('%s/guaita/activities/%s',
-        config.lrs(),
-        eventId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.bytool = function(resourceId, s, callback) {
-
-    var url = util.format('%s/guaita/tools/%s',
-        config.lrs(),
-        resourceId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byidpandsubject = function(idp, domainId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/subjects/%s',
-        config.lrs(),
-        idp,
-        domainId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byidpandclassroom = function(idp, domainId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/classrooms/%s',
-        config.lrs(),
-        idp,
-        domainId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byidpandactivity = function(idp, eventId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/activities/%s',
-        config.lrs(),
-        idp,
-        eventId
-    );
-
-    service.json(url, function(err, result) {
-        if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result });
-    });
-}
-
-exports.byidpandtool = function(idp, resourceId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/tools/%s',
-        config.lrs(),
-        idp,
-        resourceId
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "actor.account.name": util.format("%s", idp) };
+    service.count(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
         return callback(null, { value: result });
     });
 }
 
 exports.byidplast = function(idp, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/last',
-        config.lrs(),
-        idp
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "actor.account.name": util.format("%s", idp) };
+    service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result[0].stored });
+        return callback(null, { value: result });
+    });
+}
+
+exports.bysubject = function(domainId, s, callback) {
+    var data = { "context.extensions.uoc:lrs:subject:id": util.format("%s", domainId) };
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
+exports.byclassroom = function(domainId, s, callback) {
+    var data = { "context.extensions.uoc:lrs:classroom:id": util.format("%s", domainId) };
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
+exports.byactivity = function(eventId, s, callback) {
+    var data = { "context.extensions.uoc:lrs:activity:id": util.format("%s", eventId) };
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
+exports.bytool = function(resourceId, s, callback) {
+    var data = { "object.extensions.uoc:lrs:tool:id" : util.format("%s", resourceId) };
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
+exports.byidpandsubject = function(idp, domainId, s, callback) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": util.format("%s", domainId) }]};
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
     });
 }
 
 exports.byidpandsubjectlast = function(idp, domainId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/subjects/%s/last',
-        config.lrs(),
-        idp,
-        domainId
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": util.format("%s", domainId) }]};
+    service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result[0].stored });
+        return callback(null, { value: result });
+    });
+}
+
+exports.byidpandclassroom = function(idp, domainId, s, callback) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": util.format("%s", domainId) }]};
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
     });
 }
 
 exports.byidpandclassroomlast = function(idp, domainId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/classrooms/%s/last',
-        config.lrs(),
-        idp,
-        domainId
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": util.format("%s", domainId) }]};
+    service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result[0].stored });
+        return callback(null, { value: result });
+    });
+}
+
+exports.byidpandactivity = function(idp, eventId, s, callback) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": util.format("%s", eventId) }]};
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
     });
 }
 
 exports.byidpandactivitylast = function(idp, eventId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/activities/%s/last',
-        config.lrs(),
-        idp,
-        eventId
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": util.format("%s", eventId) }]};
+    service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result[0].stored });
+        return callback(null, { value: result });
+    });
+}
+
+exports.byidpandtool = function(idp, resourceId, s, callback) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.extensions.uoc:lrs:tool:id": util.format("%s", resourceId) }]};
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
     });
 }
 
 exports.byidpandtoollast = function(idp, resourceId, s, callback) {
-
-    var url = util.format('%s/guaita/idp/%s/tools/%s/last',
-        config.lrs(),
-        idp,
-        resourceId
-    );
-
-    service.json(url, function(err, result) {
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.extensions.uoc:lrs:tool:id": util.format("%s", resourceId) }]};
+    service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
-        return callback(null, { value: result[0].stored });
-   });
+        return callback(null, { value: result });
+    });
 }

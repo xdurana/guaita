@@ -72,14 +72,14 @@ exports.getResumEines = function(aula, callback) {
 
     async.parallel([
         function (callback) {
-            lrs.byidp(aula.consultor.idp, aula.s, function(err, result) {
+            lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });
         },
         function (callback) {            
-            lrs.byidplast(aula.consultor.idp, aula.s, function(err, result) {
+            lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                 return callback();

@@ -11,7 +11,7 @@ var lrs = require('../ws/lrs');
  * @param anyAcademic
  * @param codAula
  */
-exports.all = function(anyAcademic, codAssignatura, codAula, idp, s, callback) {
+exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, callback) {
 
 	var struct = [
 	];
@@ -45,14 +45,14 @@ exports.all = function(anyAcademic, codAssignatura, codAula, idp, s, callback) {
 
         async.parallel([
             function(callback) {
-                lrs.byidp(estudiant.idp, s, function(err, result) {
+                lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
                 });
             },
             function(callback) {
-                lrs.byidplast(estudiant.idp, s, function(err, result) {
+                lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();

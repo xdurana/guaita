@@ -178,7 +178,7 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
             });
         },
 		function (callback) {
-			estudiants.all(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
 				struct.estudiants = result;
 				return callback();

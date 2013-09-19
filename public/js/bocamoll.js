@@ -26,15 +26,14 @@ function getVerb() {
     return {
         id: "http://adlnet.gov/expapi/verbs/experienced",
         display: {
-            ca: "ha experimentat"
+            en: "experienced"
         }
     }
 }
 
 function getConnection() {
     return {
-        id: "1",
-        type: "connection"
+        id: "https://cv.uoc.edu/webapps/aulaca"
     }
 }
 
@@ -81,29 +80,14 @@ $(document).ready(function() {
 
     var tincan = new TinCan ({
         recordStores: [{
-            endpoint: "http://localhost:3030/xapi/",
+            endpoint: "https://cv.uoc.edu/app/lrs/xapi/",
             username: "<Test User>",
             password: "<Test User's Password>"
         }]
     });
 
     var registra = function(statement) {
-        if (false) {
-            statement = tincan.prepareStatement(statement);
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:3030/xapi/statements',
-                data: statement,
-                success: function (json) {
-                    alert('succes');
-                },
-                error: function() {
-                    alert('error');
-                },
-            })
-        } else {
-            tincan.sendStatement(statement);
-        }
+        tincan.sendStatement(statement);
     }
 
     registra({
@@ -114,7 +98,6 @@ $(document).ready(function() {
     });
 
     $("a[data-bocamoll-object-resourceid]").on("click", function (e) {
-        e.preventDefault();
         var statement = {
             actor: getActor(),
             context: getContext(),
@@ -122,10 +105,10 @@ $(document).ready(function() {
             object: getObject($(this))
         };
         registra(statement);
+        return false;
     });
 
     $("a[data-bocamoll-object-informationSourceId]").on("click", function (e) {
-        e.preventDefault();
         var statement = {
             actor: getActor(),
             context: getContext(),
@@ -133,10 +116,10 @@ $(document).ready(function() {
             object: getFontsInformacio($(this))
         };
         registra(statement);
+        return false;
     });
 
     $("a[data-bocamoll-object-materialid]").on("click", function (e) {
-        e.preventDefault();
         var statement = {
             actor: getActor(),
             context: getContext(),
@@ -144,39 +127,6 @@ $(document).ready(function() {
             object: getMaterial($(this))
         };
         registra(statement);
+        return false;
     });
 });
-
-var sample = {
-    "actor": {
-        "objectType": "Agent",
-        "account": {
-            "name": "70003674"
-        }
-    },
-    "verb": {
-        "id": "http://adlnet.gov/expapi/verbs/experienced",
-        "display": {
-            "ca": "ha experimentat"
-        }
-    },
-    "object": {
-        "id": "T:119858",
-        "definition": {
-            "type": "http://cv.uoc.edu/app/lrs/tool",
-            "name": {
-                "ca": "Pla docent"
-            },
-            "extensions": {
-                "uoc:lrs:tool:id": "119858"
-            }
-        }
-    },
-    "context": {
-        "extensions": {
-            "uoc:lrs:subject:id": "382784",
-            "uoc:lrs:classroom:id": "382785",
-            "uoc:lrs:activity:id": "697120"
-        }
-    }
-}

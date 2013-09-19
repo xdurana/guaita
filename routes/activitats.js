@@ -40,7 +40,7 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 			}
 		}
 
-        lrs.byactivity(domainId, s, function(err, result) {
+        lrs.byactivity(activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
@@ -95,14 +95,14 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
 
         async.parallel([
             function(callback) {
-                lrs.byidpandactivity(idp, domainId, s, function(err, result) {
+                lrs.byidpandactivity(idp, activitat.eventId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
                 });
             },
             function(callback) {
-                lrs.byidpandactivitylast(idp, domainId, s, function(err, result) {
+                lrs.byidpandactivitylast(idp, activitat.eventId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();
