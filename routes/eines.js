@@ -105,7 +105,7 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
                 }
             },
             function(callback) {
-                lrs.bytool(eina.resourceId, s, function(err, result) {
+                lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
@@ -142,7 +142,7 @@ exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) 
         ]
     };
 
-	var getResumComunicacio = function (eina, callback) {
+	var getResumComunicacio = function (domainIdAula, eina, callback) {
 		eina.nom = eina.description;
 		eina.resum = {
 			comunicacio: {
@@ -153,7 +153,7 @@ exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) 
 			}
 		}
 
-        lrs.bytool(eina.resourceId, s, function(err, result) {
+        lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
@@ -164,7 +164,7 @@ exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) 
 		if (err) { console.log(err); return callback(null, struct); }
 		struct.eines = result;
         try {
-    		async.each(struct.eines, getResumComunicacio, function(err) {
+    		async.each(struct.eines, getResumComunicacio.bind(null, domainIdAula), function(err) {
     			return callback(null, struct);
     		});
         } catch (e) {

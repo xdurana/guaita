@@ -101,44 +101,50 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
     });
 }
 
-/**
- * TODO
- */
+exports.getAulesEstudiant = function(idp, s, callback) {
+
+    //TODO
+
+    var aules = [{
+        nom: 'Llenguatges i estàndars web',
+        anyAcademic: '20131',
+        domainId: '392985',
+        codiAssignatura: '06.510',
+        codAula: '1',
+        domainIdAula: '419029',
+        color: '66AA00',
+        link: util.format('https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=419029', s)
+    }];
+
+    callback(null, { aules: aules});
+}
+
 exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
+    //TODO
     callback();
 }
 
-/**
- * TODO
- */
 exports.getParticipacionsAssignatura = function(domainId, s, callback) {
+    //TODO
     callback();
 }
 
-/**
- * TODO
- */
 exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
+    //TODO
     callback();
 }
 
-/**
- * TODO
- */
 exports.getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
+    //TODO
     callback();
 }
 
-/**
- * TODO
- */
 exports.getParticipacionsAula = function(domainId, s, callback) {
+    //TODO
     callback();
 }
 
-/**
- * TODO
- */
 exports.getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
+    //TODO
     callback();
 }

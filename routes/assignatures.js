@@ -25,7 +25,7 @@ var byidp = function(s, idp, anyAcademic, callback) {
         if (err) { console.log(err); return callback(null, struct); }
         try {
             struct.assignatures = result;
-            async.each(struct.assignatures, getResum.bind('null', s, idp, anyAcademic), function(err) {
+            async.each(struct.assignatures, getResum.bind(null, s, idp, anyAcademic), function(err) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.assignatures.sort(ordenaAssignatures);
                 return callback(null, struct);

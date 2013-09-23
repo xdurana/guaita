@@ -15,8 +15,9 @@ var lrs = require('../ws/lrs');
  * @param domainId
  * @param domainIdAula
  * @param s
+ * @param resum
  */
-exports.aula = function(domainId, domainIdAula, s, callback) {
+exports.aula = function(domainId, domainIdAula, s, resum, callback) {
 
 	var struct = {
 		s: s,
@@ -26,7 +27,7 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 		]
 	}
 
-	var getResumComunicacio = function(activitat, callback) {
+	var getResumComunicacio = function(domainIdAula, activitat, callback) {
 
         activitat.nom = activitat.name;
         activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
@@ -40,7 +41,7 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
 			}
 		}
 
-        lrs.byactivity(activitat.eventId, s, function(err, result) {
+        lrs.byactivityandclassroom(domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
@@ -50,13 +51,18 @@ exports.aula = function(domainId, domainIdAula, s, callback) {
     aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         struct.activitats = result;
-        try {
-            async.each(struct.activitats, getResumComunicacio, function(err) {
-                if (err) { console.log(err); }
+        if (resum) {
+            try {
+                async.each(struct.activitats, getResumComunicacio.bind(null, domainIdAula), function(err) {
+                    if (err) { console.log(err); }
+                    config.debug(struct.activitats[0].resum);
+                    return callback(null, struct);
+                });
+            } catch(e) {
+                console.log(e.message);
                 return callback(null, struct);
-            });
-        } catch(e) {
-            console.log(e.message);
+            }
+        } else {
             return callback(null, struct);
         }
     });
@@ -161,7 +167,8 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
 
     var getIndicadorsActivitat = function(item, callback) {
 
-        item.nom = item.descripcio[0].DescripcioVO[0].valor;
+        item.nom = item.descripcio[0].DescripcioVO[0].valor[0];
+        item.nom = indicadors.decodeHtmlEntity(item.nom);
         item.resum = {
             avaluacio: {
                 seguiment: config.nc(),

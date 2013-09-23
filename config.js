@@ -42,9 +42,11 @@ exports.phpbb = function() {
 }
 
 exports.nc = function() {
-    return "-";
+    return "N/D";
 }
 
 exports.debug = function(msg) {
-    console.log(msg);
+    if (nconf.get('entorn') != 'PRO') {
+        console.log(msg);
+    }
 }

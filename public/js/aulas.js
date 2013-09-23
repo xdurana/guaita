@@ -35,6 +35,11 @@ var UOCAulas = (function($) {
             oWin(event,$(this).attr('href'));
         });
 
+        $('#content').on('click', '.lnk-user', function(event){
+            //TODO link fitxa
+            event.preventDefault();
+        });        
+
         /* Selección multiple de usuarios */
         $('#content').on('click', '.check-all-users', function () {
             var chk = this;

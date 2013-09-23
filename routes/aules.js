@@ -30,7 +30,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
         async.parallel([
             function (callback) {
                 try {
-                    async.each(aules, procesa.bind('null', anyAcademic, codAssignatura, idp, s, perfil), function(err) {
+                    async.each(aules, procesa.bind(null, anyAcademic, codAssignatura, idp, s, perfil), function(err) {
                         if (err) { console.log(err); }
                         return callback();
                     });

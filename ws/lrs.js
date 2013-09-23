@@ -43,8 +43,24 @@ exports.byactivity = function(eventId, s, callback) {
     });
 }
 
+exports.byactivityandclassroom = function(domainId, eventId, s, callback) {
+    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : util.format("%s", domainId) }, { "context.extensions.uoc:lrs:activity:id": util.format("%s", eventId) }]};
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
 exports.bytool = function(resourceId, s, callback) {
-    var data = { "object.extensions.uoc:lrs:tool:id" : util.format("%s", resourceId) };
+    var data = { "object.id" : util.format("T:%s", resourceId) };
+    service.count(data, function(err, result) {
+        if(err) { console.log(err); return callback(err); }
+        return callback(null, { value: result });
+    });
+}
+
+exports.bytoolandclassroom = function(domainId, resourceId, s, callback) {
+    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : util.format("%s", domainId) }, { "object.id" : util.format("T:%s", resourceId) }]};
     service.count(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
         return callback(null, { value: result });
@@ -100,7 +116,7 @@ exports.byidpandactivitylast = function(idp, eventId, s, callback) {
 }
 
 exports.byidpandtool = function(idp, resourceId, s, callback) {
-    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.extensions.uoc:lrs:tool:id": util.format("%s", resourceId) }]};
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.id": util.format("T:%s", resourceId) }]};
     service.count(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
         return callback(null, { value: result });
@@ -108,7 +124,7 @@ exports.byidpandtool = function(idp, resourceId, s, callback) {
 }
 
 exports.byidpandtoollast = function(idp, resourceId, s, callback) {
-    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.extensions.uoc:lrs:tool:id": util.format("%s", resourceId) }]};
+    var data = { "$and":[{ "actor.account.name" : util.format("%s", idp) }, { "object.id": util.format("T:%s", resourceId) }]};
     service.last(data, function(err, result) {
         if(err) { console.log(err); return callback(err); }
         return callback(null, { value: result });

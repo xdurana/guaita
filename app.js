@@ -151,7 +151,7 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:do
  */
 app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res, callback) {
 	if (req.query.s) {
-		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
+		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, true, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -204,27 +204,6 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res,
 		callback('manquen algun dels parametres de la crida [s]');
 	}
 });
-
-/**
- * Avaluació per aula
- * @mockup: evaluacion_estudiantes.html
- *
-app.get('/assignatures/:domainId/aules/:domainIdAula/avaluacio', function (req, res, callback) {
-	if (req.query.s) {
-		return activitats.avaluacio(req.params.domainId, req.params.domainIdAula, req.query.s, function (err, result) {
-			if (err) callback(err);
-			if (req.query.format) {
-				res.json(result);
-			} else {
-				result.s = req.query.s;
-				res.render('avaluacio-estudiants.html', { aula: result });
-			}
-		})
-	} else {
-		callback('manquen algun dels parametres de la crida [s]');
-	}
-});
-*/
 
 /**
  * Avaluació per aula
@@ -340,6 +319,27 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', fun
             } else {
                 result.s = req.query.s;
                 res.render('eines-aula-consultor.html', { aula: result });
+            }
+        })
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
+});
+
+/**
+ * Student classrooms page
+ * @mockup: aulas_estudiante.html
+ */
+app.get('/estudiants/:idp', function (req, res, callback) {
+    if (req.query.s) {
+        return estudiants.aules(req.params.idp, req.query.s, function (err, result) {
+            if(err) { console.log(err); callback(); return; }
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                result.idp = req.params.idp;
+                res.render('estudiant.html', { estudiant: result });
             }
         })
     } else {

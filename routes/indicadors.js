@@ -18,6 +18,8 @@ exports.getNomComplert = function(tercer) {
 }
 
 exports.getFitxa = function(userid, idp, s) {
+    return '#';
+    //TODO get Id Campus de l'usuari
     return util.format(
         '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
         config.cv(),
