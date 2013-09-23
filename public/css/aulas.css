@@ -427,7 +427,6 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
 
 .btn-torna{
     font-family: Verdana, arial, sans-serif;
-    background: #EFF5F8;
     border:1px solid #2685AC;
     color: #2685AC;
     font-size:12px;
@@ -438,6 +437,7 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     padding:5px 12px;
     margin:0;
     margin-top:26px;
+    padding-left: 32px;
     outline:none;
     text-decoration:none!important;
     -webkit-border-radius: 3px;
@@ -446,18 +446,18 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow:1px 1px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    background: #EFF5F8 url(../img/torna.png) no-repeat left 8px top 4px;
 }
 
 .btn-torna:hover,
 .btn-torna:focus{ 
-    background:#2685AC;
     cursor:pointer;
     color: #FFFFFF;
+    background:#2685AC url(../img/torna-over.png) no-repeat left 8px top 4px;
 }
 
 .btn-incidencia{
     font-family: Verdana, arial, sans-serif;
-    background: #FFEDCE;
     border:1px solid #D96D00;
     color: #D96D00;
     font-size:12px;
@@ -468,6 +468,7 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     padding:5px 12px;
     margin:0;
     margin-top:26px;
+    padding-left: 32px;
     outline:none;
     text-decoration:none!important;
     -webkit-border-radius: 3px;
@@ -476,18 +477,18 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow:1px 1px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    background: #FFEDCE url(../img/incidencia.png) no-repeat left 8px top 4px;
 }
 
 .btn-incidencia:hover,
 .btn-incidencia:focus{ 
-    background:#D96D00;
     cursor:pointer;
     color: #FFEDCE;
+    background: #D96D00 url(../img/incidencia-over.png) no-repeat left 8px top 4px;
 }
 
 .btn-millora{
     font-family: Verdana, arial, sans-serif;
-    background: #F4FFD5;
     border:1px solid #698C00;
     color: #698C00;
     font-size:12px;
@@ -498,6 +499,7 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     padding:5px 12px;
     margin:0;
     margin-top:26px;
+    padding-left: 32px;
     outline:none;
     text-decoration:none!important;
     -webkit-border-radius: 3px;
@@ -506,13 +508,14 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow:1px 1px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    background: #F4FFD5 url(../img/encuesta.png) no-repeat;
 }
 
 .btn-millora:hover,
 .btn-millora:focus{ 
-    background:#698C00;
     cursor:pointer;
     color: #F4FFD5;
+    background: #698C00 url(../img/encuesta-over.png) left 8px top 4px;
 }
 
 .icon-move { cursor: move!important; }
