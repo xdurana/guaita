@@ -7,7 +7,7 @@ var util = require('util');
 
 exports.one = function(domainId, forumId, s, callback) {
 
-    //TODO
+    //TODO select * from CAMPUS96.CONVERSATION WHERE CONVID = '282246'
     return callback();
 
     var rangeItems = -1; //$RANGEITEMS$

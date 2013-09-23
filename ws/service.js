@@ -5,6 +5,11 @@ var util = require('util');
 var config = require('../config');
 
 exports.operation = function(url, service, args, callback) {
+    config.debug({
+        url: url,
+        service: service,
+        data: args
+    });
     soap.createClient(url, function(err, client) {
         if (err) { console.log(err); return callback(err); }
         client[service](args, function(err, result) {
@@ -15,7 +20,9 @@ exports.operation = function(url, service, args, callback) {
 
 exports.json = function(url, callback) {
     try {
-        config.debug(url);
+        config.debug({
+            url: url
+        });
         request({
           url: url,
           method: "GET"
@@ -48,8 +55,10 @@ exports.last = function(data, callback) {
 
 var post = function(url, data, callback) {
     try {
-        config.debug(url);
-        config.debug(data);
+        config.debug({
+            url: url,
+            data: data
+        });
         request({
           url: url,
           method: "POST",

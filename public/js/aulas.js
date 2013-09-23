@@ -35,6 +35,10 @@ var UOCAulas = (function($) {
             oWin(event,$(this).attr('href'));
         });
 
+        $('#feedback').on('click', '.LaunchesOWin', function(event){
+            oWin(event,$(this).attr('href'));
+        });        
+
         $('#content').on('click', '.lnk-user', function(event){
             //TODO link fitxa
             event.preventDefault();

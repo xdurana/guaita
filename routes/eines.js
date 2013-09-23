@@ -12,17 +12,25 @@ var aulaca = require('../ws/aulaca');
 var lrs = require('../ws/lrs');
 
 var isPHPBB = function(eina) {
-    if (eina.idTipoLink == 'BB_FORUMS') {
+    if (eina.idTipoLink === 'BB_FORUMS') {
         return true;
     }
     return false;
 }
 
 var isForum = function(eina) {
-    if (eina.idTipoLink == 'PRIVATEBB') {
+    if (eina.idTipoLink === 'PRIVATEBB' || eina.idTipoLink === 'WKGRP_FO_TH') {
         return true;
     }
     return false;
+}
+
+var getToolDescription = function(description) {
+    //TODO i18n
+    description = description.replace(/\$TAULER\$/g, 'Tauler');
+    description = description.replace(/\$FORUM\$/g, 'Fòrum');
+    description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'Àrea de fitxers');
+    return description;
 }
 
 exports.aula = function(domainId, domainIdAula, idp, s, callback) {
@@ -36,7 +44,7 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
 	};
 
 	var getResumComunicacio = function (eina, callback) {
-		eina.nom = eina.description;
+		eina.nom = getToolDescription(eina.description);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -143,7 +151,7 @@ exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) 
     };
 
 	var getResumComunicacio = function (domainIdAula, eina, callback) {
-		eina.nom = eina.description;
+		eina.nom = getToolDescription(eina.description);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -187,7 +195,7 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 	};
 
 	var getResumComunicacioEstudiant = function (eina, callback) {
-		eina.nom = eina.description;
+		eina.nom = getToolDescription(eina.description);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -230,7 +238,7 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 
 	var getResumComunicacioIdp = function (eina, callback) {
 
-		eina.nom = eina.description;
+		eina.nom = getToolDescription(eina.description);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),

@@ -55,7 +55,6 @@ exports.aula = function(domainId, domainIdAula, s, resum, callback) {
             try {
                 async.each(struct.activitats, getResumComunicacio.bind(null, domainIdAula), function(err) {
                     if (err) { console.log(err); }
-                    config.debug(struct.activitats[0].resum);
                     return callback(null, struct);
                 });
             } catch(e) {
