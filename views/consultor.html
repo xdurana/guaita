@@ -1,9 +1,16 @@
 {% extends 'layout.html' %}
 {% block title %}Aules: PRA{% endblock %}
-{% block content %}
-
 {% set session = object.s %}
 {% set idp = object.idp %}
+
+{% block content %}
+
+<div id="feedback">
+    <a href="https://cv.uoc.edu/webapps/classroom/081_common/jsp/aulespra.jsp?s={{ session }}" class="btn-torna">Torna a la plana aules prèvia</a>
+    <a href="https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false" class="btn-incidencia LaunchesOWin">Entra una incidència/millora</a>
+    <!--<a href="#" class="btn-millora LaunchesOWin">Ajuda'ns a millorar</a>-->
+    <img src="/img/beta.png" class="right" />
+</div>
 
 <!-- container -->
 <div id="container" class="pra" data-guaita-pra="{{ object.idp }}">
