@@ -1,0 +1,145 @@
+
+* html .agora {
+	zoom: 1;
+}
+* html .botonera {
+	zoom: 1;
+}
+* html .apertium form p {
+	height: 4em;
+	width: 20em;
+	margin-left: 5px;
+	zoom: 1;
+}
+* html .apertium select {
+	width: 216px;
+}
+/* @group noticies */
+
+* html .noticies h2 {
+	font-size: 1em;
+}
+* html .noticies .botonera, * html .links .botonera, * html  .forums .botonera, * html  .perfils .botonera {
+	overflow: auto;
+	zoom: 1;
+}
+* html .noticies .decorada li {
+	overflow: auto;
+	zoom: 1;
+}
+* html .noticies .grupLinksInstitucionals {
+	border-top-style: solid;
+	overflow: auto;
+	zoom: 1;
+}
+* html .noticies .grupLinksInstitucionals a {
+	height: 3.5em;
+}
+* html .noticies .grupLinksInstitucionals .premsa a, * html .noticies .grupLinksInstitucionals .unminut a {
+	border-right-style: solid;
+}
+
+/* @group links i forums */
+
+* html .links h3, * html .forums h3, * html .comissions h3 {
+	border-bottom-style: solid;
+}
+
+* html .banners a img.banner2 {
+	border-left-style: solid;
+}
+
+/* @group Agenda */
+* html .agenda .calendari {
+	zoom: 1;
+}
+* html .agenda .calendari .dies a:hover {
+	background-color: #F8FAFC;
+}
+* html .agenda .calendari, * html .agenda ul.cites, * html .notes_agenda ul {
+	/* ATENCIÓN, tb afecta al widget notes_agenda */
+	border-top-style: solid;
+}
+* html .cites tbody td {
+	border-bottom-style: solid;
+}
+* html .cites tbody .totDia td {
+	border-top-style: solid;
+}
+* html .agenda h4 {
+	border-bottom-style: solid;
+}
+/* @group Sabies què */
+
+* html .sabiesque .tip, * html .sabiesque #footer .grid_footer_navigation {
+	zoom: 1;
+}
+* html .sabiesque #footer {
+	border-top-style: solid;
+}
+/* @group grup */
+
+* html .grup ul {
+	border-top-style: solid;
+}
+/* @group Bustia */
+
+* html .bustiacarpetes h3 {
+	border-bottom-style: solid;
+}
+* html .bustia table {
+	border-top-style: solid;
+}
+/* @group aula */
+
+* html .identifica p {
+	zoom: 1;
+}
+* html .aula .responsables li {
+	zoom: 1;
+}
+/* #tree li {
+	position: relative;
+}
+#tree input {
+	position: absolute;
+	left: 6px;
+	top: 0.6em;
+}
+#tree .marcadors {
+	position: absolute;
+	right: 10px;
+	top: 0.5em;
+} */
+* html #tree, * html #tree li, * html #tree ul {
+	zoom: 1;
+}
+* html #tree label {
+	border-bottom-style: solid;
+}
+/* @group agregador assignatures aula */
+
+* html .agregador_assignatures_aula ul li a.link {
+	zoom: 1;
+}
+/* @group Radio */
+* html .radio #divMaximizedPart {
+	zoom: 1;
+}
+
+/* @group agregador aules_assignatura  */
+
+* html .agregador_aules_assignatura .desplegable li div {
+	zoom: 1;
+}
+
+/*  @group Avisos   */
+* html .announcement .decorada li {
+	zoom: 1;
+}
+
+/* @group canvi d'idioma */
+
+* html .idioma .formulari .destacat {
+	zoom: 1;
+}

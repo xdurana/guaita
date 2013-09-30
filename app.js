@@ -347,6 +347,26 @@ app.get('/estudiants/:idp', function (req, res, callback) {
     }
 });
 
+/**
+ * Student widget
+ * @mockup: widget_aula.html
+ */
+app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
+    if (req.query.s) {
+        return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+            if(err) { console.log(err); callback(); return; }
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('widget-aula.html', { aula: result });
+            }
+        })
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
+});
+
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });

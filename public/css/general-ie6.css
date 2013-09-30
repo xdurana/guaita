@@ -1,0 +1,71 @@
+/* ie6 */ 
+
+* html .contingut td {
+	border: 1px solid #E4E4E4;
+	border-left: none;
+	border-top: none;
+}
+* html .contingut ol, .contingut ul {
+	zoom: 1;
+}
+* html .contingut ul.basic, * html .contingut .basic ul {
+	border-left-style: solid;
+}
+* html .separador {
+	border-bottom-style: solid;
+}
+* html .decorada li {
+	border-bottom-style: solid;
+}
+* html .llistacheck .subllista, * html .noLink .subllista {
+	border-top-style: solid;
+}
+* html li.ultim, 
+* html ul.destacat li.ultim  {
+	border-bottom: none;
+}
+* html .pestanyes  {
+	/*height: 2.5em;*/
+	zoom: 1;
+}
+* html .pestanyes .actiu a {
+	height: auto; 
+	margin-bottom: 0;
+}
+* html .pestanyes a:hover {
+	background-image: none;
+}
+* html .psimple {
+	/*height: 1.7em;*/
+}
+* html .psimple a {
+	width: 7em;
+}
+* html .marcadors span {
+	height: 12px;
+	width: 14px;
+}
+* html .paginador {
+	zoom: 1;
+}
+* html .botonera {
+	zoom: 1;
+}
+/* pàgines secundaries */
+* html body.popup .header {
+	border-bottom-style: solid;
+	zoom: 1;
+}
+* html .capcalera .titol {
+	margin: 0 -15px 5px -10px;
+}
+/* Finestra avis */
+/* html #navigation_avis {
+	text-align: center;
+}*/
+* html .mask {
+	filter:alpha(opacity=40);
+}
+* html #avis a.boto {
+	margin: 10px 190px 0;
+}

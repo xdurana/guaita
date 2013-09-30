@@ -1,0 +1,1215 @@
+/* CSS Document */
+@import url("modul-ie6.css");
+body {
+	margin: 0;
+}
+h3 {
+	font-family: Georgia, "Times New Roman", Times, serif
+}
+h3 a {
+	font-weight: bold;
+}
+h3.separador {
+	font-weight: bold;
+}
+.agora {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+.agora h3, .agora h4, .agora h5, .agora h6 {
+	padding: 5px 0;
+}
+.agora p {
+	padding: 5px 0;
+}
+p.agora, h3.agora {
+	padding: 10px;
+}
+.agmodificat {
+	padding-bottom: 0;
+}
+.botonera {
+	padding: 5px 10px 10px 10px;
+}
+.botonera p.dreta a.boto {
+	margin-right: 0;
+}
+/*.punter{
+	cursor: pointer;
+}*/
+h3.separador .link {
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 10px;
+}
+.pestanyes {
+	margin-top: 10px;
+}
+.decorada li, .llistaBlock .link, .decorada .link, .llistaBlock .noLink {
+	padding: 8px 10px;
+}
+.llistaBlock .link span.noLink {
+	padding: 0;
+}
+.desplegable .link, .llistacheck .link, .llistacheck .noLink {/* ************** Definido también en generals.css *************** */
+	padding-left: 25px;
+}
+.desplegable .nodesplegable {
+	padding-left: 10px;
+}
+.llistacheck .perfilActual {
+	padding-left: 25px;
+}
+.llistaBlock li {
+	padding: 0;
+}
+.imatgeLlista, .llistacheck .check {
+	left: 6px;
+}
+.minmax {
+	background: #F0F0F0 url(/UOC/mc-icons/widgets/fons-minim.png) repeat-x scroll 0 0;
+	border-top: 1px solid #D4D4D4;
+	clear: both;
+	height: 10px;
+	margin: 0;
+	overflow: hidden;
+	text-align: center;
+}
+.minmax a {
+	background: transparent url(/UOC/mc-icons/widgets/ico-minimitzar.png) no-repeat scroll center 3px;
+	display: block;
+	height: 9px;
+	padding: 0;
+	text-indent: -1500px;
+	width: 100%;
+}
+.minmax a.maxim {
+	background-image: url(/UOC/mc-icons/widgets/ico-maximitzar.png);
+}
+.avispopup {
+	width: 40%;
+	border-radius: 8px;
+	padding: 20px 15px 15px;
+}
+
+/*colores barra minimizado */
+.modulFF2600 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_FF2600.gif') repeat-x;
+	border-top-color: #FFA4A4;
+}
+.modulDD4477 {
+	 background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_DD4477.gif') repeat-x;
+	 border-top-color: #FFADCD;
+}
+.modulC31A8A {
+	 background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_C31A8A.gif') repeat-x;
+	 border-top-color: #F59ED1;
+}
+.modulDD5511 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_DD5511.gif') repeat-x;
+	border-top-color: #FFABA2;
+}
+.modulB86060 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_B86060.gif') repeat-x;
+	border-top-color: #DAADAD;
+}
+.modul9E5A9E {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_9E5A9E.gif') repeat-x;
+	border-top-color: #CAA6CA;
+}
+.modul7083A8 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_7083A8.gif') repeat-x;
+	border-top-color: #ADBAD8;
+}
+.modul1B814B {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_1B814B.gif') repeat-x;
+	border-top-color: #78B493;
+}
+.modul329260 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_329260.gif') repeat-x;
+	border-top-color: #6FC691;
+}
+.modul51978E {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_51978E.gif') repeat-x;
+	border-top-color: #89C3BB;
+}
+.modul339DCC {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_339DCC.gif') repeat-x;
+	border-top-color: #9FD1E7;
+}
+.modul0580C7 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_0580C7.gif') repeat-x;
+	border-top-color: #69AADE;
+}
+.modul3366CC {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_3366CC.gif') repeat-x;
+	border-top-color: #73A1FF;
+}
+.modul2C92B6 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_2C92B6.gif') repeat-x;
+	border-top-color: #7CD4E1;
+}
+.modul30A600 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_30A600.gif') repeat-x;
+	border-top-color: #69CE41;
+}
+.modul66AA00 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_66AA00.gif') repeat-x;
+	border-top-color: #A5CD6B;
+}
+.modul90AA11 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_90AA11.gif') repeat-x;
+	border-top-color: #C5CB6E;
+}
+.modul909049 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_909049.gif') repeat-x;
+	border-top-color: #C3C38D;
+}
+.modulBC924C {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_BC924C.gif') repeat-x;
+	border-top-color: #E0C293;
+}
+.modulEEA400 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_EEA400.gif') repeat-x;
+	border-top-color: #FEC979;
+}
+.modulD6AE00 {
+	background: url('/rb/inici/images/icones_modul/modul_capsalera_fons_D6AE00.gif') repeat-x;
+	border-top-color: #EBD685;
+
+}
+/*FIN colores barra minimizado */
+
+
+/* apertium. Traduccio */
+
+.apertium form p {
+	float: left;
+	clear: none;
+	min-height: 4em;
+	min-width: 20em;
+	margin-left: 10px;
+}
+.apertium label {
+	font-size: 0.9em;
+	float: none;
+	display: block;
+	width: auto;
+	text-align: left;
+}
+.apertium select {
+	width: 189px; /* ie6 */
+}
+.apertium .botonera {
+	clear: left;
+	min-height: inherit;
+	padding-bottom: 10px;
+}
+
+/* @group nulla dies sine linea */
+
+.nullaDies #author {
+	font-weight: bold;
+}
+.nullaDies #info p {
+	margin-top: 0;
+	padding-top: 5px;
+}
+.nullaDies #quote {
+	font-style: italic;
+	padding-bottom: 5px;
+}
+
+/* @group quiHiHa */
+.quiHiHa .link {
+	padding: 10px;
+}
+
+
+/* @group noticies */
+
+.noticies h3 {
+	font-size: 1em;
+	padding: 5px 0;
+}
+.noticies .decorada li {
+	padding: 5px 10px;
+	overflow: hidden;
+	cursor: pointer;
+}
+.noticies li img {
+	float: left;
+	margin-right: 5px;
+}
+
+/* JMM 28-6-2011 Para la imagen de abrir en ventana nueva */
+.noticies ul.decorada li h3 a img
+{
+width: 11px;
+height: 12px;
+float: none;
+margin-right: 0px;
+padding-bottom: 0px;
+}
+
+/* JMM 28-6-2011 Para la imagen de abrir en ventana nueva */
+.noticies ul.decorada li a img
+{
+width: 11px;
+height: 12px;
+float: none;
+margin-right: 0px;
+padding-bottom: 0px;
+}
+
+
+
+/* afegit per lsj */
+.noticies ul.decorada li img {
+width: 75px;
+height: 55px;
+}
+.institucional ul.decorada li img {
+width: 75px;
+height: 50px;
+}
+
+.noticies li img, .noticies li p {
+	padding-bottom: 5px;
+}
+.noticies .botonera, .links .botonera, .forums .botonera, .perfils .botonera {
+	overflow: hidden;
+	margin: 5px 0;
+}
+.noticies .grupLinksInstitucionals {
+	border-top: 1px dotted #CCCCCC;
+	overflow: hidden;
+}
+.noticies .grupLinksInstitucionals li {
+	float: left;
+	width: 33%;
+}
+.noticies .grupLinksInstitucionals .premsa a, .noticies .grupLinksInstitucionals .unminut a {
+	border-right: 1px dotted #CCCCCC;
+}
+.noticies .grupLinksInstitucionals a {
+	display: block;
+	padding: 15px 5px 5px;
+	min-height: 2.5em;
+	/*background-position: 5px 10px;
+	background-repeat: no-repeat;*/
+}
+.noticies .grupLinksInstitucionals a img {
+	padding: 0;
+	margin-top: -8px;
+}
+/*.noticies .grupLinksInstitucionals .premsa a {
+	background-image: url(/UOC/mc-icons/widgets/noticies_recull.png);
+}
+.noticies .grupLinksInstitucionals .unminut a {
+	background-image: url(/UOC/mc-icons/widgets/noticies_setmana.png);
+}
+.noticies .grupLinksInstitucionals .agendaUOC a {
+	background-image: url(/UOC/mc-icons/widgets/noticies_agenda.png);
+}*/
+
+/* @group enllaços directes i comissions */
+
+.links h3, .comissions h3, .bustiacarpetes h3 {
+	font-size: 1em;
+	padding: 20px 0 10px 10px;
+	border-bottom: 1px dotted #CCCCCC; /* ie6 */
+}
+
+/* @group Forums */
+
+.forums h3 {
+	border-bottom: 1px dotted #CCCCCC;
+	font-size: 1em;
+	padding: 9px 0 10px 10px;
+}
+
+.forums .ambImg {
+	padding: 5px 10px;
+}
+.imatgeForum {
+	height: 21px;
+	width: 20px;
+	vertical-align: middle;
+}
+
+/* @group Ara Destaquem, Tambe et pot interessar */
+
+.destaquem .textDestaquem {
+	cursor: pointer;
+	height: 190px;
+	margin: auto;
+	width: 286px;
+	/* background: url(/UOC/mc-icons/widgets/pagina_inici.jpg) no-repeat center; */
+
+
+}
+.destaquem h3 {
+	margin-bottom: 5px;
+	padding: 65px 45px 0 15px;
+	text-align: left;
+}
+.destaquem h3 a {
+	color: #666;
+	display: block;
+	color: #2E3A6A;
+	font: bold 1.7em Arial, Helvetica, sans-serif;
+}
+.destaquem p {
+	cursor: pointer;
+	margin-left: 15px;
+	padding-right: 45px;
+	color: #2E3A6A;
+	font: normal 1.1em Arial, Helvetica, sans-serif;
+}
+
+/* @group Canvi de Perfil  */
+
+.perfilActual {
+	display: block;
+	font-weight: bold;
+	padding: 8px 10px;
+}
+
+/* @group Banners */
+.banners {
+	text-align: center;
+	padding: 0 10px 10px 10px;
+}
+.banners a img {
+	margin-top: 10px;
+}
+.banners a img.banner2 {
+	padding-left: 20px;
+	margin-left: 20px;
+	border-left: 1px dotted #CCC; /* ie6 */
+}
+
+/* @group Agenda  */
+
+.agenda .paginador li h3 {
+	padding: 0 2px;
+	color: #000;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+}
+.agenda .paginador {
+	float: left;
+	padding: 10px 0;
+}
+/*.agenda .paginador li.anterior {
+	padding: 0 3px 0 0;
+}
+.agenda .dreta .boto, .agenda .boto {
+	margin-right: 0;
+}*/
+
+.agenda .calendari {
+	overflow: hidden;
+	padding: 10px 10px 0 10px;
+	border-top: 1px dotted #CCC;
+}
+.calendari .dies {
+	font-size: 0.9em;
+	width: 100%;
+	border-collapse: collapse;
+
+}
+.calendari .dies th {
+	padding: 0 0 3px 2px;
+	text-align: left;
+	font-weight: bold;
+}
+.calendari .dies th abbr {
+	font-weight: bold;
+	border-bottom: none;
+}
+.calendari .dies td {
+	border: 1px solid #E7E7E7;
+	height: 24px;
+	text-align: left;
+	vertical-align: top;
+	width: 14.2%;
+}
+.calendari .dies td ul li {
+	float: left;
+	padding: 1px 2px 1px 1px;
+}
+.calendari .dies td a {
+	color: #333;
+	display: block;
+}
+.calendari .actual {
+	background-color: #FFF5D0;
+}
+ .cites .actual {
+ 	background-color: #FFF5D0;
+ }
+.calendari .dies td:hover, .calendari .actual:hover {
+	cursor: pointer;
+}
+.calendari .dies .capSetmana a {
+	color: #EA8F05;
+}
+.calendari .dies .seguentCapSetmana a {
+	color: #F5A9A9;
+}
+.calendari .dies .anterior, .calendari .dies .seguent, .calendari .dies .anterior a, .calendari .dies .seguent a {
+	color: #CCC;
+}
+.calendari .dies .anterior:hover {
+	cursor: default;
+	background-color: #FFFFFF;
+}
+.calendari p.dreta {
+	padding: 5px 0 10px 10px;
+}
+.agenda h4 {
+	padding: 0 10px 10px;
+	border-bottom: 1px dotted #CCC; /* ie 6 */
+	font-family: Georgia, "Times New Roman", Times, serif;
+}
+.agenda #divMaximizedPart {
+	margin-top: -10px;
+}
+.agenda ul.cites {
+	border-top: 1px dotted #CCC; /* ie 6 */
+}
+.agenda ul.decorada a img {
+	margin-right: 5px;
+}
+.agenda ul.decorada a span {
+	margin-left: 5px;
+}
+.agenda .agora .paginador {
+	margin-right: 10px;
+}
+.agenda .agora .semilink {
+	margin-top: 5px;
+}
+.agenda .cites li h3 {
+	padding: 0;
+}
+.agenda p.semibotonera a.boto {
+	float: none;
+}
+.agenda p.semibotonera {
+	padding: 15px 10px;
+	text-align: center;
+}
+table.cites {
+	width: 100%;
+	border-collapse: collapse;
+}
+table.cites tbody tr:hover {
+	/*background-color: #F8FAFC;*/
+	cursor: pointer;
+}
+.cites tbody td {
+	padding: 5px 3px;
+	color: #2685AC;
+	border-bottom: 1px dotted #CCC;
+	/* vertical-align: middle; */
+}
+/*.cites tbody td a {
+	display: block;
+}*/
+.cites tbody tr.ultim td{
+	border-bottom: none;
+}
+.cites tbody td.eventType {
+	width: 10px;
+	padding-left: 10px;
+}
+.cites tbody td.eventDate {
+	width: 9em;
+	font-size: 0.9em;
+}
+.cites tbody .totDia h3 {
+	padding: 0;
+	border: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #2685AC;
+}
+.cites tbody .totDia td, .cites tbody .hora td {
+	padding: 5px 10px;
+	vertical-align: top;
+}
+.cites tbody .totDia td {
+	border-top: 1px dotted #CCC;
+}
+.cites .colorTimer {
+	font-weight: bold;
+	width:100px;
+}
+.cites .remarcar li {
+	clear: left;
+}
+.cites .remarcar a {
+	padding: 2px 3px;
+	float: left;
+}
+.cites .remarcar a img {
+	margin-right: 3px;
+}
+/*.cites*/ .remarcar a:hover { /* 18/12/09 quito .cites para que sirva tb para el agregador de aulas por asignatura */
+	/* Safari Radius */
+	-webkit-border-radius: 2px;
+	/* Mozilla Radius */
+	-moz-border-radius: 2px;
+	/* KHTML Radius */
+	-khtml-border-radius: 2px;
+	/* CSS 3 Radius */
+	border-radius: 2px;
+}
+.agenda .cites h4 {
+	padding: 0;
+	border-bottom: none;
+	font: bold 1em Verdana, Arial, Helvetica, sans-serif;
+}
+.agenda .cites h4 a {
+	font-weight: bold;
+}
+.agenda .tria-data {
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 5px;
+	border: 2px solid #666;
+	background: #FFF;
+	padding: 10px;
+	}
+.agenda label {
+	display: block;
+	font-family: Verdana, Geneva, sans-serif;
+	}
+.agenda .data, .agenda .mes {
+	float: left;
+	margin: 7px 10px 0 0;
+	}
+.agenda .data {
+	width: 6.5em;
+	text-align: center;
+	}
+.agenda .botonera {
+	float: right;
+	padding: 0;
+	}
+
+/* @group Sabies que  */
+
+.sabiesque .tip {
+	overflow: hidden; /* ie6 */
+	background: transparent url(/UOC/mc-icons/widgets/ninot.png) no-repeat right top;
+	margin: 1px 5px 0 0;
+}
+.sabiesque .tip p {
+	padding: 10px 132px 0 10px;
+}
+.sabiesque #footer {
+	border-top: 1px dotted #CCC;
+	padding: 0 10px 10px;
+	margin-top: 1px;
+}
+.sabiesque #footer .grid_footer_navigation {
+	overflow: hidden; /* ie6 */
+}
+.sabiesque #footer .grid_footer_navigation:hover {
+	cursor: pointer;
+}
+.sabiesque #footer p {
+	clear: left;
+}
+.sabiesque #footer p.botonera {
+	padding-left: 0;
+}
+
+/* notes Agenda */
+.notes_agenda ul {
+	border-top: 1px dotted #CCC; /* ie 6 */
+	clear: both;
+}
+/* @group grups de treball */
+/*.grupsdeTreball .agora {
+	padding-bottom: 0;
+}*/
+
+/* @group grup */
+.grup {
+	position: relative;
+}
+.grup h3 {
+	padding: 10px;
+}
+.grup ul {
+	border-top: 1px dotted #CCC; /* ie 6 */
+}
+.grup #divMaximizedPartMov {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+/* @group bustia  */
+
+/*.bustia .agora {
+	border-bottom: 1px dotted #CCC;
+}*/
+.bustia .agora h3 {
+	float: left;
+	padding: 9px 0;
+}
+.bustia .agora h3 a .titol {
+	float: left;
+	margin-right: 10px;
+	padding-top: 3px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.bustia .agora h3 .marcadors {
+	font-size: 0.9em;
+}
+.bustia .agora p.dreta a.boto {
+	margin-right: 0;
+}
+.bustia table, .bustiacarpetes table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.bustia table {
+	border-top: 1px dotted #CCCCCC;
+}
+.bustia table tr:hover, .bustiacarpetes table tr:hover {
+	/*background-color: #F8FAFC;           definido ya con el class link */
+	cursor: pointer;
+}
+.bustia table tr.nou td, .bustia table tr.nou td a, .bustiacarpetes table tr.nou td, .bustiacarpetes table tr.nou td a {
+	font-weight: bold;
+}
+.bustia table td, .bustiacarpetes table td {
+	color: #2685AC;
+	padding: 5px 2px;
+}
+.bustia table td.data, .bustiacarpetes table td.data {
+	text-align: right;
+	padding-right: 10px;
+}
+.bustia table td.imatgeCenter, .bustiacarpetes table td.imatgeCenter {
+	width: 25px;
+	padding-left: 10px;
+}
+.bustia table td img, .bustiacarpetes table td img {
+	vertical-align: middle;
+}
+
+/* @group bustia Carpetes */
+
+.bustiacarpetes .agora, .bustiacarpetes .agora p {
+	padding-bottom: 0;
+}
+.bustiacarpetes ul.pestanyes {
+	margin-top: 0;
+}
+.bustiacarpetes .desplegar .subllista {
+	padding: 0 0 0 15px;
+}
+.bustiacarpetes .subllista .agora {
+	padding: 10px;
+}
+.bustiacarpetes tr.link {
+	width: 100%;
+}
+#tree li {
+	position: relative;
+}
+#tree input {
+	position: absolute;
+	left: 6px;
+	top: 0.6em;
+}
+#tree .marcadors {
+	position: absolute;
+	right: 10px;
+	top: 0.5em;
+}
+#tree label {
+	padding: 8px 25px;
+	border-bottom:1px dotted #CCC;
+	display: block
+}
+#tree ul ul {
+	margin-left: 25px;
+}
+#tree ul ul li input {
+	left: 0;
+}
+#tree ul ul li label {
+	padding-left: 19px;
+}
+/* @group aula professor */
+
+.aula .identifica {
+	/*background: #FFE5E5 none repeat scroll 0 0;
+	border-bottom: 2px solid #FF0000;*/
+	background: #F5F5F5;
+	border-bottom: 2px solid #BBB641;
+	position: relative;
+}
+/*.aula .professor {
+	background: #F5F5F5;
+	border-bottom: 2px solid #BBB641;
+}*/
+.assignatura_aula {
+	color: #FFFFFF;
+	float: left;
+	font-family: tahoma;
+	font-size: 0.9em;
+	text-align: center;
+	width: 2.5em;
+	padding: 0 2px;
+}
+.marginCodeAula {
+	margin: 0 10px 0 0;
+}
+.assignaturaUOCAula {
+	background-color: #BBB641;
+}
+.assignaturaUOC2000Aula {
+	background-color: #FFA825;
+}
+.assignaturaGlobalCampusAula {
+	background-color: #2E3B68;
+}
+.tipus {
+	color:#FFFFFF;
+	float:left;
+	font-family: tahoma;
+	font-size: 0.9em;
+	background-color:#7f7f7f;
+	width: 5em;
+	text-align: center;
+	margin-top: 0px;
+}
+.aula .domainCodeAula {
+	color: #666;
+	margin-left: 10px;
+}
+.identifica p {
+	overflow: hidden;  /*ie6 */
+}
+.aula .identifica p {
+	padding: 5px 0 0 0;
+}
+.aula .agora h3 {
+	font-size: 1em;
+}
+.aula .identifica .marcadors {
+	float: right;
+	position: absolute;
+	right: 10px;
+	top: 1em;
+}
+.aula .divImatgeEstil {
+	overflow: hidden;
+	width: 80%;
+	margin-left: -2px;
+}
+.aula .divImatgeEstil .boto {
+	margin-right: 0;
+	float: none;
+	display: block;
+	padding: 4px 10px 4px 2px;
+}
+.aula .divImatgeEstil .semilink {
+	padding: 4px 10px 4px 3px;
+}
+.aula .divImatgeEstil .semilink:hover {
+	padding: 3px 9px 3px 2px;
+}
+.aula .semilink img, .aula .boto img {
+	vertical-align: middle;
+}
+.aula .separador, .agregador_aules_assignatura .separador {
+	border-bottom: 2px solid #CCC;
+}
+/*.aula a.link {
+	padding-left: 10px;
+}*/
+.aula div.sinScriptDesplegable {
+	position: relative;
+	width: 80%;
+	background: white none repeat scroll 0 0;
+	margin: -3px 0 5px -2px;
+	z-index: 1;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+}
+.aula div.sinScriptDesplegable ul {
+	border: 1px solid #DDE7EC;
+	/* Safari Radius */
+	-webkit-border-radius-bottomleft: 5px;
+	-webkit-border-radius-bottomright: 5px;
+	/* Mozilla Radius */
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	/* KHTML Radius */
+	-khtml-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	/* CSS 3 Radius */
+	border-radius-topleft: 5px;
+	border-radius-topright: 5px;
+}
+.aula .responsables li {
+	padding: 10px;
+	overflow: hidden;  /* ie6 */
+}
+.aula .responsables li.ultim {
+	border: none;
+}
+/*.aula .responsables li p {
+	overflow: hidden;
+}*/
+.aula .responsables li a img{
+	margin-top: 10px;
+}
+.foto {
+	float: left;
+	height: 49px;
+	width: 35px;
+}
+/*.aula*/ .identifica .foto {
+	margin: 5px 10px 5px 0;
+}
+.aula .identifica .responsables .foto {
+	margin: 0 10px 0 0;
+}
+
+/*.aula .identifica h3.positionAula {
+	padding-top: 0;
+}*/
+.aula .identifica .escriure {
+	padding: 0;
+}
+.aula .identifica .escriure a img {
+	vertical-align: text-bottom;
+}
+
+/* @group agregador_assignatures_aula */
+
+.agregador_assignatures_aula ul li a.link, .agregador_assignatures_aula ul li a.actiu {
+	overflow: hidden; /* ie 6 */
+}
+.agregador_assignatures_aula .assignatura_aula {
+	display: block;
+}
+.agregador_assignatures_aula ul li a.link span, .agregador_assignatures_aula ul li a.actiu span {
+	float: left;
+	margin-bottom: 5px;
+}
+.nomAula {
+	font-weight: bold;
+}
+.agregador_assignatures_aula .nomAula {
+	clear: left;
+	display: block;
+}
+.agregador_assignatures_aula span.titol {
+	clear: left;
+}
+
+
+/* @group agregador_aules_assignatura */
+
+.agregador_aules_assignatura .assignatura_aula {
+	margin: 5px 5px 0 0;
+}
+.agregador_aules_assignatura .agora h3 {
+	font-size: 1em;
+}
+
+/*.aula .llistaBlock li, */.aula li.llistaBlock, /*.agregador_assignatures_aula .llistaBlock li,*/ .agregador_assignatures_aula li.llistaBlock {
+	position: relative;
+}
+.agregador_aules_assignatura .identifica h4 {
+	/*padding-bottom: 5px;*/
+	font-size: 1em;
+}
+.agregador_aules_assignatura .identifica h4 a {
+	font-weight: bold;
+}
+.agregador_aules_assignatura .desplegable li {
+	padding: 0;
+}
+.agregador_aules_assignatura /*.desplegable li*/ .identifica {
+	overflow: hidden; /* ie6 */
+	padding: 10px 40px 10px 25px;
+}
+.agregador_aules_assignatura .foto {
+	margin: 0 10px 0 0;
+}
+.agregador_aules_assignatura /*ul.desplegable*/ .identifica ul#aula li {
+	padding: 5px 0 0 0;
+	border: none;
+}
+/*.agregador_aules_assignatura ul.remarcar li p.escriure a:hover {
+	background-color: #DDE7F0;
+}*/
+.agregador_aules_assignatura .pestanyes {
+	margin-top: 0;
+}
+.agregador_aules_assignatura .desplegable li ul li {
+	padding: 0;
+}
+.agregador_aules_assignatura .desplegable li ul li a.link, .agregador_aules_assignatura .desplegable li ul li .noLink {
+	padding-left: 0;
+}
+
+/* @group radio */
+
+.radio .agora {
+	background-color: #F2F2F2;
+}
+.radio .agora h3 {
+	font-size: 1em;
+}
+.radio .agora .imagenRadio {
+	float: left;
+	height: 40px;
+	width: 60px;
+	margin: 0 5px 5px 0;
+}
+
+.radio .agora a span {
+	color: #333;
+}
+.radio .agora a span#nameAuthor {
+	font-weight: bold;
+}
+.radio #divMaximizedPart {
+	overflow: hidden;
+	background: url(/UOC/mc-icons/widgets/border_radio.png) repeat-y 50% top;
+}
+.radio .divEsquerra {
+	float: left;
+	width: 50%;
+}
+.radio .divEsquerra .desplegable li {
+	margin-right: 1px;
+}
+.radio .divDreta {
+	float: left;
+	width: 49.9%;
+}
+.radio .divDreta ul {
+	margin-left: 1px;
+}
+.radio .desplegable li.desplegar ul.subllista {
+	padding: 0 0 0 30px;
+}
+.radio .desplegable ul.subllista a.link {
+	cursor: pointer;
+}
+.radio div.object {
+	text-align: center;
+	background: url(/UOC/mc-icons/widgets/fons-radio.png) repeat-x left top;
+}
+
+
+/* @group Avisos */
+
+.announcement {
+	background-color: #FFC95E;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.announcement h3 {
+	font-size: 1em;
+	padding-bottom: 5px;
+}
+.announcement .decorada li {
+	border-bottom-color: #FFE4AF;
+	overflow: hidden; /* ie6 */
+}
+.announcement .decorada li p {
+	padding: 5px 0;
+}
+.announcement .decorada li span.data {
+	float: right;
+	padding: 5px 0 0 0;
+	font-size: 0.8em;
+}
+.announcement .ultim {
+	border-bottom: none;
+}
+
+/* @group canvi d'idioma */
+
+.idioma .formulari .destacat {
+	overflow: hidden; /* ie6 */
+}
+
+/* @group Àrea de benvinguda */
+
+.benvinguda  ul {
+	padding: 5px 0;
+}
+.benvinguda  li {
+	padding: 3px 0 3px 10px;
+	background: url(/UOC/mc-icons/widgets/li.png) no-repeat left 8px;
+}
+
+/* Widget internacional */
+.internacional .llistaBlock .link .ico { 
+	vertical-align: middle;
+	}
+
+
+
+/* @group uocmarks */
+.uocmarks .agora {
+	padding: 5px 10px 0;
+}
+.uocmarks .agora p {
+    padding: 5px 0 0;
+}
+.uocmarks .pestanyes {
+	margin-top: 0;
+}
+.uocmarks h3 {
+	padding: 10px;
+    font-size: 1em;
+}
+.uocmarks .llistacheck .subllista {
+    border-top: none;
+}
+.uocmarks .desplegable .link {
+	padding: 8px 10px;
+}
+.uocmarks ul li a.link img {
+	margin-left: 10px;
+}
+.uocmarks ul.opcions {
+	overflow: hidden;
+	margin-left: 20px;
+}
+.uocmarks ul.opcions li {
+	border: none;
+}
+.uocmarks ul.opcions li.opcio {
+	float: right;
+}
+.uocmarks .decoradatop ul.opcions li.url {
+	float: left;
+}
+.uocmarks ul.opcions li.opcio a img {
+	height: 0;
+}
+.uocmarks .llistacheck .subllista {
+	padding: 0 0 0 30px;
+}
+.uocmarks ul.subllista li:hover .opcio a img {
+	height: 16px;
+	padding: 8px 10px 0 0;
+}
+.uocmarks .decoradatop .subllista a.link {
+	padding-left: 0;
+}
+.uocmarks ul.subllista ul.opcions li:hover, .uocmarks ul.subllista ul.opcions li.url:hover, .uocmarks ul.subllista ul.opcions li.url a:hover {
+	background: none;
+}
+.uocmarks ul.decoradatop h3 {
+	padding: 0;
+}
+.uocmarks .decoradatop h3>a {
+	/*color: #666666;*/
+	padding: 8px 10px;
+	display: block;
+}
+.uocmarks h3 a img {
+	vertical-align: middle;
+	margin-right: 5px;
+}
+.uocmarks ul.decoradatop {
+	border-bottom: 1px dotted #CCCCCC;
+}
+.uocmarks ul.decoradatop ul {
+	border-bottom: none;
+}
+.uocmarks ul.decoradatop li:hover {
+    background-color: #F8FAFC;
+}
+.uocmarks ul.decoradatop li.desplegar:hover {
+	background: none;
+}
+.uocmarks a.actualitza {
+	background: url("mc-icons/boto.png") repeat-x scroll center top, 
+	url(/UOC/mc-icons/general/actualitza-boto.png) no-repeat left 5px
+}
+.uocmarks .field {
+	margin-bottom: 10px;
+}
+.uocmarks .field label {
+	float: left;
+	margin-right: 10px;
+	text-align: right;
+	width: 60px;
+}
+.uocmarks dl {
+	overflow: hidden;
+}
+.uocmarks dl dt {
+	float: left;
+	margin-right: 5px;
+}
+.uocmarks dt, .uocmarks dd {
+	margin-bottom: 5px;
+}
+.uocmarks .paginador span, .uocmarks .paginador em, .uocmarks .paginador a {
+	font-style: normal;
+	font-weight: bold;
+}
+.uocmarks .paginador .previous_page {
+	background: url("/UOC/mc-icons/general/anterior-ico2.png") no-repeat center top;
+	font-size: 0;
+    padding: 12px 10px;
+	text-indent: -1500px;
+}
+.uocmarks .paginador .next_page {
+	background: url("/UOC/mc-icons/general/seguent-ico2.png") no-repeat center top;
+	font-size: 0;
+    padding: 12px 10px;
+	text-indent: -1500px;
+}
+.uocmarks .paginador .disabled {
+	background: none;
+}
+/* Modul google */
+#google .agora h2 {
+	text-align: center;
+	padding: 15px 0;
+}
+#google .decorada {
+	border-top: 1px dotted #CCC;
+	border-bottom: none;
+}
+#google .decorada li img {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+#google .avispopup p.botonera {
+	padding: 0 0 20px 0;
+	}
+#google .avispopup .alta {
+	width: 100%;
+	margin: auto;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	text-align: center;
+	font-size: 1.05em;
+}
+#google .moreinfo {
+	padding-top: 20px;
+}
