@@ -13,6 +13,7 @@ var activitats = require('./routes/activitats');
 var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
+var widget = require('./routes/widget');
 
 var app = express();
 
@@ -351,15 +352,15 @@ app.get('/estudiants/:idp', function (req, res, callback) {
  * Student widget
  * @mockup: widget_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
+app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
     if (req.query.s) {
-        return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
             } else {
                 result.s = req.query.s;
-                res.render('widget-aula.html', { aula: result });
+                res.render('widget-aula.html', { widget: result });
             }
         })
     } else {

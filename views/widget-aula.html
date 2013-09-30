@@ -44,8 +44,8 @@
 <body class="aula c_66AA00" onload="_IG_AdjustIFrameHeight();">
 
     <div class="agora identifica">
-        <h3 class="aula-title"><a href="#">01.021 Procedimientos Alternativos</a></h3>
-        <h5 class="aula-profile text-color-alt"><a href="#">Julia Montagut i Ros</a></h5>
+        <h3 class="aula-title"><a href="#">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        <h5 class="aula-profile text-color-alt"><a href="#">{{ widget.consultor.nomComplert }}</a></h5>
         <span class="marcadors">
             <span class="nous unic" title="Mensajes nuevos">54</span>
         </span>
@@ -55,12 +55,15 @@
 
         <ul class="llistaBlock">
             <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="#" title="">Actividad 2: Lorem ipsum dolor sit amet consecutur</a></h4>
+
+                {% set activa = widget.actives|last %}
+
+                <h4 class="text-color"><a class="link" href="#" title="">{{ activa.name }}</a></h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
-                            <span><span>Inicio: <strong>8/09/13</strong></span></span>
-                            <span><span>Fin: <strong>17/10/13</strong></span></span>
+                            <span><span>Inicio: <strong>{{ activa.startDateStr }}</strong></span></span>
+                            <span><span>Fin: <strong>{{ activa.deliveryDateStr }}</strong></span></span>
                         </div>
                     </li>
                     <li>
@@ -84,10 +87,11 @@
                 </ul>
             </li>
             <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="#" title="">Comunicaci&oacute; del aula</a></h4>
+                <h4 class="text-color"><a class="link" href="#" title="">Comunicaci&oacute; del aula</a></h4>                
                 <ul class="decorada llistaBlock">
+                    {% for eina in widget.eines %}
                     <li>
-                        <a class="link" target='wevento' href="#" title="">Tabl&oacute;n
+                        <a class="link" target='wevento' href="#" title="">{{ eina.translatedDescription }}
                             <span class="marcadors">
                                 <span title="Mensajes nuevos" class="nous">2</span>
                                 <span class="amagar">mensajes nuevos de</span>
@@ -95,24 +99,7 @@
                             </span>
                         </a>
                     </li>
-                    <li>
-                        <a class="link" target='wevento' href="#" title="">Foro con hilo de conversaci&oacute;n
-                            <span class="marcadors">
-                                <span title="Mensajes nuevos" class="nous">23</span>
-                                <span class="amagar">mensajes nuevos de</span>
-                                <span title="Total de mensajes" class="total">125</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="ultim">
-                        <a class="link" target='wevento' href="#" title="">Foro
-                            <span class="marcadors">
-                                <span title="Mensajes nuevos" class="nous">10</span>
-                                <span class="amagar">mensajes nuevos de</span>
-                                <span title="Total de mensajes" class="total">90</span>
-                            </span>
-                        </a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </li>
         </ul>

@@ -206,3 +206,35 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
         });
     }    
 }
+
+/**
+ * Activitat actual d'una aula
+ * @param domainId
+ * @param domainIdAula
+ * @param s
+ * @param resum
+ */
+exports.actives = function(domainId, domainIdAula, s, callback) {
+
+    var struct = {
+        s: s,
+        domainId: domainId,
+        domainIdAula: domainIdAula,
+        activitats: [
+        ]
+    }
+
+    aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+        if (err) { console.log(err); return callback(null, struct); }
+        result.forEach(function(activitat) {
+            try {
+                if (new Date(activitat.startDate) <= Date.now() && new Date(activitat.deliveryDate) > Date.now()) {
+                    struct.activitats.push(activitat);
+                }
+            } catch(e) {
+                console.log(e.message);
+            }
+        });
+        callback(null, struct);
+    });
+}
