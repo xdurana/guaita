@@ -75,27 +75,27 @@ exports.getDataLliurament = function(data) {
 }
 
 var getIndicador = function(indicadors, nom) {
+    var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
 			if (item.indicador[0].codIndicador[0] == nom) {
-				var total = /^(\d+)*/g.exec(item.valor[0])[0];
-                return parseInt(total);
+				total = /^(\d+)*/g.exec(item.valor[0])[0];
 			}
 		})
 	}
-    return config.nc();
+    return total;
 }
 
 var getIndicadorSenseFiltrar = function(indicadors, nom) {
+    var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
 			if (item.indicador[0].codIndicador[0] == nom) {
-				var total = item.valor[0];
-                return total;
+				total = item.valor[0];
 			}
 		})
 	}
-	return config.nc();
+	return total;
 }
 
 exports.getTotalEstudiantsTotal = function(indicadors) {

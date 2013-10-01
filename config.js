@@ -50,3 +50,7 @@ exports.debug = function(msg) {
         console.log(msg);
     }
 }
+
+exports.base = function() {
+    return '/app/guaita';
+}

@@ -5,7 +5,7 @@ I18N_COLLAPSE = typeof(I18N_COLLAPSE) == 'undefined' ? 'Contraer' : I18N_COLLAPS
 
 var UOCAulas = (function($) {
 
-    var baseURL = '';
+    var baseURL = '/app/guaita';
     var userRole = 'student'; // student, pra, consultor, aula
     var s = '';
     var idp = '';

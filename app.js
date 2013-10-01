@@ -53,19 +53,10 @@ app.use(function(err, req, res, next) {
 });
 
 /**
- * Test
- */
-app.get('/test', function (req, res, callback) {
-    res.json({
-        status: 'ok'
-    });
-});
-
-/**
  * IDP course list
  * @mockup: aulas_pra.html
  */
-app.get('/assignatures', function (req, res, callback) {
+app.get(config.base() + '/assignatures', function (req, res, callback) {
 
 	if (req.query.s && req.query.idp && req.query.anyAcademic && req.query.perfil) {
 		return assignatures.byidp(
@@ -91,7 +82,7 @@ app.get('/assignatures', function (req, res, callback) {
  * Course classroom list
  * @mockup: tabs_pra.html
  */
-app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
     if (req.query.s && req.query.idp && req.query.perfil) {
         return aules.all(
@@ -122,7 +113,7 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (
  * Pàgina d'una aula
  * @mockup: aulas_individual.html
  */
-app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
 		return aules.one(
             req.params.anyAcademic,
@@ -150,7 +141,7 @@ app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:do
  * Classroom activities
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, true, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -170,7 +161,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats', function (req,
  * Eines per activitat
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
 		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.query.idp, req.query.s, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -190,7 +181,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines',
  * Eines per aula
  * @mockup: herramientas_estudiantes.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
 		return eines.aula(req.params.domainId, req.params.domainIdAula, req.query.idp, req.query.s, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -210,7 +201,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res,
  * Avaluació per aula
  * @mockup: evaluacion_estudiantes.html
  */
-app.get('/avaluacio/:anyAcademic/:codAssignatura/:codAula', function (req, res, callback) {
+app.get(config.base() + '/avaluacio/:anyAcademic/:codAssignatura/:codAula', function (req, res, callback) {
 
     if (req.query.s) {
         return activitats.avaluacio(req.params.anyAcademic, req.params.codAssignatura, req.params.codAula, req.query.s, function (err, result) {
@@ -231,7 +222,7 @@ app.get('/avaluacio/:anyAcademic/:codAssignatura/:codAula', function (req, res, 
  * Classroom activities per student
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res, callback) {
 	if (req.query.s) {
 		return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -251,7 +242,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats'
  * Classroom activities per consultant
  * @mockup: actividades_consultores.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res, callback) {
     if (req.query.s) {
         return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
@@ -271,7 +262,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats'
  * Activity tools for a student
  * @mockup: herramientas_estudiantes.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.activitatEstudiant(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.params.idp, req.query.s, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -291,7 +282,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/
  * Classroom tools for a student
  * @mockup: actividades_aula.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res, callback) {
 	if (req.query.s) {
 		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
@@ -311,7 +302,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', fun
  * Classroom tools for a consultant
  * @mockup: herramientas_consultores.html
  */
-app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
         return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
@@ -331,7 +322,7 @@ app.get('/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', fun
  * Student classrooms page
  * @mockup: aulas_estudiante.html
  */
-app.get('/estudiants/:idp', function (req, res, callback) {
+app.get(config.base() + '/estudiants/:idp', function (req, res, callback) {
     if (req.query.s) {
         return estudiants.aules(req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
@@ -352,7 +343,7 @@ app.get('/estudiants/:idp', function (req, res, callback) {
  * Student widget
  * @mockup: widget_aula.html
  */
-app.get('/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
     if (req.query.s) {
         return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
