@@ -78,12 +78,12 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.tercer[0].idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
+                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
-                                                        <a href="#item_1_{{ estudiant.tercer[0].idp }}" class="lnk-expand" title="expandir"></a>
-                                                        <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.tercer[0].idp }}">
+                                                        <a href="#item_1_{{ estudiant.idp }}" class="lnk-expand" title="expandir"></a>
+                                                        <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.idp }}">
                                                         <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="fitxa d'usuari">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
@@ -93,7 +93,7 @@
                                                 <td class="bd-open">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
                                             </tr>
                                             <tr class="tr-wrap">
-                                                <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.tercer[0].idp }}"></div></td>
+                                                <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>
                                             </tr>
                                         </tbody>
                                         {% endfor %}
@@ -126,12 +126,12 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                        <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.tercer[0].idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
+                                        <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
-                                                        <a href="#item_2_{{ estudiant.tercer[0].idp }}" class="lnk-expand" title="expandir"></a>
-                                                        <input type="checkbox" class="check-user" name="check_users_2[]" value="{{ estudiant.tercer[0].idp }}">
+                                                        <a href="#item_2_{{ estudiant.idp }}" class="lnk-expand" title="expandir"></a>
+                                                        <input type="checkbox" class="check-user" name="check_users_2[]" value="{{ estudiant.idp }}">
                                                         <a href="#" class="lnk-user LaunchesOWinInactive" title="fitxa d'usuari">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
@@ -141,7 +141,7 @@
                                                 <td class="bd-open">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
                                             </tr>
                                             <tr class="tr-wrap">
-                                                <td colspan="5" class="td-wrap"><div class="acc-content" id="item_2_{{ estudiant.tercer[0].idp }}"></div></td>
+                                                <td colspan="5" class="td-wrap"><div class="acc-content" id="item_2_{{ estudiant.idp }}"></div></td>
                                             </tr>
                                         </tbody>
                                         {% endfor %}
@@ -176,12 +176,12 @@
 
 </div><!-- /container -->
 
-<script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="/js/jquery.ui.touch-punch.min.js"></script>
-<script type="text/javascript" src="/js/spin.min.js"></script>
-<script type="text/javascript" src="/js/helper.js"></script>
-<script type="text/javascript" src="/js/aulas.js"></script>
+<script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/spin.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/helper.js"></script>
+<script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
 <script>
     $(document).ready(function() {
         UOCAulas.init('aula', '{{ session }}');

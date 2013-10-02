@@ -2,15 +2,24 @@ var config = require('../config');
 var encoder = require('./encoder');
 var util = require('util');
 
+var getValor = function(object) {
+    return Array.isArray(object) ? object[0] : object;
+};
+
 exports.getNomComplert = function(tercer) {
     var complert = '';
-    try {    
-    	complert = tercer[0].nom[0] + ' ' + tercer[0].primerCognom[0];
-    	if (typeof tercer[0].segonCognom[0] == 'string') {
-    		complert += ' ' + tercer[0].segonCognom[0];
+    try {
+        var t = getValor(tercer);
+        complert = util.format('%s %s',
+            getValor(t.nom),
+            getValor(t.primerCognom)
+        );
+
+    	if (typeof getValor(t.segonCognom) == 'string') {
+    		complert += ' ' + getValor(t.segonCognom);
     	}
-    	if (typeof tercer[0].tercerCognom == 'string') {
-    		complert += ' ' + tercer[0].tercerCognom[0];
+    	if (typeof getValor(t.tercerCognom) == 'string') {
+    		complert += ' ' + getValor(t.tercerCognom);
     	}
     } catch(e) {
     }
@@ -45,7 +54,7 @@ exports.getTotalEstudiants = function(AulaVO) {
 
 exports.getUltimaConnexio = function(object) {
     try {
-        var dt = new Date(object.value[0].stored);
+        var dt = new Date(getValor(object.value).stored);
         if (isNaN(dt.getMilliseconds())) return config.nc();
         return util.format('%s-%s-%s',
             dt.getDate(),
@@ -62,8 +71,12 @@ exports.decodeHtmlEntity = function(html) {
 };
 
 exports.getDataLliurament = function(data) {
+    if (!data) {
+        return config.nc();
+    }
     try {
-        var dt = new Date(data[0]);
+        var dt = new Date(getValor(data));
+        config.debug(data);
         return util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
@@ -78,8 +91,8 @@ var getIndicador = function(indicadors, nom) {
     var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
-			if (item.indicador[0].codIndicador[0] == nom) {
-				total = /^(\d+)*/g.exec(item.valor[0])[0];
+			if (getValor(getValor(item.indicador).codIndicador) == nom) {
+				total = /^(\d+)*/g.exec(getValor(item.valor))[0];
 			}
 		})
 	}
@@ -90,8 +103,8 @@ var getIndicadorSenseFiltrar = function(indicadors, nom) {
     var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
-			if (item.indicador[0].codIndicador[0] == nom) {
-				total = item.valor[0];
+			if (getValor(getValor(item.indicador).codIndicador) == nom) {
+				total = getValor(item.valor);
 			}
 		})
 	}
@@ -117,3 +130,5 @@ exports.getSeguimentACAula = function(indicadors) {
 exports.getSuperacioACAula = function(indicadors) {
 	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
 }
+
+exports.getValor = getValor;

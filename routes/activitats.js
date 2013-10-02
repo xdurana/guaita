@@ -166,7 +166,9 @@ exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) 
 
     var getIndicadorsActivitat = function(item, callback) {
 
-        item.nom = item.descripcio[0].DescripcioVO[0].valor[0];
+        //TODO
+        //item.nom = item.descripcio[0].DescripcioVO[0].valor[0];
+        item.nom = indicadors.getValor(indicadors.getValor(indicadors.getValor(item.descripcio).DescripcioVO).valor);
         item.nom = indicadors.decodeHtmlEntity(item.nom);
         item.resum = {
             avaluacio: {

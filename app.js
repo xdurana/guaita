@@ -27,7 +27,7 @@ app.set('view cache', false);
 app.use(express.favicon());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/app/guaita', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(app.router);
 
