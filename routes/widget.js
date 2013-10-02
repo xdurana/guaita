@@ -3,6 +3,7 @@ var async = require('async');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var consultors = require('./consultors');
+var eines = require('./eines');
 var calendar = require('./calendar');
 var config = require('../config');
 var rac = require('../ws/rac');
@@ -48,7 +49,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+            eines.aulaidp(domainId, domainIdAula, idp, s, false, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.eines = result;
                 return callback();

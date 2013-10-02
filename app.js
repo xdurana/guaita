@@ -284,7 +284,7 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/
  */
 app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res, callback) {
 	if (req.query.s) {
-		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, true, function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -304,7 +304,7 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/
  */
 app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
-        return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, true, function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);

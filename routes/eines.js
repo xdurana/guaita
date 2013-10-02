@@ -226,7 +226,7 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 	});
 }
 
-exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
+exports.aulaidp = function(domainId, domainIdAula, idp, s, estadistiques, callback) {
 
 	var struct = {
 		domainId: domainId,
@@ -249,6 +249,31 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
 		}
 
         async.parallel([
+            function(callback) {
+                if (isForum(eina)) {
+                    async.parallel([
+                        function(callback) {
+                            forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
+                                if (err) { console.log(err); return callback(); }
+                                //TODO
+                                //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
+                                return callback();
+                            });
+                        },
+                        function(callback) {
+                            callback();
+                        },
+                        function(callback) {
+                            callback();
+                        }
+                    ], function(err, results) {
+                        if (err) { console.log(err); }
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            },
             function(callback) {
                 if (isPHPBB(eina)) {
                     async.parallel([
@@ -275,18 +300,26 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, callback) {
                 }
             },
             function(callback) {
-                lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
-                    if (err) { console.log(err); return callback(); }
-                    eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                    return callback();
-                });
+                if (estadistiques) {
+                    lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
+                        if (err) { console.log(err); return callback(); }
+                        eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
+                        return callback();
+                    });
+                } else {
+                    callback();
+                }
             },
             function(callback) {
-                lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
-                    if (err) { console.log(err); return callback(); }
-                    eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
-                    return callback();
-                });
+                if (estadistiques) {
+                    lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
+                        if (err) { console.log(err); return callback(); }
+                        eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
+                        return callback();
+                    });
+                } else {
+                    callback();
+                }
             }
         ], function(err, results) {
             if (err) { console.log(err); }
