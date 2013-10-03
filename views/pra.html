@@ -6,9 +6,8 @@
 {% block content %}
 
 <div id="feedback">
-    <a href="https://cv.uoc.edu/webapps/classroom/081_common/jsp/aulespra.jsp?s={{ session }}" class="btn-torna">Torna a la plana aules prèvia</a>
-    <a href="https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false" class="btn-incidencia LaunchesOWin">Entra una incidència/millora</a>
-    <!--<a href="#" class="btn-millora LaunchesOWin">Ajuda'ns a millorar</a>-->
+    <a href="https://cv.uoc.edu/webapps/classroom/081_common/jsp/aulespra.jsp?s={{ session }}" class="btn-torna">{{ t('torna_plana_aules_previa') }}</a>
+    <a href="https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false" class="btn-incidencia LaunchesOWin">{{ t('entra_incidencia_millora') }}</a>
     <img src="/app/guaita/img/beta.png" class="right" />
 </div>
 
@@ -16,15 +15,15 @@
 <div id="container" class="pra" data-guaita-pra="{{ object.idp }}">
 
     <ul id="accessibility" class="visuallyhidden">
-        <li><a href="#menu" accesskey="m" title="Acceso directo al menu de navegación">Acceso directo al menú de navegación</a></li>
-        <li><a href="#content" accesskey="s" title="Acceso directo al contenido">Acceso directo al contenido</a></li>
+        <li><a href="#menu" accesskey="m" title="{{ t('acces_directe_menu_navegacio') }}">{{ t('acces_directe_menu_navegacio') }}</a></li>
+        <li><a href="#content" accesskey="s" title="{{ t('acces_directe__contingut') }}">{{ t('acces_directe__contingut') }}</a></li>
     </ul>
 
     <noscript>
         <div class="alertjs-container">
             <div class="alertjs">
-                <h5>JavaScript no está habilitado en tu navegador</h5>
-                <p>Para acceder a todas las características, activa JavaScript o actualiza tu navegador con una versión que acepte JavaScript.</p>
+                <h5>{{ t('javascript_no_habilitat') }}</h5>
+                <p>{{ t('activa_javaScript') }}</p>
             </div>
         </div>
     </noscript>
@@ -35,7 +34,7 @@
             <!--            
             <div id="menu" class="nav clearfix">
                 <select name="menu-select" id="menu-select">
-                    <option value="1">Programa d’estudis: Grau de Dret</option>
+                    <option value="1">{{ t('programa_estudis') }}: Grau de Dret</option>
                     <option value="2">Lorem ipsum dolore sit consecutur dolor sit amget maxima</option>
                     <option value="3">Morbi aliquam magna non nunc elementum dictum</option>
                 </select>
@@ -54,7 +53,7 @@
                     <div class="block-head" data-guaita-assignatura="{{ assignatura.codi }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}">
                         <h3><span class="lbl">{{ assignatura.codi }} {{ assignatura.title }}</span></h3>
                         <ul class="block-top">
-                            <li><span class="icon-move-hidden" title="Ordenar"><i class="icon"></i></span></li>
+                            <li><span class="icon-move-hidden" title="{{ t('ordena') }}"><i class="icon"></i></span></li>
                         </ul>
                     </div>
                     
@@ -65,7 +64,7 @@
 
                     <div id="resum_1" class="block-resum">
                         <table class="tbl tbl-resum">
-                            <caption>Resum: {{ assignatura.title }}</caption>
+                            <caption>{{ t('resum') }}: {{ assignatura.title }}</caption>
                             <colgroup>
                                 <col style="width:10%">
                                 <col style="width:6%">
@@ -78,19 +77,19 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th rowspan="2">Aules Totals</th>
-                                    <th colspan="2" class="bd">Estudiants</th>
-                                    <th colspan="3" class="bd">Comunicació Activitats i Eines</th>
-                                    <th colspan="2" class="bd">Avaluació</th>
+                                    <th rowspan="2">{{ t('aules_totals') }}</th>
+                                    <th colspan="2" class="bd">{{ t('estudiants') }}</th>
+                                    <th colspan="3" class="bd">{{ t('comunicacio_activitats_eines') }}</th>
+                                    <th colspan="2" class="bd">{{ t('avaluacio') }}</th>
                                 </tr>
                                 <tr>
-                                    <th class="bd"><span class="icon-student" title="Estudiants"></span></th>
-                                    <th><span class="icon-repeater" title="Repetidors"></span></th>
-                                    <th class="bd">Clics acumulats</th>
-                                    <th>Lectures pendents acumulades</th>
-                                    <th><span class="em">Lectures pendents /</span> Paricipacions totals</th>
-                                    <th class="bd">Seguiment AC</th>
-                                    <th>Superació AC</th>
+                                    <th class="bd"><span class="icon-student" title="{{ t('estudiants') }}"></span></th>
+                                    <th><span class="icon-repeater" title="{{ t('repetidors') }}"></span></th>
+                                    <th class="bd">{{ t('clics_acumulats') }}</th>
+                                    <th>{{ t('lectures_pendents_acumulades') }}</th>
+                                    <th><span class="em">{{ t('lectures_pendents') }} /</span> {{ t('participacions_totals') }}</th>
+                                    <th class="bd">{{ t('seguiment_ac') }}</th>
+                                    <th>{{ t('superacio_ac') }}</th>
                                 </tr>
                             </thead>
                             <tbody>

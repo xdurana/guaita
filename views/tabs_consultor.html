@@ -4,16 +4,16 @@
             <li class="students-header">
                 <span class="wrap-lbl">
                     <span class="icon"></span>
-                    <span class="lbl">Estudiants</span>
+                    <span class="lbl">{{ t('estudiants') }}</span>
                 </span>
             </li>
         </ul>
     </div>    
 	<div class="tabs">
 		<ul>
-	    	<li><a href="#tabs-1" class="tab tab-1">Activitats</a></li>
-	    	<li><a href="#tabs-2" class="tab tab-2">Eines</a></li>
-	    	<li><a href="#tabs-3" class="tab tab-3">Avaluació</a></li>
+	    	<li><a href="#tabs-1" class="tab tab-1">{{ t('activitats') }}</a></li>
+	    	<li><a href="#tabs-2" class="tab tab-2">{{ t('eines') }}</a></li>
+	    	<li><a href="#tabs-3" class="tab tab-3">{{ t('avaluacio') }}</a></li>
 		</ul>
 		{% include 'aula-estudiants-activitats.html' %}
 		{% include 'aula-estudiants-eines.html' %}
@@ -21,8 +21,8 @@
 	</div>
 	<div class="tabs-links-wrap">
 		<div class="tabs-links">
-			<a href="{{ assignatura.linkfitxaassignatura }}" class="lnk-extern">Fitxa de l'assignatura<i class="icon"></i></a>
-			<a href="{{ assignatura.linkedicioaula }}" class="lnk-extern">Disseny de l'aula<i class="icon"></i></a>
+			<a href="{{ assignatura.linkfitxaassignatura }}" class="lnk-extern">{{ t('fitxa_assignatura') }}<i class="icon"></i></a>
+			<a href="{{ assignatura.linkedicioaula }}" class="lnk-extern">{{ t('disseny_aula') }}<i class="icon"></i></a>
 		</div>
 	</div>
 </div>

@@ -4,6 +4,7 @@ var path = require('path');
 var request = require('request');
 var swig = require('swig');
 var util = require('util');
+var i18next = require('i18next');
 
 var config = require('./config');
 
@@ -17,6 +18,10 @@ var widget = require('./routes/widget');
 
 var app = express();
 
+i18next.init({
+    lng: 'ca'
+});
+
 app.set('port', config.port());
 
 app.engine('html', swig.renderFile);
@@ -26,10 +31,13 @@ app.set('view cache', false);
 
 app.use(express.favicon());
 app.use(express.bodyParser());
+app.use(i18next.handle);
 app.use(express.methodOverride());
 app.use('/app/guaita', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(app.router);
+
+i18next.registerAppHelper(app);
 
 app.use(function(req, res, next) {
 	res.json({

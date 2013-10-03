@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
-{% block title %}Aules: Estudiant{% endblock %}
+{% block title %}{{ t('aules') }}: {{ t('estudiant') }}{% endblock %}
 {% set session = object.s %}
 {% set idp = object.idp %}
 
 {% block content %}
 
 <div id="feedback">
-    <a href="https://cv.uoc.edu/webapps/classroom/081_common/jsp/aulespra.jsp?s={{ session }}" class="btn-torna">Torna a la plana aules prèvia</a>
-    <a href="https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false" class="btn-incidencia LaunchesOWin">Entra una incidència/millora</a>
+    <a href="https://cv.uoc.edu/webapps/classroom/081_common/jsp/aulespra.jsp?s={{ session }}" class="btn-torna">{{ t('torna_plana_aules_previa') }}</a>
+    <a href="https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false" class="btn-incidencia LaunchesOWin">{{ t('entra_incidencia_millora') }}</a>
     <!--<a href="#" class="btn-millora LaunchesOWin">Ajuda'ns a millorar</a>-->
     <img src="/app/guaita/img/beta.png" class="right" />
 </div>
@@ -16,15 +16,15 @@
 <div id="container" class="student">
 
     <ul id="accessibility" class="visuallyhidden">
-        <li><a href="#menu" accesskey="m" title="Acceso directo al menu de navegación">Acceso directo al menú de navegación</a></li>
-        <li><a href="#content" accesskey="s" title="Acceso directo al contenido">Acceso directo al contenido</a></li>
+        <li><a href="#menu" accesskey="m" title="{{ t('acces_directe_menu_navegacio') }}">{{ t('acces_directe_menu_navegacio') }}</a></li>
+        <li><a href="#content" accesskey="s" title="{{ t('acces_directe__contingut') }}">{{ t('acces_directe__contingut') }}</a></li>
     </ul>
 
     <noscript>
         <div class="alertjs-container">
             <div class="alertjs">
-                <h5>JavaScript no está habilitado en tu navegador</h5>
-                <p>Para acceder a todas las características, activa JavaScript o actualiza tu navegador con una versión que acepte JavaScript.</p>
+                <h5>{{ t('javascript_no_habilitat') }}</h5>
+                <p>{{ t('activa_javaScript') }}</p>
             </div>
         </div>
     </noscript>
@@ -39,8 +39,8 @@
 
                     <div class="block-head">
                         <h3>
-                            <span class="lbl open-lbl">Assignatures i tipologies</span>
-                            <span class="lbl closed-lbl" style="display:none;">Assignatures</span>
+                            <span class="lbl open-lbl">{{ t('assignatures_tipologies') }}</span>
+                            <span class="lbl closed-lbl" style="display:none;">{{ t('assignatures') }}</span>
                         </h3>
                     </div>
                     
@@ -54,7 +54,7 @@
                                 </li>
                             {% endfor %}
                             </ul>
-                            <h3><span class="lbl">Tipologies</span></h3>
+                            <h3><span class="lbl">{{ t('tipologies') }}</span></h3>
                             <ul class="list typology-list">
                                 <li>
                                     <input type="checkbox" class="check-filter" name="filter_type[]" id="type_1" value="PI" checked="checked">
@@ -99,16 +99,16 @@
             <div class="tabs tabs-calendar">
                 <ul>
                     <li class="tab-month">
-                        <a href="#tabs-1" class="tab">Mensual</a>
+                        <a href="#tabs-1" class="tab">{{ t('mensual') }}</a>
                         <span class="options">
-                            <a href="javascript:window.print();" class="btn">Imprimir</a>
+                            <a href="javascript:window.print();" class="btn">{{ t('imprimir') }}</a>
                         </span>
                     </li>
                     <li class="tab-semester">
-                        <a href="#tabs-2" class="tab">Semestral</a>
+                        <a href="#tabs-2" class="tab">{{ t('semestral') }}</a>
                         <span class="options">
-                            <a href="javascript:window.print();" class="btn">Imprimir</a>
-                            <a href="#" class="btn">Exportar</a>
+                            <a href="javascript:window.print();" class="btn">{{ t('imprimir') }}</a>
+                            <a href="#" class="btn">{{ t('exportar') }}</a>
                         </span>
                     </li>
                 </ul>

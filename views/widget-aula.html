@@ -47,7 +47,7 @@
         <h3 class="aula-title"><a href="#">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
         <h5 class="aula-profile text-color-alt"><a href="#">{{ widget.consultor.nomComplert }}</a></h5>
         <span class="marcadors">
-            <span class="nous unic" title="Mensajes nuevos">54</span>
+            <span class="nous unic" title="{{ t('missatges_nous') }}">54</span>
         </span>
     </div>
                 
@@ -62,40 +62,40 @@
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
-                            <span><span>Inicio: <strong>{{ activa.startDateStr }}</strong></span></span>
-                            <span><span>Fin: <strong>{{ activa.deliveryDateStr }}</strong></span></span>
+                            <span><span>{{ t('inici') }}: <strong>{{ activa.startDateStr }}</strong></span></span>
+                            <span><span>{{ t('fi') }}: <strong>{{ activa.deliveryDateStr }}</strong></span></span>
                         </div>
                     </li>
                     <li>
                         <a class="link" target='wevento' href="#" title="">Debate
                             <span class="marcadors">
-                                <span title="Mensajes nuevos" class="nous">7</span>
-                                <span class="amagar">mensajes nuevos de</span>
-                                <span title="Total de mensajes" class="total">30</span>
+                                <span title="{{ t('missatges_nous') }}" class="nous">7</span>
+                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">30</span>
                             </span>
                         </a>
                     </li>
                     <li class="ultim">
                         <a class="link" target='wevento' href="#" title="">Foro
                             <span class="marcadors">
-                                <span title="Mensajes nuevos" class="nous cap">0</span>
-                                <span class="amagar">mensajes nuevos de</span>
-                                <span title="Total de mensajes" class="total">139</span>
+                                <span title="{{ t('missatges_nous') }}" class="nous cap">0</span>
+                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">139</span>
                             </span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="#" title="">Comunicaci&oacute; del aula</a></h4>                
+                <h4 class="text-color"><a class="link" href="#" title="">{{ t('comunicacio_aula') }}</a></h4>                
                 <ul class="decorada llistaBlock">
                     {% for eina in widget.eines %}
                     <li>
                         <a class="link" target='wevento' href="#" title="">{{ eina.translatedDescription }}
                             <span class="marcadors">
-                                <span title="Mensajes nuevos" class="nous">2</span>
-                                <span class="amagar">mensajes nuevos de</span>
-                                <span title="Total de mensajes" class="total">45</span>
+                                <span title="{{ t('missatges_nous') }}" class="nous">2</span>
+                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">45</span>
                             </span>
                         </a>
                     </li>
@@ -106,14 +106,14 @@
 
         <ul class="decorada llistaBlock">
             <li>
-                <a class="link" target='wevento' href="#" onclick="oWin(this.href);return false;">Registro evaluaci&oacute;n continua</a>
+                <a class="link" target='wevento' href="#" onclick="oWin(this.href);return false;">{{ t('registre_evaluacio_continuada') }}</a>
             </li>
             <li class="ultim">
                 <a target="grid" href="#">
                     <span class="marcadors">
-                        <span title="Estudiantes conectados" class="nous unic">22</span>
+                        <span title="{{ t('estudiants_connectats') }}" class="nous unic">22</span>
                     </span>
-                    <span class="noLink">Estudiantes conectados</span>
+                    <span class="noLink">{{ t('estudiants_connectats') }}s</span>
                 </a>
             </li>
         </ul>
@@ -121,7 +121,7 @@
     </div>
     
     <div class="minmax">
-        <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">Minimizar</a>
+        <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">{{ t('minimitzar') }}</a>
     </div>
 
 </body>

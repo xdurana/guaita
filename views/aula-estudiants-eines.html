@@ -1,7 +1,7 @@
 {% block estudiants_eines %}
 <div id="tabs-2">
     <table class="tbl tbl-subject">
-        <caption>Eines estudiants</caption>
+        <caption>{{ t('eines_estudiants') }}</caption>
         <colgroup>
             <col>
             <col style="width:6%">
@@ -12,17 +12,17 @@
         </colgroup>
         <thead>
             <tr>
-                <th>Aules</th>
+                <th>{{ t('aules') }}</th>
                 <th><span class="icon-student" title="Estudiants"></span></th>
                 <th><span class="icon-repeater" title="Repetidors"></span></th>
-                <th>Clics acumulats</th>
-                <th>Lectures pendents acumulades</th>
-                <th><span class="em">Lectures pendents /</span> Participacions totals</th>
+                <th>{{ t('clics_acumulats') }}</th>
+                <th>{{ t('lectures_pendents_acumulades') }}</th>
+                <th><span class="em">{{ t('lectures_pendents') }} /</span> {{ t('participacions_totals') }}</th>
             </tr>
         </thead>
         <tbody class="totals">
             <tr>
-                <td>Total:</td>
+                <td>{{ t('total') }}:</td>
                 <td>{{ assignatura.resum.estudiants.total }}</td>
                 <td>{{ assignatura.resum.estudiants.repetidors }}</td>
                 <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
@@ -35,8 +35,8 @@
             <tr>
                 <td>
                     <span class="aula-item">
-                        <a href="#item_2_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
-                        <a href="#" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
+                        <a href="#item_2_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
+                        <a href="#" class="lnk-aula c_FF2600" title="{{ t('ves_aula') }}">{{ t('aula') }} {{ aula.codAula }}</a>
                         <a href="/app/guaita/assignatures/{{ assignatura.anyAcademic }}/{{ assignatura.codAssignatura }}/{{ assignatura.domainId }}/aules/{{ aula.codAula }}/{{ aula.domainIdAula }}?s={{ assignatura.s }}&idp={{ assignatura.idp }}" class="lnk-more" title="més"></a>
                     </span>
                 </td>

@@ -1,7 +1,7 @@
 {% block estudiants_avaluacio %}
 <div id="tabs-3">
     <table class="tbl tbl-subject">
-        <caption>Avaluació estudiants</caption>
+        <caption>{{ t('avaluacio_estudiants') }}</caption>
         <colgroup>
             <col>
             <col style="width:6%">
@@ -12,17 +12,17 @@
         </colgroup>
         <thead>
             <tr>
-                <th>Aules</th>
-                <th><span class="icon-student" title="Estudiants"></span></th>
-                <th><span class="icon-repeater" title="Repetidors"></span></th>
-                <th>Seguiment AC</th>
-                <th>Superació AC</th>
-                <th>Data de lliurament</th>
+                <th>{{ t('aules') }}</th>
+                <th><span class="icon-student" title="{{ t('estudiants') }}"></span></th>
+                <th><span class="icon-repeater" title="{{ t('repetidors') }}"></span></th>
+                <th>{{ t('seguiment_ac') }}</th>
+                <th>{{ t('superacio_ac') }}</th>
+                <th>{{ t('data_lliurament') }}</th>
             </tr>
         </thead>
         <tbody class="totals">
             <tr>
-                <td>Total:</td>
+                <td>{{ t('total') }}:</td>
                 <td>{{ assignatura.resum.estudiants.total }}</td>
                 <td>{{ assignatura.resum.estudiants.repetidors }}</td>
                 <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
@@ -35,8 +35,8 @@
             <tr>
                 <td>
                     <span class="aula-item">
-                        <a href="#item_3_{{ aula.codAula }}" class="lnk-expand" title="expandir"></a>
-                        <a href="#" class="lnk-aula c_FF2600" title="vés a l'aula">Aula {{ aula.codAula }}</a>
+                        <a href="#item_3_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
+                        <a href="#" class="lnk-aula c_FF2600" title="vés a l'aula">{{ t('aula') }} {{ aula.codAula }}</a>
                         <a href="/app/guaita/assignatures/{{ assignatura.anyAcademic }}/{{ assignatura.codAssignatura }}/{{ assignatura.domainId }}/aules/{{ aula.codAula }}/{{ aula.domainIdAula }}?s={{ assignatura.s }}&idp={{ assignatura.idp }}" class="lnk-more" title="més"></a>
                     </span>
                 </td>
