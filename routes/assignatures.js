@@ -50,6 +50,7 @@ var byidp = function(s, idp, anyAcademic, callback) {
 
 var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
 
+    subject.anyAcademic = anyAcademic;
     subject.resum = {
         aules: {
             total: config.nc()

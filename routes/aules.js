@@ -47,7 +47,6 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
                         if (result.out.ActivitatVO) {
                             result.out.ActivitatVO.forEach(function(activitat) {
                                 if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
-                                    config.debug(activitat.dataLliurament);
                                     struct.dataLliurament = indicadors.getDataLliurament(activitat.dataLliurament);
                                 }
                             })
