@@ -85,44 +85,45 @@ exports.aules = function(idp, s, callback) {
         activitats.aula(aula.domainId, aula.domainIdAula, s, false, function(err, result) {
             if (err) { console.log(err); return callback(); }
             aula.activitats = result.activitats;
+            if (aula.activitats) {
+                aula.activitats.forEach(function(activitat) {
 
-            aula.activitats.forEach(function(activitat) {
+                    //TODO
 
-                //TODO
-
-                var inici = {
-                    esdeveniment: 'inici',
-                    activitat: activitat
-                }
-                var fi = {
-                    esdeveniment: 'fi',
-                    activitat: activitat
-                }
-                var solucio = {
-                    esdeveniment: 'solució',
-                    activitat: activitat
-                }
-                var qualificacio = {
-                    esdeveniment: 'qualificació',
-                    activitat: activitat
-                }
-                if (activitat.startDate) {
-                    struct.calendari[activitat.startDate] = struct.calendari[activitat.startDate] ? struct.calendari[activitat.startDate] : [];
-                    struct.calendari[activitat.startDate].push(inici);
-                }
-                if (activitat.deliveryDate) {
-                    struct.calendari[activitat.deliveryDate] = struct.calendari[activitat.deliveryDate] ? struct.calendari[activitat.deliveryDate] : [];
-                    struct.calendari[activitat.deliveryDate].push(fi);
-                }
-                if (activitat.solutionDate) {
-                    struct.calendari[activitat.solutionDate] = struct.calendari[activitat.solutionDate] ? struct.calendari[activitat.solutionDate] : [];
-                    struct.calendari[activitat.solutionDate].push(solucio);
-                }
-                if (activitat.qualificationDate) {
-                    struct.calendari[activitat.qualificationDate] = struct.calendari[activitat.qualificationDate] ? struct.calendari[activitat.qualificationDate] : [];
-                    struct.calendari[activitat.qualificationDate].push(qualificacio);
-                }
-            });
+                    var inici = {
+                        esdeveniment: 'inici',
+                        activitat: activitat
+                    }
+                    var fi = {
+                        esdeveniment: 'fi',
+                        activitat: activitat
+                    }
+                    var solucio = {
+                        esdeveniment: 'solució',
+                        activitat: activitat
+                    }
+                    var qualificacio = {
+                        esdeveniment: 'qualificació',
+                        activitat: activitat
+                    }
+                    if (activitat.startDate) {
+                        struct.calendari[activitat.startDate] = struct.calendari[activitat.startDate] ? struct.calendari[activitat.startDate] : [];
+                        struct.calendari[activitat.startDate].push(inici);
+                    }
+                    if (activitat.deliveryDate) {
+                        struct.calendari[activitat.deliveryDate] = struct.calendari[activitat.deliveryDate] ? struct.calendari[activitat.deliveryDate] : [];
+                        struct.calendari[activitat.deliveryDate].push(fi);
+                    }
+                    if (activitat.solutionDate) {
+                        struct.calendari[activitat.solutionDate] = struct.calendari[activitat.solutionDate] ? struct.calendari[activitat.solutionDate] : [];
+                        struct.calendari[activitat.solutionDate].push(solucio);
+                    }
+                    if (activitat.qualificationDate) {
+                        struct.calendari[activitat.qualificationDate] = struct.calendari[activitat.qualificationDate] ? struct.calendari[activitat.qualificationDate] : [];
+                        struct.calendari[activitat.qualificationDate].push(qualificacio);
+                    }
+                });
+            }
 
             return callback();
         });
