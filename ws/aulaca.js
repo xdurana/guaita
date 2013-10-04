@@ -3,7 +3,7 @@ var service = require('./service');
 var request = require('request');
 var util = require('util');
 
-exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
+exports.getAssignaturesPerIdp = function(s, idp, callback) {
 
     var url = util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
@@ -15,7 +15,7 @@ exports.getAssignaturesPerIdp = function(s, idp, anyAcademic, callback) {
         if (err) { console.log(err); callback(); return; }
         try {
             object.subjects = object.subjects.filter(function(assignatura) {
-                return (assignatura.anyAcademic === anyAcademic);
+                return (assignatura.anyAcademic == '20131' || assignatura.anyAcademic == '20122');
             });
             callback(null, object.subjects);
         } catch(e) {

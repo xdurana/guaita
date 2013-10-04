@@ -66,11 +66,10 @@ app.use(function(err, req, res, next) {
  */
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
-	if (req.query.s && req.query.idp && req.query.anyAcademic && req.query.perfil) {
+	if (req.query.s && req.query.idp && req.query.perfil) {
 		return assignatures.byidp(
             req.query.s,
             req.query.idp,
-            req.query.anyAcademic,
             function (err, result) {
             if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
@@ -82,7 +81,7 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
 			}
 		});
 	} else {
-		callback('manquen algun dels parametres de la crida [s, idp, anyAcademic, perfil]');
+		callback('manquen algun dels parametres de la crida [s, idp, perfil]');
 	}
 });
 

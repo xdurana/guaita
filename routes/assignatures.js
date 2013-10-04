@@ -11,21 +11,20 @@ var infoacademica = require('../ws/infoacademica');
 var aulaca = require('../ws/aulaca');
 var lrs = require('../ws/lrs');
 
-var byidp = function(s, idp, anyAcademic, callback) {
+var byidp = function(s, idp, callback) {
 
     var struct = {
         s: s,
         idp: idp,
-        anyAcademic: anyAcademic,
         assignatures: [
         ]
     };
 
-    aulaca.getAssignaturesPerIdp(s, idp, anyAcademic, function(err, result) {
+    aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         try {
             struct.assignatures = result;
-            async.each(struct.assignatures, getResum.bind(null, s, idp, anyAcademic), function(err) {
+            async.each(struct.assignatures, getResum.bind(null, s, idp), function(err) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.assignatures.sort(ordenaAssignatures);
                 return callback(null, struct);
@@ -36,8 +35,8 @@ var byidp = function(s, idp, anyAcademic, callback) {
         }
     });
 
-    var getResum = function(s, idp, anyAcademic, subject, callback) {
-        resum(s, idp, anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
+    var getResum = function(s, idp, subject, callback) {
+        resum(s, idp, subject.anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
             if (err) { console.log(err); }
             return callback();
         });
@@ -50,6 +49,7 @@ var byidp = function(s, idp, anyAcademic, callback) {
 
 var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
 
+    subject.anyAcademic = anyAcademic;
     subject.resum = {
         aules: {
             total: config.nc()
