@@ -182,6 +182,7 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 		codAula: codAula,
 		domainId: domainId,
 		domainIdAula: domainIdAula,
+        totalEstudiants: 0,
 		consultor: {
 		},
 		estudiants: [
@@ -200,9 +201,12 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
                 struct.estudiants = result;
-                struct.estudiants.forEach(function(estudiant) {
-                    estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-                });
+                if (struct.estudiants) {
+                    struct.totalEstudiants = struct.estudiants.length;
+                    struct.estudiants.forEach(function(estudiant) {
+                        estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
+                    });
+                }
 				return callback();
 			});
 		},
