@@ -21,6 +21,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
         domainId: domainId,
+        dataLliurament: config.nc(),
         aules: [
         ]
     }
@@ -37,6 +38,25 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
                 } catch(e) {
                     console.log(e.message);
                     return callback();
+                }
+            },
+            function (callback) {
+                try {
+                    rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
+                        if (err) { console.log(err); return callback(null, struct); }
+                        if (result.out.ActivitatVO) {
+                            result.out.ActivitatVO.forEach(function(activitat) {
+                                if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
+                                    config.debug(activitat.dataLliurament);
+                                    struct.dataLliurament = indicadors.getDataLliurament(activitat.dataLliurament);
+                                }
+                            })
+                        }
+                        return callback();
+                    });
+                } catch(e) {
+                    console.log(e.message);
+                    return callback(null, struct);
                 }
             },
             function (callback) {
