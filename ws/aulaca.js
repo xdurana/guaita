@@ -103,8 +103,13 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 
 exports.getAulesEstudiant = function(idp, s, callback) {
 
-    //TODO
+    var url = util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=419029', 
+        config.cv(), 
+        s
+    );
 
+    //TODO
     var aules = [{
         nom: 'Llenguatges i estàndars web',
         anyAcademic: '20131',
@@ -113,10 +118,25 @@ exports.getAulesEstudiant = function(idp, s, callback) {
         codAula: '1',
         domainIdAula: '419029',
         color: '66AA00',
-        link: util.format('https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=419029', s)
+        link: url
     }];
 
     callback(null, { aules: aules});
+}
+
+exports.getGroupServlet  = function(domainCode, s, callback) {
+
+    var url = util.format(
+        '%s/webapps/classroom/servlet/GroupServlet?dtId=DOMAIN&s=%s&dUId=ALL&dCode=%s',
+        config.cv(),
+        s,
+        domainCode
+    );
+
+    service.xml(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        callback(null, object.Dominis.domini);
+    });
 }
 
 exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
