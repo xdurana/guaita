@@ -15,6 +15,7 @@ var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
 var widget = require('./routes/widget');
+var campus = require('./ws/campus');
 
 var app = express();
 
@@ -66,22 +67,27 @@ app.use(function(err, req, res, next) {
  */
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
-	if (req.query.s && req.query.idp && req.query.perfil) {
-		return assignatures.byidp(
-            req.query.s,
-            req.query.idp,
-            function (err, result) {
-            if(err) { console.log(err); callback(); return; }
-			if (req.query.format) {
-				res.json(result);
-			} else {
-				result.s = req.query.s;
-				result.idp = req.query.idp;
-				res.render(req.query.perfil == 'pra' ? 'pra.html' : 'consultor.html', { object: result });
-			}
-		});
+	if (req.query.s && req.query.perfil) {
+        campus.getIdpBySession(req.query.s, function (err, idp) {
+            config.debug(idp);
+            idp = (req.query.idp && idp == '30000020') ? req.query.idp : idp;
+            return assignatures.byidp(
+                req.query.s,
+                idp,
+                function (err, result) {
+                    if(err) { console.log(err); callback(); return; }
+                    if (req.query.format) {
+                        res.json(result);
+                    } else {
+                        result.s = req.query.s;
+                        result.idp = idp;
+                        res.render(req.query.perfil == 'pra' ? 'pra.html' : 'consultor.html', { object: result });
+                    }
+                }
+            );
+        });
 	} else {
-		callback('manquen algun dels parametres de la crida [s, idp, perfil]');
+		callback('manquen algun dels parametres de la crida [s, perfil]');
 	}
 });
 
