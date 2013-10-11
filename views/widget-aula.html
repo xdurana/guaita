@@ -47,7 +47,7 @@
         <h3 class="aula-title"><a href="#">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
         <h5 class="aula-profile text-color-alt"><a href="#">{{ widget.consultor.nomComplert }}</a></h5>
         <span class="marcadors">
-            <span class="nous unic" title="{{ t('missatges_nous') }}">54</span>
+            <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
         </span>
     </div>
                 
@@ -89,19 +89,19 @@
             <li class="aula-item">
                 <h4 class="text-color"><a class="link" href="#" title="">{{ t('comunicacio_aula') }}</a></h4>                
                 <ul class="decorada llistaBlock">
-                    {% if widget.eines %}
-                    {% for eina in widget.eines %}
+                    {% if widget.recursos %}
+                    {% for eina in widget.recursos %}
                     <li>
-                        <a class="link" target='wevento' href="#" title="">{{ eina.translatedDescription }}
+                        <a class="link" target='wevento' href="{{ eina.url[0] }}" title="">{{ eina.titol[0] }}
                             <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="nous">N/D</span>
+                                <span title="{{ t('missatges_nous') }}" class="nous">{{ eina.num_msg_pendents[0] }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">N/D</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">{{ eina.num_msg_totals[0] }}</span>
                             </span>
                         </a>
                     </li>
                     {% endfor %}
-                    {% endif%}
+                    {% endif %}
                 </ul>
             </li>
         </ul>
@@ -111,9 +111,9 @@
                 <a class="link" target='wevento' href="#" onclick="oWin(this.href);return false;">{{ t('registre_evaluacio_continuada') }}</a>
             </li>
             <li class="ultim">
-                <a target="grid" href="#">
+                <a target="grid" href="{{ widget.hrefEstudiantsConnectats }}">
                     <span class="marcadors">
-                        <span title="{{ t('estudiants_connectats') }}" class="nous unic">N/D</span>
+                        <span title="{{ t('estudiants_connectats') }}" class="nous unic">{{ widget.connectats }}</span>
                     </span>
                     <span class="noLink">{{ t('estudiants_connectats') }}s</span>
                 </a>

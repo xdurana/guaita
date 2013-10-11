@@ -55,7 +55,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 return callback();
             });
         },
-        /*
         function (callback) {
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
@@ -70,12 +69,18 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 }
             });
         },
-        */
         function (callback) {
             var domainIdCode = 'uoc_demo_074_01';
             aulaca.getGroupServlet(domainIdCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.group = result;
+                struct.missatgesPendents = struct.group[0]['$']['numMsgPendents'];
+                struct.connectats = struct.group[0]['$']['conectats'];
+                struct.hrefEstudiantsConnectats = struct.group[0]['$']['hrefEstudiantsConnectats'];
+
+                config.debug(struct.hrefEstudiantsConnectats);
+
+                struct.recursos = struct.group[0].recurs;
                 return callback();
             });
         },        
@@ -85,7 +90,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     });
 
     var getEinesActivitat = function(activitat, callback) {
-        config.debug('activitats');
         aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;
