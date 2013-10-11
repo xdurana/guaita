@@ -17,6 +17,7 @@
     "async": "*",
     "request":"*",
     "swig":"*",
-    "i18next": "*"
+    "i18next": "*",
+    "xml2js": "*"
   }
 }

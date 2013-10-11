@@ -89,17 +89,19 @@
             <li class="aula-item">
                 <h4 class="text-color"><a class="link" href="#" title="">{{ t('comunicacio_aula') }}</a></h4>                
                 <ul class="decorada llistaBlock">
+                    {% if widget.eines %}
                     {% for eina in widget.eines %}
                     <li>
                         <a class="link" target='wevento' href="#" title="">{{ eina.translatedDescription }}
                             <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="nous">2</span>
+                                <span title="{{ t('missatges_nous') }}" class="nous">N/D</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">45</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">N/D</span>
                             </span>
                         </a>
                     </li>
                     {% endfor %}
+                    {% endif%}
                 </ul>
             </li>
         </ul>
@@ -111,7 +113,7 @@
             <li class="ultim">
                 <a target="grid" href="#">
                     <span class="marcadors">
-                        <span title="{{ t('estudiants_connectats') }}" class="nous unic">22</span>
+                        <span title="{{ t('estudiants_connectats') }}" class="nous unic">N/D</span>
                     </span>
                     <span class="noLink">{{ t('estudiants_connectats') }}s</span>
                 </a>

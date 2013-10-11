@@ -51,19 +51,45 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         function (callback) {
             eines.aulaidp(domainId, domainIdAula, idp, s, false, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
-                struct.eines = result;
+                struct.eines = result.eines;
                 return callback();
             });
         },
+        /*
         function (callback) {
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.actives = result.activitats;
-                return callback();
+                if (struct.actives && struct.actives.length > 0) {
+                    async.each(struct.actives, getEinesActivitat, function(err) {
+                        if (err) { console.log(err); }
+                        return callback(null, struct);
+                    });
+                } else {
+                    return callback();
+                }
             });
         },
+        */
+        function (callback) {
+            var domainIdCode = 'uoc_demo_074_01';
+            aulaca.getGroupServlet(domainIdCode, s, function(err, result) {
+                if (err) { console.log(err); return callback(null, struct); }
+                struct.group = result;
+                return callback();
+            });
+        },        
     ], function(err, results) {
         if (err) { console.log(err); }
         callback(null, struct);
     });
+
+    var getEinesActivitat = function(activitat, callback) {
+        config.debug('activitats');
+        aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
+            if (err) { console.log(err); return callback(); }
+            activitat.eines = result;
+            return callback();
+        });
+    }
 }
