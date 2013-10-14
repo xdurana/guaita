@@ -15,7 +15,7 @@ exports.getAssignaturesPerIdp = function(s, idp, callback) {
         if (err) { console.log(err); callback(); return; }
         try {
             object.subjects = object.subjects.filter(function(assignatura) {
-                return (assignatura.anyAcademic == '20131' || assignatura.anyAcademic == '20122');
+                return true;
             });
             callback(null, object.subjects);
         } catch(e) {
