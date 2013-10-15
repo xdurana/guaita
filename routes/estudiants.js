@@ -20,7 +20,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	];
 
 	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if (err) { console.log(err); return callback(null, struct); }        
+		if (err) { console.log(err); return callback(null, struct); }
 		struct = result.out.EstudiantAulaVO;
         try {
     		async.each(struct, getResumEstudiant, function(err) {
@@ -36,7 +36,10 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);        
         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-        estudiant.fitxa = indicadors.getFitxa(estudiant.idp, idp, s);
+        indicadors.getFitxa(estudiant.idp, idp, s, function(err, url) {
+            if (err) { console.log(err); }
+            estudiant.fitxa = url;
+        });
 		estudiant.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),

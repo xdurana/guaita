@@ -1,6 +1,8 @@
+var util = require('util');
+
 var config = require('../config');
 var encoder = require('./encoder');
-var util = require('util');
+var aulaca = require('../ws/aulaca');
 
 var getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
@@ -26,16 +28,20 @@ exports.getNomComplert = function(tercer) {
     return complert;
 }
 
-exports.getFitxa = function(userid, idp, s) {
-    return '#';
-    //TODO get Id Campus de l'usuari
-    return util.format(
-        '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
-        config.cv(),
-        userid,
-        s,
-        idp
-    );
+exports.getFitxa = function(useridp, idp, s, callback) {
+    aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
+        if (err) { console.log(err); return callback(null, '#'); }
+        return callback(
+            null,
+            util.format(
+                '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
+                config.cv(),
+                userid,
+                s,
+                idp
+            )
+        );
+    });
 }
 
 exports.getTotalAules = function(AulaVO) {

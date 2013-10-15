@@ -119,6 +119,8 @@ exports.getAulesEstudiant = function(idp, s, callback) {
         if (object.classrooms) {
             object.classrooms.forEach(function(classroom) {
 
+                //TODO
+                var defaultColor = '66AA00';
                 var aula = {
                     nom: classroom.title,
                     anyAcademic: classroom.anyAcademic,
@@ -127,7 +129,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
                     domainIdAula: classroom.domainId,
                     codAula: classroom.domainCode.slice(-1),
                     codiAssignatura: classroom.codi,
-                    color: '66AA00',
+                    color: defaultColor,
                     link: util.format('%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s', config.cv(), s, classroom.domainId)
                 }
 
@@ -144,21 +146,6 @@ exports.getAulesEstudiant = function(idp, s, callback) {
         }
         callback(null, { aules: aules });
     });
-
-    /*
-    var aules = [{
-        nom: 'Llenguatges i estàndars web',
-        anyAcademic: '20131',
-        domainId: '392985',
-        codiAssignatura: '06.510',
-        codAula: '1',
-        domainIdAula: '419029',
-        color: '66AA00',
-        link: aulaURL
-    }];
-
-    callback(null, { aules: aules});
-    */
 }
 
 exports.getGroupServlet = function(domainCode, s, callback) {
@@ -173,6 +160,20 @@ exports.getGroupServlet = function(domainCode, s, callback) {
     service.xml(url, function(err, object) {
         if (err) { console.log(err); callback(); return; }
         callback(null, object.Dominis.domini);
+    });
+}
+
+exports.getUserIdPerIdp = function(idp, s, callback) {
+    var url = util.format(
+        '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
+        'http://cv-test.uoc.es', //TODO config.cv(),
+        idp,
+        s
+    );
+
+    service.json(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        callback(null, object.userId);
     });
 }
 
