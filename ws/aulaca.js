@@ -104,12 +104,48 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 exports.getAulesEstudiant = function(idp, s, callback) {
 
     var url = util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=419029', 
-        config.cv(), 
+        '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
+        'http://putumayo:10009', //TODO config.cv(),
+        idp,
         s
     );
 
-    //TODO
+    var aules = [
+    ];
+
+    service.json(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        config.debug(object);
+        if (object.classrooms) {
+            object.classrooms.forEach(function(classroom) {
+
+                var aula = {
+                    nom: classroom.title,
+                    anyAcademic: classroom.anyAcademic,
+                    appId: classroom.appId,
+                    domainId: classroom.domainFatherId,
+                    domainIdAula: classroom.domainId,
+                    codAula: classroom.domainCode.slice(-1),
+                    codiAssignatura: classroom.codi,
+                    color: '66AA00',
+                    link: util.format('%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s', config.cv(), s, classroom.domainId)
+                }
+
+                if (object.assignments) {
+                    object.assignments.forEach(function(assignment) {
+                        if (assignment.assignmentId.domainId == aula.domainFatherId) {
+                            aula.color = assignment.color;
+                        }
+                    });
+                }
+
+                aules.push(aula);
+            });
+        }
+        callback(null, { aules: aules });
+    });
+
+    /*
     var aules = [{
         nom: 'Llenguatges i estàndars web',
         anyAcademic: '20131',
@@ -118,13 +154,14 @@ exports.getAulesEstudiant = function(idp, s, callback) {
         codAula: '1',
         domainIdAula: '419029',
         color: '66AA00',
-        link: url
+        link: aulaURL
     }];
 
     callback(null, { aules: aules});
+    */
 }
 
-exports.getGroupServlet  = function(domainCode, s, callback) {
+exports.getGroupServlet = function(domainCode, s, callback) {
 
     var url = util.format(
         '%s/webapps/classroom/servlet/GroupServlet?dtId=DOMAIN&s=%s&dUId=ALL&dCode=%s',
