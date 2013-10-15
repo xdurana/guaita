@@ -31,14 +31,8 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 
 	var getConsultantStats = function(item, callback) {
 		struct.consultors.push({
-            //TODO
-			//idp: item.idpConsultor[0],
             idp: indicadors.getValor(item.idpConsultor),
-            //TODO
-            //codAssignatura: item.codAssignatura[0],
             codAssignatura: indicadors.getValor(item.codAssignatura),
-            //TODO
-			//codAula: item.codAula[0]
             codAula: indicadors.getValor(item.codAula)
 		});
 	}
@@ -50,12 +44,8 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) 
 	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
 		if (err) { console.log(err); return callback(); }
         try {
-            //TODO
-            //consultor = result.out.consultors[0].ConsultorAulaVO[0];
             consultor = indicadors.getValor(indicadors.getValor(result.out.consultors).ConsultorAulaVO);
             consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
-            //TODO
-            //consultor.idp = consultor.tercer[0].idp[0];
             consultor.idp = indicadors.getValor(indicadors.getValor(consultor.tercer).idp);
             consultor.fitxa = indicadors.getFitxa(consultor.idp, idp, s);
         } catch(e) {

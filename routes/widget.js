@@ -53,7 +53,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     config.cv(),
                     s,
                     userId
-                    );
+                );
                 return callback();
             });
         },

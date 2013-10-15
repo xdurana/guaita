@@ -69,8 +69,7 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
 
 	if (req.query.s && req.query.perfil) {
         campus.getIdpBySession(req.query.s, function (err, idp) {
-            config.debug(idp);
-            idp = (req.query.idp && idp == '512874') ? req.query.idp : idp;
+            idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
             return assignatures.byidp(
                 req.query.s,
                 idp,
