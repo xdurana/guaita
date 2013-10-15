@@ -35,8 +35,6 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);        
-        //TODO
-        //estudiant.idp = estudiant.tercer[0].idp[0];
         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
         estudiant.fitxa = indicadors.getFitxa(estudiant.idp, idp, s);
 		estudiant.resum = {

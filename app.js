@@ -69,8 +69,7 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
 
 	if (req.query.s && req.query.perfil) {
         campus.getIdpBySession(req.query.s, function (err, idp) {
-            config.debug(idp);
-            idp = (req.query.idp && idp == '30000020') ? req.query.idp : idp;
+            idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
             return assignatures.byidp(
                 req.query.s,
                 idp,
@@ -356,9 +355,9 @@ app.get(config.base() + '/estudiants/:idp', function (req, res, callback) {
  * Student widget
  * @mockup: widget_aula.html
  */
-app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/widget', function (req, res, callback) {
     if (req.query.s) {
-        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
