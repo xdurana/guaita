@@ -80,7 +80,27 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
                     } else {
                         result.s = req.query.s;
                         result.idp = idp;
-                        res.render(req.query.perfil == 'pra' ? 'pra.html' : 'consultor.html', { object: result });
+                        if (req.query.perfil == 'pra') {
+                            result.retorn = util.format(
+                                '%s/webapps/classroom/081_common/jsp/aulespra.jsp?s=%s',
+                                config.cv(),
+                                req.query.s
+                            );
+                            res.render('pra.html', { object: result });
+                        } else {
+                            //TODO
+                            var appActiva = 'UOC';
+                            var appLang = 'a';
+                            result.retorn = util.format(
+                                '%s/UOC/a/cgi-bin/hola?s=%s&tmpl=p://cv.uoc.edu/%s/%s/ext_breakcam_0.htm?s=%s&ACCIO=B_AULES&t=docencia/responsable_aula.tmpl',
+                                config.cv(),
+                                req.query.s,
+                                appActiva,
+                                appLang,
+                                req.query.s
+                            );
+                            res.render('consultor.html', { object: result });
+                        }
                     }
                 }
             );
