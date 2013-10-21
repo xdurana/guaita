@@ -36,7 +36,7 @@
                 <td>
                     <span class="aula-item">
                         <a href="#item_1_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
-                        <a href="https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s={{ assignatura.s }}&domainId={{ aula.domainIdAula }}" class="lnk-aula c_FF2600" title="vés a l'aula">{{ t('aula') }} {{ aula.codAula }}</a>
+                        <a href="{{ aula.link }}" class="lnk-aula c_FF2600" title="vés a l'aula">{{ t('aula') }} {{ aula.codAula }}</a>
                         <a href="/app/guaita/assignatures/{{ assignatura.anyAcademic }}/{{ assignatura.codAssignatura }}/{{ assignatura.domainId }}/aules/{{ aula.codAula }}/{{ aula.domainIdAula }}?s={{ assignatura.s }}&idp={{ assignatura.idp }}" class="lnk-more" title="més"></a>
                     </span>
                 </td>

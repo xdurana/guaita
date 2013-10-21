@@ -8,6 +8,25 @@ var getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
 };
 
+exports.getClassroomLink = function(s, domainId, domainCode) {
+    return util.format(
+        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        domainId,
+        domainCode
+    );
+}
+
+exports.getAulacaLink = function(s, domainId) {
+    return util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        config.cv(),
+        s,
+        domainId
+    );
+}
+
 exports.getNomComplert = function(tercer) {
     var complert = '';
     try {

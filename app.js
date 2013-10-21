@@ -88,7 +88,7 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
                             );
                             res.render('pra.html', { object: result });
                         } else {
-                            //TODO
+                            //TODO GUAITA-26
                             var appActiva = 'UOC';
                             var appLang = 'a';
                             result.retorn = util.format(
