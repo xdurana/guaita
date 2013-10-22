@@ -1,5 +1,3 @@
-//http://$SERVERDOMAIN$/webapps/campus2widget/servlet/RSSMailServlet?s=$S$&convId=$CONVID$&tMsg=1&maxMSG=$RANGEITEMS$&dIni=$STARTITEM$&numDias=Tots&up_tipo=$CONVLOGIN$&convT=1 
-
 var config = require('../config');
 var service = require('./service');
 var request = require('request');
@@ -7,8 +5,7 @@ var util = require('util');
 
 exports.one = function(domainId, forumId, s, callback) {
 
-    //TODO select * from CAMPUS96.CONVERSATION WHERE CONVID = '282246'
-    //return callback();
+    return callback();
 
     var rangeItems = -1; //$RANGEITEMS$
     var convId = -1; //$CONVID$

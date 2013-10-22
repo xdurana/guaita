@@ -40,8 +40,7 @@ var UOCAulas = (function($) {
         });        
 
         $('#content').on('click', '.lnk-user', function(event){
-            //TODO link fitxa
-            event.preventDefault();
+            oWin(event,$(this).attr('href'));
         });        
 
         /* Selección multiple de usuarios */

@@ -54,3 +54,7 @@ exports.debug = function(msg) {
 exports.base = function() {
     return '/app/guaita';
 }
+
+exports.idpadmin = function() {
+    return '30000020';
+}

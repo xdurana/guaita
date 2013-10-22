@@ -15,7 +15,7 @@ exports.getAssignaturesPerIdp = function(s, idp, callback) {
         if (err) { console.log(err); callback(); return; }
         try {
             object.subjects = object.subjects.filter(function(assignatura) {
-                return (assignatura.anyAcademic == '20131' || assignatura.anyAcademic == '20122');
+                return true;
             });
             callback(null, object.subjects);
         } catch(e) {
@@ -103,48 +103,105 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 
 exports.getAulesEstudiant = function(idp, s, callback) {
 
-    //TODO
+    var url = util.format(
+        '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
+        config.cv(),
+        idp,
+        s
+    );
 
-    var aules = [{
-        nom: 'Llenguatges i estàndars web',
-        anyAcademic: '20131',
-        domainId: '392985',
-        codiAssignatura: '06.510',
-        codAula: '1',
-        domainIdAula: '419029',
-        color: '66AA00',
-        link: util.format('https://cv.uoc.edu/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=419029', s)
-    }];
+    var aules = [
+    ];
 
-    callback(null, { aules: aules});
+    service.json(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        if (object.classrooms) {
+            object.classrooms.forEach(function(classroom) {
+
+                //TODO GUAITA-35
+                var defaultColor = '66AA00';
+                var aula = {
+                    nom: classroom.title,
+                    anyAcademic: classroom.anyAcademic,
+                    appId: classroom.appId,
+                    domainId: classroom.domainFatherId,
+                    domainIdAula: classroom.domainId,
+                    codAula: classroom.domainCode.slice(-1),
+                    codiAssignatura: classroom.codi,
+                    color: defaultColor,
+                    link: indicadors.getAulacaLink(s, classroom.domainId)
+                }
+
+                if (object.assignments) {
+                    object.assignments.forEach(function(assignment) {
+                        if (assignment.assignmentId.domainId == aula.domainFatherId) {
+                            aula.color = assignment.color;
+                        }
+                    });
+                }
+
+                aules.push(aula);
+            });
+        }
+        callback(null, { aules: aules });
+    });
+}
+
+exports.getGroupServlet = function(domainCode, s, callback) {
+
+    var url = util.format(
+        '%s/webapps/classroom/servlet/GroupServlet?dtId=DOMAIN&s=%s&dUId=ALL&dCode=%s',
+        config.cv(),
+        s,
+        domainCode
+    );
+
+    service.xml(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        callback(null, object.Dominis.domini);
+    });
+}
+
+exports.getUserIdPerIdp = function(idp, s, callback) {
+    var url = util.format(
+        '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
+        config.cv(),
+        idp,
+        s
+    );
+
+    service.json(url, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        callback(null, object.userId);
+    });
 }
 
 exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getParticipacionsAssignatura = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getParticipacionsAula = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }

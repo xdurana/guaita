@@ -20,7 +20,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	];
 
 	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if (err) { console.log(err); return callback(null, struct); }        
+		if (err) { console.log(err); return callback(null, struct); }
 		struct = result.out.EstudiantAulaVO;
         try {
     		async.each(struct, getResumEstudiant, function(err) {
@@ -35,20 +35,23 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);        
-        //TODO
-        //estudiant.idp = estudiant.tercer[0].idp[0];
         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-        estudiant.fitxa = indicadors.getFitxa(estudiant.idp, idp, s);
-		estudiant.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendentsAcumulades: config.nc(),
-				participacions: config.nc(),
-				ultimaConnexio: config.nc()
-			}
-		};
-
+        estudiant.resum = {
+            comunicacio: {
+                clicsAcumulats: config.nc(),
+                lecturesPendentsAcumulades: config.nc(),
+                participacions: config.nc(),
+                ultimaConnexio: config.nc()
+            }
+        };
         async.parallel([
+            function(callback) {
+                indicadors.getFitxa(estudiant.idp, idp, s, function(err, url) {
+                    if (err) { console.log(err); return callback(); }
+                    estudiant.fitxa = url;
+                    return callback();
+                });
+            },
             function(callback) {
                 lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
@@ -88,7 +91,7 @@ exports.aules = function(idp, s, callback) {
             if (aula.activitats) {
                 aula.activitats.forEach(function(activitat) {
 
-                    //TODO
+                    //TODO GUAITA-34
 
                     var inici = {
                         esdeveniment: 'inici',

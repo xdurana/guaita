@@ -15,6 +15,8 @@ var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
 var widget = require('./routes/widget');
+var indicadors = require('./routes/indicadors');
+var campus = require('./ws/campus');
 
 var app = express();
 
@@ -66,22 +68,43 @@ app.use(function(err, req, res, next) {
  */
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
-	if (req.query.s && req.query.idp && req.query.perfil) {
-		return assignatures.byidp(
-            req.query.s,
-            req.query.idp,
-            function (err, result) {
-            if(err) { console.log(err); callback(); return; }
-			if (req.query.format) {
-				res.json(result);
-			} else {
-				result.s = req.query.s;
-				result.idp = req.query.idp;
-				res.render(req.query.perfil == 'pra' ? 'pra.html' : 'consultor.html', { object: result });
-			}
-		});
+	if (req.query.s && req.query.perfil) {
+        campus.getIdpBySession(req.query.s, function (err, idp) {
+            idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
+            return assignatures.byidp(
+                req.query.s,
+                idp,
+                function (err, result) {
+                    if(err) { console.log(err); callback(); return; }
+                    if (req.query.format) {
+                        res.json(result);
+                    } else {
+                        result.s = req.query.s;
+                        result.idp = idp;
+                        if (req.query.perfil == 'pra') {
+                            result.retorn = util.format(
+                                '%s/webapps/classroom/081_common/jsp/aulespra.jsp?s=%s',
+                                config.cv(),
+                                req.query.s
+                            );
+                            res.render('pra.html', { object: result });
+                        } else {
+                            result.retorn = util.format(
+                                '%s/UOC/a/cgi-bin/hola?s=%s&tmpl=p://cv.uoc.edu/%s/%s/ext_breakcam_0.htm?s=%s&ACCIO=B_AULES&t=docencia/responsable_aula.tmpl',
+                                config.cv(),
+                                req.query.s,
+                                indicadors.getAppActiva(),
+                                indicadors.getAppLang(),
+                                req.query.s
+                            );
+                            res.render('consultor.html', { object: result });
+                        }
+                    }
+                }
+            );
+        });
 	} else {
-		callback('manquen algun dels parametres de la crida [s, idp, perfil]');
+		callback('manquen algun dels parametres de la crida [s, perfil]');
 	}
 });
 
@@ -350,9 +373,9 @@ app.get(config.base() + '/estudiants/:idp', function (req, res, callback) {
  * Student widget
  * @mockup: widget_aula.html
  */
-app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/estudiants/:idp/widget', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/widget', function (req, res, callback) {
     if (req.query.s) {
-        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);

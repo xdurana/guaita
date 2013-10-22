@@ -1,8 +1,10 @@
 var soap = require('soap');
 var request = require('request');
 var util = require('util');
+var xml2js = require('xml2js');
 
 var config = require('../config');
+var parser = new xml2js.Parser();
 
 exports.operation = function(url, service, args, callback) {
     config.debug({
@@ -34,6 +36,27 @@ exports.json = function(url, callback) {
             } catch (e) {
                 return callback(null, body);
             }
+        });
+    } catch (e) {
+        var err = util.format('Error en la crida [%s]', url);
+        console.log(err); return callback(err);
+    }
+}
+
+exports.xml = function(url, callback) {
+    try {
+        config.debug({
+            url: url
+        });
+        request({
+          url: url,
+          method: "GET"
+        }, function (err, response, xml) {
+            if (err) { console.log(err); return callback(err); }
+            parser.parseString(xml, function (err, object) {
+                if (err) { console.log(err); return callback(err); }
+                return callback(null, object);
+            });
         });
     } catch (e) {
         var err = util.format('Error en la crida [%s]', url);
