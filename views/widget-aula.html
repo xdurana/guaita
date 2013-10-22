@@ -54,58 +54,6 @@
                 
     <div id="divMaximizedPart"  style="display:block">
 
-        <ul class="llistaBlock">
-            <li class="aula-item">
-
-                {% set activa = widget.actives|last %}
-
-                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ activa.name }}</a></h4>
-                <ul class="decorada llistaBlock">
-                    <li>
-                        <div class="aula-data">
-                            <span><span>{{ t('inici') }}: <strong>{{ activa.startDateStr }}</strong></span></span>
-                            <span><span>{{ t('fi') }}: <strong>{{ activa.deliveryDateStr }}</strong></span></span>
-                        </div>
-                    </li>
-                    <li>
-                        <a class="link" target='wevento' href="#" title="">Debate
-                            <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="nous">7</span>
-                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">30</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="ultim">
-                        <a class="link" target='wevento' href="#" title="">Foro
-                            <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="nous cap">0</span>
-                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">139</span>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ t('comunicacio_aula') }}</a></h4>                
-                <ul class="decorada llistaBlock">
-                    {% if widget.eines %}
-                    {% for eina in widget.eines %}
-                    <li>
-                        <a class="link" target='wevento' href="{{ eina.url[0] }}" title="">{{ eina.titol[0] }}
-                            <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="nous">{{ eina.num_msg_pendents[0] }}</span>
-                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">{{ eina.num_msg_totals[0] }}</span>
-                            </span>
-                        </a>
-                    </li>
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-            </li>
-        </ul>
 
         <ul class="decorada llistaBlock">
             <li>

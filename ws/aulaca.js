@@ -3,7 +3,7 @@ var service = require('./service');
 var request = require('request');
 var util = require('util');
 
-exports.getAssignaturesPerIdp = function(s, idp, callback) {
+var getAssignaturesPerIdp = function(s, idp, callback) {
 
     var url = util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
@@ -24,7 +24,7 @@ exports.getAssignaturesPerIdp = function(s, idp, callback) {
     });
 }
 
-exports.getAulesAssignatura = function(domainId, idp, s, callback) {
+var getAulesAssignatura = function(domainId, idp, s, callback) {
 
     var url = util.format('%s/assignatures/%s/aules?s=%s&idp=%s',
         config.aulaca(),
@@ -43,7 +43,7 @@ exports.getAulesAssignatura = function(domainId, idp, s, callback) {
     });
 }
 
-exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
+var getActivitatsAula = function(domainId, domainIdAula, s, callback) {
 
     var url = util.format('%s/assignatures/%s/aules/%s/activitats?s=%s',
         config.aulaca(),
@@ -62,7 +62,7 @@ exports.getActivitatsAula = function(domainId, domainIdAula, s, callback) {
     });
 }
 
-exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, callback) {
+var getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, callback) {
 
     var url = util.format('%s/assignatures/%s/aules/%s/activitats/%s/eines?s=%s',
         config.aulaca(),
@@ -82,7 +82,7 @@ exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, call
     });
 }
 
-exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
+var getEinesPerAula = function(domainId, domainIdAula, s, callback) {
 
     var url = util.format('%s/assignatures/%s/aules/%s/eines?s=%s',
         config.aulaca(),
@@ -101,7 +101,7 @@ exports.getEinesPerAula = function(domainId, domainIdAula, s, callback) {
     });
 }
 
-exports.getAulesEstudiant = function(idp, s, callback) {
+var getAulesEstudiant = function(idp, s, callback) {
 
     var url = util.format(
         '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
@@ -120,6 +120,10 @@ exports.getAulesEstudiant = function(idp, s, callback) {
 
                 //TODO GUAITA-35
                 var defaultColor = '66AA00';
+
+                //TODO GUAITA-31
+                var isAulaca = true;
+
                 var aula = {
                     nom: classroom.title,
                     anyAcademic: classroom.anyAcademic,
@@ -129,7 +133,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
                     codAula: classroom.domainCode.slice(-1),
                     codiAssignatura: classroom.codi,
                     color: defaultColor,
-                    link: indicadors.getAulacaLink(s, classroom.domainId)
+                    link: indicadors.getLinkAula(s, isAulaca, classroom.domainId, classroom.domainCode)
                 }
 
                 if (object.assignments) {
@@ -147,7 +151,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
     });
 }
 
-exports.getGroupServlet = function(domainCode, s, callback) {
+var getGroupServlet = function(domainCode, s, callback) {
 
     var url = util.format(
         '%s/webapps/classroom/servlet/GroupServlet?dtId=DOMAIN&s=%s&dUId=ALL&dCode=%s',
@@ -162,7 +166,7 @@ exports.getGroupServlet = function(domainCode, s, callback) {
     });
 }
 
-exports.getUserIdPerIdp = function(idp, s, callback) {
+var getUserIdPerIdp = function(idp, s, callback) {
     var url = util.format(
         '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
         config.cv(),
@@ -176,32 +180,62 @@ exports.getUserIdPerIdp = function(idp, s, callback) {
     });
 }
 
-exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
+var getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
     //TODO GUAITA-36
     callback();
 }
 
-exports.getParticipacionsAssignatura = function(domainId, s, callback) {
+var getParticipacionsAssignatura = function(domainId, s, callback) {
     //TODO GUAITA-36
     callback();
 }
 
-exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
+var getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
     //TODO GUAITA-36
     callback();
 }
 
-exports.getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
+var getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
     //TODO GUAITA-36
     callback();
 }
 
-exports.getParticipacionsAula = function(domainId, s, callback) {
+var getParticipacionsAula = function(domainId, s, callback) {
     //TODO GUAITA-36
     callback();
 }
 
-exports.getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
+var getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
     //TODO GUAITA-36
     callback();
+}
+
+var isAulaca = function(domainCode, s, callback) {
+    getGroupServlet(domainCode, s, function(err, object) {
+        if (err) { console.log(err); callback(); return; }
+        try {
+            config.debug(object[0]['$']['idTipoPresent']);
+            callback(null, object[0]['$']['idTipoPresent'] == 'AULACA');
+        } catch(e) {
+            callback(null, true);
+        }
+    });
+}
+
+module.exports = {
+    getAssignaturesPerIdp: getAssignaturesPerIdp,
+    getAulesAssignatura: getAulesAssignatura,
+    getActivitatsAula: getActivitatsAula,
+    getEinesPerActivitat: getEinesPerActivitat,
+    getEinesPerAula: getEinesPerAula,
+    getAulesEstudiant: getAulesEstudiant,
+    getGroupServlet: getGroupServlet,
+    getUserIdPerIdp: getUserIdPerIdp,
+    getLecturesPendentsAcumuladesAssignatura: getLecturesPendentsAcumuladesAssignatura,
+    getParticipacionsAssignatura: getParticipacionsAssignatura,
+    getLecturesPendentsIdpAssignatura: getLecturesPendentsIdpAssignatura,
+    getLecturesPendentsAcumuladesAula: getLecturesPendentsAcumuladesAula,
+    getParticipacionsAula: getParticipacionsAula,
+    getLecturesPendentsIdpAula: getLecturesPendentsIdpAula,
+    isAulaca: isAulaca
 }

@@ -1,4 +1,5 @@
 var async = require('async');
+var util = require('util');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -72,23 +73,25 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
     }); 
 
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
-        var codAula = classroom.domainCode.slice(-1);
-        consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+        aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
-            classroom.consultor = result;
-            struct.aules.push(classroom);
-            if (perfil == 'pra' || classroom.consultor.idp == idp) {
-                resum(s, idp, anyAcademic, codAssignatura, classroom, codAula, function(err, result) {
-                    if (err) { console.log(err); return callback(); }
-                    consultors.getResumEines(classroom, function(err, result) {
+            classroom.isAulaca = result;
+            var codAula = classroom.domainCode.slice(-1);
+            consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+                if (err) { console.log(err); return callback(); }
+                classroom.consultor = result;
+                struct.aules.push(classroom);
+                if (perfil == 'pra' || classroom.consultor.idp == idp) {
+                    resum(s, idp, anyAcademic, codAssignatura, classroom, codAula, function(err, result) {
                         if (err) { console.log(err); return callback(); }
-                        return callback();
+                        consultors.getResumEines(classroom, function(err, result) {
+                            if (err) { console.log(err); return callback(); }
+                            return callback();
+                        });
                     });
-                });                
-            } else {
-                return callback();
-            }
-        });        
+                } else return callback();
+            });
+        });
     }
 
     var ordenaAules = function(a, b) {
@@ -101,7 +104,19 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     classroom.codAula = codAula;
     classroom.codAssignatura = classroom.codi;
     classroom.domainIdAula = classroom.domainId;
-    classroom.link = indicadors.getAulacaLink(s, classroom.domainIdAula),
+    classroom.link = indicadors.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode),
+    classroom.linkdetall = util.format(
+        '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
+        anyAcademic,
+        classroom.codAssignatura,
+        classroom.domainFatherId,
+        classroom.codAula,
+        classroom.domainIdAula,
+        classroom.domainCode,
+        s,
+        idp
+    );
+
     classroom.resum = {
         estudiants: {
             total: config.nc(),
@@ -174,7 +189,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     });
 }
 
-var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domainIdAula, callback) {
+var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domainIdAula, domainCode, callback) {
 
 	var struct = {
 		s: s,
@@ -184,7 +199,8 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 		domainId: domainId,
 		domainIdAula: domainIdAula,
         totalEstudiants: 0,
-        link: indicadors.getAulacaLink(s, domainIdAula),
+        link: '#',
+        linkedicioaula: '#',
 		consultor: {
 		},
 		estudiants: [
@@ -192,6 +208,15 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 	}
 
 	async.parallel([
+        function (callback) {
+            aulaca.isAulaca(domainCode, s, function(err, result) {
+                if (err) { console.log(err); return callback(); }
+                struct.isAulaca = result;
+                struct.link = indicadors.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+                struct.linkedicioaula = indicadors.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
+                return callback();
+            });
+        },
         function (callback) {
             infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
                 if (err) { console.log(err); return callback(); }
@@ -225,6 +250,8 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 	});
 }
 
-exports.all = all;
-exports.one = one;
-exports.resum = resum;
+module.exports = {
+    all: all,
+    one: one,
+    resum: resum
+}

@@ -130,7 +130,10 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
                 result.s = req.query.s;
                 result.idp = req.query.idp;
                 result.linkfitxaassignatura = util.format("http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=%s&cod_asignatura=%s&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S", req.params.anyAcademic, req.params.codAssignatura);
-                result.linkedicioaula = util.format('%s/Edit.action?s=%s&domainId=%s', config.aulaca(), req.query.s, req.params.domainId);
+
+                var isAulaca = result.aules.length > 0 ? result.aules[0].isAulaca : true;
+                result.linkedicioaula = indicadors.getLinkDissenyAula(req.query.s, isAulaca, req.params.domainId);
+
                 res.render(req.query.perfil == 'pra' ? 'tabs_pra.html' : 'tabs_consultor.html', { assignatura: result });
             }
         });
@@ -143,7 +146,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
  * Pàgina d'una aula
  * @mockup: aulas_individual.html
  */
-app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
 		return aules.one(
             req.params.anyAcademic,
@@ -153,6 +156,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
             req.query.s,
             req.params.domainId,
             req.params.domainIdAula,
+            req.params.domainCode,
             function (err, result) {
             if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {

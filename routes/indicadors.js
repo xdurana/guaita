@@ -8,34 +8,15 @@ var getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
 };
 
-exports.getAppLang = function() {
+var getAppLang = function() {
     return i18next.lng() == 'ca' ? 'a' : i18next.lng() == 'es' ? 'b' : 'c';
 }
 
-exports.getAppActiva = function() {
+var getAppActiva = function() {
     return 'UOC';
 }
 
-exports.getClassroomLink = function(s, domainId, domainCode) {
-    return util.format(
-        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
-        config.cv(),
-        s,
-        domainId,
-        domainCode
-    );
-}
-
-exports.getAulacaLink = function(s, domainId) {
-    return util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
-        config.cv(),
-        s,
-        domainId
-    );
-}
-
-exports.getNomComplert = function(tercer) {
+var getNomComplert = function(tercer) {
     var complert = '';
     try {
         var t = getValor(tercer);
@@ -55,7 +36,7 @@ exports.getNomComplert = function(tercer) {
     return complert;
 }
 
-exports.getFitxa = function(useridp, idp, s, callback) {
+var getFitxa = function(useridp, idp, s, callback) {
     aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
         if (err) { console.log(err); return callback(null, '#'); }
         return callback(
@@ -71,11 +52,11 @@ exports.getFitxa = function(useridp, idp, s, callback) {
     });
 }
 
-exports.getTotalAules = function(AulaVO) {
+var getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }
 
-exports.getTotalEstudiants = function(AulaVO) {
+var getTotalEstudiants = function(AulaVO) {
 	var estudiants = 0;
 	if (AulaVO) {
 		AulaVO.forEach(function(aula) {
@@ -85,7 +66,7 @@ exports.getTotalEstudiants = function(AulaVO) {
 	return estudiants;
 }
 
-exports.getUltimaConnexio = function(object) {
+var getUltimaConnexio = function(object) {
     try {
         var dt = new Date(getValor(object.value).stored);
         if (isNaN(dt.getMilliseconds())) return config.nc();
@@ -99,11 +80,11 @@ exports.getUltimaConnexio = function(object) {
     }
 }
 
-exports.decodeHtmlEntity = function(html) {
+var decodeHtmlEntity = function(html) {
     return Encoder.htmlDecode(html);
 };
 
-exports.getDataLliurament = function(data) {
+var getDataLliurament = function(data) {
     if (!data) {
         return config.nc();
     }
@@ -144,24 +125,75 @@ var getIndicadorSenseFiltrar = function(indicadors, nom) {
 	return total;
 }
 
-exports.getTotalEstudiantsTotal = function(indicadors) {
+var getTotalEstudiantsTotal = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_TOTAL');
 }
 
-exports.getTotalEstudiantsRepetidors = function(indicadors) {
+var getTotalEstudiantsRepetidors = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_REPITE');
 }
 
-exports.getTotalEstudiantsPrimeraMatricula = function(indicadors) {
+var getTotalEstudiantsPrimeraMatricula = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_1A_MATR');
 }
 
-exports.getSeguimentACAula = function(indicadors) {
+var getSeguimentACAula = function(indicadors) {
 	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_PARTICIPA_AC');
 }
 
-exports.getSuperacioACAula = function(indicadors) {
+var getSuperacioACAula = function(indicadors) {
 	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
 }
 
-exports.getValor = getValor;
+var getLinkAula = function(s, isAulaca, domainId, domainCode) { 
+    return isAulaca ?
+    util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        config.cv(),
+        s,
+        domainId
+    ) :
+    util.format(
+        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        domainId,
+        domainCode
+    );
+}
+
+var getLinkDissenyAula = function(s, isAulaca, domainId) {
+    return isAulaca ?
+    util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        config.cv(),
+        s,
+        domainId
+    ) :
+    util.format(
+        '%s/webapps/classroom/classroom.do?nav=dissenydomini_inici&s=%s&domainId=%s&domainTypeId=AULA&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        domainId
+    );
+}
+
+module.exports = {
+    getValor: getValor,
+    getAppLang: getAppLang,
+    getAppActiva: getAppActiva,
+    getNomComplert: getNomComplert,
+    getFitxa: getFitxa,
+    getTotalAules: getTotalAules,
+    getLinkAula: getLinkAula,
+    decodeHtmlEntity: decodeHtmlEntity,
+    getUltimaConnexio: getUltimaConnexio,
+    getTotalEstudiants: getTotalEstudiants,
+    getSeguimentACAula: getSeguimentACAula,
+    getSuperacioACAula: getSuperacioACAula,
+    getTotalEstudiantsPrimeraMatricula: getTotalEstudiantsPrimeraMatricula,
+    getTotalEstudiantsRepetidors: getTotalEstudiantsRepetidors,
+    getTotalEstudiantsTotal: getTotalEstudiantsTotal,
+    getDataLliurament: getDataLliurament,
+    getLinkDissenyAula: getLinkDissenyAula
+}
