@@ -15,6 +15,7 @@ var eines = require('./routes/eines');
 var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
 var widget = require('./routes/widget');
+var indicadors = require('./routes/indicadors');
 var campus = require('./ws/campus');
 
 var app = express();
@@ -88,15 +89,12 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
                             );
                             res.render('pra.html', { object: result });
                         } else {
-                            //TODO GUAITA-26
-                            var appActiva = 'UOC';
-                            var appLang = 'a';
                             result.retorn = util.format(
                                 '%s/UOC/a/cgi-bin/hola?s=%s&tmpl=p://cv.uoc.edu/%s/%s/ext_breakcam_0.htm?s=%s&ACCIO=B_AULES&t=docencia/responsable_aula.tmpl',
                                 config.cv(),
                                 req.query.s,
-                                appActiva,
-                                appLang,
+                                indicadors.getAppActiva(),
+                                indicadors.getAppLang(),
                                 req.query.s
                             );
                             res.render('consultor.html', { object: result });

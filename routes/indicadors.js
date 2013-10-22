@@ -1,5 +1,5 @@
 var util = require('util');
-
+var i18next = require('i18next');
 var config = require('../config');
 var encoder = require('./encoder');
 var aulaca = require('../ws/aulaca');
@@ -7,6 +7,14 @@ var aulaca = require('../ws/aulaca');
 var getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
 };
+
+exports.getAppLang = function() {
+    return i18next.lng() == 'ca' ? 'a' : i18next.lng() == 'es' ? 'b' : 'c';
+}
+
+exports.getAppActiva = function() {
+    return 'UOC';
+}
 
 exports.getClassroomLink = function(s, domainId, domainCode) {
     return util.format(

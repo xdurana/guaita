@@ -105,7 +105,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
 
     var url = util.format(
         '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
-        'http://putumayo:10009', //TODO config.cv(),
+        config.cv(),
         idp,
         s
     );
@@ -165,7 +165,7 @@ exports.getGroupServlet = function(domainCode, s, callback) {
 exports.getUserIdPerIdp = function(idp, s, callback) {
     var url = util.format(
         '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
-        'http://cv-test.uoc.es', //TODO config.cv(),
+        config.cv(),
         idp,
         s
     );
