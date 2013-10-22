@@ -101,6 +101,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     classroom.codAula = codAula;
     classroom.codAssignatura = classroom.codi;
     classroom.domainIdAula = classroom.domainId;
+    classroom.link = indicadors.getAulacaLink(s, classroom.domainIdAula),
     classroom.resum = {
         estudiants: {
             total: config.nc(),
@@ -183,6 +184,7 @@ var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domai
 		domainId: domainId,
 		domainIdAula: domainIdAula,
         totalEstudiants: 0,
+        link: indicadors.getAulacaLink(s, domainIdAula),
 		consultor: {
 		},
 		estudiants: [

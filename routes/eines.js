@@ -1,4 +1,5 @@
 var async = require('async');
+var i18next = require('i18next');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -26,11 +27,10 @@ var isForum = function(eina) {
 }
 
 var getToolDescription = function(description) {
-    //TODO i18n
-    description = description.replace(/\$TAULER\$/g, 'Tauler');
-    description = description.replace(/\$FORUM\$/g, 'Fòrum');
-    description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'Àrea de fitxers');
-    return description;
+    description = description.replace(/\$TAULER\$/g, 'eina_tauler');
+    description = description.replace(/\$FORUM\$/g, 'eina_forum');
+    description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'eina_area_fitxers');
+    return i18next.t(description);
 }
 
 exports.aula = function(domainId, domainIdAula, idp, s, callback) {
@@ -61,7 +61,7 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
                         function(callback) {
                             forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
-                                //TODO
+                                //TODO GUAITA-33
                                 //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
                                 return callback();
                             });
@@ -255,7 +255,7 @@ exports.aulaidp = function(domainId, domainIdAula, idp, s, estadistiques, callba
                         function(callback) {
                             forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
-                                //TODO
+                                //TODO GUAITA-33
                                 //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
                                 return callback();
                             });

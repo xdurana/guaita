@@ -105,7 +105,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
 
     var url = util.format(
         '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
-        'http://putumayo:10009', //TODO config.cv(),
+        config.cv(),
         idp,
         s
     );
@@ -115,11 +115,10 @@ exports.getAulesEstudiant = function(idp, s, callback) {
 
     service.json(url, function(err, object) {
         if (err) { console.log(err); callback(); return; }
-        config.debug(object);
         if (object.classrooms) {
             object.classrooms.forEach(function(classroom) {
 
-                //TODO
+                //TODO GUAITA-35
                 var defaultColor = '66AA00';
                 var aula = {
                     nom: classroom.title,
@@ -130,7 +129,7 @@ exports.getAulesEstudiant = function(idp, s, callback) {
                     codAula: classroom.domainCode.slice(-1),
                     codiAssignatura: classroom.codi,
                     color: defaultColor,
-                    link: util.format('%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s', config.cv(), s, classroom.domainId)
+                    link: indicadors.getAulacaLink(s, classroom.domainId)
                 }
 
                 if (object.assignments) {
@@ -166,7 +165,7 @@ exports.getGroupServlet = function(domainCode, s, callback) {
 exports.getUserIdPerIdp = function(idp, s, callback) {
     var url = util.format(
         '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
-        'http://cv-test.uoc.es', //TODO config.cv(),
+        config.cv(),
         idp,
         s
     );
@@ -178,31 +177,31 @@ exports.getUserIdPerIdp = function(idp, s, callback) {
 }
 
 exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getParticipacionsAssignatura = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getParticipacionsAula = function(domainId, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }
 
 exports.getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
-    //TODO
+    //TODO GUAITA-36
     callback();
 }

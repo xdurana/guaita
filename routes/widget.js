@@ -46,15 +46,15 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }                
                 struct.consultor = result;
-                //TODO
-                var userId = '380011';
-                struct.consultor.urlConsultor = util.format(
-                    '%s/webapps/cercaPersones/cercaContextualServlet?jsp=/jsp/cercaContextual/curriculum.jsp&l=a&idLang=a&s=%s&operacion=searchUser&USERID=%s',
-                    config.cv(),
-                    s,
-                    userId
-                );
-                return callback();
+                aulaca.getUserIdPerIdp(idp, s, function(err, userId) {
+                    struct.consultor.urlConsultor = util.format(
+                        '%s/webapps/cercaPersones/cercaContextualServlet?jsp=/jsp/cercaContextual/curriculum.jsp&l=a&idLang=a&s=%s&operacion=searchUser&USERID=%s',
+                        config.cv(),
+                        s,
+                        userId
+                    );
+                    return callback();
+                });
             });
         },
         function (callback) {
