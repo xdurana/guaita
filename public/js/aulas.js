@@ -52,10 +52,22 @@ var UOCAulas = (function($) {
                     $(this).prop('checked', chk.checked);
                 else
                     $(this).prop('checked', false);
-            });
-           
+            });           
         });
 
+        $('#content').on('click', '.lnk-contact-all', function () {
+            event.stopPropagation();
+            var to = [];
+            var students = $(this).closest('.ui-tabs-panel').find('[data-guaita-idp]');
+            students.each(function(){
+                var checkeds = $(this).find('input[type=checkbox]:checked');
+                if (checkeds.length > 0) {
+                    to.push(encodeURI($(checkeds).attr('data-guaita-username')));
+                }
+            });
+            oWin(event, 'http://cv.uoc.edu/WebMail/writeMail.do?s=' + s + '&to=' + to.join(',') + '&cc=&re=&body=&l=pers&type=popup');
+            return false;
+        });
     };
 
     /* Ordenación: jqueryui sortable */
