@@ -49,6 +49,9 @@ var byidp = function(s, idp, callback) {
 
 var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
 
+    //TODO GUAITA-21
+    subject.estil = 'block-head';
+    
     subject.anyAcademic = anyAcademic;
     subject.resum = {
         aules: {
