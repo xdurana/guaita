@@ -1,9 +1,7 @@
 {% block consultors_eines %}
 <div id="tabs-5">
     <div class="options">
-        <!-- //TODO GUAITA-32
         <a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>{{ t('escriure_seleccionats') }} <i class="arrow"></i></a>
-        -->
     </div>
     <table class="tbl tbl-subject tbl-users">
         <caption>{{ t('eines_consultors') }}</caption>
@@ -35,12 +33,12 @@
             </tr>
         </tbody>
         {% for aula in assignatura.aules %}
-        <tbody class="acc tools-consultor-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-idp="{{ aula.consultor.idp }}" >
+        <tbody class="acc tools-consultor-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-idp="{{ aula.consultor.idp }}">
             <tr>
                 <td>
                     <span class="user-item">
                         <a href="#item_5_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
-                        <input type="checkbox" class="check-user" name="check_users_5[]" value="1">
+                        <input type="checkbox" class="check-user" name="check_users_5[]" value="1" data-guaita-username="{{ aula.consultor.nomComplert }}">
                         <a href="{{ aula.consultor.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
                     </span>
                 </td>

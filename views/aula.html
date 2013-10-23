@@ -54,9 +54,7 @@
                                 </ul>
                                 <div id="tabs-1">
                                     <div class="options">
-                                        <!-- //TODO GUAITA-32
                                         <a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>{{ t('escriure_seleccionats') }} <i class="arrow"></i></a>
-                                        -->
                                     </div>
                                     <table class="tbl tbl-subject tbl-users">
                                         <caption>{{ t('activitats') }}</caption>
@@ -84,7 +82,7 @@
                                                 <td>
                                                     <span class="user-item">
                                                         <a href="#item_1_{{ estudiant.idp }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
-                                                        <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.idp }}">
+                                                        <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.idp }}" data-guaita-username="{{ estudiant.nomComplert }}">
                                                         <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
@@ -102,9 +100,7 @@
                                 </div>
                                 <div id="tabs-2">
                                     <div class="options">
-                                        <!-- //TODO GUAITA-32
                                         <a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>{{ t('escriure_seleccionats') }} <i class="arrow"></i></a>
-                                        -->
                                     </div>
                                     <table class="tbl tbl-subject tbl-users">
                                         <caption>{{ t('eines') }}</caption>
@@ -132,7 +128,7 @@
                                                 <td>
                                                     <span class="user-item">
                                                         <a href="#item_2_{{ estudiant.idp }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
-                                                        <input type="checkbox" class="check-user" name="check_users_2[]" value="{{ estudiant.idp }}">
+                                                        <input type="checkbox" class="check-user" name="check_users_2[]" value="{{ estudiant.idp }}" data-guaita-username="{{ estudiant.nomComplert }}">
                                                         <a href="#" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
