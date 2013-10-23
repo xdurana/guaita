@@ -1,5 +1,6 @@
 var config = require('../config');
 var service = require('./service');
+
 var request = require('request');
 var util = require('util');
 
@@ -110,44 +111,9 @@ var getAulesEstudiant = function(idp, s, callback) {
         s
     );
 
-    var aules = [
-    ];
-
     service.json(url, function(err, object) {
         if (err) { console.log(err); callback(); return; }
-        if (object.classrooms) {
-            object.classrooms.forEach(function(classroom) {
-
-                //TODO GUAITA-35
-                var defaultColor = '66AA00';
-
-                //TODO GUAITA-31
-                var isAulaca = true;
-
-                var aula = {
-                    nom: classroom.title,
-                    anyAcademic: classroom.anyAcademic,
-                    appId: classroom.appId,
-                    domainId: classroom.domainFatherId,
-                    domainIdAula: classroom.domainId,
-                    codAula: classroom.domainCode.slice(-1),
-                    codiAssignatura: classroom.codi,
-                    color: defaultColor,
-                    link: indicadors.getLinkAula(s, isAulaca, classroom.domainId, classroom.domainCode)
-                }
-
-                if (object.assignments) {
-                    object.assignments.forEach(function(assignment) {
-                        if (assignment.assignmentId.domainId == aula.domainFatherId) {
-                            aula.color = assignment.color;
-                        }
-                    });
-                }
-
-                aules.push(aula);
-            });
-        }
-        callback(null, { aules: aules });
+        callback(null, object);
     });
 }
 
