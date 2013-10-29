@@ -99,6 +99,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) { console.log(err); }
         struct.urlAvaluacio = util.format('%s/tren/trenacc?s=%s&modul=PIOLIN.RAC/rac.rac&i_institucio=FC', config.cv(), s);
+        struct.color = struct.group[0].color[0];
 
         calcularIndicadorsEines(struct.eines, struct.group[0].recurs);
         if (struct.actives && struct.actives.length > 0) {
