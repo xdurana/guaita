@@ -86,7 +86,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     struct.missatgesPendents = struct.group[0]['$']['numMsgPendents'];
                     struct.connectats = struct.group[0]['$']['conectats'];
                     struct.urlAula = struct.group[0]['$']['hrefEstudiantsConnectats'];
-                    struct.eines = struct.group[0].recurs;
                 } catch(e) {
                     console.log(e.message);
                 }
@@ -96,8 +95,26 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) { console.log(err); }
         struct.urlAvaluacio = util.format('%s/tren/trenacc?s=%s&modul=PIOLIN.RAC/rac.rac&i_institucio=FC', config.cv(), s);
+        calcularIndicadorsEines(struct.eines, struct.group[0].recurs);
         callback(null, struct);
     });
+
+    var calcularIndicadorsEines = function(eines, recursos) {
+        if (!eines) return;
+        eines.forEach(function(eina) {
+            eina.num_msg_pendents = "-";
+            eina.num_msg_totals = "-";
+            eina.viewItemsUrl = util.format('%s%s', config.cv(), eina.viewItemsUrl);
+            eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');            
+            recursos.forEach(function(recurs) {
+                if (recurs['$'].resourceId == eina.resourceId) {
+                    eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
+                    eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
+                }
+            });
+            eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'total';
+        });
+    }
 
     var getEinesActivitat = function(activitat, callback) {
         aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
