@@ -53,7 +53,11 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                         s,
                         userId
                     );
-                    return callback();
+                    indicadors.getFitxa(struct.consultor.idp, idp, s, function(err, url) {
+                        if (err) { console.log(err); return callback(); }
+                        struct.consultor.fitxa = url;
+                        return callback();
+                    });                    
                 });
             });
         },
@@ -95,7 +99,16 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) { console.log(err); }
         struct.urlAvaluacio = util.format('%s/tren/trenacc?s=%s&modul=PIOLIN.RAC/rac.rac&i_institucio=FC', config.cv(), s);
+
         calcularIndicadorsEines(struct.eines, struct.group[0].recurs);
+        if (struct.actives && struct.actives.length > 0) {
+            struct.actives.forEach(function(activa) {
+                if (activa.eines) {
+                    calcularIndicadorsEines(activa.eines, struct.group[0].recurs);
+                }
+            });
+        }
+
         callback(null, struct);
     });
 
@@ -117,6 +130,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     }
 
     var getEinesActivitat = function(activitat, callback) {
+        activitat.link = indicadors.getLinkActivitat(s, domainIdAula, activitat.eventId);
         aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;

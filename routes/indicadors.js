@@ -162,6 +162,16 @@ var getLinkAula = function(s, isAulaca, domainId, domainCode) {
     );
 }
 
+var getLinkActivitat = function(s, domainId, activityId) {
+    return util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
+        config.cv(),
+        s,
+        domainId,
+        activityId
+    );
+}
+
 var getLinkDissenyAula = function(s, isAulaca, domainId) {
     return isAulaca ?
     util.format(
@@ -186,6 +196,7 @@ module.exports = {
     getFitxa: getFitxa,
     getTotalAules: getTotalAules,
     getLinkAula: getLinkAula,
+    getLinkActivitat: getLinkActivitat,
     decodeHtmlEntity: decodeHtmlEntity,
     getUltimaConnexio: getUltimaConnexio,
     getTotalEstudiants: getTotalEstudiants,
