@@ -47,10 +47,10 @@
                     <div class="block-content block-filters">
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
-                            {% for aula in estudiant.aules %}
+                            {% for aula in object.classrooms %}
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_subject[]" id="subject_{{ aula.domainId }}" value="a1" checked="checked">
-                                    <label for="subject_{{ aula.domainId }}"><span class="color c_{{ aula.color }}"></span>{{ aula.codiAssignatura }}  {{ aula.nom }}</label>
+                                    <input type="checkbox" class="check-filter" name="filter_subject[]" id="subject_{{ aula.domainFatherId }}" value="a1" checked="checked">
+                                    <label for="subject_{{ aula.domainId }}"><span class="color c_{{ aula.color }}"></span>{{ aula.codi }}  {{ aula.nom }}</label>
                                 </li>
                             {% endfor %}
                             </ul>
@@ -1371,11 +1371,11 @@
 
         <div id="sidebar">
             <ul class="blocks">
-                {% for aula in estudiant.aules %}
+                {% for aula in object.classrooms %}
                 <li class="block accordion">
                     <div class="block-color c_{{ aula.color }}"></div>
                     <div class="block-title">
-                        <h3><a href="{{ aula.link }}">{{ aula.codiAssignatura }} {{aula.nom }}</a></h3>
+                        <h3><a href="{{ aula.link }}">{{ aula.codi }} {{aula.nom }}</a></h3>
                     </div>
                     <div class="block-head">
                         <h4>

@@ -363,9 +363,9 @@ app.get(config.base() + '/estudiants/:idp', function (req, res, callback) {
             if (req.query.format) {
                 res.json(result);
             } else {
-                result.s = req.query.s;
-                result.idp = req.params.idp;
-                res.render('estudiant.html', { estudiant: result });
+                res.render('estudiant.html', {
+                    object: result
+                });
             }
         })
     } else {
@@ -378,8 +378,8 @@ app.get(config.base() + '/estudiants/:idp', function (req, res, callback) {
  * @mockup: widget_aula.html
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/widget', function (req, res, callback) {
-    if (req.query.s) {
-        return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.params.idp, req.query.s, function (err, result) {
+    if (req.query.s) { 
+       return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.params.idp, req.query.s, function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);

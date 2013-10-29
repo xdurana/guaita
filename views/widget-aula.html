@@ -28,8 +28,8 @@
     <script LANGUAGE="JavaScript" type="text/javascript">
     var MAXIM_MSG='Minimizar';
     var MINIM_MSG='Maximizar';
-    var DESPLEGA_OBRE = 'Abre';
-    var DESPLEGA_TANCA = 'Cierra';
+    var DESPLEGA_OBRE = "{{ t('obre') }}";
+    var DESPLEGA_TANCA = "{{ t('tanca') }}";
     var url_img = 'UOC/mc-icons/general';
 
     //var MAXIMIZED = true;
@@ -54,6 +54,53 @@
                 
     <div id="divMaximizedPart"  style="display:block">
 
+        <ul class="llistaBlock">
+            <li class="aula-item">
+
+                {% set activa = widget.actives|last %}
+
+                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ activa.name }}</a></h4>
+                <ul class="decorada llistaBlock">
+                    <li>
+                        <div class="aula-data">
+                            <span><span>{{ t('inici') }}: <strong>{{ activa.startDateStr }}</strong></span></span>
+                            <span><span>{{ t('fi') }}: <strong>{{ activa.deliveryDateStr }}</strong></span></span>
+                        </div>
+                    </li>
+                    {% if activa.eines %}
+                    {% for eina in activa.eines %}
+                    <li>
+                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.description }}
+                            <span class="marcadors">
+                                <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
+                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">{{ eina.num_msg_totals }}</span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </li>
+            <li class="aula-item">
+                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ t('comunicacio_aula') }}</a></h4>                
+                <ul class="decorada llistaBlock">
+                    {% if widget.eines %}
+                    {% for eina in widget.eines %}
+                    <li>
+                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.description }}
+                            <span class="marcadors">
+                                <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
+                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
+                                <span title="{{ t('missatges_totals') }}" class="total">{{ eina.num_msg_totals }}</span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </li>
+        </ul>       
 
         <ul class="decorada llistaBlock">
             <li>
@@ -64,7 +111,7 @@
                     <span class="marcadors">
                         <span title="{{ t('estudiants_connectats') }}" class="nous unic">{{ widget.connectats }}</span>
                     </span>
-                    <span class="noLink">{{ t('estudiants_connectats') }}s</span>
+                    <span class="noLink">{{ t('estudiants_connectats') }}</span>
                 </a>
             </li>
         </ul>
