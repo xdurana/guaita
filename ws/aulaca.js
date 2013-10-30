@@ -127,7 +127,7 @@ var getGroupServlet = function(domainCode, s, callback) {
     );
 
     service.xml(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
+        if (err) { console.log(err); return callback(); }
         callback(null, object.Dominis.domini);
     });
 }
@@ -141,7 +141,7 @@ var getUserIdPerIdp = function(idp, s, callback) {
     );
 
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
+        if (err) { console.log(err); return callback(); }
         callback(null, object.userId);
     });
 }

@@ -46,15 +46,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }                
                 struct.consultor = result;
-                aulaca.getUserIdPerIdp(idp, s, function(err, userId) {
-                    struct.consultor.urlConsultor = util.format(
-                        '%s/webapps/cercaPersones/cercaContextualServlet?jsp=/jsp/cercaContextual/curriculum.jsp&l=a&idLang=a&s=%s&operacion=searchUser&USERID=%s',
-                        config.cv(),
-                        s,
-                        userId
-                    );
-                    return callback();
-                });
+                return callback();
             });
         },
         function (callback) {
@@ -68,55 +60,66 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.actives = result.activitats;
-                if (struct.actives && struct.actives.length > 0) {
-                    async.each(struct.actives, getEinesActivitat, function(err) {
-                        if (err) { console.log(err); }
-                        return callback(null, struct);
-                    });
-                } else {
-                    return callback();
-                }
+                return callback();
             });
         },
         function (callback) {
             aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) { console.log(err); return callback(null, struct); }
+                if (err) { console.log(err); return callback(err); }
                 try {
-                    struct.group = result;
-                    struct.missatgesPendents = struct.group[0]['$']['numMsgPendents'];
-                    struct.connectats = struct.group[0]['$']['conectats'];
-                    struct.urlAula = struct.group[0]['$']['hrefEstudiantsConnectats'];
+                    struct.recursos = result ? result[0].recurs : null;
+                    struct.missatgesPendents = result[0]['$']['numMsgPendents'];
+                    struct.connectats = result[0]['$']['conectats'];
+                    struct.urlAula = result[0]['$']['hrefEstudiantsConnectats'];
+                    struct.isAulaca = struct.urlAula.match(/aulaca/);
+                    struct.domainCode = result[0]['$']['code'];
+                    struct.color = result[0].color[0];
                 } catch(e) {
                     console.log(e.message);
                 }
                 return callback();
             });
-        },        
+        },
     ], function(err, results) {
-        if (err) { console.log(err); }
+        if (err) { console.log(err); return callback(null, struct); }
         struct.urlAvaluacio = util.format('%s/tren/trenacc?s=%s&modul=PIOLIN.RAC/rac.rac&i_institucio=FC', config.cv(), s);
-        calcularIndicadorsEines(struct.eines, struct.group[0].recurs);
+        calcularIndicadorsEines(struct.eines, struct.recursos);
+        if (struct.actives && struct.actives.length > 0) {
+            async.each(struct.actives, getEinesActivitat, function(err) {
+                if (err) { console.log(err); }
+                return callback(null, struct);
+            });
+        }
         callback(null, struct);
     });
 
     var calcularIndicadorsEines = function(eines, recursos) {
-        if (!eines) return;
-        eines.forEach(function(eina) {
-            eina.num_msg_pendents = "-";
-            eina.num_msg_totals = "-";
-            eina.viewItemsUrl = util.format('%s%s', config.cv(), eina.viewItemsUrl);
-            eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');            
-            recursos.forEach(function(recurs) {
-                if (recurs['$'].resourceId == eina.resourceId) {
-                    eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
-                    eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
+        if (eines) {
+            eines.forEach(function(eina) {
+                eina.num_msg_pendents = "-";
+                eina.num_msg_totals = "-";
+                eina.viewItemsUrl = util.format('%s%s', config.cv(), eina.viewItemsUrl);
+                eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
+                if (recursos) {
+                    recursos.forEach(function(recurs) {
+                        try {
+                            if (recurs['$'].resourceId == eina.resourceId) {
+                                eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
+                                eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
+                            }
+                        } catch(e) {
+                            console.log(e.message);
+                        }
+                    });
                 }
+                eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'total';
             });
-            eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'total';
-        });
+        }
     }
 
     var getEinesActivitat = function(activitat, callback) {
+        calcularIndicadorsEines(activitat.eines, struct.recursos);
+        activitat.link = indicadors.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
         aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;

@@ -63,5 +63,9 @@
     "estudiants_connectats": "Estudiantes connectados",
     "minimitzar": "Minimiza",
     "registre_avaluacio_continuada": "Registro de evaluación contínua",
-    "comunicacio_aula": "Comunicación de la aula"
+    "comunicacio_aula": "Comunicación de la aula",
+
+    "url": {
+        "questionari": "https://docs.google.com/forms/d/1lSTSz8L85gE5WlIjsu13r8bkoXOB6JvO1wINyLgLPwk/viewform?javascriptDisabled=false"
+    }    
 }
