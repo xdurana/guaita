@@ -38,17 +38,21 @@ var getNomComplert = function(tercer) {
 
 var getFitxa = function(useridp, idp, s, callback) {
     aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
-        if (err) { console.log(err); return callback(null, '#'); }
-        return callback(
-            null,
-            util.format(
-                '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
-                config.cv(),
-                userid,
-                s,
-                idp
-            )
-        );
+        if (err) {
+            console.log(err);
+            return callback(null, '#');
+        } else {
+            return callback(
+                null,
+                util.format(
+                    '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
+                    config.cv(),
+                    userid,
+                    s,
+                    idp
+                )
+            );
+        }
     });
 }
 
@@ -162,14 +166,16 @@ var getLinkAula = function(s, isAulaca, domainId, domainCode) {
     );
 }
 
-var getLinkActivitat = function(s, domainId, activityId) {
-    return util.format(
+var getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
+    return isAulaca ?
+    util.format(
         '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
         config.cv(),
         s,
         domainId,
         activityId
-    );
+    ) :
+    getLinkAula(s, isAulaca, domainId, domainCode);
 }
 
 var getLinkDissenyAula = function(s, isAulaca, domainId) {
