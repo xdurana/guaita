@@ -70,7 +70,7 @@
                     {% if activa.eines %}
                     {% for eina in activa.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.description }}
+                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -88,7 +88,7 @@
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.description }}
+                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
