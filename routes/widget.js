@@ -5,7 +5,6 @@ var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var consultors = require('./consultors');
 var eines = require('./eines');
-var calendar = require('./calendar');
 var config = require('../config');
 var rac = require('../ws/rac');
 var lrs = require('../ws/lrs');

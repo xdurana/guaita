@@ -1,8 +1,9 @@
 var async = require('async');
+var moment = require('moment');
+var calendar = require('node-calendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
-var calendar = require('./calendar');
 var config = require('../config');
 var rac = require('../ws/rac');
 var lrs = require('../ws/lrs');
@@ -25,6 +26,10 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         try {
     		async.each(struct, getResumEstudiant, function(err) {
     			if (err) { console.log(err); }
+                
+                //TODO GUAITA-46
+                //struct.sort(ordenaEstudiants);
+
     			return callback(null, struct);
     		});
         } catch(e) {
@@ -32,6 +37,12 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
             return callback(null, struct);
         }
 	});
+
+    var ordenaEstudiants = function(a, b) {
+        da = new Date(a.resum.comunicacio.ultimaConnexio);
+        db = new Date(b.resum.comunicacio.ultimaConnexio);
+        return da < db ? -1 : da > db ? 1 : 0;
+    }  
 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);        
@@ -82,8 +93,8 @@ exports.aules = function(idp, s, callback) {
     var struct = {
         s: s,
         idp: idp,
-        calendari: {
-        }
+        events: [
+        ]
     };
 
     aulaca.getAulesEstudiant(idp, s, function(err, object) {
@@ -116,7 +127,7 @@ exports.aules = function(idp, s, callback) {
 
         struct.classrooms = object.classrooms;
         async.each(struct.classrooms, getCalendariAula.bind(null, s), function(err) {
-            buildCalendari(struct.calendari, function(err, result) {
+            buildCalendari(function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 return callback(null, struct);
             });
@@ -136,20 +147,56 @@ exports.aules = function(idp, s, callback) {
                     setEventCalendari(struct.calendari, activitat, 'qualificació', activitat.qualificationDate);
                 });
             }
+
+            struct.events.sort(ordenaEvents);
             return callback();
         });
     }
 
+    var ordenaEvents = function(a, b) {
+        return a.data < b.data ? -1 : b.data < a.data ? 1 : 0;
+    }    
+
     var setEventCalendari = function(calendari, activitat, esdeveniment, data) {
         if (data) {
+            struct.events.push({
+                tipus: esdeveniment,
+                activitat: activitat,
+                data: data
+            });
+            /*
             calendari[data] = calendari[data] ? calendari[data] : [];
             calendari[data].push({
                 esdeveniment: esdeveniment,
                 activitat: activitat
             });
+            */
         }
     }
 
+    var buildCalendari = function(callback) {
+
+        var inici = moment(struct.events[0].data);
+        var fi = moment(struct.events[struct.events.length - 1].data);
+
+        config.debug(inici);
+        config.debug(fi);
+
+        struct.calendari = new calendar.Calendar(2).monthdatescalendar(2013, 11);
+
+        /*
+        var cal = new calendar.Calendar(1);
+        config.debug(cal.monthDates(
+            parseInt(inici.any),
+            parseInt(inici.mes),
+            function(d) {return (' '+d.getDate()).slice(-2)}
+        ));
+        */
+
+        return callback();
+    }
+
+    /*
     var getMesInicial = function(calendari) {
         var primer = Object.keys(calendari)[0];
         return {
@@ -168,7 +215,7 @@ exports.aules = function(idp, s, callback) {
         }
     }
 
-    var buildCalendari = function(calendari, callback) {
+    var buildCalendari2 = function(calendari, callback) {
 
         var inici = getMesInicial(struct.calendari);
         var fi = getMesFinal(struct.calendari);
@@ -187,4 +234,5 @@ exports.aules = function(idp, s, callback) {
         ));
         return callback();
     }
+    */
 }
