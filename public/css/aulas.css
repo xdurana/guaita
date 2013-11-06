@@ -487,7 +487,7 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     background: #D96D00 url(../img/incidencia-over.png) no-repeat left 8px top 4px;
 }
 
-.btn-millora{
+.btn-questionari{
     font-family: Verdana, arial, sans-serif;
     border:1px solid #698C00;
     color: #698C00;
@@ -508,14 +508,14 @@ textarea:-ms-input-placeholder {color:#99c0ce;font-style:italic;}
     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow:1px 1px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    background: #F4FFD5 url(../img/encuesta.png) no-repeat;
+    background: #F4FFD5 url(../img/encuesta.png) no-repeat left 8px top 4px;
 }
 
-.btn-millora:hover,
-.btn-millora:focus{ 
+.btn-questionari:hover,
+.btn-questionari:focus{ 
     cursor:pointer;
     color: #F4FFD5;
-    background: #698C00 url(../img/encuesta-over.png) left 8px top 4px;
+    background: #698C00 url(../img/encuesta-over.png) no-repeat left 8px top 4px;
 }
 
 .icon-move { cursor: move!important; }

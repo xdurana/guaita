@@ -41,6 +41,7 @@
     "comunicacio_recent": "Recent communication",
     "missatges_nous": "New messages",
     "missatges_totals": "Total messages",
+    "questionari": "Ajuda'ns a millorar!",
     
     "eina_tauler": "Message board",
     "eina_forum": "Forum",
@@ -66,6 +67,7 @@
     "comunicacio_aula": "Classroom communication",
 
     "url": {
-        "questionari": "https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false"
+        "incidencia": "https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false",
+        "questionari": "http://www.surveyit.com.es/UOC_docentes_cat?post=$USERNUMBER$"
     }    
 }

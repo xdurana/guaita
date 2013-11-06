@@ -41,7 +41,8 @@
     "comunicacio_recent": "Comunicación reciente",
     "missatges_nous": "Mensajes nuevos",
     "missatges_totals": "Mensajes totales",
-    
+    "questionari": "¡Ayúdanos a mejorar!",
+ 
     "eina_tauler": "Tablón",
     "eina_forum": "Foro",
     "eina_area_fitxers": "Área de ficheros",
@@ -66,6 +67,8 @@
     "comunicacio_aula": "Comunicación de la aula",
 
     "url": {
-        "questionari": "https://docs.google.com/forms/d/1lSTSz8L85gE5WlIjsu13r8bkoXOB6JvO1wINyLgLPwk/viewform?javascriptDisabled=false"
+        "incidencia": "https://docs.google.com/forms/d/1lSTSz8L85gE5WlIjsu13r8bkoXOB6JvO1wINyLgLPwk/viewform?javascriptDisabled=false",
+        "questionari": "http://www.surveyit.com.es/UOC_docentes_esp?post=$USERNUMBER$"
+
     }    
 }
