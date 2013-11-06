@@ -133,239 +133,23 @@
 
                     <table class="tbl tbl-calendar calendar-month">
                         <tbody>
+                            {% for week in object.calendar %}
                             <tr>
+                                {% for day in week %}
                                 <td>
                                     <div class="day">
-                                        <div class="day-num off">29</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num off">30</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num off">31</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">1</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">2</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">3</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">4</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">5</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">6</div>
+                                        <div class="day-num {{ day.actual }}">{{ day.day }}</div>
+                                        {% for event in day.events %}
                                         <div class="event a3-PQ">
-                                            <a href="#" class="marcador c_0580C7">PQ</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
+                                            <a href="#" class="marcador c_0580C7">{{ event.tipus }}</a>
+                                            <span class="lbl" title="{{ event.activitat.name }}">{{ event.activitat.name }}</span>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">7</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">8</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">9</div>
-                                        <div class="event-destacat a3-PL">
-                                            <a href="#" class="marcador c_0580C7">PL</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">10</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">11</div>
-                                        <div class="event a3-M">
-                                            <a href="#" class="marcador c_0580C7">M</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
+                                {% endfor %}
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">12</div>
-                                        <div class="event a3-M">
-                                            <a href="#" class="marcador c_0580C7">M</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">13</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">14</div>
-                                        <div class="event a3-PI">
-                                            <a href="#" class="marcador c_0580C7">PI</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">15</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">16</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">17</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">18</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">19</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">20</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">21</div>
-                                        <div class="event a2-PQ">
-                                            <a href="#" class="marcador c_EEA400">PQ</a>
-                                            <span class="lbl" title="Fundamentos de estadística">Fundamentos de estadística</span>
-                                        </div>
-                                        <div class="event a4-PI">
-                                            <a href="#" class="marcador c_C31A8A">PI</a>
-                                            <span class="lbl" title="Matemáticas I">Matemáticas I</span>
-                                        </div>
-                                        <div class="event a1-M">
-                                            <a href="#" class="marcador c_66AA00">M</a>
-                                            <span class="lbl" title="Procedimientos alfa">Procedimientos alfa</span>
-                                        </div>
-                                        <div class="event a3-A">
-                                            <a href="#" class="marcador c_0580C7">A</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">22</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">23</div>
-                                        <div class="event a2-PQ">
-                                            <a href="#" class="marcador c_EEA400">PQ</a>
-                                            <span class="lbl" title="Fundamentos de estadística">Fundamentos de estadística</span>
-                                        </div>
-                                        <div class="event-destacat a4-PL">
-                                            <a href="#" class="marcador c_C31A8A">PL</a>
-                                            <span class="lbl" title="Matemáticas I">Matemáticas I</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">24</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">25</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">26</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">27</div>
-                                        <div class="event a3-PQ">
-                                            <a href="#" class="marcador c_0580C7">PQ</a>
-                                            <span class="lbl" title="Historia económica contemporanea">Historia económica contemporanea</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">28</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">29</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">30</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num">31</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num off">1</div>
-                                    </div>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
 
@@ -383,90 +167,19 @@
                             <tr>
                                 <td colspan="5"></td>
                             </tr>
-                            <tr class="a3-PQ">
-                                <td>6</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">PAC1. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a3-PL">
-                                <td>9</td>
-                                <td><div class="event-destacat c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">PAC1. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Lliurament</td>
-                            </tr>
-                            <tr class="a3-M">
-                                <td>11</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">U1. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Final Unitat</td>
-                            </tr>
-                            <tr class="a3-M">
-                                <td>12</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">U2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Unitat</td>
-                            </tr>
-                            <tr class="a3-PI">
-                                <td>14</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a2-PQ">
-                                <td>21</td>
-                                <td><div class="event c_EEA400">&nbsp;</div></td>
-                                <td><span class="lbl">Fundamentos de estadística</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a4-PI">
-                                <td>21</td>
-                                <td><div class="event c_C31A8A">&nbsp;</div></td>
-                                <td><span class="lbl">Matemáticas I</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a1-M">
-                                <td>21</td>
-                                <td><div class="event c_66AA00">&nbsp;</div></td>
-                                <td><span class="lbl">Procedimentos alfa</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a3-A">
-                                <td>21</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Altres</td>
-                            </tr>
-                            <tr class="a2-PQ">
-                                <td>23</td>
-                                <td><div class="event c_EEA400">&nbsp;</div></td>
-                                <td><span class="lbl">Fundamentos de estadística</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Inici</td>
-                            </tr>
-                            <tr class="a4-PL">
-                                <td>23</td>
-                                <td><div class="event-destacat c_C31A8A">&nbsp;</div></td>
-                                <td><span class="lbl">Matemáticas I</span></td>
-                                <td><a href="#" class="lbl">PAC2. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Altres</td>
-                            </tr>
-                            <tr class="a3-PQ">
-                                <td>27</td>
-                                <td><div class="event c_0580C7">&nbsp;</div></td>
-                                <td><span class="lbl">Historia económica contemporanea</span></td>
-                                <td><a href="#" class="lbl">PQ. Lorem ipsum dolor sit amet consectuer</a></td>
-                                <td>Calificació</td>
-                            </tr>
+                            {% for week in object.calendar %}
+                                {% for day in week %}
+                                    {% for event in day.events %}
+                                        <tr class="a3-PQ">
+                                            <td>{{ event.day }}</td>
+                                            <td><div class="event c_0580C7">&nbsp;</div></td>
+                                            <td><span class="lbl">Historia económica contemporanea</span></td>
+                                            <td><a href="#" class="lbl">{{ event.activitat.name }}</a></td>
+                                            <td>{{ event.tipus }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
                         </tbody>
                     </table>
 

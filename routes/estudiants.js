@@ -97,7 +97,9 @@ exports.aules = function(idp, s, callback) {
         events: [
         ],
         items: {
-        }
+        },
+        calendar: [
+        ]
     };
 
     aulaca.getAulesEstudiant(idp, s, function(err, object) {
@@ -179,14 +181,21 @@ exports.aules = function(idp, s, callback) {
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
 
-        struct.calendari = new calendar.Calendar(2).monthdatescalendar(moment().year(), moment().month() + 1);
-        struct.calendari.forEach(function(week) {
-            week.forEach(function(day) {
-                date = moment(day).format("YYYY-MM-DD");
-                struct.items[date] = new Array(struct.events.filter(function(event) {
-                    return event.data === date;
-                }));
+        var monthc = new calendar.Calendar(2).monthdatescalendar(moment().year(), moment().month() + 1);
+        monthc.forEach(function(weekc) {
+            var week = [];
+            weekc.forEach(function(dayc) {
+                var date = moment(dayc).format("YYYY-MM-DD");
+                week.push({
+                    date: date,
+                    day: moment(dayc).format("DD"),
+                    actual: moment().isSame(date, 'month') ? '' : 'off',
+                    events: struct.events.filter(function(event) {
+                        return event.data === date;
+                    })
+                });
             });
+            struct.calendar.push(week);
         });
 
         return callback();
