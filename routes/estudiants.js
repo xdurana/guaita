@@ -126,12 +126,16 @@ exports.aules = function(idp, s, callback) {
         }
 
         struct.classrooms = object.classrooms;
-        async.each(struct.classrooms, getCalendariAula.bind(null, s), function(err) {
-            buildCalendari(function(err, result) {
-                if (err) { console.log(err); return callback(null, struct); }
-                return callback(null, struct);
+        if (struct.classrooms && struct.classrooms.length > 0) {
+            async.each(struct.classrooms, getCalendariAula.bind(null, s), function(err) {
+                buildCalendari(function(err, result) {
+                    if (err) { console.log(err); return callback(null, struct); }
+                    return callback(null, struct);
+                });
             });
-        });
+        } else {
+            return callback(null, struct);
+        }
     });
 
     var getCalendariAula = function(s, aula, callback) {
