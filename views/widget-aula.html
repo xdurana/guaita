@@ -45,8 +45,8 @@
     {% include 'ga.html' %}
 
     <div class="agora identifica">
-        <h3 class="aula-title"><a href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
-        <h5 class="aula-profile text-color-alt"><a href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
+        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
         <span class="marcadors">
             <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
         </span>
@@ -59,7 +59,7 @@
 
                 {% set activa = widget.actives|last %}
 
-                <h4 class="text-color"><a class="link" href="{{ activa.link }}" title="">{{ activa.name }}</a></h4>
+                <h4 class="text-color"><a target="grid" class="link" href="{{ activa.link }}" title="">{{ activa.name }}</a></h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
@@ -70,7 +70,7 @@
                     {% if activa.eines %}
                     {% for eina in activa.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -83,12 +83,12 @@
                 </ul>
             </li>
             <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ t('comunicacio_aula') }}</a></h4>                
+                <h4 class="text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="">{{ t('comunicacio_aula') }}</a></h4>
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -104,7 +104,7 @@
 
         <ul class="decorada llistaBlock">
             <li>
-                <a class="link" target='wevento' href="{{ widget.urlAvaluacio }}" onclick="oWin(this.href);return false;">{{ t('registre_avaluacio_continuada') }}</a>
+                <a class="link" target="wevento" href="{{ widget.urlAvaluacio }}" onclick="oWin(this.href);return false;">{{ t('registre_avaluacio_continuada') }}</a>
             </li>
             <li class="ultim">
                 <a target="grid" href="{{ widget.urlAula }}">
