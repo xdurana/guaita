@@ -13,15 +13,15 @@
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/modul.css" />
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/style.css" />
 
-    <script type="text/javascript" src="http://cv.uoc.edu/rb/inici/javascripts/prototype.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
+    <script type="text/javascript" src="/rb/inici/javascripts/prototype.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
         
-    <script type="text/javascript" src="http://cv.uoc.edu/rb/inici/javascripts/effects.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
+    <script type="text/javascript" src="/rb/inici/javascripts/effects.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
         
-    <script type="text/javascript" src="http://cv.uoc.edu/rb/inici/javascripts/application.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
+    <script type="text/javascript" src="/rb/inici/javascripts/application.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
         
-    <script type="text/javascript" src="http://cv.uoc.edu/rb/inici/javascripts/prefs.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
+    <script type="text/javascript" src="/rb/inici/javascripts/prefs.js?s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
         
-    <script type="text/javascript" src="http://cv.uoc.edu/rb/inici/user_modul/library/3408277.js?features=library:setprefs:dynamic-height&s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
+    <script type="text/javascript" src="/rb/inici/user_modul/library/3408277.js?features=library:setprefs:dynamic-height&s=714df143e93bdb800035f07b3c4bb631f3888bbac09141c260f325c7e74014ad09d627b2ab0aed302ec0a5f2aa7c15c7b7e3d92290ebbab09baba70dedc84807"></script>   
         
         
 
@@ -32,21 +32,30 @@
     var DESPLEGA_TANCA = "{{ t('tanca') }}";
     var url_img = 'UOC/mc-icons/general';
 
+    var DATA_BOCAMOLL_USER_IDP = '{{ widget.idp }}';
+    var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ widget.domainId }}';
+    var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ widget.domainIdAula }}';
+    var DATA_BOCAMOLL_ACTIVITY_EVENTID = '';
+    var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
+    var SESSION = '{{ widget.s }}';
+
     //var MAXIMIZED = true;
     </script>
 
     <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
     <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
     <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
     <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
 </head>
 
-<body class="aula c_{{ widget.color }}" onload="_IG_AdjustIFrameHeight();">
+<body id="widget" class="aula c_{{ widget.color }}" onload="_IG_AdjustIFrameHeight();">
     {% include 'ga.html' %}
 
     <div class="agora identifica">
-        <h3 class="aula-title"><a href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
-        <h5 class="aula-profile text-color-alt"><a href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
+        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULACA">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
         <span class="marcadors">
             <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
         </span>
@@ -59,7 +68,7 @@
 
                 {% set activa = widget.actives|last %}
 
-                <h4 class="text-color"><a class="link" href="{{ activa.link }}" title="">{{ activa.name }}</a></h4>
+                <h4 class="text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULACA">{{ activa.name }}</a></h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
@@ -70,7 +79,7 @@
                     {% if activa.eines %}
                     {% for eina in activa.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -83,12 +92,12 @@
                 </ul>
             </li>
             <li class="aula-item">
-                <h4 class="text-color"><a class="link" href="{{ widget.urlAula }}" title="">{{ t('comunicacio_aula') }}</a></h4>                
+                <h4 class="text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULACA">{{ t('comunicacio_aula') }}</a></h4>
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
                     <li>
-                        <a class="link" target='wevento' href="{{ eina.viewItemsUrl }}" title="">{{ eina.nom }}
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -104,10 +113,10 @@
 
         <ul class="decorada llistaBlock">
             <li>
-                <a class="link" target='wevento' href="{{ widget.urlAvaluacio }}" onclick="oWin(this.href);return false;">{{ t('registre_avaluacio_continuada') }}</a>
+                <a class="link" target="wevento" href="{{ widget.urlAvaluacio }}" onclick="oWin(this.href);return false;" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="RAC">{{ t('registre_avaluacio_continuada') }}</a>
             </li>
             <li class="ultim">
-                <a target="grid" href="{{ widget.urlAula }}">
+                <a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-domainid="{{ widget.domainId }}">
                     <span class="marcadors">
                         <span title="{{ t('estudiants_connectats') }}" class="nous unic">{{ widget.connectats }}</span>
                     </span>

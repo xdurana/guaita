@@ -90,10 +90,15 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
  * @param s
  */
 exports.aules = function(idp, s, callback) {
+
     var struct = {
         s: s,
         idp: idp,
         events: [
+        ],
+        items: {
+        },
+        calendar: [
         ]
     };
 
@@ -159,22 +164,15 @@ exports.aules = function(idp, s, callback) {
 
     var ordenaEvents = function(a, b) {
         return a.data < b.data ? -1 : b.data < a.data ? 1 : 0;
-    }    
+    }
 
     var setEventCalendari = function(calendari, activitat, esdeveniment, data) {
         if (data) {
             struct.events.push({
                 tipus: esdeveniment,
                 activitat: activitat,
-                data: data
+                data: moment(data).format("YYYY-MM-DD")
             });
-            /*
-            calendari[data] = calendari[data] ? calendari[data] : [];
-            calendari[data].push({
-                esdeveniment: esdeveniment,
-                activitat: activitat
-            });
-            */
         }
     }
 
@@ -183,60 +181,23 @@ exports.aules = function(idp, s, callback) {
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
 
-        config.debug(inici);
-        config.debug(fi);
-
-        struct.calendari = new calendar.Calendar(2).monthdatescalendar(2013, 11);
-
-        /*
-        var cal = new calendar.Calendar(1);
-        config.debug(cal.monthDates(
-            parseInt(inici.any),
-            parseInt(inici.mes),
-            function(d) {return (' '+d.getDate()).slice(-2)}
-        ));
-        */
+        var monthc = new calendar.Calendar(2).monthdatescalendar(moment().year(), moment().month() + 1);
+        monthc.forEach(function(weekc) {
+            var week = [];
+            weekc.forEach(function(dayc) {
+                var date = moment(dayc).format("YYYY-MM-DD");
+                week.push({
+                    date: date,
+                    day: moment(dayc).format("DD"),
+                    actual: moment().isSame(date, 'month') ? '' : 'off',
+                    events: struct.events.filter(function(event) {
+                        return event.data === date;
+                    })
+                });
+            });
+            struct.calendar.push(week);
+        });
 
         return callback();
     }
-
-    /*
-    var getMesInicial = function(calendari) {
-        var primer = Object.keys(calendari)[0];
-        return {
-            data: primer,
-            mes: primer.substring(5, 7),
-            any: primer.substring(0, 4)
-        }
-    }
-
-    var getMesFinal = function(calendari) {
-        var ultim = Object.keys(calendari)[Object.keys(calendari).length - 1];
-        return {
-            data: ultim,
-            mes: ultim.substring(5, 7),
-            any: ultim.substring(0, 4)
-        }
-    }
-
-    var buildCalendari2 = function(calendari, callback) {
-
-        var inici = getMesInicial(struct.calendari);
-        var fi = getMesFinal(struct.calendari);
-
-        config.debug(inici);
-        config.debug(fi);
-
-        config.debug(inici.any);
-        config.debug(inici.mes);
-
-        var cal = new calendar.Calendar(1);
-        config.debug(cal.monthDates(
-            parseInt(inici.any),
-            parseInt(inici.mes),
-            function(d) {return (' '+d.getDate()).slice(-2)}
-        ));
-        return callback();
-    }
-    */
 }
