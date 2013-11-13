@@ -402,6 +402,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
                     res.json(result);
                 } else {
                     result.s = req.query.s;
+                    result.lang = i18next.lng();
                     res.render('widget-aula.html', { widget: result });
                 }
             });
