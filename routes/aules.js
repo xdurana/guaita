@@ -101,6 +101,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
 
 var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
 
+    classroom.color = 'FF2600';
     classroom.codAula = codAula;
     classroom.codAssignatura = classroom.codi;
     classroom.domainIdAula = classroom.domainId;
@@ -163,6 +164,18 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         },
         function (callback) {
+            aulaca.getGroupServlet(classroom.domainCode, s, function(err, result) {
+                if (err) { console.log(err); return callback(err); }
+                try {
+                    classroom.resum.comunicacio.lecturesPendents = result[0]['$']['numMsgPendents'];
+                    classroom.color = result[0].color[0];
+                } catch(e) {
+                    console.log(e.message);
+                }
+                return callback();
+            });
+        },
+        function (callback) {
             aulaca.getLecturesPendentsAcumuladesAula(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
@@ -179,7 +192,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
         function (callback) {
             aulaca.getLecturesPendentsIdpAula(classroom.domainId, idp, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
-                classroom.resum.comunicacio.lecturesPendents = result ? result : config.nc();
+                //classroom.resum.comunicacio.lecturesPendents = result ? result : config.nc();
                 return callback();
             });
         }

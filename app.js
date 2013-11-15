@@ -65,7 +65,6 @@ app.use(function(err, req, res, next) {
 /**
  * IDP course list
  * @mockup: aulas_pra.html
- * Ok
  */
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
@@ -113,7 +112,6 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
 /**
  * Course classroom list
  * @mockup: tabs_pra.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
@@ -148,7 +146,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Pàgina d'una aula
  * @mockup: aulas_individual.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
@@ -178,10 +175,8 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom activities
  * @mockup: actividades_aula.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats', function (req, res, callback) {
-    config.debug(req);
 	if (req.query.s) {
 		return activitats.aula(
             req.params.anyAcademic,
@@ -209,7 +204,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Eines per activitat
  * @mockup: actividades_aula.html
- * Ko
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
@@ -240,7 +234,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Eines per aula
  * @mockup: herramientas_estudiantes.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
@@ -270,7 +263,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Avaluació per aula
  * @mockup: evaluacion_estudiantes.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', function (req, res, callback) {
 
@@ -300,7 +292,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom activities per student
  * @mockup: actividades_aula.html
- * Ko
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/activitats', function (req, res, callback) {
 	if (req.query.s) {
@@ -330,7 +321,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom activities per consultant
  * @mockup: actividades_consultores.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/consultors/:idp/activitats', function (req, res, callback) {
     if (req.query.s) {
@@ -360,7 +350,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Activity tools for a student
  * @mockup: herramientas_estudiantes.html
- * Ko
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s) {
@@ -391,7 +380,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom tools for a student
  * @mockup: actividades_aula.html
- * Ko
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/eines', function (req, res, callback) {
 	if (req.query.s) {
@@ -422,7 +410,6 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom tools for a consultant
  * @mockup: herramientas_consultores.html
- * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
