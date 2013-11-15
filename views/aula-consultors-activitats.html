@@ -33,7 +33,7 @@
             </tr>
         </tbody>
         {% for aula in assignatura.aules %}
-        <tbody class="acc activ-consultor-acc" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-idp="{{ aula.consultor.idp }}" >
+        <tbody class="acc activ-consultor-acc" data-guaita-assignatura="{{ assignatura.codAssignatura }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-idp="{{ aula.consultor.idp }}" >
             <tr>
                 <td>
                     <span class="user-item">

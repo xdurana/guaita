@@ -65,6 +65,7 @@ app.use(function(err, req, res, next) {
 /**
  * IDP course list
  * @mockup: aulas_pra.html
+ * Ok
  */
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
@@ -112,6 +113,7 @@ app.get(config.base() + '/assignatures', function (req, res, callback) {
 /**
  * Course classroom list
  * @mockup: tabs_pra.html
+ * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', function (req, res, callback) {
 
@@ -146,18 +148,19 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Pàgina d'una aula
  * @mockup: aulas_individual.html
+ * Ok
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
 		return aules.one(
             req.params.anyAcademic,
             req.params.codAssignatura,
-            req.params.codAula,
-            req.query.idp,
-            req.query.s,
             req.params.domainId,
+            req.params.codAula,
             req.params.domainIdAula,
             req.params.domainCode,
+            req.query.idp,
+            req.query.s,
             function (err, result) {
             if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
@@ -175,10 +178,21 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
 /**
  * Classroom activities
  * @mockup: actividades_aula.html
+ * Ok
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats', function (req, res, callback) {
+    config.debug(req);
 	if (req.query.s) {
-		return activitats.aula(req.params.domainId, req.params.domainIdAula, req.query.s, true, function (err, result) {
+		return activitats.aula(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.query.s,
+            true,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -195,10 +209,21 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats'
 /**
  * Eines per activitat
  * @mockup: actividades_aula.html
+ * Ko
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats/:eventId/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
-		return eines.activitat(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.query.idp, req.query.s, function (err, result) {
+		return eines.activitat(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.eventId,
+            req.query.idp,
+            req.query.s,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -215,10 +240,20 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/activitats/
 /**
  * Eines per aula
  * @mockup: herramientas_estudiantes.html
+ * Ok
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eines', function (req, res, callback) {
 	if (req.query.s && req.query.idp) {
-		return eines.aula(req.params.domainId, req.params.domainIdAula, req.query.idp, req.query.s, function (err, result) {
+		return eines.aula(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.query.idp,
+            req.query.s,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -235,11 +270,20 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/eines', fun
 /**
  * Avaluació per aula
  * @mockup: evaluacion_estudiantes.html
+ * Ok
  */
-app.get(config.base() + '/avaluacio/:anyAcademic/:codAssignatura/:codAula', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', function (req, res, callback) {
 
     if (req.query.s) {
-        return activitats.avaluacio(req.params.anyAcademic, req.params.codAssignatura, req.params.codAula, req.query.s, function (err, result) {
+        return activitats.avaluacio(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.query.s,
+            function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
@@ -256,10 +300,20 @@ app.get(config.base() + '/avaluacio/:anyAcademic/:codAssignatura/:codAula', func
 /**
  * Classroom activities per student
  * @mockup: actividades_aula.html
+ * Ko
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/activitats', function (req, res, callback) {
 	if (req.query.s) {
-		return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+		return activitats.idp(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.idp,
+            req.query.s,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -276,10 +330,20 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/
 /**
  * Classroom activities per consultant
  * @mockup: actividades_consultores.html
+ * Ok
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/activitats', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/consultors/:idp/activitats', function (req, res, callback) {
     if (req.query.s) {
-        return activitats.idp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, function (err, result) {
+        return activitats.idp(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.idp,
+            req.query.s,
+            function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
@@ -296,10 +360,21 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/
 /**
  * Activity tools for a student
  * @mockup: herramientas_estudiantes.html
+ * Ko
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/activitats/:eventId/eines', function (req, res, callback) {
 	if (req.query.s) {
-		return eines.activitatEstudiant(req.params.domainId, req.params.domainIdAula, req.params.eventId, req.params.idp, req.query.s, function (err, result) {
+		return eines.activitatEstudiant(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.eventId,
+            req.params.idp,
+            req.query.s,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -316,10 +391,21 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/
 /**
  * Classroom tools for a student
  * @mockup: actividades_aula.html
+ * Ko
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/:idp/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/estudiants/:idp/eines', function (req, res, callback) {
 	if (req.query.s) {
-		return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, true, function (err, result) {
+		return eines.aulaidp(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.idp,
+            req.query.s,
+            true,
+            function (err, result) {
 			if(err) { console.log(err); callback(); return; }
 			if (req.query.format) {
 				res.json(result);
@@ -336,10 +422,21 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/estudiants/
 /**
  * Classroom tools for a consultant
  * @mockup: herramientas_consultores.html
+ * Ok
  */
-app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/:idp/eines', function (req, res, callback) {
+app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/consultors/:idp/eines', function (req, res, callback) {
     if (req.query.s) {
-        return eines.aulaidp(req.params.domainId, req.params.domainIdAula, req.params.idp, req.query.s, true, function (err, result) {
+        return eines.aulaidp(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.params.idp,
+            req.query.s,
+            true,
+            function (err, result) {
             if(err) { console.log(err); callback(); return; }
             if (req.query.format) {
                 res.json(result);
@@ -348,31 +445,6 @@ app.get(config.base() + '/assignatures/:domainId/aules/:domainIdAula/consultors/
                 res.render('eines-aula-consultor.html', { aula: result });
             }
         })
-    } else {
-        callback('manquen algun dels parametres de la crida [s]');
-    }
-});
-
-/**
- * Student classrooms page
- * @mockup: aulas_estudiante.html
- */
-app.get(config.base() + '/estudiants', function (req, res, callback) {
-    if (req.query.s) {
-        campus.getIdpBySession(req.query.s, function (err, idp) {
-            if(err) { console.log(err); callback(); return; }
-            idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
-            return estudiants.aules(idp, req.query.s, function (err, result) {
-                if(err) { console.log(err); callback(); return; }
-                if (req.query.format) {
-                    res.json(result);
-                } else {
-                    res.render('estudiant.html', {
-                        object: result
-                    });
-                }
-            });
-        });
     } else {
         callback('manquen algun dels parametres de la crida [s]');
     }
@@ -404,6 +476,31 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
                     result.s = req.query.s;
                     result.lang = i18next.lng();
                     res.render('widget-aula.html', { widget: result });
+                }
+            });
+        });
+    } else {
+        callback('manquen algun dels parametres de la crida [s]');
+    }
+});
+
+/**
+ * Student classrooms page
+ * @mockup: aulas_estudiante.html
+ */
+app.get(config.base() + '/estudiants', function (req, res, callback) {
+    if (req.query.s) {
+        campus.getIdpBySession(req.query.s, function (err, idp) {
+            if(err) { console.log(err); callback(); return; }
+            idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
+            return estudiants.aules(idp, req.query.s, function (err, result) {
+                if(err) { console.log(err); callback(); return; }
+                if (req.query.format) {
+                    res.json(result);
+                } else {
+                    res.render('estudiant.html', {
+                        object: result
+                    });
                 }
             });
         });

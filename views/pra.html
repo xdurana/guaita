@@ -130,7 +130,7 @@
 <script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
 <script>
     $(document).ready(function() {
-        UOCAulas.init('pra', '{{ object.s }}', '{{ object.idp }}');
+        UOCAulas.init('pra', '{{ session }}', '{{ idp }}');
     });
 </script>
 {% endblock %}

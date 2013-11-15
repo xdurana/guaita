@@ -3,6 +3,16 @@ I18N_COLLAPSE = typeof(I18N_COLLAPSE) == 'undefined' ? 'Contraer' : I18N_COLLAPS
 
 /* Main Aulas Application */
 
+String.prototype.format = String.prototype.f = function() {
+    var s = this,
+        i = arguments.length;
+
+    while (i--) {
+        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
+    }
+    return s;
+};
+
 var UOCAulas = (function($) {
 
     var baseURL = '/app/guaita';
@@ -225,16 +235,12 @@ var UOCAulas = (function($) {
             var self = this;
             var acc = $(self).parent();
 		    var block = $(acc).find('.block-head');
-
-		    var assignatura = $(block).attr('data-guaita-assignatura');
-		    var anyacademic = $(block).attr('data-guaita-anyacademic');
-		    var domainId = $(block).attr('data-guaita-domainId');
-		    var url = UOCAulas.baseURL;
-		    if (userRole === 'pra') {
-		        url += '/assignatures/' + anyacademic + "/" + assignatura + "/" + domainId + '/aules/?s=' + s + '&idp=' + idp + '&perfil=pra';
-		    } else {
-                url += '/assignatures/' + anyacademic + "/" + assignatura + "/" + domainId + '/aules/?s=' + s + '&idp=' + idp + '&perfil=consultor';
-		    }
+            var url = '{0}/aules/?s={1}&idp={2}&perfil={3}'.format(
+                subjectBaseURL(block),
+                s,
+                idp,
+                userRole === 'pra' ? 'pra' : 'consultor'
+            );
             if (acc.hasClass('loaded')) {
                 toggleSubject(acc);
             } else {
@@ -257,8 +263,7 @@ var UOCAulas = (function($) {
                 		toggleSubject(acc);
                     });
             	}
-            }  
-
+            }
         });
 
         $( ".accordion" ).each(function(){
@@ -315,16 +320,27 @@ var UOCAulas = (function($) {
         acc_content.slideToggle(500, 'easeOutQuint');
     };
 
+    var subjectBaseURL = function(block) {
+        return '{0}/assignatures/{1}/{2}/{3}'.format(
+            baseURL,
+            $(block).attr('data-guaita-anyacademic'),
+            $(block).attr('data-guaita-assignatura'),
+            $(block).attr('data-guaita-domainId')
+        );
+    }
+
+    var classroomBaseURL = function(block) {
+        return '{0}/aules/{1}/{2}/{3}'.format(
+            subjectBaseURL(block),
+            $(block).attr('data-guaita-codaula'),
+            $(block).attr('data-guaita-domainIdAula'),
+            $(block).attr('data-guaita-domainCode')
+        );
+    }
+
     /* Declaración de eventos tbl-subject por tipo */
     var addSubjectEvents = function(acc){
         addTabsEvents(acc.find('.tabs'));
-
-        /*
-        $('.link-back').on('click', function(ev) {
-            $('.aula').remove();
-            $('.blocks').show();
-        });
-        */
 
         $('.window-close').click(function(){
             window.close();
@@ -333,19 +349,22 @@ var UOCAulas = (function($) {
         $(acc).find('.activ-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats?s=' + s;
-            getTable(this, URLActivitatsEstudiants, true);
+            var url = '{0}/activitats?s={1}'.format(
+                classroomBaseURL(block),
+                s
+            );
+            getTable(this, url, true);
         });
 
         $(acc).find('.tools-student-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URLEinesEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/eines?idp=' + idp + '&s=' + s;
-            getTable(this, URLEinesEstudiants, false);
+            var url = '{0}/eines?idp={1}&s={2}'.format(
+                classroomBaseURL(block),
+                $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, false);
         });
 
         $(acc).find('.eval-student-acc .lnk-expand').on('click', function(ev) {
@@ -359,62 +378,56 @@ var UOCAulas = (function($) {
             var anyAcademic = $(head).attr('data-guaita-anyacademic');
             var codAula = $(block).attr('data-guaita-codaula');
 
-            var URLAvaluacioEstudiants = UOCAulas.baseURL + '/avaluacio/' + anyAcademic + '/' + codAssignatura + '/' + codAula + '?s=' + s;
-            getTable(this, URLAvaluacioEstudiants, false);
+            var url = '{0}/avaluacio?s={1}'.format(
+                classroomBaseURL(block),
+                s
+            );
+            getTable(this, url, false);
         });
 
         $(acc).find('.activ-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var idpConsultor = $(block).attr('data-guaita-idp');
-            var URLActivitatsConsultors = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/consultors/' + idpConsultor + '/activitats?s=' + s;
-            getTable(this, URLActivitatsConsultors, true);
+            var url = '{0}/consultors/{1}/activitats?s={2}'.format(
+                classroomBaseURL(block),
+                $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, true);
         });
 
         $(acc).find('.tools-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var idpConsultor = $(block).attr('data-guaita-idp');
-            var URLEinesConsultors = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/consultors/' + idpConsultor + '/eines?s=' + s;
-            getTable(this, URLEinesConsultors, true);
+            var url = '{0}/consultors/{1}/eines?s={2}'.format(
+                classroomBaseURL(block),
+                $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, false);
         });
 
         $(acc).find('.activ-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var idpEstudiant = $(block).attr('data-guaita-idp');
-            var s = $(block).attr('data-guaita-s');
-            var URLActivitatsAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/activitats?s=' + s;
-            getTable(this, URLActivitatsAula, true);
+            var url = '{0}/estudiants/{1}/activitats?s={2}'.format(
+                classroomBaseURL(block),
+                $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, true);
         });
 
         $(acc).find('.tools-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var idpEstudiant = $(block).attr('data-guaita-idp');
-            var s = $(block).attr('data-guaita-s');
-            var URLEinesAula = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/eines?s=' + s;
-            getTable(this, URLEinesAula, false);
+            var url = '{0}/estudiants/{1}/eines?s={2}'.format(
+                classroomBaseURL(block),
+                $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, false);
         });
-
-        /*
-        $(acc).find('.lnk-more').on('click', function(ev) {
-            ev.preventDefault();
-            var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var URL = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '?s=' + s;
-            getAula(URL);
-        });
-        */
 
         $('.lnk-more').click(function() {
             $(this).attr('target', '_blank');
@@ -426,23 +439,37 @@ var UOCAulas = (function($) {
     };
 
     /* Declaración de eventos tbl-aula */
-    var addAulaEvents = function(acc){
-
+    var addAulaEvents = function(acc) {
+        $(acc).find('.activ-acc .lnk-expand').on('click', function(ev) {
+            ev.preventDefault();
+            var block = $(this).closest('.acc');
+            var url = '{0}/activitats/{1}/eines?idp={2}&s={3}'.format(
+                classroomBaseURL(block),                
+                $(block).attr('data-guaita-eventId'),
+                $(block).attr('data-guaita-idp') == '' ? idp : $(block).attr('data-guaita-idp'),
+                s
+            );
+            getTable(this, url, false);
+        });
         $(acc).find('.activ-item > .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
-            var eventId = $(block).attr('data-guaita-eventId');
-            var s = $(block).attr('data-guaita-s');
-
             if (acc.hasClass('activ-student-acc')) {
-                var URLActivitatsEstudiants = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/activitats/' + eventId + '/eines?idp=' + idp + '&s=' + s;
-                getTable(this, URLActivitatsEstudiants, false);
+                var url = '{0}/activitats/{1}/eines?idp={2}&s={3}'.format(
+                    classroomBaseURL(block),
+                    $(block).attr('data-guaita-eventId'),
+                    $(block).attr('data-guaita-idp'),
+                    s
+                );
+                getTable(this, url, false);
             } else {
-                var idpEstudiant = $(block).attr('data-guaita-idp');
-                var URLActivitatEstudiant = UOCAulas.baseURL + '/assignatures/' + domainId + '/aules/' + domainIdAula + '/estudiants/' + idpEstudiant + '/activitats/' + eventId + '/eines?s=' + s;
-                getTable(this, URLActivitatEstudiant, false);
+                var url = '{0}/estudiants/{1}/activitats/{2}/eines?s={3}'.format(
+                    classroomBaseURL(block),
+                    $(block).attr('data-guaita-idp'),
+                    $(block).attr('data-guaita-eventId'),
+                    s
+                );
+                getTable(this, url, false);
             }
         });
     };

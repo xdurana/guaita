@@ -33,12 +33,16 @@ var getToolDescription = function(description) {
     return i18next.t(description);
 }
 
-exports.aula = function(domainId, domainIdAula, idp, s, callback) {
+exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
 
 	var struct = {
 		s: s,
-		domainId: domainId,
-		domainIdAula: domainIdAula,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
+        codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		eines: [
 		]
 	};
@@ -139,12 +143,16 @@ exports.aula = function(domainId, domainIdAula, idp, s, callback) {
 	});
 }
 
-exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) {
+exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, eventId, idp, s, callback) {
 
     var struct = {
     	s: s,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
         domainId: domainId,
+        codAula: codAula,
         domainIdAula: domainIdAula,
+        domainCode: domainCode,
         eventId: eventId,
         eines: [
         ]
@@ -182,12 +190,16 @@ exports.activitat = function(domainId, domainIdAula, eventId, idp, s, callback) 
     });
 }
 
-exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, callback) {
+exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, eventId, idp, s, callback) {
 
 	var struct = {
 		s: s,
-		domainId: domainId,
-		domainIdAula: domainIdAula,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
+        codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		eventId: eventId,
 		idp: idp,
 		eines: [
@@ -226,11 +238,15 @@ exports.activitatEstudiant = function(domainId, domainIdAula, eventId, idp, s, c
 	});
 }
 
-exports.aulaidp = function(domainId, domainIdAula, idp, s, estadistiques, callback) {
+exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, estadistiques, callback) {
 
 	var struct = {
-		domainId: domainId,
-		domainIdAula: domainIdAula,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
+        codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		idp: idp,
 		eines: [
 		]

@@ -189,15 +189,16 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     });
 }
 
-var one = function(anyAcademic, codAssignatura, codAula, idp, s, domainId, domainIdAula, domainCode, callback) {
+var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
 
 	var struct = {
 		s: s,
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
+        domainId: domainId,
 		codAula: codAula,
-		domainId: domainId,
 		domainIdAula: domainIdAula,
+        domainCode: domainCode,
         totalEstudiants: 0,
         link: '#',
         linkedicioaula: '#',

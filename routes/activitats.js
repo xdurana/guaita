@@ -17,12 +17,16 @@ var lrs = require('../ws/lrs');
  * @param s
  * @param resum
  */
-exports.aula = function(domainId, domainIdAula, s, resum, callback) {
+exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, s, resum, callback) {
 
 	var struct = {
 		s: s,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
 		domainId: domainId,
+        codAula: codAula,
 		domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		activitats: [
 		]
 	}
@@ -73,12 +77,16 @@ exports.aula = function(domainId, domainIdAula, s, resum, callback) {
  * @param domainIdAula
  * @param idp
  */
-exports.idp = function(domainId, domainIdAula, idp, s, callback) {
+exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
 
 	var struct = {
 		s: s,
-		domainId: domainId,
-		domainIdAula: domainIdAula,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
+        codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		idp: idp,
 		activitats: [
 		]
@@ -139,13 +147,16 @@ exports.idp = function(domainId, domainIdAula, idp, s, callback) {
  * @param domainId
  * @param domainIdAula
  */
-exports.avaluacio = function(anyAcademic, codAssignatura, codAula, s, callback) {
+exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, s, callback) {
 
 	var struct = {
 		s: s,
-		anyAcademic: anyAcademic,
-		codAssignatura: codAssignatura,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
         codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
 		activitats: [
 		]
 	}

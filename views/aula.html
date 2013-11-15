@@ -1,5 +1,8 @@
 {% extends 'layout.html' %}
 {% block title %}Aules: Pàgina d'aula{% endblock %}
+{% set session = aula.s %}
+{% set idp = aula.idp %}
+
 {% block content %}
 
 <!-- container -->
@@ -77,7 +80,7 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-s="{{ aula.s }}">
+                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
@@ -181,7 +184,7 @@
 <script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
 <script>
     $(document).ready(function() {
-        UOCAulas.init('aula', '{{ session }}');
+        UOCAulas.init('aula', '{{ session }}', '{{ idp }}');
     });
 </script>
 {% endblock %}
