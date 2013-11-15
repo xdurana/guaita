@@ -215,6 +215,7 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
         totalEstudiants: 0,
         link: '#',
         linkedicioaula: '#',
+        color: 'FF2600',
 		consultor: {
 		},
 		estudiants: [
@@ -223,6 +224,17 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
 
 	async.parallel([
         function (callback) {
+            aulaca.getGroupServlet(domainCode, s, function(err, result) {
+                if (err) { console.log(err); return callback(err); }
+                try {
+                    struct.color = result[0].color[0];
+                } catch(e) {
+                    console.log(e.message);
+                }
+                return callback();
+            });
+       },
+       function (callback) {
             aulaca.isAulaca(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 struct.isAulaca = result;
