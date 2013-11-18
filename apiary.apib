@@ -1,76 +1,101 @@
-HOST: http://www.google.com/
+HOST: http://cv.uoc.edu/
 
---- MAULES ---
+--- GUAITA ---
 
 ---
-Serveis de Monitorització de les Aules i llurs Eines
+Serveis per la monitorització de les aules i llurs eines
 ---
 
 --
-Professor
-Serveis de la pàgina d'aules del professor
+Professor/Consultor
+Serveis de la pàgina d'aules del docent
 --
 
-Llista d'assignatures d'un professor per un any acadèmic, agrupades per assignatures idèntiques
-GET /assignatures{?idp,anyAcademic}
+Llista d'assignatures d'un idp
+GET /app/guaita/assignatures{?s,perfil}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
 Llista d'aules d'una assignatura per un any acadèmic
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules{?s,idp}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Indicadors globals d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}
+Detall d'una aula
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}{?s,idp}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Indicadors dels recursos d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/recursos
+Eines d'una aula
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/eines{?s,idp}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Indicadors dels estudiants d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants
+Activitats d'una aula
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/activitats{?s}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Indicadors d'un estudiant dins d'una aula
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}
+Eines d'una activitat d'una aula
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/activitats/{eventId}/eines{?s,idp}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Llista de connexions d'un estudiant a una aula determinada
-GET /assignatures/{codAssignatura}/{anyAcademic}/aules/{codAula}/estudiants/{numExpedient}/connexions
+Avaluacio d'una aula
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/avaluacio{?s}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
 
-Indicadors dels consultors d'una assignatura per un any acadèmic
-GET /assignatures/{codAssignatura}/{anyAcademic}/consultors
+Eines d'una aula per consultor
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/consultor/{idp}/eines{?s}
 < 200
 < Content-Type: application/json
-{ "items": [
-{ "url": "/shopping-cart/1", "product":"2ZY48XPZ", "quantity": 1, "name": "New socks", "price": 1.25 }
-] }
+{}
+
+Activitats d'una aula per consultor
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/consultor/{idp}/activitats{?s}
+< 200
+< Content-Type: application/json
+{}
+
+Eines d'una aula per estudiant
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/estudiant/{idp}/eines{?s}
+< 200
+< Content-Type: application/json
+{}
+
+Activitats d'una aula per estudiant
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/estudiant/{idp}/activitats{?s}
+< 200
+< Content-Type: application/json
+{}
+
+Eines d'una activitat per estudiant
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/estudiant/{idp}/activitats/{eventId}/eines{?s}
+< 200
+< Content-Type: application/json
+{}
+
+--
+Estudiant
+Serveis de les aules d'un estudiant
+--
+
+Widget d'una aula per estudiant
+GET /app/guaita/assignatures/{anyAcademic}/{codAssignatura}/{domainId}/aules/{codAula}/{domainIdAula}/{domainCode}/widget{?s}
+< 200
+< Content-Type: application/json
+{}
+
+Plana d'aules de l'estudiant
+GET /app/guaita/estudiant{?s}
+< 200
+< Content-Type: application/json
+{}

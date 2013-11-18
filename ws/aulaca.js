@@ -180,7 +180,6 @@ var isAulaca = function(domainCode, s, callback) {
     getGroupServlet(domainCode, s, function(err, object) {
         if (err) { console.log(err); callback(); return; }
         try {
-            config.debug(object[0]['$']['idTipoPresent']);
             callback(null, object[0]['$']['idTipoPresent'] == 'AULACA');
         } catch(e) {
             callback(null, true);

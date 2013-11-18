@@ -28,7 +28,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
     			if (err) { console.log(err); }
                 
                 //TODO GUAITA-46
-                //struct.sort(ordenaEstudiants);
+                struct.sort(ordenaEstudiants);
 
     			return callback(null, struct);
     		});
@@ -39,9 +39,14 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	});
 
     var ordenaEstudiants = function(a, b) {
-        da = new Date(a.resum.comunicacio.ultimaConnexio);
-        db = new Date(b.resum.comunicacio.ultimaConnexio);
-        return da < db ? -1 : da > db ? 1 : 0;
+        da = moment(a.resum.comunicacio.ultimaConnexio, "DD-MM-YYYY");
+        db = moment(b.resum.comunicacio.ultimaConnexio, "DD-MM-YYYY");
+
+        if (da.isValid() && db.isValid()) {
+            return da.isBefore(db) ? -1 : db.isBefore(da) ? 1 : 0;
+        } else {
+            return da.isValid() ? 1 : db.isValid() ? -1 : 0;
+        }
     }  
 
 	var getResumEstudiant = function(estudiant, callback) {

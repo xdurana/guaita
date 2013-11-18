@@ -442,7 +442,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
  * @mockup: widget_aula.html
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', function (req, res, callback) {
-    if (req.query.s) { 
+    if (req.query.s) {
         campus.getIdpBySession(req.query.s, function (err, idp) {
             if(err) { console.log(err); callback(); return; }
             idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
