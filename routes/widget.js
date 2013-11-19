@@ -29,6 +29,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         domainId: domainId,
         codAula: codAula,
         domainIdAula: domainIdAula,
+        domainCode: domainCode,
         idp: idp,
         s: s
     };
@@ -49,7 +50,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            eines.aulaidp(domainId, domainIdAula, idp, s, false, function(err, result) {
+            eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
                 struct.eines = result.eines;
                 return callback();

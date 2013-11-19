@@ -136,7 +136,7 @@ exports.aules = function(idp, s, callback) {
         }
 
         struct.classrooms = object.classrooms;
-        if (struct.classrooms && struct.classrooms.length > 0) {
+        if (struct.classrooms && struct.classrooms.length > 0) {            
             async.each(struct.classrooms, getCalendariAula.bind(null, s), function(err) {
                 buildCalendari(function(err, result) {
                     if (err) { console.log(err); return callback(null, struct); }
@@ -149,7 +149,16 @@ exports.aules = function(idp, s, callback) {
     });
 
     var getCalendariAula = function(s, aula, callback) {
-        activitats.aula(aula.domainFatherId, aula.domainId, s, false, function(err, result) {
+        activitats.aula(
+            aula.anyAcademic,
+            aula.codiAssignatura,
+            aula.domainFatherId,
+            aula.domainCode.slice(-1),
+            aula.domainId,
+            aula.domainCode,
+            s,
+            false,
+            function(err, result) {
             if (err) { console.log(err); return callback(); }
             aula.activitats = result.activitats;
             if (aula.activitats) {

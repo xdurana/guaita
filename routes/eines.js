@@ -247,6 +247,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
         codAula: codAula,
         domainIdAula: domainIdAula,
         domainCode: domainCode,
+        s: s,
 		idp: idp,
 		eines: [
 		]

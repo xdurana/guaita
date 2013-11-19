@@ -40,9 +40,13 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 
 exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) {
 
-    var consultor = {};
+    var consultor = {
+        nomComplert: config.nc(),
+        fitxa: '#'
+    };
+
 	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
-		if (err) { console.log(err); return callback(); }
+		if (err) { console.log(err); return callback(null, consultor); }
         try {
             consultor = indicadors.getValor(indicadors.getValor(result.out.consultors).ConsultorAulaVO);
             consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
@@ -53,8 +57,6 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) 
             });
         } catch(e) {
             console.log(e.message);
-            consultor.nomComplert = config.nc(),
-            consultor.fitxa = '#';
         }
         return callback(null, consultor);
 	});
