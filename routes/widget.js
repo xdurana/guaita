@@ -52,7 +52,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         function (callback) {
             eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
-                struct.eines = result.eines;
+                struct.eines = result.eines;                
                 return callback();
             });
         },
@@ -89,8 +89,9 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 if (err) { console.log(err); }
                 return callback(null, struct);
             });
+        } else {
+            return callback(null, struct);
         }
-        callback(null, struct);
     });
 
     var calcularIndicadorsEines = function(eines, recursos) {

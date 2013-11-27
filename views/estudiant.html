@@ -40,7 +40,7 @@
                     <div class="block-head">
                         <h3>
                             <span class="lbl open-lbl">{{ t('assignatures_tipologies') }}</span>
-                            <span class="lbl closed-lbl" style="display:none;">{{ t('assignatures') }}</span>
+                            <span class="lbl closed-lbl" style="display:none;">{{ t('assignatures_tipologies') }}</span>
                         </h3>
                     </div>
                     
@@ -133,22 +133,24 @@
 
                     <table class="tbl tbl-calendar calendar-month">
                         <tbody>
-                            {% for week in object.calendar %}
-                            <tr>
-                                {% for day in week %}
-                                <td>
-                                    <div class="day">
-                                        <div class="day-num {{ day.actual }}">{{ day.day }}</div>
-                                        {% for event in day.events %}
-                                        <div class="event a3-PQ">
-                                            <a href="#" class="marcador c_0580C7">{{ event.tipus }}</a>
-                                            <span class="lbl" title="{{ event.activitat.name }}">{{ event.activitat.name }}</span>
+                            {% for month in object.calendar %}
+                                {% for week in month %}
+                                <tr>
+                                    {% for day in week %}
+                                    <td>
+                                        <div class="day">
+                                            <div class="day-num {{ day.actual }}">{{ day.day }}</div>
+                                            {% for event in day.events %}
+                                            <div class="{{ event.destacat }}">
+                                                <a href="#" class="marcador c_{{ event.activitat.color }}">{{ event.tipus }}</a>
+                                                <span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span>
+                                            </div>
+                                            {% endfor %}
                                         </div>
-                                        {% endfor %}
-                                    </div>
-                                </td>
+                                    </td>
+                                    {% endfor %}
+                                </tr>
                                 {% endfor %}
-                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -167,16 +169,18 @@
                             <tr>
                                 <td colspan="5"></td>
                             </tr>
-                            {% for week in object.calendar %}
-                                {% for day in week %}
-                                    {% for event in day.events %}
-                                        <tr class="a3-PQ">
-                                            <td>{{ event.day }}</td>
-                                            <td><div class="event c_0580C7">&nbsp;</div></td>
-                                            <td><span class="lbl">Historia económica contemporanea</span></td>
-                                            <td><a href="#" class="lbl">{{ event.activitat.name }}</a></td>
-                                            <td>{{ event.tipus }}</td>
-                                        </tr>
+                            {% for month in object.calendar %}
+                                {% for week in month %}
+                                    {% for day in week %}
+                                        {% for event in day.events %}
+                                            <tr>
+                                                <td>{{ day.day }}</td>
+                                                <td><div class="event c_{{ event.activitat.color }} {{ event.destacat }}">&nbsp;</div></td>
+                                                <td><span class="lbl">{{ event.activitat.aula }}</span></td>
+                                                <td><a href="#" class="lbl">{{ event.activitat.name }}</a></td>
+                                                <td>{{ event.tipus }}</td>
+                                            </tr>
+                                        {% endfor %}
                                     {% endfor %}
                                 {% endfor %}
                             {% endfor %}
@@ -211,15 +215,13 @@
                                     </tr>
                                 <thead>
                                 <tbody>
+                                    {% for week in month %}
                                     <tr>
-                                        <td class="off">28</td>
-                                        <td class="off">29</td>
-                                        <td class="off">30</td>
-                                        <td class="off">31</td>
-                                        <td>1</td>
-                                        <td>2</td>
-                                        <td>3</td>
+                                        {% for day in week %}
+                                        <td class="{{ day.actual }}">{{ day.day }}</td>
+                                        {% endfor %}
                                     </tr>
+                                    {% endfor %}
                                     <tr>
                                         <td>4</td>
                                         <td>5</td>
@@ -1082,50 +1084,41 @@
 
         </div><!-- /content -->
 
+
         <div id="sidebar">
             <ul class="blocks">
                 {% for aula in object.classrooms %}
                 <li class="block accordion">
                     <div class="block-color c_{{ aula.color }}"></div>
                     <div class="block-title">
-                        <h3><a href="{{ aula.link }}">{{ aula.codi }} {{aula.nom }}</a></h3>
+                        <h3><a href="{{ aula.link }}">{{ aula.widget.codAssignatura }} {{ aula.widget.nomAssignatura }}</a></h3>
                     </div>
                     <div class="block-head">
                         <h4>
-                            <span class="lbl">Comunicació recent</span>
-                            <span title="Mensajes nuevos" class="new">4</span>
+                            <span class="lbl">{{ t('comunicacio_recent') }}</span>
+                            <span title="{{ t('missatges_nous') }}" class="new">{{ aula.widget.missatgesPendents }}</span>
                         </h4>
                     </div>
+                    {% if aula.widget.eines %}
                     <div class="block-content">
                         <div class="block-inside">
                             <ul class="list">
+                                {% for eina in aula.widget.eines %}
+                                {% if eina.visible == 0 %}
                                 <li>
-                                    <a href="#" class="lbl LaunchesOWin">Foro</a>
-                                    <a href="#" class="marcadors">
-                                        <span title="Mensajes nuevos" class="new">3</span>
+                                    <a href="{{ eina.viewItemsUrl }}" class="lbl LaunchesOWin" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                                    <a href="{{ eina.viewItemsUrl }}" class="marcadors">
+                                        <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
                                         <span class="visuallyhidden"> / </span>
-                                        <span title="Total de mensajes" class="all">7</span>
+                                        <span title="{{ t('missatges_totals') }}" class="all">{{ eina.num_msg_totals }}</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="lbl LaunchesOWin">Debate</a>
-                                    <a href="#" class="marcadors">
-                                        <span title="Mensajes nuevos" class="new none">0</span>
-                                        <span class="visuallyhidden"> / </span>
-                                        <span title="Total de mensajes" class="all">87</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="lbl LaunchesOWin">Blog</a>
-                                    <a href="#" class="marcadors">
-                                        <span title="Mensajes nuevos" class="new">1</span>
-                                        <span class="visuallyhidden"> / </span>
-                                        <span title="Total de mensajes" class="all">787</span>
-                                    </a>
-                                </li>
+                                {% endif %}
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>

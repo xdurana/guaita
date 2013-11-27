@@ -30,6 +30,7 @@ var getToolDescription = function(description) {
     description = description.replace(/\$TAULER\$/g, 'eina_tauler');
     description = description.replace(/\$FORUM\$/g, 'eina_forum');
     description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'eina_area_fitxers');
+    description = description.replace(/\$DEBAT\$/g, 'eina_debat');
     return i18next.t(description);
 }
 

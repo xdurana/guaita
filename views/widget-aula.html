@@ -78,6 +78,7 @@
                     </li>
                     {% if activa.eines %}
                     {% for eina in activa.eines %}
+                    {% if eina.visible == 0 %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">
@@ -87,6 +88,7 @@
                             </span>
                         </a>
                     </li>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>
@@ -96,6 +98,7 @@
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
+                    {% if eina.visible == 0 %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">
@@ -105,6 +108,7 @@
                             </span>
                         </a>
                     </li>
+                    {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>

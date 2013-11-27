@@ -4,6 +4,7 @@ var calendar = require('node-calendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
+var widget = require('./widget');
 var config = require('../config');
 var rac = require('../ws/rac');
 var lrs = require('../ws/lrs');
@@ -26,10 +27,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         try {
     		async.each(struct, getResumEstudiant, function(err) {
     			if (err) { console.log(err); }
-                
-                //TODO GUAITA-46
                 struct.sort(ordenaEstudiants);
-
     			return callback(null, struct);
     		});
         } catch(e) {
@@ -99,45 +97,18 @@ exports.aules = function(idp, s, callback) {
     var struct = {
         s: s,
         idp: idp,
-        events: [
-        ],
-        items: {
-        },
-        calendar: [
-        ]
+        events: [],
+        items: {},
+        calendar: []
     };
 
     aulaca.getAulesEstudiant(idp, s, function(err, object) {
         if (err) { console.log(err); return callback(null, struct); }
-
-        if (object.classrooms) {
-            object.classrooms.forEach(function(classroom) {
-
-                //TODO GUAITA-31
-                var isAulaca = true;
-                //classroom.link = indicadors.getLinkAula(s, isAulaca, classroom.domainId, classroom.domainCode);
-
-                //TODO GUAITA-35
-                var defaultColor = '66AA00';
-                classroom.color = defaultColor;
-
-                classroom.codiAssignatura = classroom.codi;
-                classroom.nom = classroom.title;
-                //clasroom.codAula = classroom.domainCode.slice(-1);
-
-                if (object.assignments) {
-                    object.assignments.forEach(function(assignment) {
-                        if (assignment.assignmentId.domainId == classroom.domainFatherId) {
-                            classroom.color = assignment.color;
-                        }
-                    });
-                }
-            });
-        }
-
         struct.classrooms = object.classrooms;
-        if (struct.classrooms && struct.classrooms.length > 0) {            
-            async.each(struct.classrooms, getCalendariAula.bind(null, s), function(err) {
+        struct.assignments = object.assignments;
+        struct.subjects = object.subjects;
+        if (struct.classrooms && struct.classrooms.length > 0) {
+            async.each(struct.classrooms, getAulaInfo.bind(null, struct, s), function(err) {
                 buildCalendari(function(err, result) {
                     if (err) { console.log(err); return callback(null, struct); }
                     return callback(null, struct);
@@ -148,30 +119,75 @@ exports.aules = function(idp, s, callback) {
         }
     });
 
-    var getCalendariAula = function(s, aula, callback) {
-        activitats.aula(
-            aula.anyAcademic,
-            aula.codiAssignatura,
-            aula.domainFatherId,
-            aula.domainCode.slice(-1),
-            aula.domainId,
-            aula.domainCode,
-            s,
-            false,
-            function(err, result) {
-            if (err) { console.log(err); return callback(); }
-            aula.activitats = result.activitats;
-            if (aula.activitats) {
-                aula.activitats.forEach(function(activitat) {
-                    //TODO GUAITA-34
-                    setEventCalendari(struct.calendari, activitat, 'inici', activitat.startDate);
-                    setEventCalendari(struct.calendari, activitat, 'fi', activitat.deliveryDate);
-                    setEventCalendari(struct.calendari, activitat, 'solució', activitat.solutionDate);
-                    setEventCalendari(struct.calendari, activitat, 'qualificació', activitat.qualificationDate);
-                });
-            }
+    var getAulaInfo = function(struct, s, aula, callback) {
 
-            struct.events.sort(ordenaEvents);
+        aula.link = indicadors.getLinkAula(s, aula.presentation == 'AULACA', aula.domainId, aula.domainCode);
+        aula.color = '66AA00';
+        aula.codiAssignatura = aula.codi;
+        aula.nom = aula.title;
+        aula.codAula = aula.domainCode.slice(-1);
+
+        if (struct.assignments) {
+            struct.assignments.forEach(function(assignment) {
+                if (assignment.assignmentId.domainId == aula.domainFatherId) {
+                    aula.color = assignment.color;
+                }
+            });
+        }                
+
+        config.debug(struct);
+
+        async.parallel([
+            function(callback) {
+                widget.one(
+                    aula.anyAcademic,
+                    aula.codiAssignatura,
+                    aula.domainFatherId,
+                    aula.codAula,
+                    aula.domainId,
+                    aula.domainCode,
+                    idp,
+                    s,
+                    function(err, result) {
+                        if (err) { console.log(err); return callback(); }
+                        aula.widget = result;
+                        return callback();
+                    }
+                );
+            },
+            function(callback) {
+                activitats.aula(
+                    aula.anyAcademic,
+                    aula.codiAssignatura,
+                    aula.domainFatherId,
+                    aula.codAula,
+                    aula.domainId,
+                    aula.domainCode,
+                    s,
+                    false,
+                    function(err, result) {
+                        if (err) { console.log(err); return callback(); }
+                        aula.activitats = result.activitats;
+                        if (aula.activitats) {
+                            aula.activitats.forEach(function(activitat) {
+                                if (activitat.qualificationDate) {
+                                    setEventCalendari(struct.calendari, activitat, 'PI', activitat.startDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PL', activitat.deliveryDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PS', activitat.solutionDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PQ', activitat.qualificationDate);
+                                    activitat.aula = aula.nom;
+                                    activitat.color = aula.color;
+                                    activitat.name = indicadors.decodeHtmlEntity(activitat.name);
+                                }
+                            });
+                        }
+                        struct.events.sort(ordenaEvents);
+                        return callback();
+                    }
+                );
+            },
+        ], function(err, results) {
+            if (err) { console.log(err); }
             return callback();
         });
     }
@@ -185,17 +201,18 @@ exports.aules = function(idp, s, callback) {
             struct.events.push({
                 tipus: esdeveniment,
                 activitat: activitat,
-                data: moment(data).format("YYYY-MM-DD")
+                data: moment(data).format("YYYY-MM-DD"),
+                destacat: esdeveniment === 'PL' ? 'event-destacat' : 'event'
             });
         }
     }
 
-    var buildCalendari = function(callback) {
+    var buildCalendariAnt = function(callback) {
 
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
-
-        var monthc = new calendar.Calendar(2).monthdatescalendar(moment().year(), moment().month() + 1);
+        
+        var monthc = new calendar.Calendar(0).monthdatescalendar(moment().year(), moment().month() + 1);
         monthc.forEach(function(weekc) {
             var week = [];
             weekc.forEach(function(dayc) {
@@ -211,6 +228,42 @@ exports.aules = function(idp, s, callback) {
             });
             struct.calendar.push(week);
         });
+
+        return callback();
+    }
+
+    var buildCalendari = function(callback) {
+
+        var inici = moment(struct.events[0].data);
+        var fi = moment(struct.events[struct.events.length - 1].data);
+
+        var onward = true;
+        var actual = inici;
+
+        while (onward) {
+            var month_calendar = [];
+            var monthc = new calendar.Calendar(0).monthdatescalendar(actual.year(), actual.month() + 1);
+            monthc.forEach(function(weekc) {
+                var week = [];
+                weekc.forEach(function(dayc) {
+                    var date = moment(dayc).format("YYYY-MM-DD");
+                    week.push({
+                        date: date,
+                        day: moment(dayc).format("DD"),
+                        actual: actual.isSame(date, 'month') ? '' : 'off',
+                        events: struct.events.filter(function(event) {
+                            return event.data === date;
+                        })
+                    });
+                });
+                month_calendar.push(week);
+            });
+            struct.calendar.push(month_calendar);
+            actual = actual.add('months', 1);
+            onward = actual.isBefore(fi);
+        }
+
+        config.debug(struct.calendar[1]);
 
         return callback();
     }
