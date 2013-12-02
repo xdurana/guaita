@@ -178,6 +178,7 @@ exports.aules = function(idp, s, callback) {
                                     activitat.aula = aula.nom;
                                     activitat.color = aula.color;
                                     activitat.name = indicadors.decodeHtmlEntity(activitat.name);
+                                    activitat.domainId = aula.domainId;
                                 }
                             });
                         }

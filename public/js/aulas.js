@@ -138,11 +138,23 @@ var UOCAulas = (function($) {
         $(".tbl-events" ).each(function() {
             $(this).hide();
         });
+
         $(".typology-list :checkbox").click(function() {
-            $(".event-tipus").hide();
-            $(".typology-list :checkbox:checked").each(function() {
-                $(".event-tipus-" + $(this).val()).show();
-            });
+            reloadEvents();
+        });
+
+        $(".subject-list :checkbox").click(function() {
+            reloadEvents();
+        });
+    }
+
+    var reloadEvents = function() {
+        $(".event-tipus").show();
+        $(".typology-list :checkbox:not(:checked)").each(function() {
+            $(".event-tipus-" + $(this).val()).hide();
+        });
+        $(".subject-list :checkbox:not(:checked)").each(function() {
+            $(".event-aula-" + $(this).val()).hide();
         });
     }
 

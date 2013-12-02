@@ -49,7 +49,7 @@
                             <ul class="list subject-list">
                             {% for aula in object.classrooms %}
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_subject[]" id="subject_{{ aula.domainFatherId }}" value="a1" checked="checked">
+                                    <input type="checkbox" class="check-filter" name="filter_subject[]" id="subject_{{ aula.domainFatherId }}" value="{{ aula.domainId }}" checked="checked">
                                     <label for="subject_{{ aula.domainId }}"><span class="color c_{{ aula.color }}"></span>{{ aula.codi }}  {{ aula.nom }}</label>
                                 </li>
                             {% endfor %}
@@ -132,7 +132,7 @@
                                         <div class="day">
                                             <div class="day-num {{ day.actual }}">{{ day.day }}</div>
                                             {% for event in day.events %}
-                                            <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }}">
+                                            <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <a href="#" class="marcador c_{{ event.activitat.color }}">{{ event.tipus }}</a>
                                                 <span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span>
                                             </div>
@@ -165,7 +165,7 @@
                                 {% for week in page.weeks %}
                                     {% for day in week %}
                                         {% for event in day.events %}
-                                            <tr class="event-tipus event-tipus-{{ event.tipus }}">
+                                            <tr class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <td>{{ day.day }}</td>
                                                 <td><div class="event c_{{ event.activitat.color }} {{ event.destacat }}">&nbsp;</div></td>
                                                 <td><span class="lbl">{{ event.activitat.aula }}</span></td>
