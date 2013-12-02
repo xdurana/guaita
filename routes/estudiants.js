@@ -135,7 +135,7 @@ exports.aules = function(idp, s, callback) {
             });
         }                
 
-        config.debug(struct);
+        //config.debug(struct);
 
         async.parallel([
             function(callback) {
@@ -240,9 +240,25 @@ exports.aules = function(idp, s, callback) {
         var onward = true;
         var actual = inici;
 
+        struct.actual = {
+            year: moment().year(),
+            month: {
+                number: moment().month() + 1,
+                name: moment().format('MMMM')
+            }
+        }
+
         while (onward) {
-            var month_calendar = [];
             var monthc = new calendar.Calendar(0).monthdatescalendar(actual.year(), actual.month() + 1);
+            var page = {
+                year: actual.year(),
+                month: {
+                    number: actual.month() + 1,
+                    name: actual.format('MMMM')
+                },
+                weeks: []
+            }
+
             monthc.forEach(function(weekc) {
                 var week = [];
                 weekc.forEach(function(dayc) {
@@ -256,14 +272,15 @@ exports.aules = function(idp, s, callback) {
                         })
                     });
                 });
-                month_calendar.push(week);
+                page.weeks.push(week);
             });
-            struct.calendar.push(month_calendar);
+
+            struct.calendar.push(page);
             actual = actual.add('months', 1);
             onward = actual.isBefore(fi);
         }
 
-        config.debug(struct.calendar[1]);
+        //config.debug(struct.calendar[1]);
 
         return callback();
     }

@@ -114,8 +114,26 @@ var UOCAulas = (function($) {
     var setupCalendars = function(){
         addTabsEvents('.tabs-calendar');
         setupCalendarFilters();
-        // TODO: Toda la funcionalidad relativa a la construcción, cambio de calendario, etc  
+        buildCalendar();
     };
+
+    var buildCalendar = function() {
+        clearCalendar();
+        $('#month-select').on('change', function() {
+            clearCalendar();
+            $('#page-' + this.value).show();
+        });
+        var month = new Date().getMonth() + 1;
+        $('#month-select').val(new Date().getFullYear() + '-' + month);
+        $('#page-' + new Date().getFullYear() + '-' + month).show();
+
+    }
+
+    var clearCalendar = function() {
+        $(".calendar-month" ).each(function() {
+            $(this).hide();
+        });
+    }
 
     /* Gestiona la visibilidad de eventos del calendario */
     var setupCalendarFilters = function(){

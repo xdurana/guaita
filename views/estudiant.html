@@ -117,24 +117,15 @@
                     <div class="block-calendar">
 
                     <select name="month-select" id="month-select">
-                        <option value="1">Gener</option>
-                        <option value="2">Febrer</option>
-                        <option value="3">Març</option>
-                        <option value="4">Abril</option>
-                        <option value="5">Maig</option>
-                        <option value="6">Juny</option>
-                        <option value="7">Juliol</option>
-                        <option value="8" selected="selected">Agost</option>
-                        <option value="9">Setembre</option>
-                        <option value="10">Octubre</option>
-                        <option value="11">Novembre</option>
-                        <option value="12">Desembre</option>
+                        {% for page in object.calendar %}
+                        <option value="{{ page.year }}-{{ page.month.number }}">{{ page.month.name }}</option>
+                        {% endfor %}
                     </select>
 
-                    <table class="tbl tbl-calendar calendar-month">
-                        <tbody>
-                            {% for month in object.calendar %}
-                                {% for week in month %}
+                    {% for page in object.calendar %}
+                        <table class="tbl tbl-calendar calendar-month" id="page-{{ page.year }}-{{ page.month.number }}">
+                            <tbody>
+                                {% for week in page.weeks %}
                                 <tr>
                                     {% for day in week %}
                                     <td>
@@ -151,9 +142,10 @@
                                     {% endfor %}
                                 </tr>
                                 {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    {% endfor %}
+
 
                     <table class="tbl tbl-events">
                         <thead>
@@ -169,8 +161,8 @@
                             <tr>
                                 <td colspan="5"></td>
                             </tr>
-                            {% for month in object.calendar %}
-                                {% for week in month %}
+                            {% for page in object.calendar %}
+                                {% for week in page.weeks %}
                                     {% for day in week %}
                                         {% for event in day.events %}
                                             <tr>
