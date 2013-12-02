@@ -122,16 +122,27 @@ var UOCAulas = (function($) {
         $('#month-select').on('change', function() {
             clearCalendar();
             $('#page-' + this.value).show();
+            $('#list-' + this.value).show();
         });
         var month = new Date().getMonth() + 1;
         $('#month-select').val(new Date().getFullYear() + '-' + month);
         $('#page-' + new Date().getFullYear() + '-' + month).show();
+        $('#list-' + new Date().getFullYear() + '-' + month).show();
 
     }
 
     var clearCalendar = function() {
-        $(".calendar-month" ).each(function() {
+        $(".tbl-calendar" ).each(function() {
             $(this).hide();
+        });
+        $(".tbl-events" ).each(function() {
+            $(this).hide();
+        });
+        $(".typology-list :checkbox").click(function() {
+            $(".event-tipus").hide();
+            $(".typology-list :checkbox:checked").each(function() {
+                $(".event-tipus-" + $(this).val()).show();
+            });
         });
     }
 

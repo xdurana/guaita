@@ -132,7 +132,7 @@
                                         <div class="day">
                                             <div class="day-num {{ day.actual }}">{{ day.day }}</div>
                                             {% for event in day.events %}
-                                            <div class="{{ event.destacat }}">
+                                            <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }}">
                                                 <a href="#" class="marcador c_{{ event.activitat.color }}">{{ event.tipus }}</a>
                                                 <span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span>
                                             </div>
@@ -147,25 +147,25 @@
                     {% endfor %}
 
 
-                    <table class="tbl tbl-events">
+                    {% for page in object.calendar %}
+                    <table class="tbl tbl-events" id="list-{{ page.year }}-{{ page.month.number }}">
                         <thead>
                             <tr>
-                                <th style="width:7%">Data</th>
+                                <th style="width:7%">{{ t('data') }}</th>
                                 <th style="width:5%">&nbsp;</th>
-                                <th style="width:33%">Assignatura</th>
-                                <th style="width:35%">Títol</th>
-                                <th style="width:20%">Esdeveniment</th>
+                                <th style="width:33%">{{ t('assignatura') }}</th>
+                                <th style="width:35%">{{ t('titol') }}</th>
+                                <th style="width:20%">{{ t('esdeveniment') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td colspan="5"></td>
                             </tr>
-                            {% for page in object.calendar %}
                                 {% for week in page.weeks %}
                                     {% for day in week %}
                                         {% for event in day.events %}
-                                            <tr>
+                                            <tr class="event-tipus event-tipus-{{ event.tipus }}">
                                                 <td>{{ day.day }}</td>
                                                 <td><div class="event c_{{ event.activitat.color }} {{ event.destacat }}">&nbsp;</div></td>
                                                 <td><span class="lbl">{{ event.activitat.aula }}</span></td>
@@ -175,9 +175,9 @@
                                         {% endfor %}
                                     {% endfor %}
                                 {% endfor %}
-                            {% endfor %}
                         </tbody>
                     </table>
+                    {% endfor %}
 
                     </div>
 
