@@ -36,13 +36,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
     async.parallel([
         function (callback) {
-            infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                struct.nomAssignatura = result.out.descAssignatura;
-                return callback();
-            });
-        },
-        function (callback) {
             consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }                
                 struct.consultor = result;
@@ -67,6 +60,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             aulaca.getGroupServlet(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(err); }
                 try {
+                    struct.nomAssignatura = result[0].titol;
                     struct.recursos = result ? result[0].recurs : null;
                     struct.missatgesPendents = result[0]['$']['numMsgPendents'];
                     struct.connectats = result[0]['$']['conectats'];
@@ -80,9 +74,14 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 return callback();
             });
         },
+        function (callback) {
+            indicadors.getUrlRAC(s, idp, domainIdAula, domainId, function(err, result) {
+                struct.urlAvaluacio = result;
+                return callback();
+            });
+        }
     ], function(err, results) {
         if (err) { console.log(err); return callback(null, struct); }
-        struct.urlAvaluacio = util.format('%s/tren/trenacc?s=%s&modul=PIOLIN.RAC/rac.rac&i_institucio=FC', config.cv(), s);
         calcularIndicadorsEines(struct.eines, struct.recursos);
         if (struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
@@ -105,6 +104,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     recursos.forEach(function(recurs) {
                         try {
                             if (recurs['$'].resourceId == eina.resourceId) {
+                                eina.viewItemsUrl = recurs.url[0];
                                 eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
                                 eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
                             }

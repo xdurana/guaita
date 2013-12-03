@@ -36,6 +36,21 @@ var getNomComplert = function(tercer) {
     return complert;
 }
 
+var getUrlRAC = function(s, idp, domainId, domainFatherId, callback) {
+
+    var docent = false;
+    var urldocent = util.format('%s/webapps/rac/RacInici.action?s=%s&domainId=%s', config.cv(), s, domainId);
+    var urlestudiant = util.format('%s/webapps/rac/listEstudiant.action?s=%s&domainId=%s', config.cv(), s, domainId);
+
+    aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
+        if (err) { console.log(err); return callback(null, urlestudiant); }
+        result.forEach(function(assignatura) {
+            docent = docent || domainFatherId == assignatura.domainId;
+        });
+        return callback(null, docent ? urldocent : urlestudiant);
+    });
+}
+
 var getFitxa = function(useridp, idp, s, callback) {
     aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
         if (err) {
@@ -200,6 +215,7 @@ module.exports = {
     getAppActiva: getAppActiva,
     getNomComplert: getNomComplert,
     getFitxa: getFitxa,
+    getUrlRAC: getUrlRAC,
     getTotalAules: getTotalAules,
     getLinkAula: getLinkAula,
     getLinkActivitat: getLinkActivitat,
