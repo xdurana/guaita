@@ -42,9 +42,9 @@
     //var MAXIMIZED = true;
     </script>
 
-    <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
-    <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
-    <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/includeDisplayStatus.js"></script>
+    <script type="text/javascript" src="js/detalls.js"></script>
+    <script type="text/javascript" src="js/stdFuncs.js" charset="utf-8"></script>
     <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
     <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
     <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
@@ -78,7 +78,7 @@
                     </li>
                     {% if activa.eines %}
                     {% for eina in activa.eines %}
-                    {% if eina.visible == 0 %}
+                    {% if eina.mostrar %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">
@@ -98,7 +98,7 @@
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
-                    {% if eina.visible == 0 %}
+                    {% if eina.mostrar %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             <span class="marcadors">

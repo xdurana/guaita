@@ -26,12 +26,16 @@ var isForum = function(eina) {
     return false;
 }
 
-var getToolDescription = function(description) {
+var getToolDescription = function(eina) {
+    return eina.translatedDescription;
+    /*
+    description = eina.description;
     description = description.replace(/\$TAULER\$/g, 'eina_tauler');
     description = description.replace(/\$FORUM\$/g, 'eina_forum');
     description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'eina_area_fitxers');
     description = description.replace(/\$DEBAT\$/g, 'eina_debat');
     return i18next.t(description);
+    */
 }
 
 exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
@@ -49,7 +53,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 	};
 
 	var getResumComunicacio = function (eina, callback) {
-		eina.nom = getToolDescription(eina.description);
+		eina.nom = getToolDescription(eina);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -160,7 +164,7 @@ exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, dom
     };
 
 	var getResumComunicacio = function (domainIdAula, eina, callback) {
-		eina.nom = getToolDescription(eina.description);
+		eina.nom = getToolDescription(eina);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -208,7 +212,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 	};
 
 	var getResumComunicacioEstudiant = function (eina, callback) {
-		eina.nom = getToolDescription(eina.description);
+		eina.nom = getToolDescription(eina);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -256,7 +260,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 
 	var getResumComunicacioIdp = function (eina, callback) {
 
-		eina.nom = getToolDescription(eina.description);
+		eina.nom = getToolDescription(eina);
 		eina.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),

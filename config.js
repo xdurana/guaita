@@ -58,3 +58,7 @@ exports.base = function() {
 exports.idpadmin = function() {
     return '30000020';
 }
+
+exports.isadmin = function(idp) {
+    return idp == '30000020' || idp == '512874';
+}

@@ -60,7 +60,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             aulaca.getGroupServlet(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(err); }
                 try {
-                    struct.nomAssignatura = result[0].titol;
+                    struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
                     struct.recursos = result ? result[0].recurs : null;
                     struct.missatgesPendents = result[0]['$']['numMsgPendents'];
                     struct.connectats = result[0]['$']['conectats'];
@@ -75,8 +75,9 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            indicadors.getUrlRAC(s, idp, domainIdAula, domainId, function(err, result) {
-                struct.urlAvaluacio = result;
+            indicadors.esDocent(s, idp, domainId, function(err, result) {
+                struct.docent = result;
+                struct.urlAvaluacio = indicadors.getUrlRAC(s, domainId, result);
                 return callback();
             });
         }
@@ -100,6 +101,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 eina.num_msg_totals = "-";
                 eina.viewItemsUrl = util.format('%s%s', config.cv(), eina.viewItemsUrl);
                 eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
+                eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
                 if (recursos) {
                     recursos.forEach(function(recurs) {
                         try {
