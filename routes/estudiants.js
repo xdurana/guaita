@@ -48,7 +48,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
     }  
 
 	var getResumEstudiant = function(estudiant, callback) {
-		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);        
+		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
         estudiant.resum = {
             comunicacio: {
@@ -264,13 +264,15 @@ exports.aules = function(idp, s, callback) {
                 var week = [];
                 weekc.forEach(function(dayc) {
                     var date = moment(dayc).format("YYYY-MM-DD");
+                    var day_events = struct.events.filter(function(event) {
+                        return event.data === date;
+                    });
                     week.push({
                         date: date,
                         day: moment(dayc).format("DD"),
                         actual: actual.isSame(date, 'month') ? '' : 'off',
-                        events: struct.events.filter(function(event) {
-                            return event.data === date;
-                        })
+                        events: day_events,
+                        multiple: day_events.length > 1 ? 'multiple' : ''
                     });
                 });
                 page.weeks.push(week);

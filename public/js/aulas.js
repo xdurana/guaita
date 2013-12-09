@@ -135,8 +135,17 @@ var UOCAulas = (function($) {
         $(".tbl-calendar" ).each(function() {
             $(this).hide();
         });
+
         $(".tbl-events" ).each(function() {
             $(this).hide();
+        });
+
+        $(".calendar-semester" ).each(function() {
+            $(this).show();
+        });
+
+        $(".events-semester" ).each(function() {
+            $(this).show();
         });
 
         $(".typology-list :checkbox").click(function() {
