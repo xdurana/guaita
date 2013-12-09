@@ -121,7 +121,7 @@ exports.aules = function(idp, s, callback) {
 
     var getAulaInfo = function(struct, s, aula, callback) {
 
-        aula.link = indicadors.getLinkAula(s, aula.presentation == 'AULACA', aula.domainId, aula.domainCode);
+        aula.link = indicadors.getLinkAula(s, indicadors.isAulaca(aula), aula.domainId, aula.domainCode);
         aula.color = '66AA00';
         aula.codiAssignatura = aula.codi;
         aula.nom = aula.title;
@@ -170,6 +170,7 @@ exports.aules = function(idp, s, callback) {
                         aula.activitats = result.activitats;
                         if (aula.activitats) {
                             aula.activitats.forEach(function(activitat) {
+                                activitat.link = indicadors.getLinkActivitat(s, indicadors.isAulaca(aula), aula.domainId, aula.domainCode, activitat.eventId);
                                 if (activitat.qualificationDate) {
                                     setEventCalendari(struct.calendari, activitat, 'PI', activitat.startDate);
                                     setEventCalendari(struct.calendari, activitat, 'PL', activitat.deliveryDate);

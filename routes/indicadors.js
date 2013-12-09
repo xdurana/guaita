@@ -181,6 +181,10 @@ var getLinkAula = function(s, isAulaca, domainId, domainCode) {
     );
 }
 
+var isAulaca = function(aula) {
+    return aula.presentation == 'AULACA';
+}
+
 var getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
     return isAulaca ?
     util.format(
@@ -219,6 +223,7 @@ module.exports = {
     esDocent: esDocent,
     getTotalAules: getTotalAules,
     getLinkAula: getLinkAula,
+    isAulaca: isAulaca,
     getLinkActivitat: getLinkActivitat,
     decodeHtmlEntity: decodeHtmlEntity,
     getUltimaConnexio: getUltimaConnexio,
