@@ -4,10 +4,8 @@ var path = require('path');
 var request = require('request');
 var swig = require('swig');
 var util = require('util');
-var i18next = require('i18next');
 
 var config = require('./config');
-
 var assignatures = require('./routes/assignatures');
 var aules = require('./routes/aules');
 var activitats = require('./routes/activitats');
@@ -20,10 +18,6 @@ var campus = require('./ws/campus');
 
 var app = express();
 
-i18next.init({
-    lng: 'ca'
-});
-
 app.set('port', config.port());
 
 app.engine('html', swig.renderFile);
@@ -33,13 +27,13 @@ app.set('view cache', false);
 
 app.use(express.favicon());
 app.use(express.bodyParser());
-app.use(i18next.handle);
+app.use(config.i18next.handle);
 app.use(express.methodOverride());
 app.use('/app/guaita', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(app.router);
 
-i18next.registerAppHelper(app);
+config.i18next.registerAppHelper(app);
 
 app.use(function(req, res, next) {
 	res.json({
@@ -461,7 +455,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
                     res.json(result);
                 } else {
                     result.s = req.query.s;
-                    result.lang = i18next.lng();
+                    result.lang = config.i18next.lng();
                     res.render('widget-aula.html', { widget: result });
                 }
             });

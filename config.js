@@ -1,5 +1,10 @@
 var nconf = require('nconf');
+var i18next = require('i18next');
+
 nconf.argv().env().file({ file: process.env.NODE_CONFIG });
+i18next.init({
+    lng: 'ca'
+});
 
 exports.get = function(param) {
 	return nconf.get(param);
@@ -62,3 +67,5 @@ exports.idpadmin = function() {
 exports.isadmin = function(idp) {
     return idp == '30000020' || idp == '512874';
 }
+
+exports.i18next = i18next;

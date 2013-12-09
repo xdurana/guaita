@@ -32,7 +32,12 @@
     "fitxa_assignatura": "Subject file",
     "disseny_aula": "Classroom design",
     "assignatures_tipologies": "Subjects and types",
-    "sssignatures": "Subjects",
+    "assignatures": "Subjects",
+    "assignatura": "Subject",
+    "esdeveniment": "Event",
+    "pac": "PAC",
+    "dia": "Day",
+    "nom": "Name",
     "tipologies": "Types",
     "mensual": "Monthly",
     "semestral": "Semester",
@@ -42,14 +47,12 @@
     "missatges_nous": "New messages",
     "missatges_totals": "Total messages",
     "questionari": "Ajuda'ns a millorar!",
-    
     "eina_tauler": "Message board",
     "eina_forum": "Forum",
     "eina_area_fitxers": "File area",
     "eina_debat": "Debate",
     "obre": "Open",
     "tanca": "Close",
-
     "ves_aula": "Go to the classroom",
     "ves_rac": "Go to the RAC",    
     "torna_plana_aules_previa":"Return to the previous classroom page",
@@ -67,7 +70,55 @@
     "registre_avaluacio_continuada": "Continuous assessment register",
     "comunicacio_aula": "Classroom communication",
 
-    "url": {
+    "events": {
+        "inici": {
+            "abreviatura": "PI",
+            "descripcio": "Inici pràctica"
+        },
+        "entrega": {
+            "abreviatura": "PL",
+            "descripcio": "Entrega pràctica"
+        },
+        "solucio": {
+            "abreviatura": "PS",
+            "descripcio": "Solució pràctica"
+        },
+        "qualificacio": {
+            "abreviatura": "PQ",
+            "descripcio": "Qualificació pràctica"
+        }
+    },    
+    "dies": {
+        "dilluns": {
+            "abreviatura": "mo",
+            "descripcio": "Monday"
+        },
+        "dimarts": {
+            "abreviatura": "tu",
+            "descripcio": "Tuesday"
+        },
+        "dimecres": {
+            "abreviatura": "we",
+            "descripcio": "Wednesday"
+        },
+        "dijous": {
+            "abreviatura": "th",
+            "descripcio": "Thursday"
+        },
+        "divendres": {
+            "abreviatura": "fr",
+            "descripcio": "Friday"
+        },
+        "dissabte": {
+            "abreviatura": "sa",
+            "descripcio": "Saturday"
+        },
+        "diumenge": {
+            "abreviatura": "su",
+            "descripcio": "Sunday"
+        }
+    },
+   "url": {
         "incidencia": "https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false",
         "questionari": "http://www.surveyit.com.es/UOC_docentes_cat?post="
     }    

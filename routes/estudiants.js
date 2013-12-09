@@ -1,6 +1,7 @@
 var async = require('async');
 var moment = require('moment');
 var calendar = require('node-calendar');
+var icalendar = require('icalendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
@@ -222,7 +223,8 @@ exports.aules = function(idp, s, callback) {
                 week.push({
                     date: date,
                     day: moment(dayc).format("DD"),
-                    actual: moment().isSame(date, 'month') ? '' : 'off',
+                    actual: moment().isSame(date, 'month'),
+                    cssactual: moment().isSame(date, 'month') ? '' : 'off',
                     events: struct.events.filter(function(event) {
                         return event.data === date;
                     })
@@ -256,7 +258,7 @@ exports.aules = function(idp, s, callback) {
                 year: actual.year(),
                 month: {
                     number: actual.month() + 1,
-                    name: actual.format('MMMM')
+                    name: actual.lang(config.i18next.lng()).format('MMMM')
                 },
                 weeks: []
             }
@@ -271,7 +273,8 @@ exports.aules = function(idp, s, callback) {
                     week.push({
                         date: date,
                         day: moment(dayc).format("DD"),
-                        actual: actual.isSame(date, 'month') ? '' : 'off',
+                        actual: actual.isSame(date, 'month'),
+                        cssactual: actual.isSame(date, 'month') ? '' : 'off',
                         events: day_events,
                         multiple: day_events.length > 1 ? 'multiple' : ''
                     });
@@ -284,8 +287,24 @@ exports.aules = function(idp, s, callback) {
             onward = actual.isBefore(fi);
         }
 
-        //config.debug(struct.calendar[1]);
-
         return callback();
     }
+}
+
+/**
+ * Returns icalendar 
+ * TODO
+ */
+exports.icalendar = function(callback) {
+    return callback();
+    /*    
+    var ical = new icalendar.iCalendar();
+    var event = new icalendar.VEvent('cded25be-3d7a-45e2-b8fe-8d10c1f8e5a9');
+
+    event.setSummary("Test calendar event");
+    event.setDate(new Date(2011,11,1,17,0,0), new Date(2011,11,1,18,0,0));
+    event.toString();
+
+    ical.addComponent(event);
+    */
 }

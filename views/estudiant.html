@@ -58,35 +58,19 @@
                             <ul class="list typology-list">
                                 <li>
                                     <input type="checkbox" class="check-filter" name="filter_type[]" id="type_1" value="PI" checked="checked">
-                                    <label for="type_1">PI - Inicio práctica / PAC</label>
-                                </li>
-                                <li class="right">
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_5" value="M" checked="checked">
-                                    <label for="type_5">M - Modulo / Unidad</label>
+                                    <label for="type_1">{{ t('events.inici.abreviatura') }} - {{ t('events.inici.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" class="check-filter" name="filter_type[]" id="type_2" value="PL" checked="checked">
-                                    <label for="type_2">PL - Entrega práctica / PAC</label>
-                                </li>
-                                <li class="right">
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_6" value="D" checked="checked">
-                                    <label for="type_6">D - Debate</label>
+                                    <label for="type_2">{{ t('events.entrega.abreviatura') }} - {{ t('events.entrega.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" class="check-filter" name="filter_type[]" id="type_3" value="PS" checked="checked">
-                                    <label for="type_3">PS - Solución práctica / PAC </label>
-                                </li>
-                                <li class="right">
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_7" value="G" checked="checked">
-                                    <label for="type_7">G - Guia de estudio</label>
+                                    <label for="type_3">{{ t('events.solucio.abreviatura') }} - {{ t('events.solucio.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
                                     <input type="checkbox" class="check-filter" name="filter_type[]" id="type_4" value="PQ" checked="checked">
-                                    <label for="type_4">PQ - Calificación práctica / PAC</label>
-                                </li>
-                                <li class="right">
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_8" value="A" checked="checked">
-                                    <label for="type_8">A - Otros</label>
+                                    <label for="type_4">{{ t('events.qualificacio.abreviatura') }} - {{ t('events.qualificacio.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                             </ul>
                         </div>
@@ -130,13 +114,15 @@
                                     {% for day in week %}
                                     <td>
                                         <div class="day">
-                                            <div class="day-num {{ day.actual }}">{{ day.day }}</div>
+                                            <div class="day-num {{ day.cssactual }}">{{ day.day }}</div>
+                                            {% if day.actual %}
                                             {% for event in day.events %}
                                             <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <a href="{{ event.activitat.link }}" class="marcador c_{{ event.activitat.color }}">{{ event.tipus }}</a>
                                                 <span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span>
                                             </div>
                                             {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </td>
                                     {% endfor %}
@@ -151,10 +137,10 @@
                     <table class="tbl tbl-events" id="list-{{ page.year }}-{{ page.month.number }}">
                         <thead>
                             <tr>
-                                <th style="width:7%">{{ t('data') }}</th>
+                                <th style="width:7%">{{ t('dia') }}</th>
                                 <th style="width:5%">&nbsp;</th>
                                 <th style="width:33%">{{ t('assignatura') }}</th>
-                                <th style="width:35%">{{ t('titol') }}</th>
+                                <th style="width:35%">{{ t('nom') }}</th>
                                 <th style="width:20%">{{ t('esdeveniment') }}</th>
                             </tr>
                         </thead>
@@ -164,6 +150,7 @@
                             </tr>
                                 {% for week in page.weeks %}
                                     {% for day in week %}
+                                        {% if day.actual %}
                                         {% for event in day.events %}
                                             <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <td>{{ day.day }}</td>
@@ -173,6 +160,7 @@
                                                 <td>{{ event.tipus }}</td>
                                             </tr>
                                         {% endfor %}
+                                        {% endif %}
                                     {% endfor %}
                                 {% endfor %}
                         </tbody>
@@ -198,27 +186,29 @@
                             <table class="tbl tbl-calendar calendar-semester">
                                 <thead>
                                     <tr>
-                                        <th>dl</th>
-                                        <th>dt</th>
-                                        <th>dc</th>
-                                        <th>dj</th>
-                                        <th>dv</th>
-                                        <th>ds</th>
-                                        <th>dg</th>
+                                        <th>{{t('dies.dilluns.abreviatura')}}</th>
+                                        <th>{{t('dies.dimarts.abreviatura')}}</th>
+                                        <th>{{t('dies.dimecres.abreviatura')}}</th>
+                                        <th>{{t('dies.dijous.abreviatura')}}</th>
+                                        <th>{{t('dies.divendres.abreviatura')}}</th>
+                                        <th>{{t('dies.dissabte.abreviatura')}}</th>
+                                        <th>{{t('dies.diumenge.abreviatura')}}</th>
                                     </tr>
                                 <thead>
                                 <tbody>
                                     {% for week in page.weeks %}
                                     <tr>
                                         {% for day in week %}
-                                        <td class="{{ day.actual }}">
+                                        <td class="{{ day.cssactual }}">
                                             <div class="day-wrap">
                                                 <div class="no-event" aria-hidden="true">{{ day.day }}</div>
+                                                {% if day.actual %}
                                                 {% for event in day.events %}
                                                     <div class="{{ event.destacat }} on"><a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_{{ event.activitat.color }} a3-PI">{{ day.day }}</a></div>
-                                                {% endfor %}
+                                                {% endfor %}                                                
                                                 {% if day.events.length > 1 %}
                                                     <div class="event on"><a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_neutral a3-PI">{{ day.day }}</a></div>
+                                                {% endif %}
                                                 {% endif %}
                                                 </div>
                                             </div>
@@ -232,11 +222,11 @@
                             <table class="tbl tbl-events events-semester">
                                 <thead>
                                     <tr>
-                                        <th style="width:7%">Data</th>
+                                        <th style="width:7%">{{t('dia')}}</th>
                                         <th style="width:5%">&nbsp;</th>
-                                        <th style="width:33%">Assignatura</th>
-                                        <th style="width:35%">Títol</th>
-                                        <th style="width:20%">Esdeveniment</th>
+                                        <th style="width:33%">{{t('asignatura')}}</th>
+                                        <th style="width:35%">{{t('nom')}}</th>
+                                        <th style="width:20%">{{t('esdeveniment')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -245,6 +235,7 @@
                                     </tr>
                                     {% for week in page.weeks %}
                                         {% for day in week %}
+                                            {% if day.actual %}
                                             {% for event in day.events %}
                                             <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }}">
                                                 <td>{{ day.day }}</td>
@@ -254,6 +245,7 @@
                                                 <td>{{ event.tipus }}</td>
                                             </tr>
                                             {% endfor %}
+                                            {% endif %}
                                          {% endfor %}
                                     {% endfor %}
                                 </tbody>
@@ -288,7 +280,7 @@
                         <div class="block-inside">
                             <ul class="list">
                                 {% for eina in aula.widget.eines %}
-                                {% if eina.visible == 0 %}
+                                {% if eina.mostrar %}
                                 <li>
                                     <a href="{{ eina.viewItemsUrl }}" class="lbl LaunchesOWin" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                                     <a href="{{ eina.viewItemsUrl }}" class="marcadors">
