@@ -201,14 +201,22 @@
                                         {% for day in week %}
                                         <td class="{{ day.cssactual }}">
                                             <div class="day-wrap">
-                                                <div class="no-event" aria-hidden="true">{{ day.day }}</div>
+                                                <div class="no-event">{{ day.day }}</div>
                                                 {% if day.actual %}
-                                                {% for event in day.events %}
-                                                    <div class="{{ event.destacat }} on"><a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_{{ event.activitat.color }} a3-PI">{{ day.day }}</a></div>
-                                                {% endfor %}                                                
-                                                {% if day.events.length > 1 %}
-                                                    <div class="event on"><a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_neutral a3-PI">{{ day.day }}</a></div>
-                                                {% endif %}
+                                                    {% if day.events.length > 1 %}
+                                                        <div class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
+                                                            <div class="on">
+                                                                <a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_neutral">{{ day.day }}</a>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% for event in day.events %}
+                                                        <div class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
+                                                            <div class="{{ event.destacat }} on">
+                                                                <a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_{{ event.activitat.color }}">{{ day.day }}</a>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
                                                 {% endif %}
                                                 </div>
                                             </div>
@@ -237,7 +245,7 @@
                                         {% for day in week %}
                                             {% if day.actual %}
                                             {% for event in day.events %}
-                                            <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }}">
+                                            <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <td>{{ day.day }}</td>
                                                 <td><div class="{{ event.destacat }} c_{{ event.activitat.color }}">&nbsp;</div></td>
                                                 <td><span class="lbl">{{ event.activitat.aula }}</span></td>

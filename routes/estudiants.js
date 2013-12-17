@@ -1,7 +1,6 @@
 var async = require('async');
 var moment = require('moment');
 var calendar = require('node-calendar');
-var icalendar = require('icalendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
@@ -276,7 +275,8 @@ exports.aules = function(idp, s, callback) {
                         actual: actual.isSame(date, 'month'),
                         cssactual: actual.isSame(date, 'month') ? '' : 'off',
                         events: day_events,
-                        multiple: day_events.length > 1 ? 'multiple' : ''
+                        multiple: day_events.length > 1 ? 'multiple' : '',
+                        color: day_events.length > 1 ? 'c_neutral' : ''
                     });
                 });
                 page.weeks.push(week);
