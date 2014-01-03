@@ -1,28 +1,3 @@
-# guaita
-
-Serveis de monitorització de l'activitat docent a les aules i llurs eines
-
-Install
------------
-
-Install node.js
-
-    wget http://nodejs.org/dist/v0.10.6/node-v0.10.6.tar.gz
-    tar xf node-v0.10.6.tar.gz
-    cd node-v0.10.6/
-    ./configure
-    make -j2 && sudo make install
-
-Install guaita
-
-    git clone git://github.com/xdurana/guaita.git
-    cd guaita
-    npm install
-
-Run
-
-    export NODE_ENV=local && node app.js
-
 ## LICENSE
 
 (The MIT License)

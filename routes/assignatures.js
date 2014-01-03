@@ -74,6 +74,15 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
         }
     };
 
+    var seguimentACAssignatura = function(callback) {
+        rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', anyAcademic, codi, '0', '0', function(err, result) {
+            if (err) { console.log(err); return callback(); }
+            subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+            subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+            return callback();
+        });
+    }
+
     async.parallel([
         function (callback) {
             rac.calcularIndicadorsAssignatura('RAC_PRA_2', anyAcademic, codi, '0', '0', function(err, result) {
@@ -84,10 +93,7 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
             });
         },
         function (callback) {
-            rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', anyAcademic, codi, '0', '0', function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
-                subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+            seguimentACAssignatura(function(err, result) {
                 return callback();
             });
         },
