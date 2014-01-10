@@ -16,6 +16,14 @@ var getAppActiva = function() {
     return 'UOC';
 }
 
+var getPercent = function(actual, total) {
+    actual = parseInt(actual) || 0;
+    total = parseInt(total) || 0;
+    if (actual == 0) return 0;
+    if (total == 0) return 0;
+    return (100*actual/total).toFixed(2);
+}
+
 var getNomComplert = function(tercer) {
     var complert = '';
     try {
@@ -109,7 +117,6 @@ var getDataLliurament = function(data) {
     }
     try {
         var dt = new Date(getValor(data));
-        config.debug(data);
         return util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
@@ -126,18 +133,21 @@ var getIndicador = function(indicadors, nom) {
 		indicadors.forEach(function(item) {
 			if (getValor(getValor(item.indicador).codIndicador) == nom) {
 				total = /^(\d+)*/g.exec(getValor(item.valor))[0];
+                total = (parseInt(total) || 0);
 			}
 		})
 	}
     return total;
 }
 
-var getIndicadorSenseFiltrar = function(indicadors, nom) {
+var getIndicadorTantPerCent = function(indicadors, nom) {
     var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
 			if (getValor(getValor(item.indicador).codIndicador) == nom) {
-				total = getValor(item.valor);
+				total = /^\d+ \( (\d+([\.\,]\d+)*) \% \)/g.exec(getValor(item.valor));                
+                total = total[1].replace(',', '.');
+                total = (parseInt(total) || 0).toFixed(2);
 			}
 		})
 	}
@@ -156,12 +166,22 @@ var getTotalEstudiantsPrimeraMatricula = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_1A_MATR');
 }
 
+var getSeguimentACAulaPercent = function(indicadors) {
+    return getIndicadorTantPerCent(indicadors, 'ESTUD_PARTICIPA_AC');
+}
+
+var getSuperacioACAulaPercent = function(indicadors) {
+    return getIndicadorTantPerCent(indicadors, 'ESTUD_SUPERA_AC');
+}
+
 var getSeguimentACAula = function(indicadors) {
-	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_PARTICIPA_AC');
+    return getIndicador(indicadors, 'ESTUD_PARTICIPA_AC');
+    //return getIndicadorSenseFiltrar(indicadors, 'ESTUD_PARTICIPA_AC');
 }
 
 var getSuperacioACAula = function(indicadors) {
-	return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
+    return getIndicador(indicadors, 'ESTUD_SUPERA_AC');
+	//return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
 }
 
 var getLinkAula = function(s, isAulaca, domainId, domainCode) { 
@@ -217,6 +237,7 @@ module.exports = {
     getValor: getValor,
     getAppLang: getAppLang,
     getAppActiva: getAppActiva,
+    getPercent: getPercent,
     getNomComplert: getNomComplert,
     getFitxa: getFitxa,
     getUrlRAC: getUrlRAC,
@@ -230,6 +251,8 @@ module.exports = {
     getTotalEstudiants: getTotalEstudiants,
     getSeguimentACAula: getSeguimentACAula,
     getSuperacioACAula: getSuperacioACAula,
+    getSeguimentACAulaPercent: getSeguimentACAulaPercent,
+    getSuperacioACAulaPercent: getSuperacioACAulaPercent,
     getTotalEstudiantsPrimeraMatricula: getTotalEstudiantsPrimeraMatricula,
     getTotalEstudiantsRepetidors: getTotalEstudiantsRepetidors,
     getTotalEstudiantsTotal: getTotalEstudiantsTotal,

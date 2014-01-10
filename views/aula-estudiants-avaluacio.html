@@ -25,8 +25,8 @@
                 <td>{{ t('total') }}:</td>
                 <td>{{ assignatura.resum.estudiants.total }}</td>
                 <td>{{ assignatura.resum.estudiants.repetidors }}</td>
-                <td class="bd">{{ assignatura.resum.avaluacio.seguiment }}</td>
-                <td>{{ assignatura.resum.avaluacio.superacio }}</td>
+                <td class="bd">{{ assignatura.resum.avaluacio.seguiment }} ({{ assignatura.resum.avaluacio.seguimentpercent }}%)</td>
+                <td>{{ assignatura.resum.avaluacio.superacio }} ({{ assignatura.resum.avaluacio.superaciopercent }}%)</td>
                 <td>{{ assignatura.dataLliurament }}</td>
             </tr>
         </tbody>
@@ -42,8 +42,8 @@
                 </td>
                 <td>{{ aula.resum.estudiants.total }}</td>
                 <td>{{ aula.resum.estudiants.repetidors }}</td>
-                <td class="bd">{{ aula.resum.avaluacio.seguiment }}</td>
-                <td class="bd-open">{{ aula.resum.avaluacio.superacio }}</td>
+                <td class="bd">{{ aula.resum.avaluacio.seguiment }} ({{ aula.resum.avaluacio.seguimentpercent }}%)</td>
+                <td class="bd-open">{{ aula.resum.avaluacio.superacio }} ({{ aula.resum.avaluacio.superaciopercent }}%)</td>
                 <td class="bd-open"></td>
             </tr>
             <tr class="tr-wrap">

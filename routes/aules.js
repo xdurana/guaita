@@ -198,6 +198,8 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
         }
     ], function(err, result) {
         if (err) { console.log(err); }
+        classroom.resum.avaluacio.seguimentpercent = indicadors.getPercent(classroom.resum.avaluacio.seguiment, classroom.resum.estudiants.total);
+        classroom.resum.avaluacio.superaciopercent = indicadors.getPercent(classroom.resum.avaluacio.superacio, classroom.resum.estudiants.total);
         return callback();
     });
 }

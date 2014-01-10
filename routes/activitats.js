@@ -208,6 +208,8 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
                     if (err) { console.log(err); return callback(); }
                     item.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                     item.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
+                    item.resum.avaluacio.seguimentpercent = indicadors.getSeguimentACAulaPercent(result.out.ValorIndicadorVO);
+                    item.resum.avaluacio.superaciopercent = indicadors.getSuperacioACAulaPercent(result.out.ValorIndicadorVO);
                     return callback();
                 });
             }

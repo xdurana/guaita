@@ -83,6 +83,18 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
         });
     }
 
+    var seguimentACAula = function(aula, callback) {
+        aula.codAula = aula.domainCode.slice(-1);
+        rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codi, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
+            if (err) { console.log(err); return callback(); }
+            aula.ac = {
+                seguiment: indicadors.getSeguimentACAula(result.out.ValorIndicadorVO),
+                superacio: indicadors.getSuperacioACAula(result.out.ValorIndicadorVO)
+            };
+            return callback();
+        });
+    }    
+
     async.parallel([
         function (callback) {
             rac.calcularIndicadorsAssignatura('RAC_PRA_2', anyAcademic, codi, '0', '0', function(err, result) {
@@ -92,16 +104,30 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
                 return callback();
             });
         },
+        /*
         function (callback) {
             seguimentACAssignatura(function(err, result) {
                 return callback();
             });
         },
+        */
         function (callback) {
             aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) { console.log(err); return callback(); }                
                 subject.resum.aules.total = result ? result.length : config.nc();
-                return callback();
+
+                subject.resum.avaluacio.seguiment = 0;
+                subject.resum.avaluacio.superacio = 0;
+                async.each(result, seguimentACAula, function(err) {
+                    if (err) { console.log(err); return callback(null, struct); }
+                    result.forEach(function(aula) {
+                        subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
+                        subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
+                    });
+                    subject.resum.avaluacio.seguimentpercent = indicadors.getPercent(subject.resum.avaluacio.seguiment, subject.resum.estudiants.total);
+                    subject.resum.avaluacio.superaciopercent = indicadors.getPercent(subject.resum.avaluacio.superacio, subject.resum.estudiants.total);
+                    return callback();
+                });
             });
         },
         function (callback) {
