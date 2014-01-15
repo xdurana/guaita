@@ -2,7 +2,7 @@ var util = require('util');
 var i18next = require('i18next');
 var config = require('../config');
 var encoder = require('./encoder');
-var aulaca = require('../ws/aulaca');
+var ws = require('../ws');
 
 var getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
@@ -46,7 +46,7 @@ var getNomComplert = function(tercer) {
 
 var esDocent = function(s, idp, domainId, callback) {
     var docent = false;
-    aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
+    ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
         if (err) { console.log(err); return callback(null, false); }
         result.forEach(function(assignatura) {
             docent = docent || domainId == assignatura.domainId;
@@ -60,7 +60,7 @@ var getUrlRAC = function(s, domainId, docent) {
 }
 
 var getFitxa = function(useridp, idp, s, callback) {
-    aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
+    ws.aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
         if (err) {
             console.log(err);
             return callback(null, '#');

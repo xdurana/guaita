@@ -3,12 +3,7 @@ var request = require('request');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-
-var rac = require('../ws/rac');
-var dadesacademiques = require('../ws/dadesacademiques');
-var infoacademica = require('../ws/infoacademica');
-var aulaca = require('../ws/aulaca');
-var lrs = require('../ws/lrs');
+var ws = require('../ws');
 
 /**
  * Activitats d'una aula
@@ -45,14 +40,14 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 			}
 		}
 
-        lrs.byactivityandclassroom(domainIdAula, activitat.eventId, s, function(err, result) {
+        ws.lrs.byactivityandclassroom(domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
 
-    aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         struct.activitats = result;
         if (resum) {
@@ -108,14 +103,14 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
         async.parallel([
             function(callback) {
-                lrs.byidpandactivity(idp, activitat.eventId, s, function(err, result) {
+                ws.lrs.byidpandactivity(idp, activitat.eventId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
                 });
             },
             function(callback) {
-                lrs.byidpandactivitylast(idp, activitat.eventId, s, function(err, result) {
+                ws.lrs.byidpandactivitylast(idp, activitat.eventId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();
@@ -127,7 +122,7 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         });
 	}
 
-	aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+	ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
 		struct.activitats = result;
         try {
@@ -161,7 +156,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
 		]
 	}
 
-	rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
+	ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         try {
     		struct.activitats = result.out.ActivitatVO;
@@ -177,7 +172,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
 
     var getIndicadorsActivitat = function(item, callback) {
 
-        item.nom = indicadors.getValor(indicadors.getValor(indicadors.getValor(item.descripcio).DescripcioVO).valor);
+        item.nom = indicadors.getValor(indicadors.getValor(item.descripcio));
         item.nom = indicadors.decodeHtmlEntity(item.nom);
         item.resum = {
             avaluacio: {
@@ -191,7 +186,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
             function(callback) {
                 return callback();
                 /*
-                rac.getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
+                ws.rac.getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
                     if(err) { console.log(err); callback(err); return; }
                     item.qualificats = result.out;
                     callback();
@@ -204,7 +199,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
                 var comptarEquivalents = '0';
                 var comptarRelacions = '0';
 
-                rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
+                ws.rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     item.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                     item.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
@@ -237,7 +232,7 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
         ]
     }
 
-    aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         if (result) {
             result.forEach(function(activitat) {

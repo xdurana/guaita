@@ -203,13 +203,6 @@
                                             <div class="day-wrap">
                                                 <div class="no-event">{{ day.day }}</div>
                                                 {% if day.actual %}
-                                                    {% if day.events.length > 1 %}
-                                                        <div class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
-                                                            <div class="on">
-                                                                <a href="#day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="marcador c_neutral">{{ day.day }}</a>
-                                                            </div>
-                                                        </div>
-                                                    {% endif %}
                                                     {% for event in day.events %}
                                                         <div class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                             <div class="{{ event.destacat }} on">

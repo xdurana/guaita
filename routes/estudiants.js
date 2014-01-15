@@ -1,14 +1,13 @@
 var async = require('async');
 var moment = require('moment');
 var calendar = require('node-calendar');
+//var icalendar = require('icalendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var widget = require('./widget');
 var config = require('../config');
-var rac = require('../ws/rac');
-var lrs = require('../ws/lrs');
-var aulaca = require('../ws/aulaca');
+var ws = require('../ws');
 
 /**
  * Estudiants d'una aula
@@ -21,7 +20,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	var struct = [
 	];
 
-	rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
+	ws.rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 		if (err) { console.log(err); return callback(null, struct); }
 		struct = result.out.EstudiantAulaVO;
         try {
@@ -67,14 +66,14 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
                 });
             },
             function(callback) {
-                lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
+                ws.lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
                 });
             },
             function(callback) {
-                lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
+                ws.lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return callback();
@@ -102,7 +101,7 @@ exports.aules = function(idp, s, callback) {
         calendar: []
     };
 
-    aulaca.getAulesEstudiant(idp, s, function(err, object) {
+    ws.aulaca.getAulesEstudiant(idp, s, function(err, object) {
         if (err) { console.log(err); return callback(null, struct); }
         struct.classrooms = object.classrooms;
         struct.assignments = object.assignments;
@@ -287,18 +286,16 @@ exports.aules = function(idp, s, callback) {
             onward = actual.isBefore(fi);
         }
 
+        struct.ical = geticalendar();
+
         return callback();
     }
 }
 
-/**
- * Returns icalendar 
- * TODO
- */
-exports.icalendar = function(callback) {
-    return callback();
-    /*    
+var geticalendar = function() {
+/*
     var ical = new icalendar.iCalendar();
+
     var event = new icalendar.VEvent('cded25be-3d7a-45e2-b8fe-8d10c1f8e5a9');
 
     event.setSummary("Test calendar event");
@@ -306,5 +303,6 @@ exports.icalendar = function(callback) {
     event.toString();
 
     ical.addComponent(event);
-    */
+    return ical.events();
+*/
 }

@@ -6,10 +6,7 @@ var activitats = require('./activitats');
 var consultors = require('./consultors');
 var eines = require('./eines');
 var config = require('../config');
-var rac = require('../ws/rac');
-var lrs = require('../ws/lrs');
-var aulaca = require('../ws/aulaca');
-var infoacademica = require('../ws/infoacademica');
+var ws = require('../ws');
 
 /**
  * Widget d'una aula per idp
@@ -57,7 +54,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            aulaca.getGroupServlet(domainCode, s, function(err, result) {
+            ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(err); }
                 try {
                     struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
@@ -123,7 +120,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     var getEinesActivitat = function(activitat, callback) {
         calcularIndicadorsEines(activitat.eines, struct.recursos);
         activitat.link = indicadors.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
-        aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
+        ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;
             activitat.startDateStr = activitat.startDateStr.replace(/-/g, '/');

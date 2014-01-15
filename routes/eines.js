@@ -3,14 +3,7 @@ var i18next = require('i18next');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-
-var rac = require('../ws/rac');
-var dadesacademiques = require('../ws/dadesacademiques');
-var infoacademica = require('../ws/infoacademica');
-var forum = require('../ws/forum');
-var phpbb = require('../ws/phpbb');
-var aulaca = require('../ws/aulaca');
-var lrs = require('../ws/lrs');
+var ws = require('../ws');
 
 var isPHPBB = function(eina) {
     if (eina.idTipoLink === 'BB_FORUMS') {
@@ -68,7 +61,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
                 if (isForum(eina)) {
                     async.parallel([
                         function(callback) {
-                            forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
+                            ws.forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 //TODO GUAITA-33
                                 //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
@@ -93,21 +86,21 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
                 if (isPHPBB(eina)) {
                     async.parallel([
                         function(callback) {
-                            phpbb.one(eina.domainId, eina.resourceId, function(err, result) {
+                            ws.phpbb.one(eina.domainId, eina.resourceId, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
                                 return callback();
                             });
                         },
                         function(callback) {
-                            phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
+                            ws.phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 eina.resum.comunicacio.participacions = result;
                                 return callback();
                             });
                         },
                         function(callback) {
-                            phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
+                            ws.phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 eina.resum.comunicacio.lecturesPendents = result;
                                 return callback();
@@ -122,7 +115,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
                 }
             },
             function(callback) {
-                lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
+                ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return callback();
@@ -134,7 +127,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         });
 	}
 
-	aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+	ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
 		if (err) { console.log(err); return callback(null, struct); }
 		struct.eines = result;
         try {
@@ -174,14 +167,14 @@ exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, dom
 			}
 		}
 
-        lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
+        ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
 
-    aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
+    ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
 		if (err) { console.log(err); return callback(null, struct); }
 		struct.eines = result;
         try {
@@ -222,14 +215,14 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 			}
 		}
 
-        lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
+        ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
 
-	aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
+	ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         struct.eines = result;
         try {
@@ -275,7 +268,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                 if (isForum(eina)) {
                     async.parallel([
                         function(callback) {
-                            forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
+                            ws.forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 //TODO GUAITA-33
                                 //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
@@ -300,14 +293,14 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                 if (isPHPBB(eina)) {
                     async.parallel([
                         function(callback) {
-                            phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
+                            ws.phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 eina.resum.comunicacio.participacions = result;
                                 return callback();
                             });
                         },
                         function(callback) {
-                            phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
+                            ws.phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
                                 if (err) { console.log(err); return callback(); }
                                 eina.resum.comunicacio.lecturesPendents = result;
                                 return callback();
@@ -323,7 +316,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
             },
             function(callback) {
                 if (estadistiques) {
-                    lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
+                    ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
                         if (err) { console.log(err); return callback(); }
                         eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                         return callback();
@@ -334,7 +327,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
             },
             function(callback) {
                 if (estadistiques) {
-                    lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
+                    ws.lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
                         if (err) { console.log(err); return callback(); }
                         eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                         return callback();
@@ -349,7 +342,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
         });
 	}
 
-    aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+    ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
         if (err) { console.log(err); return callback(null, struct); }
         struct.eines = result;
         try {

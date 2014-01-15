@@ -8,11 +8,7 @@ var estudiants = require('./estudiants');
 var consultors = require('./consultors');
 var assignatures = require('./assignatures');
 
-var rac = require('../ws/rac');
-var dadesacademiques = require('../ws/dadesacademiques');
-var infoacademica = require('../ws/infoacademica');
-var aulaca = require('../ws/aulaca');
-var lrs = require('../ws/lrs');
+var ws = require('../ws');
 
 var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callback) {
 
@@ -27,7 +23,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
         ]
     }
 
-    aulaca.getAulesAssignatura(domainId, idp, s, function(err, aules) {
+    ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, aules) {
         if (err) { console.log(err); return callback(null, struct); }
         async.parallel([
             function (callback) {
@@ -43,7 +39,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
             },
             function (callback) {
                 try {
-                    rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
+                    ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
                         if (err) { console.log(err); return callback(null, struct); }
                         if (result.out.ActivitatVO) {
                             result.out.ActivitatVO.forEach(function(activitat) {
@@ -73,7 +69,7 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
     }); 
 
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
-        aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
+        ws.aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             classroom.isAulaca = result;
             var codAula = classroom.domainCode.slice(-1);
@@ -141,7 +137,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             callback();
         },
         function (callback) {
-            rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
+            ws.rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 classroom.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
@@ -149,7 +145,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         },
         function (callback) {
-            rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
+            ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                 classroom.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
@@ -157,14 +153,14 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         },
         function (callback) {
-            lrs.byclassroom(classroom.domainId, s, function(err, result) {
+            ws.lrs.byclassroom(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });
         },
         function (callback) {
-            aulaca.getGroupServlet(classroom.domainCode, s, function(err, result) {
+            ws.aulaca.getGroupServlet(classroom.domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(err); }
                 try {
                     classroom.resum.comunicacio.lecturesPendents = result[0]['$']['numMsgPendents'];
@@ -176,21 +172,21 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
             });
         },
         function (callback) {
-            aulaca.getLecturesPendentsAcumuladesAula(classroom.domainId, s, function(err, result) {
+            ws.aulaca.getLecturesPendentsAcumuladesAula(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
                 return callback();
             });
         },
         function (callback) {
-            aulaca.getParticipacionsAula(classroom.domainId, s, function(err, result) {
+            ws.aulaca.getParticipacionsAula(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.comunicacio.participacions = result ? result : config.nc();
                 return callback();
             });
         },
         function (callback) {
-            aulaca.getLecturesPendentsIdpAula(classroom.domainId, idp, s, function(err, result) {
+            ws.aulaca.getLecturesPendentsIdpAula(classroom.domainId, idp, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 //classroom.resum.comunicacio.lecturesPendents = result ? result : config.nc();
                 return callback();
@@ -226,7 +222,7 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
 
 	async.parallel([
         function (callback) {
-            aulaca.getGroupServlet(domainCode, s, function(err, result) {
+            ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(err); }
                 try {
                     struct.color = result[0].color[0];
@@ -237,7 +233,7 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
             });
        },
        function (callback) {
-            aulaca.isAulaca(domainCode, s, function(err, result) {
+            ws.aulaca.isAulaca(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 struct.isAulaca = result;
                 struct.link = indicadors.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
@@ -246,7 +242,7 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
             });
         },
         function (callback) {
-            infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
+            ws.infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 struct.nomAssignatura = result.out.descAssignatura;
                 return callback();

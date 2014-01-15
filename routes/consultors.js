@@ -3,11 +3,7 @@ var util = require('util');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-
-var rac = require('../ws/rac');
-var dadesacademiques = require('../ws/dadesacademiques');
-var infoacademica = require('../ws/infoacademica');
-var lrs = require('../ws/lrs');
+var ws = require('../ws');
 
 exports.all = function(codAssignatura, anyAcademic, callback) {
 
@@ -17,7 +13,7 @@ exports.all = function(codAssignatura, anyAcademic, callback) {
 		consultors: []
 	}
 
-	infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
+	ws.infoacademica.getAulesByAssignatura(anyAcademic, codAssignatura, function(err, result) {
 		if (err) { console.log(err); return callback(); }
         try {
     		async.each(result.out.AulaVO, getConsultantStats, function(err) {
@@ -45,16 +41,18 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) 
         fitxa: '#'
     };
 
-	rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
+	ws.rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
 		if (err) { console.log(err); return callback(null, consultor); }
         try {
-            consultor = indicadors.getValor(indicadors.getValor(result.out.consultors).ConsultorAulaVO);
-            consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
-            consultor.idp = indicadors.getValor(indicadors.getValor(consultor.tercer).idp);
-            indicadors.getFitxa(consultor.idp, idp, s, function(err, url) {
-                if (err) { console.log(err); }
-                consultor.fitxa = err ? '#' : url;
-            });
+            if (result.out.consultors) {
+                consultor = indicadors.getValor(indicadors.getValor(result.out.consultors).ConsultorAulaVO);
+                consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
+                consultor.idp = indicadors.getValor(indicadors.getValor(consultor.tercer).idp);
+                indicadors.getFitxa(consultor.idp, idp, s, function(err, url) {
+                    if (err) { console.log(err); }
+                    consultor.fitxa = err ? '#' : url;
+                });
+            }
         } catch(e) {
             console.log(e.message);
         }
@@ -75,14 +73,14 @@ exports.getResumEines = function(aula, callback) {
 
     async.parallel([
         function (callback) {
-            lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+            ws.lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });
         },
         function (callback) {            
-            lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+            ws.lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                 return callback();

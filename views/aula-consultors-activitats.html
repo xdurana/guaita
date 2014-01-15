@@ -36,11 +36,15 @@
         <tbody class="acc activ-consultor-acc" data-guaita-assignatura="{{ assignatura.codAssignatura }}" data-guaita-domainId="{{ assignatura.domainId }}" data-guaita-anyacademic="{{ assignatura.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-idp="{{ aula.consultor.idp }}" >
             <tr>
                 <td>
+                    {% if aula.consultor.nomComplert != 'N/D' %}
                     <span class="user-item">
                         <a href="#item_4_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
                         <input type="checkbox" class="check-user" name="check_users_4[]" value="1" data-guaita-username="{{ aula.consultor.nomComplert }}">
                         <a href="{{ aula.consultor.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ aula.consultor.nomComplert }} - A{{ aula.codAula }}</a>
                     </span>
+                    {% else %}
+                    <span class="user-item">A{{ aula.codAula }}</span>
+                    {% endif %}
                 </td>
                 <td class="bd">{{ aula.consultor.resum.comunicacio.clicsAcumulats }}</td>
                 <td class="bd-open">{{ aula.consultor.resum.comunicacio.lecturesPendentsAcumulades }}</td>

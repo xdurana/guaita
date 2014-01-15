@@ -14,7 +14,7 @@ var estudiants = require('./routes/estudiants');
 var consultors = require('./routes/consultors');
 var widget = require('./routes/widget');
 var indicadors = require('./routes/indicadors');
-var campus = require('./ws/campus');
+var ws = require('./ws');
 
 var app = express();
 
@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 app.get(config.base() + '/assignatures', function (req, res, callback) {
 
 	if (req.query.s && req.query.perfil) {
-        campus.getIdpBySession(req.query.s, function (err, idp) {
+        ws.campus.getIdpBySession(req.query.s, function (err, idp) {
             if(err) { console.log(err); callback(); return; }
             idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
             return assignatures.byidp(
@@ -437,7 +437,7 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
  */
 app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', function (req, res, callback) {
     if (req.query.s) {
-        campus.getIdpBySession(req.query.s, function (err, idp) {
+        ws.campus.getIdpBySession(req.query.s, function (err, idp) {
             if(err) { console.log(err); callback(); return; }
             idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
             return widget.one(
@@ -471,12 +471,17 @@ app.get(config.base() + '/assignatures/:anyAcademic/:codAssignatura/:domainId/au
  */
 app.get(config.base() + '/estudiants', function (req, res, callback) {
     if (req.query.s) {
-        campus.getIdpBySession(req.query.s, function (err, idp) {
+        ws.campus.getIdpBySession(req.query.s, function (err, idp) {
             if(err) { console.log(err); callback(); return; }
             idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
             return estudiants.aules(idp, req.query.s, function (err, result) {
                 if(err) { console.log(err); callback(); return; }
-                if (req.query.format) {
+                if (req.query.format === 'ical') {
+                    res.attachment('student.ical');
+                    res.setHeader('Content-Type', 'text/calendar');
+                    config.debug(result.ical);
+                    res.end(result.ical);
+                } else if (req.query.format) {
                     res.json(result);
                 } else {
                     res.render('estudiant.html', {
