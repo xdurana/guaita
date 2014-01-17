@@ -438,7 +438,7 @@ var UOCAulas = (function($) {
         $(acc).find('.activ-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var url = '{0}/consultors/{1}/activitats?s={2}'.format(
+            var url = '{0}/activitats?s={2}&idp={1}&perfil=consultor'.format(
                 classroomBaseURL(block),
                 $(block).attr('data-guaita-idp'),
                 s
@@ -449,7 +449,7 @@ var UOCAulas = (function($) {
         $(acc).find('.tools-consultor-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var url = '{0}/consultors/{1}/eines?s={2}'.format(
+            var url = '{0}/eines?s={2}&idp={1}&perfil=consultor'.format(
                 classroomBaseURL(block),
                 $(block).attr('data-guaita-idp'),
                 s
@@ -460,7 +460,7 @@ var UOCAulas = (function($) {
         $(acc).find('.activ-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var url = '{0}/estudiants/{1}/activitats?s={2}'.format(
+            var url = '{0}/activitats?s={2}&idp={1}&perfil=estudiant'.format(
                 classroomBaseURL(block),
                 $(block).attr('data-guaita-idp'),
                 s
@@ -471,7 +471,7 @@ var UOCAulas = (function($) {
         $(acc).find('.tools-aula-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var url = '{0}/estudiants/{1}/eines?s={2}'.format(
+            var url = '{0}/eines?s={2}&idp={1}&perfil=estudiant'.format(
                 classroomBaseURL(block),
                 $(block).attr('data-guaita-idp'),
                 s
@@ -513,7 +513,7 @@ var UOCAulas = (function($) {
                 );
                 getTable(this, url, false);
             } else {
-                var url = '{0}/estudiants/{1}/activitats/{2}/eines?s={3}'.format(
+                var url = '{0}/activitats/{2}/eines?s={3}&idp={1}&perfil=estudiant'.format(
                     classroomBaseURL(block),
                     $(block).attr('data-guaita-idp'),
                     $(block).attr('data-guaita-eventId'),

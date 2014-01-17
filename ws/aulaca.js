@@ -18,6 +18,9 @@ var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, nex
         if (err) {
             return next(err);
         }
+        if (object.subjects == null) {
+            return next();
+        }
         object.subjects = object.subjects.filter(function(assignatura) {
             return true;
         });
