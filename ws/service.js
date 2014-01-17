@@ -1,12 +1,15 @@
-var soap = require('soap');
-var request = require('request');
-var util = require('util');
-var xml2js = require('xml2js');
-
 var config = require('../config');
-var parser = new xml2js.Parser();
 
-exports.operation = function(url, service, args, callback) {
+/**
+ * SOAP
+ * @param  {[type]}   url
+ * @param  {[type]}   service
+ * @param  {[type]}   args
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+var operation = exports.operation = function(url, service, args, callback) {
+    var soap = require('soap');
     config.debug({
         url: url,
         service: service,
@@ -20,12 +23,18 @@ exports.operation = function(url, service, args, callback) {
     });
 }
 
-exports.json = function(url, callback) {
+/**
+ * HTTP GET JSON
+ * @param  {[type]}   url
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+var json = exports.json = function(url, callback) {
     try {
         config.debug({
             url: url
         });
-        request({
+        config.request({
           url: url,
           method: "GET"
         }, function (err, response, body) {
@@ -38,17 +47,25 @@ exports.json = function(url, callback) {
             }
         });
     } catch (e) {
-        var err = util.format('Error en la crida [%s]', url);
+        var err = config.util.format('Error en la crida [%s]', url);
         console.log(err); return callback(err);
     }
 }
 
-exports.xml = function(url, callback) {
+/**
+ * HTTP GET XML
+ * @param  {[type]}   url
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+var xml = exports.xml = function(url, callback) {
+    var xml2js = require('xml2js');
+    var parser = new xml2js.Parser;
     try {
         config.debug({
             url: url
         });
-        request({
+        config.request({
           url: url,
           method: "GET"
         }, function (err, response, xml) {
@@ -59,30 +76,25 @@ exports.xml = function(url, callback) {
             });
         });
     } catch (e) {
-        var err = util.format('Error en la crida [%s]', url);
+        var err = config.util.format('Error en la crida [%s]', url);
         console.log(err); return callback(err);
     }
 }
 
-exports.count = function(data, callback) {
-    post(util.format('%s/guaita/count', config.lrs()), data, function (err, data) {
-        callback(null, data);
-    });
-}
-
-exports.last = function(data, callback) {
-    post(util.format('%s/guaita/all/1', config.lrs()), data, function (err, data) {
-        callback(null, data);
-    });
-}
-
-var post = function(url, data, callback) {
+/**
+ * HTTP POST
+ * @param  {[type]}   url
+ * @param  {[type]}   data
+ * @param  {Function} callback
+ * @return {[type]}
+ */
+var post = exports.post = function(url, data, callback) {
     try {
         config.debug({
             url: url,
             data: data
         });
-        request({
+        config.request({
           url: url,
           method: "POST",
           json: data
@@ -96,7 +108,7 @@ var post = function(url, data, callback) {
             }
         });
     } catch (e) {
-        var err = util.format('Error en la crida [%s]', url);
+        var err = config.util.format('Error en la crida [%s]', url);
         console.log(err); return callback(err);
     }
 }

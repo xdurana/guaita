@@ -1,5 +1,4 @@
 var async = require('async');
-var util = require('util');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -102,7 +101,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     classroom.codAssignatura = classroom.codi;
     classroom.domainIdAula = classroom.domainId;
     classroom.link = indicadors.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode),
-    classroom.linkdetall = util.format(
+    classroom.linkdetall = config.util.format(
         '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
         anyAcademic,
         classroom.codAssignatura,

@@ -1,206 +1,276 @@
 var config = require('../config');
 var service = require('./service');
 
-var request = require('request');
-var util = require('util');
-
-var getAssignaturesPerIdp = function(s, idp, callback) {
-
-    var url = util.format('%s/assignatures?s=%s&idp=%s',
+/**
+ * [getAssignaturesPerIdp description]
+ * @param  {[type]}   s    [description]
+ * @param  {[type]}   idp  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, next) {
+    var url = config.util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
         s,
         idp
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            object.subjects = object.subjects.filter(function(assignatura) {
-                return true;
-            });
-            callback(null, object.subjects);
-        } catch(e) {
-            callback(util.format("(aulaca) No s'han pogut obtenir les assignatures del idp [%s]", url));
+        if (err) {
+            return next(err);
         }
+        object.subjects = object.subjects.filter(function(assignatura) {
+            return true;
+        });
+        return next(null, object.subjects);
     });
 }
 
-var getAulesAssignatura = function(domainId, idp, s, callback) {
-
-    var url = util.format('%s/assignatures/%s/aules?s=%s&idp=%s',
+/**
+ * [getAulesAssignatura description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   idp      [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getAulesAssignatura = exports.getAulesAssignatura = function(domainId, idp, s, next) {
+    var url = config.util.format('%s/assignatures/%s/aules?s=%s&idp=%s',
         config.aulaca(),
         domainId,
         s,
         idp
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            callback(null, object.classrooms);
-        } catch(e) {
-            callback(util.format("(aulaca) No s'han pogut obtenir les aules de l'assignatura [%s]", url));
+        if (err) {
+            return next(err);
         }
+        return next(null, object.classrooms);
     });
 }
 
-var getActivitatsAula = function(domainId, domainIdAula, s, callback) {
-
-    var url = util.format('%s/assignatures/%s/aules/%s/activitats?s=%s',
+/**
+ * [getActivitatsAula description]
+ * @param  {[type]}   domainId     [description]
+ * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   s            [description]
+ * @param  {Function} next         [description]
+ * @return {[type]}                [description]
+ */
+var getActivitatsAula = exports.getActivitatsAula = function(domainId, domainIdAula, s, next) {
+    var url = config.util.format('%s/assignatures/%s/aules/%s/activitats?s=%s',
         config.aulaca(),
         domainId,
         domainIdAula,
         s
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            callback(null, object.activities);
-        } catch(e) {
-            callback(util.format("(aulaca) No s'han pogut obtenir les activitats de l'aula [%s]", url));
+        if (err) {
+            return next(err);
         }
+        return next(null, object.activities);
     });
 }
 
-var getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, callback) {
-
-    var url = util.format('%s/assignatures/%s/aules/%s/activitats/%s/eines?s=%s',
+/**
+ * [getEinesPerActivitat description]
+ * @param  {[type]}   domainId     [description]
+ * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   eventId      [description]
+ * @param  {[type]}   s            [description]
+ * @param  {Function} next         [description]
+ * @return {[type]}                [description]
+ */
+var getEinesPerActivitat = exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, next) {
+    var url = config.util.format('%s/assignatures/%s/aules/%s/activitats/%s/eines?s=%s',
         config.aulaca(),
         domainId,
         domainIdAula,
         eventId,
         s
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            callback(null, object.tools);
-        } catch(e) {
-            callback(util.format("(aulaca) No s'han pogut obtenir les eines de l'activitat [%s]", url));
+        if (err) {
+            return next(err);
         }
+        return next(null, object.tools);
     });
 }
 
-var getEinesPerAula = function(domainId, domainIdAula, s, callback) {
-
-    var url = util.format('%s/assignatures/%s/aules/%s/eines?s=%s',
+/**
+ * [getEinesPerAula description]
+ * @param  {[type]}   domainId     [description]
+ * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   s            [description]
+ * @param  {Function} next         [description]
+ * @return {[type]}                [description]
+ */
+var getEinesPerAula = exports.getEinesPerAula = function(domainId, domainIdAula, s, next) {
+    var url = config.util.format('%s/assignatures/%s/aules/%s/eines?s=%s',
         config.aulaca(),
         domainId,
         domainIdAula,
         s
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            callback(null, object.tools);
-        } catch(e) {
-            callback(util.format("(aulaca) No s'han pogut obtenir les eines de l'aula [%s]", url));
+        if (err) {
+            return next(err);
         }
+        return next(null, object.tools);
     });
 }
 
-var getAulesEstudiant = function(idp, s, callback) {
-
-    var url = util.format(
+/**
+ * [getAulesEstudiant description]
+ * @param  {[type]}   idp  [description]
+ * @param  {[type]}   s    [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getAulesEstudiant = exports.getAulesEstudiant = function(idp, s, next) {
+    var url = config.util.format(
         '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
         config.cv(),
         idp,
         s
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        callback(null, object);
+        if (err) {
+            return next(err);
+        }
+        return next(null, object);
     });
 }
 
-var getGroupServlet = function(domainCode, s, callback) {
-
-    var url = util.format(
+/**
+ * [getGroupServlet description]
+ * @param  {[type]}   domainCode [description]
+ * @param  {[type]}   s          [description]
+ * @param  {Function} next       [description]
+ * @return {[type]}              [description]
+ */
+var getGroupServlet = exports.getGroupServlet = function(domainCode, s, next) {
+    var url = config.util.format(
         '%s/webapps/classroom/servlet/GroupServlet?dtId=DOMAIN&s=%s&dUId=ALL&dCode=%s',
         config.cv(),
         s,
         domainCode
     );
-
     service.xml(url, function(err, object) {
-        if (err) { console.log(err); return callback(); }
-        callback(null, object.Dominis.domini);
+        if (err) {
+            return next(err);
+        }
+        return next(null, object.Dominis.domini);
     });
 }
 
-var getUserIdPerIdp = function(idp, s, callback) {
-    var url = util.format(
+/**
+ * [getUserIdPerIdp description]
+ * @param  {[type]}   idp  [description]
+ * @param  {[type]}   s    [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
+    var url = config.util.format(
         '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
         config.cv(),
         idp,
         s
     );
-
     service.json(url, function(err, object) {
-        if (err) { console.log(err); return callback(); }
-        callback(null, object.userId);
-    });
-}
-
-var getLecturesPendentsAcumuladesAssignatura = function(domainId, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var getParticipacionsAssignatura = function(domainId, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var getLecturesPendentsIdpAssignatura = function(domainId, idp, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var getLecturesPendentsAcumuladesAula = function(domainId, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var getParticipacionsAula = function(domainId, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var getLecturesPendentsIdpAula = function(domainId, idp, s, callback) {
-    //TODO GUAITA-36
-    callback();
-}
-
-var isAulaca = function(domainCode, s, callback) {
-    getGroupServlet(domainCode, s, function(err, object) {
-        if (err) { console.log(err); callback(); return; }
-        try {
-            callback(null, object[0]['$']['idTipoPresent'] == 'AULACA');
-        } catch(e) {
-            callback(null, true);
+        if (err) {
+            return next(err);
         }
+        return next(null, object.userId);
     });
 }
 
-module.exports = {
-    getAssignaturesPerIdp: getAssignaturesPerIdp,
-    getAulesAssignatura: getAulesAssignatura,
-    getActivitatsAula: getActivitatsAula,
-    getEinesPerActivitat: getEinesPerActivitat,
-    getEinesPerAula: getEinesPerAula,
-    getAulesEstudiant: getAulesEstudiant,
-    getGroupServlet: getGroupServlet,
-    getUserIdPerIdp: getUserIdPerIdp,
-    getLecturesPendentsAcumuladesAssignatura: getLecturesPendentsAcumuladesAssignatura,
-    getParticipacionsAssignatura: getParticipacionsAssignatura,
-    getLecturesPendentsIdpAssignatura: getLecturesPendentsIdpAssignatura,
-    getLecturesPendentsAcumuladesAula: getLecturesPendentsAcumuladesAula,
-    getParticipacionsAula: getParticipacionsAula,
-    getLecturesPendentsIdpAula: getLecturesPendentsIdpAula,
-    isAulaca: isAulaca
+/**
+ * [isAulaca description]
+ * @param  {[type]}   domainCode [description]
+ * @param  {[type]}   s          [description]
+ * @param  {Function} next       [description]
+ * @return {Boolean}             [description]
+ */
+var isAulaca = exports.isAulaca = function(domainCode, s, next) {
+    getGroupServlet(domainCode, s, function(err, object) {
+        if (err) {
+            return next(err);
+        }
+        return next(null, object[0]['$']['idTipoPresent'] == 'AULACA');
+    });
+}
+
+/**
+ * [getLecturesPendentsAcumuladesAssignatura description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getLecturesPendentsAcumuladesAssignatura = exports.getLecturesPendentsAcumuladesAssignatura = function(domainId, s, next) {
+    //TODO GUAITA-36
+    next();
+}
+
+/**
+ * [getParticipacionsAssignatura description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getParticipacionsAssignatura = exports.getParticipacionsAssignatura = function(domainId, s, next) {
+    //TODO GUAITA-36
+    next();
+}
+
+/**
+ * [getLecturesPendentsIdpAssignatura description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   idp      [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getLecturesPendentsIdpAssignatura = exports.getLecturesPendentsIdpAssignatura = function(domainId, idp, s, next) {
+    //TODO GUAITA-36
+    next();
+}
+
+/**
+ * [getLecturesPendentsAcumuladesAula description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getLecturesPendentsAcumuladesAula = exports.getLecturesPendentsAcumuladesAula = function(domainId, s, next) {
+    //TODO GUAITA-36
+    next();
+}
+
+/**
+ * [getParticipacionsAula description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getParticipacionsAula = exports.getParticipacionsAula = function(domainId, s, next) {
+    //TODO GUAITA-36
+    next();
+}
+
+/**
+ * [getLecturesPendentsIdpAula description]
+ * @param  {[type]}   domainId [description]
+ * @param  {[type]}   idp      [description]
+ * @param  {[type]}   s        [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
+ */
+var getLecturesPendentsIdpAula = exports.getLecturesPendentsIdpAula = function(domainId, idp, s, next) {
+    //TODO GUAITA-36
+    next();
 }

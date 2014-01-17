@@ -1,5 +1,3 @@
-var util = require('util');
-var i18next = require('i18next');
 var config = require('../config');
 var encoder = require('./encoder');
 var ws = require('../ws');
@@ -9,7 +7,7 @@ var getValor = function(object) {
 };
 
 var getAppLang = function() {
-    return i18next.lng() == 'ca' ? 'a' : i18next.lng() == 'es' ? 'b' : 'c';
+    return config.i18next.lng() == 'ca' ? 'a' : config.i18next.lng() == 'es' ? 'b' : 'c';
 }
 
 var getAppActiva = function() {
@@ -28,7 +26,7 @@ var getNomComplert = function(tercer) {
     var complert = '';
     try {
         var t = getValor(tercer);
-        complert = util.format('%s %s',
+        complert = config.util.format('%s %s',
             getValor(t.nom),
             getValor(t.primerCognom)
         );
@@ -56,7 +54,7 @@ var esDocent = function(s, idp, domainId, callback) {
 }
 
 var getUrlRAC = function(s, domainId, docent) {
-    return util.format('%s/webapps/rac/%s.action?s=%s&domainId=%s', config.cv(), docent ? 'RacInici' : 'listEstudiant', s, domainId)
+    return config.util.format('%s/webapps/rac/%s.action?s=%s&domainId=%s', config.cv(), docent ? 'RacInici' : 'listEstudiant', s, domainId)
 }
 
 var getFitxa = function(useridp, idp, s, callback) {
@@ -67,7 +65,7 @@ var getFitxa = function(useridp, idp, s, callback) {
         } else {
             return callback(
                 null,
-                util.format(
+                config.util.format(
                     '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
                     config.cv(),
                     userid,
@@ -97,7 +95,7 @@ var getUltimaConnexio = function(object) {
     try {
         var dt = new Date(getValor(object.value).stored);
         if (isNaN(dt.getMilliseconds())) return config.nc();
-        return util.format('%s-%s-%s',
+        return config.util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
             dt.getFullYear()
@@ -117,7 +115,7 @@ var getDataLliurament = function(data) {
     }
     try {
         var dt = new Date(getValor(data));
-        return util.format('%s-%s-%s',
+        return config.util.format('%s-%s-%s',
             dt.getDate(),
             dt.getMonth() + 1,
             dt.getFullYear()
@@ -186,13 +184,13 @@ var getSuperacioACAula = function(indicadors) {
 
 var getLinkAula = function(s, isAulaca, domainId, domainCode) { 
     return isAulaca ?
-    util.format(
+    config.util.format(
         '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
         config.cv(),
         s,
         domainId
     ) :
-    util.format(
+    config.util.format(
         '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
         config.cv(),
         s,
@@ -207,7 +205,7 @@ var isAulaca = function(aula) {
 
 var getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
     return isAulaca ?
-    util.format(
+    config.util.format(
         '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
         config.cv(),
         s,
@@ -219,13 +217,13 @@ var getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
 
 var getLinkDissenyAula = function(s, isAulaca, domainId) {
     return isAulaca ?
-    util.format(
+    config.util.format(
         '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
         config.cv(),
         s,
         domainId
     ) :
-    util.format(
+    config.util.format(
         '%s/webapps/classroom/classroom.do?nav=dissenydomini_inici&s=%s&domainId=%s&domainTypeId=AULA&idLang=a&ajax=true',
         config.cv(),
         s,

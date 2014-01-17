@@ -1,5 +1,4 @@
 var async = require('async');
-var util = require('util');
 
 var config = require('../config');
 var indicadors = require('./indicadors');

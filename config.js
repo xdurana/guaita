@@ -1,5 +1,8 @@
 var nconf = require('nconf');
-var i18next = require('i18next');
+
+var util = exports.util = require('util');
+var i18next = exports.i18next = require('i18next');
+var request = exports.request = require('request');
 
 nconf.argv().env().file({ file: process.env.NODE_CONFIG });
 i18next.init({
@@ -14,8 +17,12 @@ exports.port = function() {
 	return process.env.PORT || 3000;
 }
 
+exports.expedientwsdl = function() {
+	return nconf.get('wsdl:expedient');
+}
+
 exports.dadesacademiqueswsdl = function() {
-	return nconf.get('wsdl:dadesacademiques');
+    return nconf.get('wsdl:dadesacademiques');
 }
 
 exports.infoacademicawsdl = function() {
@@ -67,5 +74,3 @@ exports.idpadmin = function() {
 exports.isadmin = function(idp) {
     return idp == '30000020' || idp == '512874';
 }
-
-exports.i18next = i18next;

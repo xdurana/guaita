@@ -1,5 +1,4 @@
 var async = require('async');
-var util = require('util');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
@@ -96,7 +95,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             eines.forEach(function(eina) {
                 eina.num_msg_pendents = "-";
                 eina.num_msg_totals = "-";
-                eina.viewItemsUrl = util.format('%s%s', config.cv(), eina.viewItemsUrl);
+                eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
                 eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
                 eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
                 if (recursos) {
