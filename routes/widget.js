@@ -2,7 +2,9 @@ var async = require('async');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
+var aules = require('./aules');
 var consultors = require('./consultors');
+var usuaris = require('./usuaris');
 var eines = require('./eines');
 var config = require('../config');
 var ws = require('../ws');
@@ -71,7 +73,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            indicadors.esDocent(s, idp, domainId, function(err, result) {
+            usuaris.esDocent(s, idp, domainId, function(err, result) {
                 struct.docent = result;
                 struct.urlAvaluacio = indicadors.getUrlRAC(s, domainId, result);
                 return callback();
@@ -118,7 +120,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
     var getEinesActivitat = function(activitat, callback) {
         calcularIndicadorsEines(activitat.eines, struct.recursos);
-        activitat.link = indicadors.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
+        activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
         ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;

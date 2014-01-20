@@ -3,13 +3,14 @@ var async = require('async');
 var config = require('../config');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
+var aules = require('./aules');
 var estudiants = require('./estudiants');
 var consultors = require('./consultors');
 var assignatures = require('./assignatures');
 
 var ws = require('../ws');
 
-var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callback) {
+var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callback) {
 
     var struct = {
         s: s,
@@ -94,13 +95,13 @@ var all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callba
     }
 }
 
-var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
+var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
 
     classroom.color = 'FF2600';
     classroom.codAula = codAula;
     classroom.codAssignatura = classroom.codi;
     classroom.domainIdAula = classroom.domainId;
-    classroom.link = indicadors.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode),
+    classroom.link = aules.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode),
     classroom.linkdetall = config.util.format(
         '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
         anyAcademic,
@@ -199,7 +200,7 @@ var resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, ca
     });
 }
 
-var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
+var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
 
 	var struct = {
 		s: s,
@@ -235,8 +236,8 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
             ws.aulaca.isAulaca(domainCode, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 struct.isAulaca = result;
-                struct.link = indicadors.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
-                struct.linkedicioaula = indicadors.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
+                struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+                struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
                 return callback();
             });
         },
@@ -273,8 +274,80 @@ var one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula,
 	});
 }
 
-module.exports = {
-    all: all,
-    one: one,
-    resum: resum
+/**
+ * [getLinkAula description]
+ * @param  {[type]}  s          [description]
+ * @param  {Boolean} isAulaca   [description]
+ * @param  {[type]}  domainId   [description]
+ * @param  {[type]}  domainCode [description]
+ * @return {[type]}             [description]
+ */
+var getLinkAula = exports.getLinkAula = function(s, isAulaca, domainId, domainCode) { 
+    return isAulaca ?
+    config.util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        config.cv(),
+        s,
+        domainId
+    ) :
+    config.util.format(
+        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        domainId,
+        domainCode
+    );
+}
+
+/**
+ * [isAulaca description]
+ * @param  {[type]}  aula [description]
+ * @return {Boolean}      [description]
+ */
+var isAulaca = exports.isAulaca = function(aula) {
+    return aula.presentation == 'AULACA';
+}
+
+/**
+ * [getLinkActivitat description]
+ * @param  {[type]}  s          [description]
+ * @param  {Boolean} isAulaca   [description]
+ * @param  {[type]}  domainId   [description]
+ * @param  {[type]}  domainCode [description]
+ * @param  {[type]}  activityId [description]
+ * @return {[type]}             [description]
+ */
+var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
+    return isAulaca ?
+    config.util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
+        config.cv(),
+        s,
+        domainId,
+        activityId
+    ) :
+    getLinkAula(s, isAulaca, domainId, domainCode);
+}
+
+/**
+ * [getLinkDissenyAula description]
+ * @param  {[type]}  s        [description]
+ * @param  {Boolean} isAulaca [description]
+ * @param  {[type]}  domainId [description]
+ * @return {[type]}           [description]
+ */
+var getLinkDissenyAula = exports.getLinkDissenyAula = function(s, isAulaca, domainId) {
+    return isAulaca ?
+    config.util.format(
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        config.cv(),
+        s,
+        domainId
+    ) :
+    config.util.format(
+        '%s/webapps/classroom/classroom.do?nav=dissenydomini_inici&s=%s&domainId=%s&domainTypeId=AULA&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        domainId
+    );
 }

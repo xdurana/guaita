@@ -1,20 +1,22 @@
 var config = require('../config');
 var encoder = require('./encoder');
-var ws = require('../ws');
 
-var getValor = function(object) {
+/**
+ * [getValor description]
+ * @param  {[type]} object [description]
+ * @return {[type]}        [description]
+ */
+var getValor = exports.getValor = function(object) {
     return Array.isArray(object) ? object[0] : object;
 };
 
-var getAppLang = function() {
-    return config.i18next.lng() == 'ca' ? 'a' : config.i18next.lng() == 'es' ? 'b' : 'c';
-}
-
-var getAppActiva = function() {
-    return 'UOC';
-}
-
-var getPercent = function(actual, total) {
+/**
+ * [getPercent description]
+ * @param  {[type]} actual [description]
+ * @param  {[type]} total  [description]
+ * @return {[type]}        [description]
+ */
+var getPercent = exports.getPercent = function(actual, total) {
     actual = parseInt(actual) || 0;
     total = parseInt(total) || 0;
     if (actual == 0) return 0;
@@ -22,7 +24,12 @@ var getPercent = function(actual, total) {
     return (100*actual/total).toFixed(2);
 }
 
-var getNomComplert = function(tercer) {
+/**
+ * [getNomComplert description]
+ * @param  {[type]} tercer [description]
+ * @return {[type]}        [description]
+ */
+var getNomComplert = exports.getNomComplert = function(tercer) {
     var complert = '';
     try {
         var t = getValor(tercer);
@@ -42,56 +49,32 @@ var getNomComplert = function(tercer) {
     return complert;
 }
 
-var esDocent = function(s, idp, domainId, callback) {
-    var docent = false;
-    ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
-        if (err) { console.log(err); return callback(null, false); }
-        result.forEach(function(assignatura) {
-            docent = docent || domainId == assignatura.domainId;
-        });
-        return callback(null, docent);
-    });
-}
-
-var getUrlRAC = function(s, domainId, docent) {
+/**
+ * [getUrlRAC description]
+ * @param  {[type]} s        [description]
+ * @param  {[type]} domainId [description]
+ * @param  {[type]} docent   [description]
+ * @return {[type]}          [description]
+ */
+var getUrlRAC = exports.getUrlRAC = function(s, domainId, docent) {
     return config.util.format('%s/webapps/rac/%s.action?s=%s&domainId=%s', config.cv(), docent ? 'RacInici' : 'listEstudiant', s, domainId)
 }
 
-var getFitxa = function(useridp, idp, s, callback) {
-    ws.aulaca.getUserIdPerIdp(useridp, s, function(err, userid) {
-        if (err) {
-            console.log(err);
-            return callback(null, '#');
-        } else {
-            return callback(
-                null,
-                config.util.format(
-                    '%s/webapps/cercaPersones/cercaContextualServlet?jsp=%2Fjsp%2FcercaContextual%2Fcurriculum.jsp&operacion=searchUser&USERID=%s&appId=UOC&idLang=a&s=%s&l=a&id_usuario_conectado=%s',
-                    config.cv(),
-                    userid,
-                    s,
-                    idp
-                )
-            );
-        }
-    });
-}
-
-var getTotalAules = function(AulaVO) {
+/**
+ * [getTotalAules description]
+ * @param  {[type]} AulaVO [description]
+ * @return {[type]}        [description]
+ */
+var getTotalAules = exports.getTotalAules = function(AulaVO) {
 	return AulaVO ? AulaVO.length : 0;
 }
 
-var getTotalEstudiants = function(AulaVO) {
-	var estudiants = 0;
-	if (AulaVO) {
-		AulaVO.forEach(function(aula) {
-			 estudiants += parseInt(aula.numPlacesAssignades);
-		});
-	}
-	return estudiants;
-}
-
-var getUltimaConnexio = function(object) {
+/**
+ * [getUltimaConnexio description]
+ * @param  {[type]} object [description]
+ * @return {[type]}        [description]
+ */
+var getUltimaConnexio = exports.getUltimaConnexio = function(object) {
     try {
         var dt = new Date(getValor(object.value).stored);
         if (isNaN(dt.getMilliseconds())) return config.nc();
@@ -105,11 +88,21 @@ var getUltimaConnexio = function(object) {
     }
 }
 
-var decodeHtmlEntity = function(html) {
+/**
+ * [decodeHtmlEntity description]
+ * @param  {[type]} html [description]
+ * @return {[type]}      [description]
+ */
+var decodeHtmlEntity = exports.decodeHtmlEntity = function(html) {
     return Encoder.htmlDecode(html);
 };
 
-var getDataLliurament = function(data) {
+/**
+ * [getDataLliurament description]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+var getDataLliurament = exports.getDataLliurament = function(data) {
     if (!data) {
         return config.nc();
     }
@@ -125,7 +118,13 @@ var getDataLliurament = function(data) {
     }
 }
 
-var getIndicador = function(indicadors, nom) {
+/**
+ * [getIndicador description]
+ * @param  {[type]} indicadors [description]
+ * @param  {[type]} nom        [description]
+ * @return {[type]}            [description]
+ */
+var getIndicador = exports.getIndicador = function(indicadors, nom) {
     var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
@@ -138,7 +137,13 @@ var getIndicador = function(indicadors, nom) {
     return total;
 }
 
-var getIndicadorTantPerCent = function(indicadors, nom) {
+/**
+ * [getIndicadorTantPerCent description]
+ * @param  {[type]} indicadors [description]
+ * @param  {[type]} nom        [description]
+ * @return {[type]}            [description]
+ */
+var getIndicadorTantPerCent = exports.getIndicadorTantPerCent = function(indicadors, nom) {
     var total = config.nc();
 	if (indicadors) {
 		indicadors.forEach(function(item) {
@@ -152,108 +157,65 @@ var getIndicadorTantPerCent = function(indicadors, nom) {
 	return total;
 }
 
-var getTotalEstudiantsTotal = function(indicadors) {
+/**
+ * [getTotalEstudiantsTotal description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getTotalEstudiantsTotal = exports.getTotalEstudiantsTotal = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_TOTAL');
 }
 
-var getTotalEstudiantsRepetidors = function(indicadors) {
+/**
+ * [getTotalEstudiantsRepetidors description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getTotalEstudiantsRepetidors = exports.getTotalEstudiantsRepetidors = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_REPITE');
 }
 
-var getTotalEstudiantsPrimeraMatricula = function(indicadors) {
+/**
+ * [getTotalEstudiantsPrimeraMatricula description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getTotalEstudiantsPrimeraMatricula = exports.getTotalEstudiantsPrimeraMatricula = function(indicadors) {
 	return getIndicador(indicadors, 'ESTUD_1A_MATR');
 }
 
-var getSeguimentACAulaPercent = function(indicadors) {
+/**
+ * [getSeguimentACAulaPercent description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getSeguimentACAulaPercent = exports.getSeguimentACAulaPercent = function(indicadors) {
     return getIndicadorTantPerCent(indicadors, 'ESTUD_PARTICIPA_AC');
 }
 
-var getSuperacioACAulaPercent = function(indicadors) {
+/**
+ * [getSuperacioACAulaPercent description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getSuperacioACAulaPercent = exports.getSuperacioACAulaPercent = function(indicadors) {
     return getIndicadorTantPerCent(indicadors, 'ESTUD_SUPERA_AC');
 }
 
-var getSeguimentACAula = function(indicadors) {
+/**
+ * [getSeguimentACAula description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getSeguimentACAula = exports.getSeguimentACAula = function(indicadors) {
     return getIndicador(indicadors, 'ESTUD_PARTICIPA_AC');
-    //return getIndicadorSenseFiltrar(indicadors, 'ESTUD_PARTICIPA_AC');
 }
 
-var getSuperacioACAula = function(indicadors) {
+/**
+ * [getSuperacioACAula description]
+ * @param  {[type]} indicadors [description]
+ * @return {[type]}            [description]
+ */
+var getSuperacioACAula = exports.getSuperacioACAula = function(indicadors) {
     return getIndicador(indicadors, 'ESTUD_SUPERA_AC');
-	//return getIndicadorSenseFiltrar(indicadors, 'ESTUD_SUPERA_AC');
-}
-
-var getLinkAula = function(s, isAulaca, domainId, domainCode) { 
-    return isAulaca ?
-    config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
-        config.cv(),
-        s,
-        domainId
-    ) :
-    config.util.format(
-        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
-        config.cv(),
-        s,
-        domainId,
-        domainCode
-    );
-}
-
-var isAulaca = function(aula) {
-    return aula.presentation == 'AULACA';
-}
-
-var getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
-    return isAulaca ?
-    config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
-        config.cv(),
-        s,
-        domainId,
-        activityId
-    ) :
-    getLinkAula(s, isAulaca, domainId, domainCode);
-}
-
-var getLinkDissenyAula = function(s, isAulaca, domainId) {
-    return isAulaca ?
-    config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
-        config.cv(),
-        s,
-        domainId
-    ) :
-    config.util.format(
-        '%s/webapps/classroom/classroom.do?nav=dissenydomini_inici&s=%s&domainId=%s&domainTypeId=AULA&idLang=a&ajax=true',
-        config.cv(),
-        s,
-        domainId
-    );
-}
-
-module.exports = {
-    getValor: getValor,
-    getAppLang: getAppLang,
-    getAppActiva: getAppActiva,
-    getPercent: getPercent,
-    getNomComplert: getNomComplert,
-    getFitxa: getFitxa,
-    getUrlRAC: getUrlRAC,
-    esDocent: esDocent,
-    getTotalAules: getTotalAules,
-    getLinkAula: getLinkAula,
-    isAulaca: isAulaca,
-    getLinkActivitat: getLinkActivitat,
-    decodeHtmlEntity: decodeHtmlEntity,
-    getUltimaConnexio: getUltimaConnexio,
-    getTotalEstudiants: getTotalEstudiants,
-    getSeguimentACAula: getSeguimentACAula,
-    getSuperacioACAula: getSuperacioACAula,
-    getSeguimentACAulaPercent: getSeguimentACAulaPercent,
-    getSuperacioACAulaPercent: getSuperacioACAulaPercent,
-    getTotalEstudiantsPrimeraMatricula: getTotalEstudiantsPrimeraMatricula,
-    getTotalEstudiantsRepetidors: getTotalEstudiantsRepetidors,
-    getTotalEstudiantsTotal: getTotalEstudiantsTotal,
-    getDataLliurament: getDataLliurament,
-    getLinkDissenyAula: getLinkDissenyAula
 }

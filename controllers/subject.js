@@ -1,5 +1,4 @@
 var aules = require('../routes/aules');
-var indicadors = require('../routes/indicadors');
 var config = require('../config');
 
 /**
@@ -30,7 +29,7 @@ var getClassroom = exports.getClassroom = function (req, res, next) {
             result.linkfitxaassignatura = config.util.format("http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=%s&cod_asignatura=%s&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S", req.params.anyAcademic, req.params.codAssignatura);
 
             var isAulaca = result.aules.length > 0 ? result.aules[0].isAulaca : true;
-            result.linkedicioaula = indicadors.getLinkDissenyAula(req.query.s, isAulaca, req.params.domainId);
+            result.linkedicioaula = aules.getLinkDissenyAula(req.query.s, isAulaca, req.params.domainId);
 
             res.render(req.query.perfil == 'pra' ? 'tabs_pra.html' : 'tabs_consultor.html', { assignatura: result });
         }

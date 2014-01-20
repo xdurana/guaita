@@ -5,6 +5,8 @@ var calendar = require('node-calendar');
 
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
+var usuaris = require('./usuaris');
+var aules = require('./aules');
 var widget = require('./widget');
 var config = require('../config');
 var ws = require('../ws');
@@ -59,7 +61,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         };
         async.parallel([
             function(callback) {
-                indicadors.getFitxa(estudiant.idp, idp, s, function(err, url) {
+                usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.fitxa = url;
                     return callback();
@@ -103,10 +105,11 @@ exports.aules = function(idp, s, callback) {
 
     ws.aulaca.getAulesEstudiant(idp, s, function(err, object) {
         if (err) { console.log(err); return callback(null, struct); }
+
         struct.classrooms = object.classrooms;
         struct.assignments = object.assignments;
         struct.subjects = object.subjects;
-        if (struct.classrooms && struct.classrooms.length > 0) {
+        if (struct.classrooms && struct.classrooms.length > 0) {            
             async.each(struct.classrooms, getAulaInfo.bind(null, struct, s), function(err) {
                 buildCalendari(function(err, result) {
                     if (err) { console.log(err); return callback(null, struct); }
@@ -120,11 +123,12 @@ exports.aules = function(idp, s, callback) {
 
     var getAulaInfo = function(struct, s, aula, callback) {
 
-        aula.link = indicadors.getLinkAula(s, indicadors.isAulaca(aula), aula.domainId, aula.domainCode);
+        aula.link = aules.getLinkAula(s, aules.isAulaca(aula), aula.domainId, aula.domainCode);
         aula.color = '66AA00';
         aula.codiAssignatura = aula.codi;
         aula.nom = aula.title;
         aula.codAula = aula.domainCode.slice(-1);
+
 
         if (struct.assignments) {
             struct.assignments.forEach(function(assignment) {
@@ -169,7 +173,7 @@ exports.aules = function(idp, s, callback) {
                         aula.activitats = result.activitats;
                         if (aula.activitats) {
                             aula.activitats.forEach(function(activitat) {
-                                activitat.link = indicadors.getLinkActivitat(s, indicadors.isAulaca(aula), aula.domainId, aula.domainCode, activitat.eventId);
+                                activitat.link = aules.getLinkActivitat(s, aules.isAulaca(aula), aula.domainId, aula.domainCode, activitat.eventId);
                                 if (activitat.qualificationDate) {
                                     setEventCalendari(struct.calendari, activitat, 'PI', activitat.startDate);
                                     setEventCalendari(struct.calendari, activitat, 'PL', activitat.deliveryDate);
