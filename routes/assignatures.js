@@ -31,7 +31,7 @@ var byidp = exports.byidp = function(s, idp, next) {
 
         /*
         if (result && result.assignments && result.assignatures) {
-            //TODO
+            //TODO GUAITA-85
             async.some(['file1','file2','file3'], fs.exists, function(result){
                 // if result is true then at least one of the files exists
             });

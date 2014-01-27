@@ -16,7 +16,6 @@ var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, nex
     );
     service.json(url, function(err, object) {
         if (err) return next(err);
-        config.debug(object);
         object.subjects = object.subjects || [];
         object.subjects = object.subjects.filter(function(assignatura) {
             return true;

@@ -118,7 +118,7 @@
                                             {% if day.actual %}
                                             {% for event in day.events %}
                                             <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
-                                                <a href="{{ event.activitat.link }}" class="marcador c_{{ event.activitat.color }}">{{ event.tipus }}</a>
+                                                <a href="{{ event.activitat.link }}" class="marcador c_{{ event.activitat.color }}" title="{{ event.tooltip }}">{{ event.tipus }}</a>
                                                 <span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span>
                                             </div>
                                             {% endfor %}
@@ -155,9 +155,9 @@
                                             <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <td>{{ day.day }}</td>
                                                 <td><div class="{{ event.destacat }} c_{{ event.activitat.color }} {{ event.destacat }}">&nbsp;</div></td>
-                                                <td><span class="lbl">{{ event.activitat.aula }}</span></td>
-                                                <td><a href="{{ event.activitat.link }}" class="lbl">{{ event.activitat.name }}</a></td>
-                                                <td>{{ event.tipus }}</td>
+                                                <td><span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span></td>
+                                                <td><a href="{{ event.activitat.link }}" class="lbl" title="{{ event.activitat.name }}">{{ event.activitat.name }}</a></td>
+                                                <td title="{{ event.tooltip }}">{{ event.tipus }}</td>
                                             </tr>
                                         {% endfor %}
                                         {% endif %}
@@ -241,9 +241,9 @@
                                             <tr id="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" name="day-{{ page.year }}-{{ page.month.number }}-{{ day.day }}" class="event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
                                                 <td>{{ day.day }}</td>
                                                 <td><div class="{{ event.destacat }} c_{{ event.activitat.color }}">&nbsp;</div></td>
-                                                <td><span class="lbl">{{ event.activitat.aula }}</span></td>
-                                                <td><a href="{{ event.activitat.link }}" class="lbl">{{ event.activitat.name }}</a></td>
-                                                <td>{{ event.tipus }}</td>
+                                                <td><span class="lbl" title="{{ event.activitat.aula }}">{{ event.activitat.aula }}</span></td>
+                                                <td><a href="{{ event.activitat.link }}" class="lbl" title="{{ event.activitat.name }}">{{ event.activitat.name }}</a></td>
+                                                <td title="{{ event.tooltip }}">{{ event.tipus }}</td>
                                             </tr>
                                             {% endfor %}
                                             {% endif %}

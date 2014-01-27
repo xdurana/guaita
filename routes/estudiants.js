@@ -175,10 +175,10 @@ exports.aules = function(idp, s, callback) {
                             aula.activitats.forEach(function(activitat) {
                                 activitat.link = aules.getLinkActivitat(s, aules.isAulaca(aula), aula.domainId, aula.domainCode, activitat.eventId);
                                 if (activitat.qualificationDate) {
-                                    setEventCalendari(struct.calendari, activitat, 'PI', activitat.startDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PL', activitat.deliveryDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PS', activitat.solutionDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PQ', activitat.qualificationDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PI', config.i18next.t('events.inici.descripcio'), activitat.startDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PL', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PS', config.i18next.t('events.solucio.descripcio'), activitat.solutionDate);
+                                    setEventCalendari(struct.calendari, activitat, 'PQ', config.i18next.t('events.qualificacio.descripcio'), activitat.qualificationDate);
                                     activitat.aula = aula.nom;
                                     activitat.color = aula.color;
                                     activitat.name = indicadors.decodeHtmlEntity(activitat.name);
@@ -201,10 +201,11 @@ exports.aules = function(idp, s, callback) {
         return a.data < b.data ? -1 : b.data < a.data ? 1 : 0;
     }
 
-    var setEventCalendari = function(calendari, activitat, esdeveniment, data) {
+    var setEventCalendari = function(calendari, activitat, esdeveniment, tooltip, data) {
         if (data) {
             struct.events.push({
                 tipus: esdeveniment,
+                tooltip: tooltip,
                 activitat: activitat,
                 data: moment(data).format("YYYY-MM-DD"),
                 destacat: esdeveniment === 'PL' ? 'event-destacat' : 'event'
@@ -216,7 +217,7 @@ exports.aules = function(idp, s, callback) {
 
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
-        
+
         var monthc = new calendar.Calendar(0).monthdatescalendar(moment().year(), moment().month() + 1);
         monthc.forEach(function(weekc) {
             var week = [];
@@ -242,6 +243,10 @@ exports.aules = function(idp, s, callback) {
 
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
+
+        //TODO GUAITA-93
+        inici = moment().isBefore(moment([moment().year(), 8, 1, 0, 0, 0, 0])) ? moment([moment().year() - 1, 8, 1, 0, 0, 0, 0]) : moment([moment().year(), 8, 1, 0, 0, 0, 0]);
+        fi = moment().isBefore(moment([moment().year(), 8, 1, 0, 0, 0, 0])) ? moment([moment().year() , 8, 1, 0, 0, 0, 0]) : moment([moment().year() + 1, 8, 1, 0, 0, 0, 0]);
 
         var onward = true;
         var actual = inici;
