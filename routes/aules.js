@@ -165,6 +165,9 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
                 try {
                     classroom.resum.comunicacio.lecturesPendents = result[0]['$']['numMsgPendents'];
                     classroom.color = result[0].color[0];
+
+                    //TODO Total missatges per aula
+
                 } catch(e) {
                     console.log(e.message);
                 }
@@ -182,13 +185,6 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
             ws.aulaca.getParticipacionsAula(classroom.domainId, s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 classroom.resum.comunicacio.participacions = result ? result : config.nc();
-                return callback();
-            });
-        },
-        function (callback) {
-            ws.aulaca.getLecturesPendentsIdpAula(classroom.domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                //classroom.resum.comunicacio.lecturesPendents = result ? result : config.nc();
                 return callback();
             });
         }

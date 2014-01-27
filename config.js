@@ -53,6 +53,10 @@ exports.phpbb = function() {
     return nconf.get('wsdl:phpbb');
 }
 
+exports.myway = function() {
+    return nconf.get('wsdl:myway');
+}
+
 exports.nc = function() {
     return "N/D";
 }
@@ -77,11 +81,19 @@ var idpadmin = exports.idpadmin = function() {
 }
 
 /**
+ * [lng description]
+ * @return {[type]} [description]
+ */
+var lng = exports.lng = function() {
+    return i18next.lng();
+}
+
+/**
  * [getAppLang description]
  * @return {[type]} [description]
  */
 var getAppLang = exports.getAppLang = function() {
-    return i18next.lng() == 'ca' ? 'a' : i18next.lng() == 'es' ? 'b' : 'c';
+    return lng() == 'ca' ? 'a' : lng() == 'es' ? 'b' : 'c';
 }
 
 /**

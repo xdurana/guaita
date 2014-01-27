@@ -254,7 +254,7 @@ var getWidget = exports.getWidget = function (req, res, next) {
             res.json(result);
         } else {
             result.s = req.query.s;
-            result.lang = config.i18next.lng();
+            result.lang = config.lng();
             res.render('widget-aula.html', { widget: result });
         }
     });

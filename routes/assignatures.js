@@ -4,7 +4,14 @@ var config = require('../config');
 var indicadors = require('./indicadors');
 var ws = require('../ws');
 
-var byidp = function(s, idp, callback) {
+/**
+ * [byidp description]
+ * @param  {[type]}   s    [description]
+ * @param  {[type]}   idp  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var byidp = exports.byidp = function(s, idp, next) {
 
     var struct = {
         s: s,
@@ -14,33 +21,93 @@ var byidp = function(s, idp, callback) {
     };
 
     ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
-        if (err) { console.log(err); return callback(null, struct); }
-        try {
-            struct.assignatures = result;
-            async.each(struct.assignatures, getResum.bind(null, s, idp), function(err) {
-                if (err) { console.log(err); return callback(null, struct); }
-                struct.assignatures.sort(ordenaAssignatures);
-                return callback(null, struct);
+        if (err) return next(err);
+        struct.assignatures = result || [];
+        async.each(struct.assignatures, getResum, function(err) {
+            if (err) return next(err);
+            struct.assignatures.sort(ordenaAssignatures);
+            return next(null, struct);
+        });
+
+        /*
+        if (result && result.assignments && result.assignatures) {
+            //TODO
+            async.some(['file1','file2','file3'], fs.exists, function(result){
+                // if result is true then at least one of the files exists
             });
-        } catch(e) {
-            console.log(e.message);
-            return callback(null, struct);
+            async.filter(result.assignments, filtrarAssignments, function(assignments) {
+                async.map(assignments, getDomainIdAssignment, function(err, domains) {
+                    if (err) return next(err);
+                    async.filter(result.assignatures, filtrarAssignatures, function(err, assignatures) {
+                        if (err) return next(err);
+                    });                    
+                });
+            });
+        } else {
+            return next("No s'han pogut obtenir les assignatures de l'idp");
         }
+        */
     });
 
-    var getResum = function(s, idp, subject, callback) {
+    /**
+     * [filtrarAssignments description]
+     * @param  {[type]}   assignment [description]
+     * @param  {Function} next       [description]
+     * @return {[type]}              [description]
+     */
+    var filtrarAssignments = function(assignment, next) {
+        return next(assignment.assignmentId.userTypeId === "CREADOR");
+    }
+
+    var filtrarAssignatures = function(assignatura, next) {
+        return next(assignatura.domainId );
+    }
+
+    /**
+     * [getDomainIdAssignment description]
+     * @param  {[type]}   assignment [description]
+     * @param  {Function} next       [description]
+     * @return {[type]}              [description]
+     */
+    var getDomainIdAssignment = function(assignment, next) {
+        return next(null, assignment.assignmentId.domainId);
+    }
+
+    /**
+     * [getResum description]
+     * @param  {[type]}   subject [description]
+     * @param  {Function} next    [description]
+     * @return {[type]}           [description]
+     */
+    var getResum = function(subject, next) {
         resum(s, idp, subject.anyAcademic, subject, subject.codi, subject.domainId, function(err, result) {
-            if (err) { console.log(err); }
-            return callback();
+            return next(err, result);
         });
     }
 
+    /**
+     * [ordenaAssignatures description]
+     * @param  {[type]} a [description]
+     * @param  {[type]} b [description]
+     * @return {[type]}   [description]
+     */
     var ordenaAssignatures = function(a, b) {
         return a.codi < b.codi ? -1 : b.codi < a.codi ? 1 : 0;
     }  
 }
 
-var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
+/**
+ * [resum description]
+ * @param  {[type]}   s           [description]
+ * @param  {[type]}   idp         [description]
+ * @param  {[type]}   anyAcademic [description]
+ * @param  {[type]}   subject     [description]
+ * @param  {[type]}   codi        [description]
+ * @param  {[type]}   domainId    [description]
+ * @param  {Function} next        [description]
+ * @return {[type]}               [description]
+ */
+var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainId, next) {
 
     //TODO GUAITA-21
     subject.estil = 'block-head';
@@ -67,98 +134,63 @@ var resum = function(s, idp, anyAcademic, subject, codi, domainId, callback) {
         }
     };
 
-    var seguimentACAssignatura = function(callback) {
+    var seguimentACAssignatura = function(next) {
         ws.rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', anyAcademic, codi, '0', '0', function(err, result) {
-            if (err) { console.log(err); return callback(); }
+            if (err) { console.log(err); return next(); }
             subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
             subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-            return callback();
+            return next();
         });
     }
 
-    var seguimentACAula = function(aula, callback) {
+    var seguimentACAula = function(aula, next) {
         aula.codAula = aula.domainCode.slice(-1);
         ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codi, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-            if (err) { console.log(err); return callback(); }
+            if (err) { console.log(err); return next(); }
             aula.ac = {
                 seguiment: indicadors.getSeguimentACAula(result.out.ValorIndicadorVO),
                 superacio: indicadors.getSuperacioACAula(result.out.ValorIndicadorVO)
             };
-            return callback();
+            return next();
         });
     }    
 
     async.parallel([
-        function (callback) {
+        function (next) {
             ws.rac.calcularIndicadorsAssignatura('RAC_PRA_2', anyAcademic, codi, '0', '0', function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) { console.log(err); return next(); }
                 subject.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 subject.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
-                return callback();
+                return next();
             });
         },
-        /*
-        function (callback) {
-            seguimentACAssignatura(function(err, result) {
-                return callback();
-            });
-        },
-        */
-        function (callback) {
+        function (next) {
             ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }                
+                if (err) { console.log(err); return next(); }                
                 subject.resum.aules.total = result ? result.length : config.nc();
 
                 subject.resum.avaluacio.seguiment = 0;
                 subject.resum.avaluacio.superacio = 0;
                 async.each(result, seguimentACAula, function(err) {
-                    if (err) { console.log(err); return callback(null, struct); }
+                    if (err) { console.log(err); return next(null, struct); }
                     result.forEach(function(aula) {
                         subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
                         subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
                     });
                     subject.resum.avaluacio.seguimentpercent = indicadors.getPercent(subject.resum.avaluacio.seguiment, subject.resum.estudiants.total);
                     subject.resum.avaluacio.superaciopercent = indicadors.getPercent(subject.resum.avaluacio.superacio, subject.resum.estudiants.total);
-                    return callback();
+                    return next();
                 });
             });
         },
-        function (callback) {
+        function (next) {
             ws.lrs.bysubject(domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) { console.log(err); return next(); }
                 subject.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                return callback();
-            });
-        },
-        function (callback) {
-            return callback();
-            ws.aulaca.getLecturesPendentsAcumuladesAssignatura(domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                subject.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
-                return callback();
-            });
-        },
-        function (callback) {
-            return callback();
-            ws.aulaca.getParticipacionsAssignatura(domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                subject.resum.comunicacio.participacions = result ? result : config.nc();
-                return callback();
-            });
-        },
-        function (callback) {
-            return callback();
-            ws.aulaca.getLecturesPendentsIdpAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                subject.resum.comunicacio.lecturesPendents = result ? result : config.nc();
-                return callback();
+                return next();
             });
         }
     ], function(err, result) {
-        if (err) { console.log(err); }
-        return callback();
+        return next(err, result);
     });
 }
-
-exports.byidp = byidp;
-exports.resum = resum;

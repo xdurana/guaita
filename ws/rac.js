@@ -5,7 +5,7 @@ exports.getAssignaturesByResponsableAny = function(idp, anyAcademic, callback) {
 	var args = {
 		in0: idp,
 		in1: anyAcademic,
-        in2: config.i18next.lng()
+        in2: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getAssignaturesByResponsableAny', args, function(err, result) {
         if(err) { console.log(err); }
@@ -18,7 +18,7 @@ exports.getEstudiantsPerAula = function(anyAcademic, codAssignatura, numAula, ca
 		in0: anyAcademic,
 		in1: codAssignatura,
 		in2: numAula,
-        in3: config.i18next.lng()
+        in3: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getEstudiantsByAula', args, function(err, result) {
         if(err) { console.log(err); }
@@ -32,7 +32,7 @@ exports.getActivitatsByEstudiantAula = function(anyAcademic, codAssignatura, num
 		in1: anyAcademic,
 		in2: codAssignatura,
 		in3: numAula,
-        in4: config.i18next.lng()
+        in4: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAula', args, function(err, result) {
         if(err) { console.log(err); }
@@ -47,7 +47,7 @@ exports.getActivitatsByEstudiantAulaOrdre = function(anyAcademic, codAssignatura
 		in2: codAssignatura,
 		in3: numAula,
 		in4: ordre,
-        in5: config.i18next.lng()
+        in5: config.lng()
 	}
 
 	service.operation(config.racwsdl(), 'getActivitatsByEstudiantAulaOrdre', args, function(err, result) {
@@ -65,7 +65,7 @@ exports.calcularIndicadorsAula = function(tipusIndicador, codAssignatura, anyAca
 		in4: ordre,
 		in5: comptarEquivalents,
 		in6: comptarRelacions,
-        in7: config.i18next.lng()
+        in7: config.lng()
 	}
 	service.operation(config.racwsdl(), 'calcularIndicadorsAula', args, function(err, result) {
         if(err) { console.log(err); }
@@ -79,7 +79,7 @@ exports.getNumEstudiantsQualificatsByActivitat = function(anyAcademic, codAssign
 		in1: codAssignatura,
 		in2: numAula,
 		in3: ordre,
-        in4: config.i18next.lng()
+        in4: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getNumEstudiantsQualificatsByActivitat', args, function(err, result) {
         if(err) { console.log(err); }
@@ -92,7 +92,7 @@ exports.getUltimaActivitatAmbNotaByAula = function(anyAcademic, codAssignatura, 
 		in0: anyAcademic,
 		in1: codAssignatura,
 		in2: numAula,
-        in3: config.i18next.lng()
+        in3: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getUltimaActivitatAmbNotaByAula', args, function(err, result) {
         if(err) { console.log(err); }
@@ -105,7 +105,7 @@ exports.getActivitatsByAula = function(anyAcademic, codAssignatura, numAula, cal
 		in0: anyAcademic,
 		in1: codAssignatura,
 		in2: numAula,
-        in3: config.i18next.lng()
+        in3: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getActivitatsByAula', args, function(err, result) {		
         if(err) { console.log(err); }
@@ -120,7 +120,7 @@ exports.calcularIndicadorsAssignatura = function(tipusIndicador, anyAcademic, co
 		in2: anyAcademic,
 		in3: comptarEquivalents,
 		in4: comptarRelacions,
-        in5: config.i18next.lng()
+        in5: config.lng()
 	}
 	service.operation(config.racwsdl(), 'calcularIndicadorsAssignatura', args, function(err, result) {
         if(err) { console.log(err); }
@@ -133,7 +133,7 @@ exports.getAula = function(codAssignatura, anyAcademic, numAula, callback) {
 		in0: anyAcademic,
 		in1: codAssignatura,
 		in2: numAula,
-        in3: config.i18next.lng()
+        in3: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getAula', args, function(err, result) {
         if(err) { console.log(err); }
@@ -147,7 +147,7 @@ exports.getActivitat = function(codAssignatura, anyAcademic, numAula, ordre, cal
 		in1: codAssignatura,
 		in2: numAula,
 		in3: ordre,
-        in4: config.i18next.lng()
+        in4: config.lng()
 	}
 	service.operation(config.racwsdl(), 'getActivitat', args, function(err, result) {
 		if(err) { console.log(err); }

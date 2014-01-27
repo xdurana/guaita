@@ -15,12 +15,9 @@ var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, nex
         idp
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        if (object.subjects == null) {
-            return next();
-        }
+        if (err) return next(err);
+        config.debug(object);
+        object.subjects = object.subjects || [];
         object.subjects = object.subjects.filter(function(assignatura) {
             return true;
         });
@@ -92,10 +89,7 @@ var getEinesPerActivitat = exports.getEinesPerActivitat = function(domainId, dom
         s
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.tools);
+        return next(err, object ? object.tools : []);
     });
 }
 
@@ -115,10 +109,7 @@ var getEinesPerAula = exports.getEinesPerAula = function(domainId, domainIdAula,
         s
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.tools);
+        return next(err, object ? object.tools : []);
     });
 }
 
@@ -137,10 +128,7 @@ var getAulesEstudiant = exports.getAulesEstudiant = function(idp, s, next) {
         s
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object);
+        return next(err, object ? object : []);
     });
 }
 
@@ -159,10 +147,7 @@ var getGroupServlet = exports.getGroupServlet = function(domainCode, s, next) {
         domainCode
     );
     service.xml(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.Dominis.domini);
+        return next(err, object ? object.Dominis.domini : {});
     });
 }
 
@@ -181,10 +166,7 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
         s
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.userId);
+        return next(err, object ? object.userId : -1);
     });
 }
 
@@ -197,10 +179,7 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
  */
 var isAulaca = exports.isAulaca = function(domainCode, s, next) {
     getGroupServlet(domainCode, s, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object[0]['$']['idTipoPresent'] == 'AULACA');
+        return next(err, object[0]['$']['idTipoPresent'] == 'AULACA');
     });
 }
 

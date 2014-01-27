@@ -260,7 +260,7 @@ exports.aules = function(idp, s, callback) {
                 year: actual.year(),
                 month: {
                     number: actual.month() + 1,
-                    name: actual.lang(config.i18next.lng()).format('MMMM')
+                    name: actual.lang(config.lng()).format('MMMM')
                 },
                 weeks: []
             }
