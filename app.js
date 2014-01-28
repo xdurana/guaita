@@ -82,8 +82,8 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', user.authorize, classroom.getWidget);
 
-app.get('/app/guaita/materials/:idp', user.authorize, materials.get);
-app.get('/app/guaita/materials/html5/:idp', user.authorize, materials.getHTML5);
+app.get('/app/guaita/materials', user.authorize, materials.get);
+app.get('/app/guaita/materials/:pid', user.authorize, materials.getHTML5);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

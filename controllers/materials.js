@@ -11,14 +11,14 @@ var async = require('async');
  * @return {[type]}        [description]
  */
 var get = exports.get = function (req, res, next) {
-    ws.dadesexpedient.getAgrupacionsIniciativesByEstudiant(req.params.idp, "ESTUDIANT", config.lng(), "N", function (err, iniciatives) {
+    if (!req.query.idp) return next("Manca l'idp");
+    ws.dadesexpedient.getAgrupacionsIniciativesByEstudiant(req.query.idp, "ESTUDIANT", config.lng(), "N", function (err, iniciatives) {
         if (err) return next("No s'ha pogut obtenir les iniciatives de l'estudiant");
         if (!iniciatives) return next("No hi ha iniciatives");
         async.filter(iniciatives, esIniciativaValida, function(valides) {
             async.map(valides, getExpedientsByEstudiantAgrupacioIniciativa, function(err, expedients) {
                 if (err) return next(err);
                 async.filter(iniciatives, filtrarIniciativesSenseExpedients, function(valides) {
-                    ws.infoacademica.getPlaById()
                     return res.json(valides);
                 });
             });
@@ -32,7 +32,7 @@ var get = exports.get = function (req, res, next) {
      * @return {[type]}              [description]
      */
     var getExpedientsByEstudiantAgrupacioIniciativa = function(iniciativa, next) {
-        ws.dadesexpedient.getExpedientsByEstudiantAgrupacioIniciativa(req.params.idp, iniciativa.id[0], config.lng(), "N", function (err, expedients) {
+        ws.dadesexpedient.getExpedientsByEstudiantAgrupacioIniciativa(req.query.idp, iniciativa.id[0], config.lng(), "N", function (err, expedients) {
             if (err) return next(err);
             if (!expedients) return next("No s'ha pogut obtenir els expedients de la iniciativa");
             async.filter(expedients, filtrarExpedient, function(filtrats) {
@@ -81,14 +81,8 @@ var get = exports.get = function (req, res, next) {
  * @return {[type]}        [description]
  */
 var getHTML5 = exports.getHTML5 = function(req, res, next) {
-    var idp = '70000813';
-    var login = 'jmatamoros';
-    var role = 'CONSULTOR';
-    var subject = '382785';
-    var classroom = '1000';
-    var pid = 'PID_00205228';
-    var language = 'ca';
-    ws.myway.getHTML5Format(idp, login, role, subject, classroom, pid, language, function (err, format) {
-        return res.json(format);
+    if (!(req.params.pid && req.query.idp && req.query.login && req.query.role && req.query.subject && req.query.classroom && req.query.language)) return next("No s'ha pogut obtenir la URL del material");
+    ws.myway.getHTML5Format(req.query.idp, req.query.login, req.query.role, req.query.subject, req.query.classroom, req.params.pid, req.query.language, function (err, format) {
+        return res.redirect(format);
     });
 }

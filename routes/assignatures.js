@@ -28,25 +28,6 @@ var byidp = exports.byidp = function(s, idp, next) {
             struct.assignatures.sort(ordenaAssignatures);
             return next(null, struct);
         });
-
-        /*
-        if (result && result.assignments && result.assignatures) {
-            //TODO GUAITA-85
-            async.some(['file1','file2','file3'], fs.exists, function(result){
-                // if result is true then at least one of the files exists
-            });
-            async.filter(result.assignments, filtrarAssignments, function(assignments) {
-                async.map(assignments, getDomainIdAssignment, function(err, domains) {
-                    if (err) return next(err);
-                    async.filter(result.assignatures, filtrarAssignatures, function(err, assignatures) {
-                        if (err) return next(err);
-                    });                    
-                });
-            });
-        } else {
-            return next("No s'han pogut obtenir les assignatures de l'idp");
-        }
-        */
     });
 
     /**
