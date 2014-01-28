@@ -83,6 +83,7 @@ var get = exports.get = function (req, res, next) {
 var getHTML5 = exports.getHTML5 = function(req, res, next) {
     if (!(req.params.pid && req.query.idp && req.query.login && req.query.role && req.query.subject && req.query.classroom && req.query.language)) return next("No s'ha pogut obtenir la URL del material");
     ws.myway.getHTML5Format(req.query.idp, req.query.login, req.query.role, req.query.subject, req.query.classroom, req.params.pid, req.query.language, function (err, format) {
+        if (err) return next(err);
         return res.redirect(format);
     });
 }

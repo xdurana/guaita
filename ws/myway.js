@@ -15,7 +15,7 @@ var service = require('./service');
  */
 var getHTML5Format = exports.getHTML5Format = function(idp, login, role, subject, classroom, pid, language, next) {
     getCrypt(idp, login, role, subject, language, function (err, result) {
-        return next(err,
+        if (result) return next(err,
             config.util.format('%s/%s/%s/%s/index.html',
                 config.myway(),
                 result[0].crypt,
@@ -23,6 +23,7 @@ var getHTML5Format = exports.getHTML5Format = function(idp, login, role, subject
                 pid
             )
         );
+        return next("No s'ha pogut obtenir l'enllaç del material");
     });
 }
 
