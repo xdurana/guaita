@@ -29,7 +29,8 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         domainIdAula: domainIdAula,
         domainCode: domainCode,
         idp: idp,
-        s: s
+        s: s,
+        lang: config.lng()
     };
 
     async.parallel([

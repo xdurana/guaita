@@ -1,12 +1,129 @@
+var TinCan = require('tincanjs');
 var config = require('../config');
 var service = require('./service');
 
+/**
+ * [tincan description]
+ * @type {tincanjs}
+ */
+var xapi = new TinCan({
+    recordStores: [{
+        endpoint: config.lrs() + "/xapi/",
+        username: "<Test User>",
+        password: "<Test User's Password>"
+    }]
+});
+
+/**
+ * [registra description]
+ * @param  {[type]} statement [description]
+ * @return {[type]}           [description]
+ */
+var registra = function(statement) {
+    config.debug(statement);
+    xapi.sendStatement(statement, function (results, statement) {        
+    });
+}
+
+/**
+ * [registraWidget description]
+ * @param  {[type]} idp          [description]
+ * @param  {[type]} domainId     [description]
+ * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} s            [description]
+ * @return {[type]}              [description]
+ */
+var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAula, s) {
+    registra({
+        actor: {
+            objectType: "Agent",
+            account: {
+                name: idp
+            }
+        },
+        context: {
+            extensions: {
+                'uoc:lrs:app': 'widget',
+                'uoc:lrs:subject:id': domainId,
+                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:session:id': s
+            }
+        },
+        verb: {
+            id: "http://adlnet.gov/expapi/verbs/experienced",
+            display: {
+                en: "experienced"
+            }
+        },
+        object: {
+            id: "https://cv.uoc.edu/webapps/aulaca",
+            objectType: "Activity"
+        }
+    });
+}
+
+/**
+ * [registraHTML5 description]
+ * @param  {[type]} idp          [description]
+ * @param  {[type]} app          [description]
+ * @param  {[type]} domainId     [description]
+ * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} eventId      [description]
+ * @param  {[type]} pid          [description]
+ * @param  {[type]} s            [description]
+ * @return {[type]}              [description]
+ */
+var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainIdAula, eventId, pid, s) {
+    registra({
+        actor: {
+            objectType: "Agent",
+            account: {
+                name: idp
+            }
+        },
+        context: {
+            extensions: {
+                'uoc:lrs:app': app,
+                'uoc:lrs:subject:id': domainId,
+                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:activity:id': eventId,
+                'uoc:lrs:session:id': s
+            }
+        },
+        verb: {
+            id: "http://adlnet.gov/expapi/verbs/launched",
+            display: {
+                en: "launched"
+            }
+        },
+        object: {
+            id: "M:" + pid,
+            type: "HTML5",
+            extensions: {
+                "uoc:lrs:material:id": pid,
+            }
+        }
+    });
+}
+
+/**
+ * [count description]
+ * @param  {[type]}   data [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 var count = function(data, next) {
     service.post(config.util.format('%s/guaita/count', config.lrs()), data, function (err, data) {
         return next(null, data);
     });
 }
 
+/**
+ * [last description]
+ * @param  {[type]}   data [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 var last = function(data, next) {
     service.post(config.util.format('%s/guaita/all/1', config.lrs()), data, function (err, data) {
         return next(null, data);

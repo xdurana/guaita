@@ -17,48 +17,48 @@ exports.port = function() {
 	return process.env.PORT || 3000;
 }
 
-exports.expedientwsdl = function() {
+exports.nc = function() {
+    return "N/D";
+}
+
+var expedientwsdl = exports.expedientwsdl = function() {
 	return nconf.get('wsdl:expedient');
 }
 
-exports.dadesacademiqueswsdl = function() {
+var dadesacademiqueswsdl = exports.dadesacademiqueswsdl = function() {
     return nconf.get('wsdl:dadesacademiques');
 }
 
-exports.infoacademicawsdl = function() {
+var infoacademicawsdl = exports.infoacademicawsdl = function() {
 	return nconf.get('wsdl:infoacademica');
 }
 
-exports.racwsdl = function() {
+var racwsdl = exports.racwsdl = function() {
 	return nconf.get('wsdl:rac');
 }
 
-exports.authwdsl = function() {
+var authwsdl = exports.authwdsl = function() {
 	return nconf.get('wsdl:auth');
 }
 
-exports.aulaca = function() {
+var aulaca = exports.aulaca = function() {
     return nconf.get('wsdl:aulaca');
 }
 
-exports.lrs = function() {
+var lrs = exports.lrs = function() {
     return nconf.get('wsdl:lrs');
 }
 
-exports.cv = function() {
+var cv = exports.cv = function() {
     return nconf.get('wsdl:cv');
 }
 
-exports.phpbb = function() {
+var phpbb = exports.phpbb = function() {
     return nconf.get('wsdl:phpbb');
 }
 
-exports.myway = function() {
+var myway = exports.myway = function() {
     return nconf.get('wsdl:myway');
-}
-
-exports.nc = function() {
-    return "N/D";
 }
 
 /**

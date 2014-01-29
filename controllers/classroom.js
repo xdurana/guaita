@@ -2,6 +2,7 @@ var eines = require('../routes/eines');
 var activitats = require('../routes/activitats');
 var aules = require('../routes/aules');
 var widget = require('../routes/widget');
+var ws = require('../ws');
 
 var config = require('../config');
 
@@ -234,27 +235,13 @@ var get = exports.get = function (req, res, next) {
  * @return {[type]}
  */
 var getWidget = exports.getWidget = function (req, res, next) {
-    if (req.query.idp == null) {
-        return next("Manca el parametre [idp] a la crida");
-    }
-    return widget.one(
-        req.params.anyAcademic,
-        req.params.codAssignatura,
-        req.params.domainId,
-        req.params.codAula,
-        req.params.domainIdAula,
-        req.params.domainCode,
-        req.query.idp,
-        req.query.s,
-        function (err, result) {
-        if (err) {
-            return next("No s'ha pogut obtenir la informació del widget");
-        }
+    if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
+    return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, req.query.s, function (err, result) {
+        if (err) return next("No s'ha pogut obtenir la informació del widget");
         if (req.query.format) {
             res.json(result);
         } else {
-            result.s = req.query.s;
-            result.lang = config.lng();
+            ws.lrs.registraWidget(req.query.idp, req.params.domainId, req.params.domainIdAula, req.query.s);
             res.render('widget-aula.html', { widget: result });
         }
     });
