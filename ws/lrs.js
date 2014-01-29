@@ -26,6 +26,38 @@ var registra = function(statement) {
 }
 
 /**
+ * [registraCalendari description]
+ * @param  {[type]} idp [description]
+ * @param  {[type]} s   [description]
+ * @return {[type]}     [description]
+ */
+var registraCalendari = exports.registraCalendari = function(idp, s) {
+    registra({
+        actor: {
+            objectType: "Agent",
+            account: {
+                name: idp
+            }
+        },
+        context: {
+            extensions: {
+                'uoc:lrs:app': 'calendari',
+                'uoc:lrs:session:id': s
+            }
+        },
+        verb: {
+            id: "http://adlnet.gov/expapi/verbs/experienced",
+            display: {
+                en: "experienced"
+            }
+        },
+        object: {
+            id: "https://cv.uoc.edu/app/guaita"
+        }
+    });
+}
+
+/**
  * [registraWidget description]
  * @param  {[type]} idp          [description]
  * @param  {[type]} domainId     [description]
@@ -56,8 +88,7 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
             }
         },
         object: {
-            id: "https://cv.uoc.edu/webapps/aulaca",
-            objectType: "Activity"
+            id: "https://cv.uoc.edu/app/guaita"
         }
     });
 }
@@ -97,10 +128,10 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
             }
         },
         object: {
-            id: "M:" + pid,
-            type: "HTML5",
+            id: "https://cv.uoc.edu/app/annotation",
             extensions: {
                 "uoc:lrs:material:id": pid,
+                "uoc:lrs:material:type": "HTML5"
             }
         }
     });
@@ -114,6 +145,7 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
  */
 var count = function(data, next) {
     service.post(config.util.format('%s/guaita/count', config.lrs()), data, function (err, data) {
+        if(err) { console.log(err); return next(err); }
         return next(null, data);
     });
 }
@@ -126,6 +158,20 @@ var count = function(data, next) {
  */
 var last = function(data, next) {
     service.post(config.util.format('%s/guaita/all/1', config.lrs()), data, function (err, data) {
+        if(err) { console.log(err); return next(err); }
+        return next(null, data);
+    });
+}
+
+/**
+ * [all description]
+ * @param  {[type]}   data [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var all = function(data, next) {
+    service.post(config.util.format('%s/guaita/all/1000', config.lrs()), data, function (err, data) {
+        if(err) { console.log(err); return next(err); }
         return next(null, data);
     });
 }
@@ -149,6 +195,14 @@ exports.byidplast = function(idp, s, next) {
 exports.bysubject = function(domainId, s, next) {
     var data = { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) };
     count(data, function(err, result) {
+        if(err) { console.log(err); return next(err); }
+        return next(null, { value: result });
+    });
+}
+
+exports.bysubjectall = function(domainId, s, next) {
+    var data = { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) };
+    all(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
     });

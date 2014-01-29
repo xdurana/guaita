@@ -31,17 +31,11 @@ var authorize = exports.authorize = function (req, res, next) {
  * @return {[type]}
  */
 var getSubjects = exports.getSubjects = function (req, res, next) {
-    if (req.query.perfil == null) {
-        return next("Manca el parametre [perfil] a la crida");
-    }
-    if (req.query.idp == null) {
-        return next("Manca el parametre [perfil] a la crida");
-    }
+    if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
+    if (req.query.idp == null) return next("Manca el parametre [perfil] a la crida");
     if (req.query.perfil == 'estudiant') {
         return estudiants.aules(req.query.idp, req.query.s, function (err, result) {
-            if (err) {
-                return next(err);
-            }
+            if (err) return next(err);
             if (req.query.format === 'ical') {
                 res.attachment('student.ical');
                 res.setHeader('Content-Type', 'text/calendar');
@@ -50,6 +44,7 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             } else if (req.query.format) {
                 res.json(result);
             } else {
+                ws.lrs.registraCalendari(req.query.idp, req.query.s);
                 res.render('estudiant.html', {
                     object: result
                 });
@@ -57,9 +52,7 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
         });
     } else {
         return assignatures.byidp(req.query.s, req.query.idp, function (err, result) {
-            if (err) {
-                return next(err);
-            }
+            if (err) return next(err);
             if (req.query.format) {
                 res.json(result);
             } else {

@@ -19,52 +19,45 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
         codAssignatura: codAssignatura,
         domainId: domainId,
         dataLliurament: config.nc(),
+        linkfitxaassignatura: config.util.format("http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=%s&cod_asignatura=%s&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S", anyAcademic, codAssignatura),
+        isAulaca: false,
         aules: [
         ]
     }
 
     ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, aules) {
-        if (err) { console.log(err); return callback(null, struct); }
+        if (err) return callback(err);
         async.parallel([
             function (callback) {
-                try {
+                if (aules) {
                     async.each(aules, procesa.bind(null, anyAcademic, codAssignatura, idp, s, perfil), function(err) {
-                        if (err) { console.log(err); }
+                        if (err) return callback(err);
+                        struct.aules.sort(ordenaAules);
+                        struct.linkedicioaula = getLinkDissenyAula(s, struct.aules.length > 0 ? struct.aules[0].isAulaca : true, domainId);
                         return callback();
                     });
-                } catch(e) {
-                    console.log(e.message);
-                    return callback();
-                }
+                } else return callback();
             },
             function (callback) {
-                try {
-                    ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
-                        if (err) { console.log(err); return callback(null, struct); }
-                        if (result.out.ActivitatVO) {
-                            result.out.ActivitatVO.forEach(function(activitat) {
-                                if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
-                                    struct.dataLliurament = indicadors.getDataLliurament(activitat.dataLliurament);
-                                }
-                            })
-                        }
-                        return callback();
-                    });
-                } catch(e) {
-                    console.log(e.message);
-                    return callback(null, struct);
-                }
+                ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
+                    if (err) return callback(err);
+                    if (result.out.ActivitatVO) {
+                        result.out.ActivitatVO.forEach(function(activitat) {
+                            if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
+                                struct.dataLliurament = indicadors.getDataLliurament(activitat.dataLliurament);
+                            }
+                        })
+                    }
+                    return callback();
+                });
             },
             function (callback) {
                 assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
-                    if (err) { console.log(err); }
-                    return callback();
+                    return callback(err);
                 });
             }
         ], function(err, result) {
-            if (err) { console.log(err); return callback(); }
-            struct.aules.sort(ordenaAules);
-            return callback(null, struct);
+            return callback(err, struct);
         });
     }); 
 

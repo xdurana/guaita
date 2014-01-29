@@ -74,7 +74,10 @@ app.use(function(err, req, res, next) {
 config.i18next.registerAppHelper(app);
 
 app.get('/app/guaita/assignatures', user.authorize, user.getSubjects);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', user.authorize, subject.getClassroom);
+
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', user.authorize, subject.classroom);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/estadistiques', user.authorize, subject.estadistiques);
+
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode', user.authorize, classroom.get);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eines', user.authorize, classroom.getTools);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats', user.authorize, classroom.getActivities);

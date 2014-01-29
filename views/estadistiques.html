@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block title %}{{ t('aules') }}: Consulta de dades{% endblock %}
+
+{% block content %}
+
+<div id="feedback">
+    <img src="/app/guaita/img/beta.png" class="right" />
+</div>
+
+<!-- container -->
+<div id="container" class="student">
+
+    <ul id="accessibility" class="visuallyhidden">
+        <li><a href="#menu" accesskey="m" title="{{ t('acces_directe_menu_navegacio') }}">{{ t('acces_directe_menu_navegacio') }}</a></li>
+        <li><a href="#content" accesskey="s" title="{{ t('acces_directe__contingut') }}">{{ t('acces_directe__contingut') }}</a></li>
+    </ul>
+
+    <noscript>
+        <div class="alertjs-container">
+            <div class="alertjs">
+                <h5>{{ t('javascript_no_habilitat') }}</h5>
+                <p>{{ t('activa_javaScript') }}</p>
+            </div>
+        </div>
+    </noscript>
+
+    <div id="main" class="clearfix">
+
+        <div id="content">
+
+        </div><!-- /content -->
+
+
+        <div id="sidebar">
+        </div>
+
+    </div><!-- /main -->
+
+    <div id="footer" class="clearfix"></div>
+    <div id="sombra-top"></div>
+
+</div><!-- /container -->
+
+<script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/spin.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/helper.js"></script>
+<script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
+<script>
+    $(document).ready(function() {
+        UOCAulas.init('student');
+    });
+</script>
+{% endblock %}
