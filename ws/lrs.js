@@ -31,7 +31,7 @@ var registra = function(statement) {
  * @param  {[type]} s   [description]
  * @return {[type]}     [description]
  */
-var registraCalendari = exports.registraCalendari = function(idp, s) {
+var registraCalendari = exports.registraCalendari = function(idp, perfil, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -42,6 +42,7 @@ var registraCalendari = exports.registraCalendari = function(idp, s) {
         context: {
             extensions: {
                 'uoc:lrs:app': 'calendari',
+                'uoc:lrs:perfil': perfil,
                 'uoc:lrs:session:id': s
             }
         },
@@ -52,7 +53,7 @@ var registraCalendari = exports.registraCalendari = function(idp, s) {
             }
         },
         object: {
-            id: "https://cv.uoc.edu/app/guaita"
+            id: "uoc:lrs:calendari"
         }
     });
 }
@@ -88,7 +89,7 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
             }
         },
         object: {
-            id: "https://cv.uoc.edu/app/guaita"
+            id: "uoc:lrs:widget"
         }
     });
 }
@@ -128,7 +129,7 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
             }
         },
         object: {
-            id: "https://cv.uoc.edu/app/annotation",
+            id: "uoc:lrs:anotacions",
             extensions: {
                 "uoc:lrs:material:id": pid,
                 "uoc:lrs:material:type": "HTML5"
@@ -170,7 +171,7 @@ var last = function(data, next) {
  * @return {[type]}        [description]
  */
 var all = function(data, next) {
-    service.post(config.util.format('%s/guaita/all/1000', config.lrs()), data, function (err, data) {
+    service.post(config.util.format('%s/guaita/all/1', config.lrs()), data, function (err, data) {
         if(err) { console.log(err); return next(err); }
         return next(null, data);
     });

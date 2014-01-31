@@ -117,7 +117,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
 
     var seguimentACAssignatura = function(next) {
         ws.rac.calcularIndicadorsAssignatura('RAC_CONSULTOR_AC', anyAcademic, codi, '0', '0', function(err, result) {
-            if (err) { console.log(err); return next(); }
+            if (err) return next(err);
             subject.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
             subject.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
             return next();
@@ -127,7 +127,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
     var seguimentACAula = function(aula, next) {
         aula.codAula = aula.domainCode.slice(-1);
         ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codi, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-            if (err) { console.log(err); return next(); }
+            if (err) return next(err);
             aula.ac = {
                 seguiment: indicadors.getSeguimentACAula(result.out.ValorIndicadorVO),
                 superacio: indicadors.getSuperacioACAula(result.out.ValorIndicadorVO)
@@ -139,7 +139,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
     async.parallel([
         function (next) {
             ws.rac.calcularIndicadorsAssignatura('RAC_PRA_2', anyAcademic, codi, '0', '0', function(err, result) {
-                if (err) { console.log(err); return next(); }
+                if (err) return next(err);
                 subject.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 subject.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
                 return next();
@@ -147,17 +147,19 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
         },
         function (next) {
             ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, result) {
-                if (err) { console.log(err); return next(); }                
+                if (err) return next(err);            
                 subject.resum.aules.total = result ? result.length : config.nc();
 
                 subject.resum.avaluacio.seguiment = 0;
                 subject.resum.avaluacio.superacio = 0;
                 async.each(result, seguimentACAula, function(err) {
-                    if (err) { console.log(err); return next(null, struct); }
-                    result.forEach(function(aula) {
-                        subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
-                        subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
-                    });
+                    if (err) return next(err);
+                    if (result) {
+                        result.forEach(function(aula) {
+                            subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
+                            subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
+                        });
+                    }
                     subject.resum.avaluacio.seguimentpercent = indicadors.getPercent(subject.resum.avaluacio.seguiment, subject.resum.estudiants.total);
                     subject.resum.avaluacio.superaciopercent = indicadors.getPercent(subject.resum.avaluacio.superacio, subject.resum.estudiants.total);
                     return next();
@@ -166,7 +168,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
         },
         function (next) {
             ws.lrs.bysubject(domainId, s, function(err, result) {
-                if (err) { console.log(err); return next(); }
+                if (err) return next(err);
                 subject.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return next();
             });

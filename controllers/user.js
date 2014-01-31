@@ -11,13 +11,9 @@ var config = require('../config');
  * @return {[type]}        [description]
  */
 var authorize = exports.authorize = function (req, res, next) {
-    if (req.query.s == null) {
-        return next("Manca el parametre [s] a la crida");
-    }
+    if (req.query.s == null) return next("Manca el parametre [s] a la crida");
     ws.campus.getIdpBySession(req.query.s, function (err, idp) {
-        if (err) {
-            return next("La sessió no és valida o ha caducat");
-        }
+        if (err) return next("La sessió no és valida o ha caducat");
         req.query.idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
         return next();
     });
@@ -32,7 +28,7 @@ var authorize = exports.authorize = function (req, res, next) {
  */
 var getSubjects = exports.getSubjects = function (req, res, next) {
     if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
-    if (req.query.idp == null) return next("Manca el parametre [perfil] a la crida");
+    if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     if (req.query.perfil == 'estudiant') {
         return estudiants.aules(req.query.idp, req.query.s, function (err, result) {
             if (err) return next(err);
@@ -44,7 +40,7 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             } else if (req.query.format) {
                 res.json(result);
             } else {
-                ws.lrs.registraCalendari(req.query.idp, req.query.s);
+                ws.lrs.registraCalendari(req.query.idp, req.query.perfil, req.query.s);
                 res.render('estudiant.html', {
                     object: result
                 });

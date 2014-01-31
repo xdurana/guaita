@@ -16,17 +16,18 @@ var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, nex
         idp
     );
     service.json(url, function(err, object) {
-        if (err) return next(err);
+        return next(err, object.subjects || []);
+
         object.subjects = object.subjects || [];
-        
         var active = [];
         async.each(object.assignments || [], list, function(err) {
             if (err) return next(err);
-            config.debug(object.subjects);
-            object.subjects = object.subjects.filter(function(assignatura) {
-                //TODO GUAITA-85
-                return active[assignatura.domainId] ? active[assignatura.domainId].userTypeId === 'CREADOR' || active[assignatura.domainId].userTypeId === 'RESPONSABLE' : true;
-            });
+            if (object.subjects) {
+                object.subjects = object.subjects.filter(function(assignatura) {
+                    //TODO GUAITA-85
+                    return active[assignatura.domainId] ? active[assignatura.domainId].userTypeId === 'CREADOR' || active[assignatura.domainId].userTypeId === 'RESPONSABLE' : true;
+                });
+            }
             return next(null, object.subjects);
         });
     });
