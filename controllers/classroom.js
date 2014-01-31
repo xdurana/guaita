@@ -241,7 +241,7 @@ var getWidget = exports.getWidget = function (req, res, next) {
         if (req.query.format) {
             res.json(result);
         } else {
-            ws.lrs.registraWidget(req.query.idp, req.params.domainId, req.params.domainIdAula, req.query.s);
+            ws.lrs.registraWidget(req.query.idp, req.params.domainId, req.params.domainIdAula, req.url, req.query.s);
             res.render('widget-aula.html', { widget: result });
         }
     });

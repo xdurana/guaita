@@ -40,7 +40,7 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             } else if (req.query.format) {
                 res.json(result);
             } else {
-                ws.lrs.registraCalendari(req.query.idp, req.query.perfil, req.query.s);
+                ws.lrs.registraCalendari(req.query.idp, req.query.perfil, req.query.url, req.query.s);
                 res.render('estudiant.html', {
                     object: result
                 });
@@ -75,4 +75,19 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             }
         })
     }
+}
+
+/**
+ * [registre description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var registre = exports.registre = function (req, res, next) {
+    ws.lrs.registraGeneric(req.query.idp, req.query.perfil, req.query.app, req.query.component, req.query.domainId, req.query.domainIdAula, req.query.eventId, req.query.url, req.query.s);
+    res.json({
+        status: 200,
+        url: req.url
+    });
 }

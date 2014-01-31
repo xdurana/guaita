@@ -88,6 +88,8 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/materials', user.authorize, materials.get);
 app.get('/app/guaita/materials/:pid', user.authorize, materials.getHTML5);
 
+app.get('/app/guaita/registre', user.authorize, user.registre);
+
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });

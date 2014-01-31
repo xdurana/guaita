@@ -26,12 +26,19 @@ var registra = function(statement) {
 }
 
 /**
- * [registraCalendari description]
- * @param  {[type]} idp [description]
- * @param  {[type]} s   [description]
- * @return {[type]}     [description]
+ * [registraGeneric description]
+ * @param  {[type]} idp          [description]
+ * @param  {[type]} perfil       [description]
+ * @param  {[type]} app          [description]
+ * @param  {[type]} component    [description]
+ * @param  {[type]} domainId     [description]
+ * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} eventId      [description]
+ * @param  {[type]} url          [description]
+ * @param  {[type]} s            [description]
+ * @return {[type]}              [description]
  */
-var registraCalendari = exports.registraCalendari = function(idp, perfil, s) {
+var registraGeneric = exports.registraGeneric = function(idp, perfil, app, component, domainId, domainIdAula, eventId, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -41,7 +48,11 @@ var registraCalendari = exports.registraCalendari = function(idp, perfil, s) {
         },
         context: {
             extensions: {
-                'uoc:lrs:app': 'calendari',
+                'uoc:lrs:app': app,
+                'uoc:lrs:component': component,
+                'uoc:lrs:subject:id': domainId,
+                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:activity:id': eventId,
                 'uoc:lrs:perfil': perfil,
                 'uoc:lrs:session:id': s
             }
@@ -53,7 +64,41 @@ var registraCalendari = exports.registraCalendari = function(idp, perfil, s) {
             }
         },
         object: {
-            id: "uoc:lrs:calendari"
+            id: url
+        }
+    });
+}
+
+/**
+ * [registraCalendari description]
+ * @param  {[type]} idp [description]
+ * @param  {[type]} s   [description]
+ * @return {[type]}     [description]
+ */
+var registraCalendari = exports.registraCalendari = function(idp, perfil, url, s) {
+    registra({
+        actor: {
+            objectType: "Agent",
+            account: {
+                name: idp
+            }
+        },
+        context: {
+            extensions: {
+                'uoc:lrs:app': 'guaita',
+                'uoc:lrs:component': 'calendari',                
+                'uoc:lrs:perfil': perfil,
+                'uoc:lrs:session:id': s
+            }
+        },
+        verb: {
+            id: "http://adlnet.gov/expapi/verbs/experienced",
+            display: {
+                en: "experienced"
+            }
+        },
+        object: {
+            id: url
         }
     });
 }
@@ -66,7 +111,7 @@ var registraCalendari = exports.registraCalendari = function(idp, perfil, s) {
  * @param  {[type]} s            [description]
  * @return {[type]}              [description]
  */
-var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAula, s) {
+var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAula, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -76,7 +121,8 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
         },
         context: {
             extensions: {
-                'uoc:lrs:app': 'widget',
+                'uoc:lrs:app': 'guaita',
+                'uoc:lrs:component': 'widget',
                 'uoc:lrs:subject:id': domainId,
                 'uoc:lrs:classroom:id': domainIdAula,
                 'uoc:lrs:session:id': s
@@ -89,7 +135,7 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
             }
         },
         object: {
-            id: "uoc:lrs:widget"
+            id: url
         }
     });
 }
@@ -105,7 +151,7 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
  * @param  {[type]} s            [description]
  * @return {[type]}              [description]
  */
-var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainIdAula, eventId, pid, s) {
+var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainIdAula, eventId, pid, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -115,7 +161,8 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
         },
         context: {
             extensions: {
-                'uoc:lrs:app': app,
+                'uoc:lrs:app': 'guaita',
+                'uoc:lrs:component': 'anotacions',
                 'uoc:lrs:subject:id': domainId,
                 'uoc:lrs:classroom:id': domainIdAula,
                 'uoc:lrs:activity:id': eventId,
@@ -129,7 +176,7 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
             }
         },
         object: {
-            id: "uoc:lrs:anotacions",
+            id: url,
             extensions: {
                 "uoc:lrs:material:id": pid,
                 "uoc:lrs:material:type": "HTML5"
