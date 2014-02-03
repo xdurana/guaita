@@ -218,7 +218,7 @@ var last = function(data, next) {
  * @return {[type]}        [description]
  */
 var all = function(data, next) {
-    service.post(config.util.format('%s/guaita/all/1', config.lrs()), data, function (err, data) {
+    service.post(config.util.format('%s/guaita/all/100', config.lrs()), data, function (err, data) {
         if(err) { console.log(err); return next(err); }
         return next(null, data);
     });
@@ -328,6 +328,14 @@ exports.byidpandclassroomlast = function(idp, domainId, s, next) {
     });
 }
 
+exports.byidpandclassroomandwidgetlast = function(idp, domainId, s, next) {
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:component": "widget" }]};
+    last(data, function(err, result) {
+        if(err) { console.log(err); return next(err); }
+        return next(null, { value: result });
+    });
+}
+
 exports.byidpandactivity = function(idp, eventId, s, next) {
     var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }]};
     count(data, function(err, result) {
@@ -338,6 +346,14 @@ exports.byidpandactivity = function(idp, eventId, s, next) {
 
 exports.byidpandactivitylast = function(idp, eventId, s, next) {
     var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }]};
+    last(data, function(err, result) {
+        if(err) { console.log(err); return next(err); }
+        return next(null, { value: result });
+    });
+}
+
+exports.byidpandactivityandwidgetlast = function(idp, eventId, s, next) {
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }, { "context.extensions.uoc:lrs:component": "widget" }]};
     last(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });

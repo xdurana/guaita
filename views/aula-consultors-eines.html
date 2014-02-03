@@ -18,18 +18,18 @@
                     <input type="checkbox" class="check-all-users" name="check_all_users_5" id="check_all_users_5"><label for="check_all_users_5">{{ t('seleccionar_tots') }}</label>
                 </th>
                 <th>{{ t('clics_acumulats') }}</th>
-                <th>{{ t('lectures_pendents_acumulades') }}</th>
-                <th>{{ t('participacions') }}</th>
                 <th>{{ t('ultima_connexio') }}</th>
+                <th>{{ t('ultima_connexio_campus') }}</th>
+                <th>{{ t('ultima_connexio_widget') }}</th>
             </tr>
         </thead>
         <tbody class="totals">
             <tr>
                 <td>{{ t('total') }}:</td>
                 <td class="bd">{{ aula.resum.comunicacio.clicsAcumulats }}</td>
-                <td>{{ aula.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-                <td>{{ aula.resum.comunicacio.participacions }}</td>
-                <td>{{ aula.resum.comunicacio.ultimaConnexio }}</td>
+                <td class="bd-open">{{ aula.resum.comunicacio.ultimaConnexio }}</td>
+                <td class="bd-open">{{ aula.resum.comunicacio.ultimaConnexioCampus }}</td>
+                <td class="bd-open">{{ aula.resum.comunicacio.ultimaConnexioWidget }}</td>
             </tr>
         </tbody>
         {% for aula in assignatura.aules %}
@@ -47,9 +47,9 @@
                     {% endif %}                    
                 </td>
                 <td class="bd">{{ aula.consultor.resum.comunicacio.clicsAcumulats }}</td>
-                <td class="bd-open">{{ aula.consultor.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-                <td class="bd-open">{{ aula.consultor.resum.comunicacio.participacions }}</td>
                 <td class="bd-open">{{ aula.consultor.resum.comunicacio.ultimaConnexio }}</td>
+                <td class="bd-open">{{ aula.consultor.resum.comunicacio.ultimaConnexioCampus }}</td>
+                <td class="bd-open">{{ aula.consultor.resum.comunicacio.ultimaConnexioWidget }}</td>
             </tr>
             <tr class="tr-wrap">
                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_5_{{ aula.codAula }}"></div></td>

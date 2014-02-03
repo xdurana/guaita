@@ -1,5 +1,23 @@
 var config = require('../config');
 var encoder = require('./encoder');
+var moment = require('moment');
+
+/**
+ * [getResumComunicacio description]
+ * @return {[type]} [description]
+ */
+var getObjectComunicacio = exports.getObjectComunicacio = function() {
+    return {
+        comunicacio: {
+            clicsAcumulats: config.nc(),
+            lecturesPendents: config.nc(),
+            participacions: config.nc(),
+            ultimaConnexioCampus: config.nc(),
+            ultimaConnexioWidget: config.nc(),
+            ultimaConnexio: config.nc()
+        }
+    }
+}
 
 /**
  * [getValor description]
@@ -75,17 +93,7 @@ var getTotalAules = exports.getTotalAules = function(AulaVO) {
  * @return {[type]}        [description]
  */
 var getUltimaConnexio = exports.getUltimaConnexio = function(object) {
-    try {
-        var dt = new Date(getValor(object.value).stored);
-        if (isNaN(dt.getMilliseconds())) return config.nc();
-        return config.util.format('%s-%s-%s',
-            dt.getDate(),
-            dt.getMonth() + 1,
-            dt.getFullYear()
-        );
-    } catch(e) {
-        return config.nc();
-    }
+    return getValor(object.value) ? moment(getValor(object.value).stored).format("DD/MM/YYYY") : config.nc();
 }
 
 /**

@@ -25,15 +25,30 @@
     </noscript>
 
     <div id="main" class="clearfix">
-
-        <div id="content">
-
-        </div><!-- /content -->
-
-
-        <div id="sidebar">
-        </div>
-
+        <table id="stats">
+            <thead>
+                <tr>
+                    <th>IDP</th>
+                    <th>Assignatura</th>
+                    <th>Aula</th>
+                    <th>Activitat</th>
+                    <th>Object</th>
+                    <th>Stored</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for statement in estadistiques %}
+                <tr>
+                    <td>{{ statement.idp }}</td>
+                    <td>{{ statement.assignatura }}</td>
+                    <td>{{ statement.aula }}</td>
+                    <td>{{ statement.activitat }}</td>
+                    <td>{{ statement.object }}</td>
+                    <td>{{ statement.stored }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div><!-- /main -->
 
     <div id="footer" class="clearfix"></div>
@@ -43,12 +58,13 @@
 
 <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/jquery.dynatable.js"></script>
 <script type="text/javascript" src="/app/guaita/js/spin.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/helper.js"></script>
 <script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
 <script>
     $(document).ready(function() {
-        UOCAulas.init('student');
+        $('#stats').dynatable();
     });
 </script>
 {% endblock %}

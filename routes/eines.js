@@ -47,16 +47,9 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 
 	var getResumComunicacio = function (eina, next) {
 		eina.nom = getToolDescription(eina);
-		eina.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendentsAcumulades: config.nc(),
-				lecturesPendents: config.nc(),
-				participacions: config.nc()
-			}
-		}
-
+		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
+            /*
             function(next) {
                 if (isForum(eina)) {
                     async.parallel([
@@ -114,6 +107,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
                     next();
                 }
             },
+            */
             function(next) {
                 ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); return next(); }
@@ -158,15 +152,7 @@ exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, dom
 
 	var getResumComunicacio = function (domainIdAula, eina, next) {
 		eina.nom = getToolDescription(eina);
-		eina.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendentsAcumulades: config.nc(),
-				lecturesPendents: config.nc(),
-				participacions: config.nc()
-			}
-		}
-
+		eina.resum = indicadors.getObjectComunicacio();
         ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return next(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
@@ -201,14 +187,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 
 	var getResumComunicacioEstudiant = function (eina, next) {
 		eina.nom = getToolDescription(eina);
-		eina.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendents: config.nc(),
-				participacions: config.nc(),
-				ultimaConnexio: config.nc()
-			}
-		}
+		eina.resum = indicadors.getResumComunicacio();
 
         ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return next(); }
@@ -265,15 +244,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 	var getResumComunicacioIdp = function (eina, next) {
 
 		eina.nom = getToolDescription(eina);
-		eina.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendents: config.nc(),
-				participacions: config.nc(),
-				ultimaConnexio: config.nc()
-			}
-		}
-
+		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
             function(next) {
                 if (isForum(eina)) {
@@ -285,12 +256,6 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                                 //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
                                 return next();
                             });
-                        },
-                        function(next) {
-                            next();
-                        },
-                        function(next) {
-                            next();
                         }
                     ], function(err, results) {
                         if (err) { console.log(err); }

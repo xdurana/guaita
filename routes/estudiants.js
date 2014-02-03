@@ -38,8 +38,8 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	});
 
     var ordenaEstudiants = function(a, b) {
-        da = moment(a.resum.comunicacio.ultimaConnexio, "DD-MM-YYYY");
-        db = moment(b.resum.comunicacio.ultimaConnexio, "DD-MM-YYYY");
+        da = moment(a.resum.comunicacio.ultimaConnexio, "DD/MM/YYYY");
+        db = moment(b.resum.comunicacio.ultimaConnexio, "DD/MM/YYYY");
 
         if (da.isValid() && db.isValid()) {
             return da.isBefore(db) ? -1 : db.isBefore(da) ? 1 : 0;
@@ -51,14 +51,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	var getResumEstudiant = function(estudiant, callback) {
 		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-        estudiant.resum = {
-            comunicacio: {
-                clicsAcumulats: config.nc(),
-                lecturesPendentsAcumulades: config.nc(),
-                participacions: config.nc(),
-                ultimaConnexio: config.nc()
-            }
-        };
+        estudiant.resum = indicadors.getObjectComunicacio();
         async.parallel([
             function(callback) {
                 usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
@@ -78,6 +71,13 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
                 ws.lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
+                    return callback();
+                });
+            },
+            function(callback) {
+                ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
+                    if (err) { console.log(err); return callback(); }
+                    estudiant.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                     return callback();
                 });
             }

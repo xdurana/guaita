@@ -30,8 +30,6 @@ var classroom = exports.classroom = function(req, res, next) {
 var estadistiques = exports.estadistiques = function(req, res, next) {
     ws.lrs.bysubjectall(req.params.domainId, req.query.s, function (err, result) {
         if (err) return next(err);
-        //TODO
-        //return req.query.format ? res.json(result) : res.render('estadistiques.html', { estadistiques: result });
         async.map(result.value, apply, function(err, statements) {
             if (err) return next(err);
             return req.query.format ? res.json(statements) : res.render('estadistiques.html', { estadistiques: statements });

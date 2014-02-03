@@ -7,13 +7,13 @@
         <col style="width:18%">
     </colgroup>
     <tbody> 
-        {% for eina in activitat.eines %}
+        {% for activitat in activitat.eines %}
         <tr>
-            <td><span class="lbl">{{ eina.nom }}</span></td>
-            <td class="bd">{{ eina.resum.comunicacio.clicsAcumulats }}</td>
-            <td class="bd-open">{{ eina.resum.comunicacio.lecturesPendents }}</td>
-            <td class="bd-open">{{ eina.resum.comunicacio.participacions }}</td>
-            <td class="bd-open">{{ eina.resum.comunicacio.ultimaConnexio }}</td>
+            <td><span class="lbl">{{ activitat.nom }}</span></td>
+            <td class="bd">{{ activitat.resum.comunicacio.clicsAcumulats }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.ultimaConnexio }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.ultimaConnexioCampus }}</td>
+            <td class="bd-open">{{ activitat.resum.comunicacio.ultimaConnexioWidget }}</td>
         </tr>
         {% endfor %}
     </tbody>

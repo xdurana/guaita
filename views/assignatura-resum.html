@@ -36,8 +36,8 @@
                     <th class="bd"><span class="icon-student" title="{{ t('estudiants') }}"></span></th>
                     <th><span class="icon-repeater" title="{{ t('repetidors') }}"></span></th>
                     <th class="bd">{{ t('clics_acumulats') }}</th>
-                    <th>{{ t('lectures_pendents_acumulades') }}</th>
-                    <th><span class="em">{{ t('lectures_pendents') }} /</span> {{ t('participacions_totals') }}</th>
+                    <th><!--{{ t('lectures_pendents_acumulades') }}--></th>
+                    <th><!--<span class="em">{{ t('lectures_pendents') }} /</span> {{ t('participacions_totals') }}--></th>
                     <th class="bd">{{ t('seguiment_ac') }}</th>
                     <th>{{ t('superacio_ac') }}</th>
                 </tr>
@@ -48,8 +48,8 @@
                     <td class="bd">{{ assignatura.resum.estudiants.total }}</td>
                     <td>{{ assignatura.resum.estudiants.repetidors }}</td>
                     <td class="bd">{{ assignatura.resum.comunicacio.clicsAcumulats }}</td>
-                    <td>{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}</td>
-                    <td><span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}</td>
+                    <td><!--{{ assignatura.resum.comunicacio.lecturesPendentsAcumulades }}--></td>
+                    <td><!--<span class="em">{{ assignatura.resum.comunicacio.lecturesPendents }} /</span> {{ assignatura.resum.comunicacio.participacions }}--></td>
                     <td class="bd">{{ assignatura.resum.avaluacio.seguiment }} ({{ resum.avaluacio.seguimentpercent }}%)</td>
                     <td>{{ assignatura.resum.avaluacio.superacio }} ({{ resum.avaluacio.superaciopercent }}%)</td>
                 </tr>

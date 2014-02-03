@@ -90,15 +90,7 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
         activitat.nom = activitat.name;
         activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
-
-		activitat.resum = {
-			comunicacio: {
-				clicsAcumulats: config.nc(),
-				lecturesPendents: config.nc(),
-				participacions: config.nc(),
-				ultimaConnexio: config.nc()
-			}
-		}
+		activitat.resum = indicadors.getObjectComunicacio();
 
         async.parallel([
             function(callback) {
@@ -112,6 +104,13 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 ws.lrs.byidpandactivitylast(idp, activitat.eventId, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     activitat.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
+                    return callback();
+                });
+            },
+            function(callback) {
+                ws.lrs.byidpandactivityandwidgetlast(idp, activitat.eventId, s, function(err, result) {
+                    if (err) { console.log(err); return callback(); }
+                    activitat.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                     return callback();
                 });
             }

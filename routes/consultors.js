@@ -78,18 +78,12 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, callback) 
  * @return {[type]}            [description]
  */
 exports.getResumEines = function(aula, callback) {
-	aula.consultor.resum = {
-		comunicacio: {
-			clicsAcumulats: config.nc(),
-			lecturesPendentsAcumulades: config.nc(),
-			participacions: config.nc(),
-			ultimaConnexio: config.nc()
-		}
-	}
+	aula.consultor.resum = indicadors.getObjectComunicacio();
     async.parallel([
         function (callback) {
             ws.lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
+                config.debug(result);
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });
@@ -98,6 +92,13 @@ exports.getResumEines = function(aula, callback) {
             ws.lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
                 aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
+                return callback();
+            });
+        },        
+        function (callback) {            
+            ws.lrs.byidpandclassroomandwidgetlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+                if (err) { console.log(err); return callback(); }
+                aula.consultor.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                 return callback();
             });
         }
