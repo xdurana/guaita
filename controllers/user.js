@@ -11,6 +11,7 @@ var config = require('../config');
  * @return {[type]}        [description]
  */
 var authorize = exports.authorize = function (req, res, next) {
+    config.debug(req.url);
     if (req.query.s == null) return next("Manca el parametre [s] a la crida");
     ws.campus.getIdpBySession(req.query.s, function (err, idp) {
         if (err) return next("La sessió no és valida o ha caducat");
@@ -89,5 +90,47 @@ var registre = exports.registre = function (req, res, next) {
     res.json({
         status: 200,
         url: req.url
+    });
+}
+
+/**
+ * [byidpandsubject description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var byidpandclassroom = exports.byidpandclassroom = function (req, res, next) {
+    ws.lrs.byidpandclassroom(req.params.idp, req.params.domainId, req.query.s, function (err, result) {
+        if (err) return next(err);
+        res.json(result);
+    });
+}
+
+/**
+ * [byidpandsubjectlast description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var byidpandclassroomlast = exports.byidpandclassroomlast = function (req, res, next) {
+    ws.lrs.byidpandclassroomlast(req.params.idp, req.params.domainId, req.query.s, function (err, result) {
+        if (err) return next(err);
+        res.json(result);
+    });
+}
+
+/**
+ * [byidpandclassroomandwidgetlast description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var byidpandclassroomandwidgetlast = exports.byidpandclassroomandwidgetlast = function (req, res, next) {
+    ws.lrs.byidpandclassroomandwidgetlast(req.params.idp, req.params.domainId, req.query.s, function (err, result) {
+        if (err) return next(err);
+        res.json(result);
     });
 }

@@ -238,6 +238,7 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
             });
         },
 		function (callback) {
+            return callback();
 			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
                 struct.estudiants = result;
@@ -250,6 +251,19 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 				return callback();
 			});
 		},
+        function (callback) {
+            estudiants.minimum(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
+                if (err) return callback(err);
+                if (result) {
+                    struct.estudiants = result;
+                    struct.totalEstudiants = struct.estudiants.length;
+                    struct.estudiants.forEach(function(estudiant) {
+                        estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
+                    });
+                }
+                return callback();
+            });
+        },
 		function (callback) {
 			consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }

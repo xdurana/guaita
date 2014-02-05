@@ -92,10 +92,10 @@
                                                         <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
-                                                <td class="bd">{{ estudiant.resum.comunicacio.clicsAcumulats }}</td>
-                                                <td class="bd-open">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
-                                                <td class="bd-open">{{ estudiant.resum.comunicacio.ultimaConnexioCampus }}</td>
-                                                <td class="bd-open">{{ estudiant.resum.comunicacio.ultimaConnexioWidget }}</td>
+                                                <td class="bd clics-estudiant"></td>
+                                                <td class="bd-open connexio-aula-estudiant"></td>
+                                                <td class="bd-open connexio-campus-estudiant"></td>
+                                                <td class="bd-open connexio-widget-estudiant"></td>
                                             </tr>
                                             <tr class="tr-wrap">
                                                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>
@@ -182,7 +182,9 @@
 <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/async.js"></script>
 <script type="text/javascript" src="/app/guaita/js/spin.min.js"></script>
+<script type="text/javascript" src="/app/guaita/js/moment.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/helper.js"></script>
 <script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
 <script>

@@ -205,26 +205,30 @@ var getActivityTools = exports.getActivityTools = function (req, res, next) {
  * @return {[type]}
  */
 var get = exports.get = function (req, res, next) {
-    return aules.one(
-        req.params.anyAcademic,
-        req.params.codAssignatura,
-        req.params.domainId,
-        req.params.codAula,
-        req.params.domainIdAula,
-        req.params.domainCode,
-        req.query.idp,
-        req.query.s,
-        function (err, result) {
-        if (err) {
-            return next("No s'ha pogut obtenir la informació de l'aula");
-        }
-        if (req.query.format) {
-            res.json(result);
-        } else {
-            result.s = req.query.s;
-            res.render('aula.html', { aula: result });
-        }
-    });
+    if (req.query.quick) {
+
+    } else {
+        return aules.one(
+            req.params.anyAcademic,
+            req.params.codAssignatura,
+            req.params.domainId,
+            req.params.codAula,
+            req.params.domainIdAula,
+            req.params.domainCode,
+            req.query.idp,
+            req.query.s,
+            function (err, result) {
+            if (err) {
+                return next("No s'ha pogut obtenir la informació de l'aula");
+            }
+            if (req.query.format) {
+                res.json(result);
+            } else {
+                result.s = req.query.s;
+                res.render('aula.html', { aula: result });
+            }
+        });
+    }
 }
 
 /**

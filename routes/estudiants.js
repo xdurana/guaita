@@ -89,6 +89,49 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 }
 
 /**
+ * Estudiants d'una aula (minimalistic version)
+ * @param codAssignatura
+ * @param anyAcademic
+ * @param codAula
+ * @param idp
+ * @param s
+ */
+exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, callback) {
+
+    var struct = [
+    ];
+
+    ws.rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
+        if (err) return callback(err, result);
+        if (result.out.EstudiantAulaVO) {
+            struct = result.out.EstudiantAulaVO;
+            async.each(struct, getResumEstudiant, function(err) {
+                return callback(err, struct);
+            });
+        } else {
+            return callback(null, struct);
+        }
+    });
+
+    var getResumEstudiant = function(estudiant, callback) {
+        async.parallel([
+            function(callback) {
+                estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
+                estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
+                estudiant.resum = indicadors.getObjectComunicacio();
+                usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
+                    if (err) return callback(err, url);
+                    estudiant.fitxa = url;
+                    return callback();
+                });
+            }
+        ], function(err, results) {
+            return callback(err, results);
+        });
+    }
+}
+
+/**
  * Aules per estudiant
  * @param idp
  * @param s

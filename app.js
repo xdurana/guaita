@@ -9,6 +9,7 @@ var user = controllers.user;
 var subject = controllers.subject;
 var classroom = controllers.classroom;
 var materials = controllers.materials;
+var test = controllers.test;
 
 var app = express();
 
@@ -89,6 +90,16 @@ app.get('/app/guaita/materials', user.authorize, materials.get);
 app.get('/app/guaita/materials/:pid', user.authorize, materials.getHTML5);
 
 app.get('/app/guaita/registre', user.authorize, user.registre);
+
+app.get('/app/guaita/test/pra', user.authorize, test.pra);
+app.get('/app/guaita/test/consultor', user.authorize, test.consultor);
+app.get('/app/guaita/test/estudiant', user.authorize, test.estudiant);
+app.get('/app/guaita/test/widget', user.authorize, test.widget);
+app.get('/app/guaita/test/aula', user.authorize, test.aula);
+
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.authorize, user.byidpandclassroom);
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.authorize, user.byidpandclassroomlast);
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/widget', user.authorize, user.byidpandclassroomandwidgetlast);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

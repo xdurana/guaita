@@ -191,7 +191,7 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
  */
 var isAulaca = exports.isAulaca = function(domainCode, s, next) {
     getGroupServlet(domainCode, s, function(err, object) {
-        return next(err, object[0]['$']['idTipoPresent'] == 'AULACA');
+        return next(err, object ? object[0]['$']['idTipoPresent'] == 'AULACA' : false);
     });
 }
 

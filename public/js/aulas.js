@@ -78,6 +78,80 @@ var UOCAulas = (function($) {
             oWin(event, 'http://cv.uoc.edu/WebMail/writeMail.do?s=' + s + '&to=' + to.join(',') + '&cc=&re=&body=&l=pers&type=popup');
             return false;
         });
+
+        var loadclicks = function(cell) {            
+            var idp = $(cell).attr('data-guaita-idp');
+            var domainidaula = $(cell).attr('data-guaita-domainidaula');
+            var url = '{0}/lrs/idp/{1}/aules/{2}?s={3}'.format(baseURL, idp, domainidaula, s);
+            var clicks_estudiant = $(cell).find('.clics-estudiant');
+            $(clicks_estudiant).spin('tiny');
+            var jqxhr = $.getJSON(url, {
+                format: 'json'
+            })
+            .done(function(data) {
+                clicks_estudiant.text(data.value);
+            })
+            .fail(function() {
+                clicks_estudiant.text("N/D");
+            })
+            .always(function() {
+                $(clicks_estudiant).spin(false);
+            });
+        }
+
+        var loadlastclassroomconnection = function(cell) {
+            var idp = $(cell).attr('data-guaita-idp');
+            var domainidaula = $(cell).attr('data-guaita-domainidaula');
+            var url = '{0}/lrs/idp/{1}/aules/{2}/last?s={3}'.format(baseURL, idp, domainidaula, s);
+            var clicks_estudiant = $(cell).find('.connexio-aula-estudiant');
+            $(clicks_estudiant).spin('tiny');
+            var jqxhr = $.getJSON(url, {
+                format: 'json'
+            })
+            .done(function(data) {
+                if (data.value[0]) {
+                    clicks_estudiant.text(moment(data.value[0].timestamp).format("DD/MM/YYYY"));
+                } else {
+                    clicks_estudiant.text("N/D");
+                }
+            })
+            .fail(function() {
+                clicks_estudiant.text("N/D");
+            })
+            .always(function() {
+                $(clicks_estudiant).spin(false);
+            });
+        }
+
+        var loadlastclassroomwidgetconnection = function(cell) {
+            var idp = $(cell).attr('data-guaita-idp');
+            var domainidaula = $(cell).attr('data-guaita-domainidaula');
+            var url = '{0}/lrs/idp/{1}/aules/{2}/widget?s={3}'.format(baseURL, idp, domainidaula, s);
+            var clicks_estudiant = $(cell).find('.connexio-widget-estudiant');
+            $(clicks_estudiant).spin('tiny');
+            var jqxhr = $.getJSON(url, {
+                format: 'json'
+            })
+            .done(function(data) {
+                if (data.value[0]) {
+                    clicks_estudiant.text(moment(data.value[0].timestamp).format("DD/MM/YYYY"));
+                } else {
+                    clicks_estudiant.text("N/D");
+                }
+            })
+            .fail(function() {
+                clicks_estudiant.text("N/D");
+            })
+            .always(function() {
+                $(clicks_estudiant).spin(false);
+            });
+        }
+
+        $(".activ-aula-acc" ).each(function() {
+            loadclicks($(this));
+            loadlastclassroomconnection($(this));
+            loadlastclassroomwidgetconnection($(this));
+        });
     };
 
     /* Ordenación: jqueryui sortable */

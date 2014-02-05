@@ -246,6 +246,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
+            /*
             function(next) {
                 if (isForum(eina)) {
                     async.parallel([
@@ -290,6 +291,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                     next();
                 }
             },
+            */
             function(next) {
                 if (estadistiques) {
                     ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
