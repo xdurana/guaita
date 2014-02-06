@@ -97,9 +97,9 @@ app.get('/app/guaita/test/estudiant', user.authorize, test.estudiant);
 app.get('/app/guaita/test/widget', user.authorize, test.widget);
 app.get('/app/guaita/test/aula', user.authorize, test.aula);
 
-app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.authorize, user.byidpandclassroom);
-app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.authorize, user.byidpandclassroomlast);
-app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/widget', user.authorize, user.byidpandclassroomandwidgetlast);
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
+app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/widget', user.byidpandclassroomandwidgetlast);
 
 http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));

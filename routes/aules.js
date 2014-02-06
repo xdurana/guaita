@@ -288,7 +288,7 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 var getLinkAula = exports.getLinkAula = function(s, isAulaca, domainId, domainCode) { 
     return isAulaca ?
     config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
         config.cv(),
         s,
         domainId
@@ -323,7 +323,7 @@ var isAulaca = exports.isAulaca = function(aula) {
 var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
     return isAulaca ?
     config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false',
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false&origin=guaita',
         config.cv(),
         s,
         domainId,
@@ -342,7 +342,7 @@ var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId
 var getLinkDissenyAula = exports.getLinkDissenyAula = function(s, isAulaca, domainId) {
     return isAulaca ?
     config.util.format(
-        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s',
+        '%s/webapps/aulaca/classroom/Classroom.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
         config.cv(),
         s,
         domainId

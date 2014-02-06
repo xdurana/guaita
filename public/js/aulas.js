@@ -79,72 +79,76 @@ var UOCAulas = (function($) {
             return false;
         });
 
-        var loadclicks = function(cell) {            
-            var idp = $(cell).attr('data-guaita-idp');
-            var domainidaula = $(cell).attr('data-guaita-domainidaula');
-            var url = '{0}/lrs/idp/{1}/aules/{2}?s={3}'.format(baseURL, idp, domainidaula, s);
-            var clicks_estudiant = $(cell).find('.clics-estudiant');
-            $(clicks_estudiant).spin('tiny');
+        var getcount = function(url, c1, c2) {
+            $(c1).spin('tiny');
+            $(c2).spin('tiny');
             var jqxhr = $.getJSON(url, {
                 format: 'json'
             })
             .done(function(data) {
-                clicks_estudiant.text(data.value);
+                $(c1).text(data.value);
+                $(c2).text(data.value);
             })
             .fail(function() {
-                clicks_estudiant.text("N/D");
+                $(c1).text("N/D");
+                $(c2).text("N/D");
             })
             .always(function() {
-                $(clicks_estudiant).spin(false);
+                $(c1).spin(false);
+                $(c2).spin(false);
             });
+        }
+
+        var getdate = function(url, c1, c2) {
+            $(c1).spin('tiny');
+            $(c2).spin('tiny');
+            var jqxhr = $.getJSON(url, {
+                format: 'json'
+            })
+            .done(function(data) {
+                if (data.value.length > 0) {
+                    var d = moment(data.value[0].timestamp).format("DD/MM/YYYY");
+                } else {
+                    var d = "N/D";
+                }
+                $(c1).text(d);
+                $(c2).text(d);
+            })
+            .fail(function() {
+                $(c1).text("N/D");
+                $(c2).text("N/D");
+            })
+            .always(function() {
+                $(c1).spin(false);
+                $(c2).spin(false);
+            });
+        }
+
+        var loadclicks = function(cell) {            
+            var idp = $(cell).attr('data-guaita-idp');
+            var domainidaula = $(cell).attr('data-guaita-domainidaula');
+            var url = '{0}/lrs/idp/{1}/aules/{2}?s={3}'.format(baseURL, idp, domainidaula, s);
+            var c1 = $(cell).find('.clics-estudiant');
+            var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.clics-estudiant');
+            getcount(url, c1, c2);
         }
 
         var loadlastclassroomconnection = function(cell) {
             var idp = $(cell).attr('data-guaita-idp');
             var domainidaula = $(cell).attr('data-guaita-domainidaula');
             var url = '{0}/lrs/idp/{1}/aules/{2}/last?s={3}'.format(baseURL, idp, domainidaula, s);
-            var clicks_estudiant = $(cell).find('.connexio-aula-estudiant');
-            $(clicks_estudiant).spin('tiny');
-            var jqxhr = $.getJSON(url, {
-                format: 'json'
-            })
-            .done(function(data) {
-                if (data.value[0]) {
-                    clicks_estudiant.text(moment(data.value[0].timestamp).format("DD/MM/YYYY"));
-                } else {
-                    clicks_estudiant.text("N/D");
-                }
-            })
-            .fail(function() {
-                clicks_estudiant.text("N/D");
-            })
-            .always(function() {
-                $(clicks_estudiant).spin(false);
-            });
+            var c1 = $(cell).find('.connexio-aula-estudiant');
+            var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.connexio-aula-estudiant');
+            getdate(url, c1, c2);
         }
 
         var loadlastclassroomwidgetconnection = function(cell) {
             var idp = $(cell).attr('data-guaita-idp');
             var domainidaula = $(cell).attr('data-guaita-domainidaula');
             var url = '{0}/lrs/idp/{1}/aules/{2}/widget?s={3}'.format(baseURL, idp, domainidaula, s);
-            var clicks_estudiant = $(cell).find('.connexio-widget-estudiant');
-            $(clicks_estudiant).spin('tiny');
-            var jqxhr = $.getJSON(url, {
-                format: 'json'
-            })
-            .done(function(data) {
-                if (data.value[0]) {
-                    clicks_estudiant.text(moment(data.value[0].timestamp).format("DD/MM/YYYY"));
-                } else {
-                    clicks_estudiant.text("N/D");
-                }
-            })
-            .fail(function() {
-                clicks_estudiant.text("N/D");
-            })
-            .always(function() {
-                $(clicks_estudiant).spin(false);
-            });
+            var c1 = $(cell).find('.connexio-widget-estudiant');
+            var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.connexio-widget-estudiant');
+            getdate(url, c1, c2);
         }
 
         $(".activ-aula-acc" ).each(function() {
