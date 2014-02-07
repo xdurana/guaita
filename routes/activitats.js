@@ -231,17 +231,21 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
     }
 
     ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-        if (err) { console.log(err); return callback(null, struct); }
+        if (err) return callback(err);
         if (result) {
             result.forEach(function(activitat) {
+                struct.ultima = activitat;
                 try {
                     if (new Date(activitat.startDate) <= Date.now() && new Date(activitat.deliveryDate) > Date.now()) {
                         struct.activitats.push(activitat);
                     }
                 } catch(e) {
                     console.log(e.message);
-                }
+                }                
             })
+        }
+        if (struct.activitats.length == 0) {
+            struct.activitats.push(struct.ultima);
         }
         callback(null, struct);
     });
