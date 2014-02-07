@@ -48,7 +48,7 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             }
         });
     } else {
-        return assignatures.byidp(req.query.s, req.query.idp, function (err, result) {
+        return assignatures.byidp(req.query.s, req.query.idp, req.query.perfil, function (err, result) {
             if (err) return next(err);
             if (req.query.format) {
                 res.json(result);

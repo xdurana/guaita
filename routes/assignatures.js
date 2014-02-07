@@ -11,7 +11,7 @@ var ws = require('../ws');
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-var byidp = exports.byidp = function(s, idp, next) {
+var byidp = exports.byidp = function(s, idp, perfil, next) {
 
     var struct = {
         s: s,
@@ -20,7 +20,8 @@ var byidp = exports.byidp = function(s, idp, next) {
         ]
     };
 
-    ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
+    //TODO canviar test per pro
+    ws.aulaca.getAssignaturesPerIdpTest(s, idp, perfil, function(err, result) {
         if (err) return next(err);
         struct.assignatures = result || [];
         async.each(struct.assignatures, getResum, function(err) {
