@@ -256,49 +256,21 @@ exports.aules = function(idp, s, callback) {
         }
     }
 
-    var buildCalendariAnt = function(callback) {
-
-        var inici = moment(struct.events[0].data);
-        var fi = moment(struct.events[struct.events.length - 1].data);
-
-        var monthc = new calendar.Calendar(0).monthdatescalendar(moment().year(), moment().month() + 1);
-        monthc.forEach(function(weekc) {
-            var week = [];
-            weekc.forEach(function(dayc) {
-                var date = moment(dayc).format("YYYY-MM-DD");
-                week.push({
-                    date: date,
-                    day: moment(dayc).format("DD"),
-                    actual: moment().isSame(date, 'month'),
-                    cssactual: moment().isSame(date, 'month') ? '' : 'off',
-                    events: struct.events.filter(function(event) {
-                        return event.data === date;
-                    })
-                });
-            });
-            struct.calendar.push(week);
-        });
-
-        return callback();
-    }
-
     var buildCalendari = function(callback) {
 
+        var today = moment();
         var inici = moment(struct.events[0].data);
         var fi = moment(struct.events[struct.events.length - 1].data);
-
-        //TODO GUAITA-93
-        inici = moment().isBefore(moment([moment().year(), 8, 1, 0, 0, 0, 0])) ? moment([moment().year() - 1, 8, 1, 0, 0, 0, 0]) : moment([moment().year(), 8, 1, 0, 0, 0, 0]);
-        fi = moment().isBefore(moment([moment().year(), 8, 1, 0, 0, 0, 0])) ? moment([moment().year() , 8, 1, 0, 0, 0, 0]) : moment([moment().year() + 1, 8, 1, 0, 0, 0, 0]);
+        fi = today.isAfter(fi) ? today : fi;
 
         var onward = true;
         var actual = inici;
 
         struct.actual = {
-            year: moment().year(),
+            year: today.year(),
             month: {
-                number: moment().month() + 1,
-                name: moment().format('MMMM')
+                number: today.month() + 1,
+                name: today.format('MMMM')
             }
         }
 
@@ -334,8 +306,10 @@ exports.aules = function(idp, s, callback) {
             });
 
             struct.calendar.push(page);
-            actual = actual.add('months', 1);
             onward = actual.isBefore(fi);
+            actual = actual.add('months', 1);
+            config.debug("actual = " + actual.format("DD/MM/YYYY"));
+            config.debug("fi = " + fi.format("DD/MM/YYYY"));
         }
 
         struct.ical = geticalendar();
