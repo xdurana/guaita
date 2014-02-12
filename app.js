@@ -96,6 +96,8 @@ app.get('/app/guaita/test/consultor', user.authorize, test.consultor);
 app.get('/app/guaita/test/estudiant', user.authorize, test.estudiant);
 app.get('/app/guaita/test/widget', user.authorize, test.widget);
 app.get('/app/guaita/test/aula', user.authorize, test.aula);
+app.get('/app/guaita/test/material', user.authorize, test.material);
+app.get('/app/guaita/test/restart', user.authorize, test.restart);
 
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);

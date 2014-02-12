@@ -181,8 +181,6 @@ exports.aules = function(idp, s, callback) {
             });
         }                
 
-        //config.debug(struct);
-
         async.parallel([
             function(callback) {
                 widget.one(
@@ -193,6 +191,7 @@ exports.aules = function(idp, s, callback) {
                     aula.domainId,
                     aula.domainCode,
                     idp,
+                    [],
                     s,
                     function(err, result) {
                         if (err) { console.log(err); return callback(); }
@@ -308,8 +307,6 @@ exports.aules = function(idp, s, callback) {
             struct.calendar.push(page);
             onward = actual.isBefore(fi);
             actual = actual.add('months', 1);
-            config.debug("actual = " + actual.format("DD/MM/YYYY"));
-            config.debug("fi = " + fi.format("DD/MM/YYYY"));
         }
 
         struct.ical = geticalendar();

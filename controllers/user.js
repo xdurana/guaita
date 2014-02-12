@@ -11,7 +11,7 @@ var config = require('../config');
  * @return {[type]}        [description]
  */
 var authorize = exports.authorize = function (req, res, next) {
-    config.debug(req.url);
+    config.log(req.url);
     if (req.query.s == null) return next("Manca el parametre [s] a la crida");
     ws.campus.getIdpBySession(req.query.s, function (err, idp) {
         if (err) return next("La sessió no és valida o ha caducat");
@@ -36,7 +36,6 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
             if (req.query.format === 'ical') {
                 res.attachment('student.ical');
                 res.setHeader('Content-Type', 'text/calendar');
-                config.debug(result.ical);
                 res.end(result.ical);
             } else if (req.query.format) {
                 res.json(result);

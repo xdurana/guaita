@@ -1,3 +1,4 @@
+var moment = require('moment');
 var nconf = require('nconf');
 
 var util = exports.util = require('util');
@@ -70,6 +71,15 @@ var debug = exports.debug = function(msg) {
     if (nconf.get('entorn') != 'PRO') {
         console.log(msg);
     }
+}
+
+/**
+ * [log description]
+ * @param  {[type]} msg [description]
+ * @return {[type]}     [description]
+ */
+var log = exports.log = function(msg) {    
+    console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:MM:SS"), msg));
 }
 
 /**

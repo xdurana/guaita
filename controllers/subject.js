@@ -1,5 +1,5 @@
 var async = require('async');
-var csv = require('csv');
+//var csv = require('csv');
 var aules = require('../routes/aules');
 var config = require('../config');
 var ws = require('../ws');

@@ -12,6 +12,10 @@
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/general.css" media="screen"/>
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/modul.css" />
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/style.css" />
+
+    {% for lib in widget.libs %}
+        <script type="text/javascript" src="{{lib}}"></script>
+    {% endfor %}
      
     <script LANGUAGE="JavaScript" type="text/javascript">
     var MAXIM_MSG='Minimizar';
@@ -30,9 +34,9 @@
     var MAXIMIZED = false;
     </script>
 
-    <script type="text/javascript" src="js/includeDisplayStatus.js"></script>
-    <script type="text/javascript" src="js/detalls.js"></script>
-    <script type="text/javascript" src="js/stdFuncs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
     <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
     <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
     <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
@@ -43,7 +47,9 @@
 
     <div class="agora identifica">
         <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        {% if widget.consultor %}
         <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
+        {% endif %}
         <span class="marcadors">
             <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
         </span>

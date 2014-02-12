@@ -20,7 +20,6 @@ var xapi = new TinCan({
  * @return {[type]}           [description]
  */
 var registra = function(statement) {
-    config.debug(statement);
     xapi.sendStatement(statement, function (results, statement) {        
     });
 }

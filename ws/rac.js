@@ -68,8 +68,7 @@ exports.calcularIndicadorsAula = function(tipusIndicador, codAssignatura, anyAca
         in7: config.lng()
 	}
 	service.operation(config.racwsdl(), 'calcularIndicadorsAula', args, function(err, result) {
-        if(err) { console.log(err); }
-		callback(err, result);
+        return callback(err, result);
 	});		
 }
 

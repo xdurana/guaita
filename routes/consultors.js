@@ -83,7 +83,6 @@ exports.getResumEines = function(aula, callback) {
         function (callback) {
             ws.lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }
-                config.debug(result);
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });

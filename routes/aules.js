@@ -166,20 +166,6 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
                 }
                 return callback();
             });
-        },
-        function (callback) {
-            ws.aulaca.getLecturesPendentsAcumuladesAula(classroom.domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                classroom.resum.comunicacio.lecturesPendentsAcumulades = result ? result : config.nc();
-                return callback();
-            });
-        },
-        function (callback) {
-            ws.aulaca.getParticipacionsAula(classroom.domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                classroom.resum.comunicacio.participacions = result ? result : config.nc();
-                return callback();
-            });
         }
     ], function(err, result) {
         if (err) { console.log(err); }

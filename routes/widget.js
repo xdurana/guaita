@@ -19,7 +19,7 @@ var ws = require('../ws');
  * @param idp
  * @param s
  */
-exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
+exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, s, callback) {
 
     var struct = {
         anyAcademic: anyAcademic,
@@ -30,17 +30,11 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         domainCode: domainCode,
         idp: idp,
         s: s,
+        libs: libs,
         lang: config.lng()
     };
 
     async.parallel([
-        function (callback) {
-            consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }                
-                struct.consultor = result;
-                return callback();
-            });
-        },
         function (callback) {
             eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
                 if (err) { console.log(err); return callback(null, struct); }
@@ -57,19 +51,28 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         },
         function (callback) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) { console.log(err); return callback(err); }
-                try {
-                    struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
-                    struct.recursos = result ? result[0].recurs : null;
-                    struct.missatgesPendents = result[0]['$']['numMsgPendents'];
-                    struct.connectats = result[0]['$']['conectats'];
-                    struct.urlAula = result[0]['$']['hrefEstudiantsConnectats'];
-                    struct.isAulaca = struct.urlAula.match(/aulaca/);
-                    struct.domainCode = result[0]['$']['code'];
-                    struct.color = result[0].color[0];
-                } catch(e) {
-                    console.log(e.message);
-                }
+                if (err) return callback(err);
+                struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
+                struct.recursos = result ? result[0].recurs : [];
+                struct.missatgesPendents = result[0]['$']['numMsgPendents'];
+                struct.connectats = result[0]['$']['conectats'];
+                struct.urlAula = result[0]['$']['hrefEstudiantsConnectats'];
+                struct.isAulaca = struct.urlAula.match(/aulaca/);
+                struct.domainCode = result[0]['$']['code'];
+                struct.color = result[0].color[0];
+                struct.perfils = result ? result[0].perfils : [];
+                struct.perfils.forEach(function(perfil) {
+                    if (perfil['$']['tipus'] === 'RESPONSABLE') {
+                        struct.consultor = {
+                            idp: perfil.user[0]['$']['id'],
+                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),
+                            fitxa: '#'
+                        }
+                        usuaris.getFitxaUserId(struct.consultor.idp, idp, s, function(err, url) {
+                            struct.consultor.fitxa = err ? '#' : url;
+                        });
+                    }
+                });
                 return callback();
             });
         },
@@ -81,7 +84,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         }
     ], function(err, results) {
-        if (err) { console.log(err); return callback(null, struct); }
+        if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
         if (struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
@@ -116,7 +119,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                         }
                     });
                 }
-                eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'total';
+                eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'nous cap';
             });
         }
     }
