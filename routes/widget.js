@@ -78,6 +78,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         },
         function (callback) {
             usuaris.esDocent(s, idp, domainId, function(err, result) {
+                if (err) return callback(err);
                 struct.docent = result;
                 struct.urlAvaluacio = indicadors.getUrlRAC(s, domainId, result);
                 return callback();
@@ -86,44 +87,51 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
-        if (struct.actives && struct.actives.length > 0) {
+        return callback(null, struct);
+        if (false && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
-                if (err) { console.log(err); }
-                return callback(null, struct);
+                return callback(err, struct);
             });
-        } else {
-            return callback(null, struct);
         }
     });
 
     var calcularIndicadorsEines = function(eines, recursos) {
-        if (eines) {
-            eines.forEach(function(eina) {
-                eina.num_msg_pendents = "-";
-                eina.num_msg_totals = "-";
-                if (eina.viewItemsUrl.indexOf("http") < 0) {
-                    eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
-                }
-                eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
-                eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
-                if (recursos) {
-                    recursos.forEach(function(recurs) {
-                        try {
-                            if (recurs['$'].resourceId == eina.resourceId) {
-                                eina.viewItemsUrl = recurs.url[0];
-                                eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
-                                eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
+        try {
+            if (eines) {
+                eines.forEach(function(eina) {
+                    eina.num_msg_pendents = "-";
+                    eina.num_msg_totals = "-";
+                    if (eina.viewItemsUrl.indexOf("http") < 0) {
+                        eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
+                    }
+                    eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
+                    eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
+                    if (recursos) {
+                        recursos.forEach(function(recurs) {
+                            try {
+                                if (recurs['$'].resourceId == eina.resourceId) {
+                                    eina.viewItemsUrl = recurs.url[0];
+                                    eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
+                                    eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
+                                }
+                            } catch(e) {
+                                console.log(e.message);
                             }
-                        } catch(e) {
-                            console.log(e.message);
-                        }
-                    });
-                }
-                eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'nous cap';
-            });
-        }
+                        });
+                    }
+                    eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'nous cap';
+                });
+            }
+        } catch(ex) {}
     }
 
+    /**
+     * [getEinesActivitat description]
+     * @param  {[type]}   activitat [description]
+     * @param  {Function} callback  [description]
+     * @return {[type]}             [description]
+     * TODO validar
+     */
     var getEinesActivitat = function(activitat, callback) {
         calcularIndicadorsEines(activitat.eines, struct.recursos);
         activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
