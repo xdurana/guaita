@@ -152,7 +152,7 @@ exports.aules = function(idp, s, callback) {
         struct.classrooms = object.classrooms;
         struct.assignments = object.assignments;
         struct.subjects = object.subjects;
-        if (struct.classrooms && struct.classrooms.length > 0) {            
+        if (struct.classrooms && struct.classrooms.length > 0) {
             async.each(struct.classrooms, getAulaInfo.bind(null, struct, s), function(err) {
                 buildCalendari(function(err, result) {
                     if (err) { console.log(err); return callback(null, struct); }
@@ -199,6 +199,7 @@ exports.aules = function(idp, s, callback) {
                         return callback();
                     }
                 );
+
             },
             function(callback) {
                 activitats.aula(
@@ -256,6 +257,8 @@ exports.aules = function(idp, s, callback) {
     }
 
     var buildCalendari = function(callback) {
+
+        if (struct.events.length == 0) return callback();
 
         var today = moment();
         var inici = moment(struct.events[0].data);

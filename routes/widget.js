@@ -73,10 +73,12 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                         });
                     }
                 });
+
                 return callback();
             });
         },
         function (callback) {
+            return callback();
             usuaris.esDocent(s, idp, domainId, function(err, result) {
                 if (err) return callback(err);
                 struct.docent = result;
@@ -87,8 +89,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
-        return callback(null, struct);
-        if (false && struct.actives && struct.actives.length > 0) {
+        if (struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
                 return callback(err, struct);
             });
@@ -125,13 +126,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         } catch(ex) {}
     }
 
-    /**
-     * [getEinesActivitat description]
-     * @param  {[type]}   activitat [description]
-     * @param  {Function} callback  [description]
-     * @return {[type]}             [description]
-     * TODO validar
-     */
     var getEinesActivitat = function(activitat, callback) {
         calcularIndicadorsEines(activitat.eines, struct.recursos);
         activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
