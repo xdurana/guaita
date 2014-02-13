@@ -89,7 +89,8 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
-        if (struct.actives && struct.actives.length > 0) {
+        return callback(null, struct);
+        if (false && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
                 return callback(err, struct);
             });
