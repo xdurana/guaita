@@ -994,7 +994,7 @@ ul.nav li{ float:left; display:block; }
     padding: 10px 4.8231%;  /* 15 ÷ 311 = 0.048231 */
 }
 
-.block-head .lbl{display:inline-block;margin-left:22px} 
+.block-head .lbl{display:inline-block;margin-left:24px} 
 .full-width .block-head .lbl{ margin-left:25px; }
 
 .block-head .lbl-subject{color:#999;}
@@ -1219,11 +1219,11 @@ ul.list{
     width: 14px;
     height: 14px;
     background: url(../img/aulas_iconset_v2.png) no-repeat 0 0;*/ 
-    top:14px;
+    top:13px;
     left:3%;
-    width: 16px;
-    height: 16px;
-    background: url(../img/aulas_iconset_v2.png) no-repeat -299px -1px; 
+    width: 18px;
+    height: 18px;
+    background: url(../img/aulas_iconset_v2.png) no-repeat -298px 0; 
 }
 
 .full-width .ui-accordion-header .ui-accordion-header-icon{
@@ -1232,7 +1232,7 @@ ul.list{
 
 .ui-state-active .ui-accordion-header-icon{
     /*background-position: 0 -14px;*/
-    background-position: -299px -19px; 
+    background-position: -298px -18px; 
 }
 
 .loading .ui-accordion-header .ui-accordion-header-icon {
@@ -1242,7 +1242,7 @@ ul.list{
 #sidebar .ui-accordion-header .ui-accordion-header-icon{
     /*left:4.8231%;
     top:15px;*/
-    left:4.8231%;
+    left:4.6231%;
     top:13px;
 }
 
