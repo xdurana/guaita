@@ -57,6 +57,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
                 struct.connectats = result[0]['$']['conectats'];
                 struct.urlAula = result[0]['$']['hrefEstudiantsConnectats'];
+                struct.urlAula = struct.urlAula.match(/.uoc.edu/) ? struct.urlAula : config.cv() + struct.urlAula;
                 struct.isAulaca = struct.urlAula.match(/aulaca/);
                 struct.domainCode = result[0]['$']['code'];
                 struct.color = result[0].color[0];
@@ -78,7 +79,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            return callback();
             usuaris.esDocent(s, idp, domainId, function(err, result) {
                 if (err) return callback(err);
                 struct.docent = result;
@@ -89,11 +89,12 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     ], function(err, results) {
         if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
-        return callback(null, struct);
-        if (false && struct.actives && struct.actives.length > 0) {
+        if (true && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
                 return callback(err, struct);
             });
+        } else {
+            return callback(null, struct);
         }
     });
 
@@ -128,8 +129,9 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     }
 
     var getEinesActivitat = function(activitat, callback) {
-        calcularIndicadorsEines(activitat.eines, struct.recursos);
         activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
+        return callback();
+        calcularIndicadorsEines(activitat.eines, struct.recursos);
         ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
             if (err) { console.log(err); return callback(); }
             activitat.eines = result;
