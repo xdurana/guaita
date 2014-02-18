@@ -33,7 +33,7 @@
     "llista_complerta_aules": "Back to full list of classrooms",
     "fitxa_assignatura": "Subject file",
     "disseny_aula": "Classroom design",
-    "assignatures_tipologies": "Filter calendar by subject and type",
+    "assignatures_tipologies": "Subject and type",
     "assignatures": "Subjects",
     "assignatura": "Subject",
     "esdeveniment": "Event",
@@ -71,6 +71,7 @@
     "minimitzar": "Minimize",
     "registre_avaluacio_continuada": "Continuous assessment register",
     "comunicacio_aula": "Classroom communication",
+    "filtra": "Filter",
 
     "events": {
         "inici": {

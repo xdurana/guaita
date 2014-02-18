@@ -37,11 +37,10 @@
                     <span class="aula-item">
                         <a href="#item_2_{{ aula.codAula }}" class="lnk-expand" title="{{ t('expandeix') }}"></a>
                         <a href="#" class="lnk-aula c_{{ aula.color }}" title="{{ t('ves_aula') }}">{{ t('aula') }} {{ aula.codAula }}</a>
-                        <a href="{{ aula.linkdetall }}" class="lnk-more" title="més"></a>
                     </span>
                 </td>
-                <td>{{ aula.resum.estudiants.total }}</td>
-                <td>{{ aula.resum.estudiants.repetidors }}</td>
+                <td><a class="lnk-more-aula" href="{{ aula.linkdetall }}">{{ aula.resum.estudiants.total }}</a></td>
+                <td><a class="lnk-more-aula" href="{{ aula.linkdetall }}">{{ aula.resum.estudiants.repetidors }}</a></td>
                 <td class="bd">{{ aula.resum.comunicacio.clicsAcumulats }}</td>
                 <td class="bd-open"><!--{{ aula.resum.comunicacio.lecturesPendentsAcumulades }}--></td>
                 <td class="bd-open"><!--<span class="em">{{ aula.resum.comunicacio.lecturesPendents }} /</span> {{ aula.resum.comunicacio.participacions }}--></td>

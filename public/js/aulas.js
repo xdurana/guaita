@@ -158,6 +158,29 @@ var UOCAulas = (function($) {
         });
     };
 
+    /* Aula simplecolorpicker setup */
+    var setupColorpickers = function(){
+
+        if (!jQuery().simplecolorpicker) return;
+
+        /* setup Colorpickers */
+        $('.colorpicker').simplecolorpicker({delay:200,picker: true});
+        $('.colorpicker').change(function() {
+            /*
+             * TODO: Cambio de color asignatura server side vía ajax 
+             * Sustituir el color de los cuadros correspondientes en calendarios y filtros
+             * Será necesario identificar de forma inequivoca estos cuadros con la asignatura, 
+             * porque podría haber más de una asignatura con el mísmo color.
+             * En esta maqueta solo se cambia el color de la barra.
+             */
+            var $block = $(this).parent();
+            var new_color = $(this).val().replace('#', '');
+            var old_color = $block.data('color');
+            $block.data('color', new_color);
+            $block.removeClass('c_'+old_color).addClass('c_'+new_color);
+        });
+    };
+
     /* Ordenación: jqueryui sortable */
     var setupSortable = function(){ 
         $( ".sortable" ).sortable({
@@ -557,7 +580,7 @@ var UOCAulas = (function($) {
             getTable(this, url, false);
         });
 
-        $('.lnk-more').click(function() {
+        $('.lnk-more-aula').click(function() {
             $(this).attr('target', '_blank');
         });
 
@@ -607,7 +630,7 @@ var UOCAulas = (function($) {
         $(tabs).tabs({
             active: 0,
             hide: 100,
-            show: 300
+            show: 200
         });
     };
 
@@ -662,6 +685,7 @@ var UOCAulas = (function($) {
         }
 
         setupTooltips();
+        setupColorpickers();
         setupGlobalAdjusts();
     };
 

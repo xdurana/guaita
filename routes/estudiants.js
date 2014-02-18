@@ -298,8 +298,8 @@ exports.aules = function(idp, s, callback) {
                         date: date,
                         day: moment(dayc).format("DD"),
                         actual: actual.isSame(date, 'month'),
-                        cssactual: actual.isSame(date, 'month') ? '' : 'off',
-                        istoday: actual.isSame(date),
+                        thismonth: actual.isSame(date, 'month') ? '' : 'off',
+                        today: moment().isSame(date, 'day') ? 'today' : '',
                         events: day_events,
                         multiple: day_events.length > 1 ? 'multiple' : '',
                         color: day_events.length > 1 ? 'c_neutral' : ''

@@ -33,7 +33,7 @@
     "llista_complerta_aules": "Torna a la llista completa d'aules",
     "fitxa_assignatura": "Fitxa de l'assignatura",
     "disseny_aula": "Disseny de l'aula",
-    "assignatures_tipologies": "Filtra el calendari per assignatures i tipologies",
+    "assignatures_tipologies": "Assignatures i tipologies",
     "assignatura": "Assignatura",
     "esdeveniment": "Esdeveniment",
     "pac": "PAC",
@@ -70,6 +70,7 @@
     "minimitzar": "Minimitza",
     "registre_avaluacio_continuada": "Registre d'avaluació continuada",
     "comunicacio_aula": "Comunicació de l'aula",
+    "filtra": "Filtra",
     "events": {
         "inici": {
             "abreviatura": "PI",

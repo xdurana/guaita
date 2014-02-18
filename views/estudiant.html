@@ -37,15 +37,16 @@
 
             <ul class="blocks">
 
-                <li class="block accordion" id="block-filters">
+                <li class="block accordion open" id="block-filters">
 
                     <div class="block-head">
                         <h3>
                             <span class="lbl open-lbl">{{ t('assignatures_tipologies') }}</span>
-                            <span class="lbl closed-lbl" style="display:none;">{{ t('assignatures_tipologies') }}</span>
+                            <span class="lbl closed-lbl" style="display:none;">{{ t('assignatures') }}</span>
+                            <span class="filters-lbl"><i class="icon"></i> {{ t('filtra') }}</span>
                         </h3>
                     </div>
-                    
+                  
                     <div class="block-content block-filters">
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
@@ -117,8 +118,8 @@
                                 <tr>
                                     {% for day in week %}
                                     <td>
-                                        <div class="day">
-                                            <div class="day-num {{ day.cssactual }}">{{ day.day }}</div>
+                                        <div class="day {{ day.today }}">
+                                            <div class="day-num {{ day.thismonth }}">{{ day.day }}</div>
                                             {% if day.actual %}
                                             {% for event in day.events %}
                                             <div class="{{ event.destacat }} event-tipus event-tipus-{{ event.tipus }} event-aula-{{ event.activitat.domainId }}">
@@ -203,7 +204,7 @@
                                     {% for week in page.weeks %}
                                     <tr>
                                         {% for day in week %}
-                                        <td class="{{ day.cssactual }}">
+                                        <td class="{{ day.thismonth }}">
                                             <div class="day-wrap">
                                                 <div class="no-event">{{ day.day }}</div>
                                                 {% if day.actual %}
@@ -270,7 +271,10 @@
             <ul class="blocks">
                 {% for aula in object.classrooms %}
                 <li class="block accordion">
-                    <div class="block-color c_{{ aula.color }}"></div>
+                    
+                    <div class="block-color c_{{ aula.color }}" data-color="{{ aula.color }}">
+                        <a href="{{ aula.link }}" title="{{ aula.widget.codAssignatura }} {{ aula.widget.nomAssignatura }}" class="LaunchesOWin"><i class="icon icon-pop"></i></a>
+                    </div>
                     <div class="block-title">
                         <h3><a href="{{ aula.link }}">{{ aula.widget.codAssignatura }} {{ aula.widget.nomAssignatura }}</a></h3>
                     </div>
