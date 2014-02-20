@@ -101,7 +101,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         }
     ], function(err, results) {
-        if (err) return callback(err);
+        if (err) callback(null, struct);
         calcularIndicadorsEines(struct.eines, struct.recursos);
         if (true && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
