@@ -75,20 +75,20 @@
 
     "events": {
         "inici": {
-            "abreviatura": "PI",
-            "descripcio": "Inici pràctica"
+            "abreviatura": "I",
+            "descripcio": "Activity start"
         },
         "entrega": {
-            "abreviatura": "PL",
-            "descripcio": "Entrega pràctica"
+            "abreviatura": "E",
+            "descripcio": "Activity delivery"
         },
         "solucio": {
-            "abreviatura": "PS",
-            "descripcio": "Solució pràctica"
+            "abreviatura": "S",
+            "descripcio": "Activity solution"
         },
         "qualificacio": {
-            "abreviatura": "PQ",
-            "descripcio": "Qualificació pràctica"
+            "abreviatura": "Q",
+            "descripcio": "Activity qualification"
         }
     },    
     "dies": {

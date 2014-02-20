@@ -73,19 +73,19 @@
     "filtra": "Filtra",
     "events": {
         "inici": {
-            "abreviatura": "PI",
+            "abreviatura": "I",
             "descripcio": "Inici pràctica"
         },
         "entrega": {
-            "abreviatura": "PL",
+            "abreviatura": "E",
             "descripcio": "Entrega pràctica"
         },
         "solucio": {
-            "abreviatura": "PS",
+            "abreviatura": "S",
             "descripcio": "Solució pràctica"
         },
         "qualificacio": {
-            "abreviatura": "PQ",
+            "abreviatura": "Q",
             "descripcio": "Qualificació pràctica"
         }
     },

@@ -198,7 +198,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
                 var comptarRelacions = '0';
 
                 ws.rac.calcularIndicadorsAula(tipusIndicador, struct.codAssignatura, struct.anyAcademic, struct.codAula, item.ordre, comptarEquivalents, comptarRelacions, function(err, result) {
-                    if (err) { console.log(err); return callback(); }
+                    if (err) return callback();
                     item.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                     item.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
                     item.resum.avaluacio.seguimentpercent = indicadors.getSeguimentACAulaPercent(result.out.ValorIndicadorVO);

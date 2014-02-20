@@ -39,6 +39,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
                 } else return callback();
             },
             function (callback) {
+                return callback();
                 ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
                     if (err) return callback(err);
                     if (result.out.ActivitatVO) {
@@ -52,6 +53,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
                 });
             },
             function (callback) {
+                return callback();
                 assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
                     return callback(err);
                 });
@@ -61,24 +63,51 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
         });
     }); 
 
+    /**
+     * [procesa description]
+     * @param  {[type]}   anyAcademic    [description]
+     * @param  {[type]}   codAssignatura [description]
+     * @param  {[type]}   idp            [description]
+     * @param  {[type]}   s              [description]
+     * @param  {[type]}   perfil         [description]
+     * @param  {[type]}   classroom      [description]
+     * @param  {Function} callback       [description]
+     * @return {[type]}                  [description]
+     */
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
+
+        classroom.codAula = classroom.domainCode.slice(-1);
+        classroom.color = 'FF2600';
+        classroom.codAssignatura = classroom.codi;
+        classroom.domainIdAula = classroom.domainId;
+        classroom.link = aules.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode);
+        classroom.linkdetall = config.util.format(
+            '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
+            anyAcademic,
+            classroom.codAssignatura,
+            classroom.domainFatherId,
+            classroom.codAula,
+            classroom.domainIdAula,
+            classroom.domainCode,
+            s,
+            idp
+        );
+
         ws.aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
-            if (err) { console.log(err); return callback(); }
+            if (err) return callback(null, classroom);
             classroom.isAulaca = result;
-            var codAula = classroom.domainCode.slice(-1);
-            consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
+            consultors.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
+                if (err) return callback(null, classroom);
                 classroom.consultor = result;
                 struct.aules.push(classroom);
                 if (perfil == 'pra' || classroom.consultor.idp == idp) {
-                    resum(s, idp, anyAcademic, codAssignatura, classroom, codAula, function(err, result) {
-                        if (err) { console.log(err); return callback(); }
+                    resum(s, idp, anyAcademic, codAssignatura, classroom, classroom.codAula, function(err, result) {
+                        if (err) return callback(null, classroom);
                         consultors.getResumEines(classroom, function(err, result) {
-                            if (err) { console.log(err); return callback(); }
-                            return callback();
+                            return callback(null, classroom);
                         });
                     });
-                } else return callback();
+                } else callback(null, classroom);
             });
         });
     }
@@ -89,23 +118,6 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
 }
 
 var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
-
-    classroom.color = 'FF2600';
-    classroom.codAula = codAula;
-    classroom.codAssignatura = classroom.codi;
-    classroom.domainIdAula = classroom.domainId;
-    classroom.link = aules.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode),
-    classroom.linkdetall = config.util.format(
-        '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
-        anyAcademic,
-        classroom.codAssignatura,
-        classroom.domainFatherId,
-        classroom.codAula,
-        classroom.domainIdAula,
-        classroom.domainCode,
-        s,
-        idp
-    );
 
     classroom.resum = {
         estudiants: {
@@ -131,7 +143,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
         },
         function (callback) {
             ws.rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) return callback();
                 classroom.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 classroom.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
                 return callback();
@@ -139,7 +151,7 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
         },
         function (callback) {
             ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) return callback();
                 classroom.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                 classroom.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
                 return callback();
@@ -147,20 +159,17 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
         },
         function (callback) {
             ws.lrs.byclassroom(classroom.domainId, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) return callback();
                 classroom.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return callback();
             });
         },
         function (callback) {
             ws.aulaca.getGroupServlet(classroom.domainCode, s, function(err, result) {
-                if (err) { console.log(err); return callback(err); }
+                if (err) return callback();
                 try {
                     classroom.resum.comunicacio.lecturesPendents = result[0]['$']['numMsgPendents'];
                     classroom.color = result[0].color[0];
-
-                    //TODO Total missatges per aula
-
                 } catch(e) {
                     console.log(e.message);
                 }

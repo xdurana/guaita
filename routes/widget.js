@@ -59,7 +59,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 struct.domainCode = result[0]['$']['code'];
 
                 var idTipoPresent = result[0]['$']['idTipoPresent'];
-                struct.isAulaca = idTipoPresent.match(/AULACA/);
+                struct.isAulaca = idTipoPresent.match(/AULACA/) ? true : false;
                 struct.urlAula = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
 
                 struct.color = result[0].color[0];
@@ -127,7 +127,8 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                         recursos.forEach(function(recurs) {
                             try {
                                 if (recurs['$'].resourceId == eina.resourceId) {
-                                    eina.viewItemsUrl = recurs.url[0];
+                                    config.debug(struct.isAulaca);
+                                    eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : recurs.url[0]);
                                     eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
                                     eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
                                 }
