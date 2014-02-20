@@ -12,7 +12,7 @@ var ws = require('../ws');
 var esDocent = exports.esDocent = function(s, idp, domainId, callback) {
     var docent = false;
     ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
-        if (err) { console.log(err); return callback(null, false); }
+        if (err) return callback(null, false);
         result.forEach(function(assignatura) {
             docent = docent || domainId == assignatura.domainId;
         });

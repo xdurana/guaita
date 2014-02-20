@@ -19,7 +19,6 @@ var classroom = exports.classroom = function(req, res, next) {
     });
 }
 
-
 /**
  * [estadistiques description]
  * @param  {[type]}   req  [description]

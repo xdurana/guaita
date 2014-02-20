@@ -56,12 +56,26 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 struct.recursos = result ? result[0].recurs : [];
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
                 struct.connectats = result[0]['$']['conectats'];
-                struct.urlAula = result[0]['$']['hrefEstudiantsConnectats'];
-                struct.urlAula = struct.urlAula.match(/.uoc.edu/) ? struct.urlAula : config.cv() + struct.urlAula;
-                struct.isAulaca = struct.urlAula.match(/aulaca/);
                 struct.domainCode = result[0]['$']['code'];
+
+                var idTipoPresent = result[0]['$']['idTipoPresent'];
+                struct.isAulaca = idTipoPresent.match(/AULACA/);
+                struct.urlAula = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+
                 struct.color = result[0].color[0];
                 struct.perfils = result ? result[0].perfils : [];
+                struct.perfils.forEach(function(perfil) {
+                    if (perfil['$']['tipus'] === 'CREADOR') {
+                        struct.consultor = {
+                            idp: perfil.user[0]['$']['id'],
+                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),
+                            fitxa: '#'
+                        }
+                        usuaris.getFitxaUserId(struct.consultor.idp, idp, s, function(err, url) {
+                            struct.consultor.fitxa = err ? '#' : url;
+                        });
+                    }
+                });
                 struct.perfils.forEach(function(perfil) {
                     if (perfil['$']['tipus'] === 'RESPONSABLE') {
                         struct.consultor = {

@@ -235,6 +235,7 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
         if (result) {
             result.forEach(function(activitat) {
                 struct.ultima = activitat;
+                activitat.name = indicadors.decodeHtmlEntity(activitat.name);
                 try {
                     if (new Date(activitat.startDate) <= Date.now() && new Date(activitat.deliveryDate) > Date.now()) {
                         struct.activitats.push(activitat);
@@ -244,7 +245,7 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
                 }                
             })
         }
-        if (struct.activitats.length == 0) {
+        if (struct.activitats.length == 0 && struct.ultima) {
             struct.activitats.push(struct.ultima);
         }
         callback(null, struct);

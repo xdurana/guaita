@@ -6,11 +6,6 @@
 {% block content %}
 
 <div id="feedback">
-    <!--
-    <a href="{{ object.retorn }}" class="btn-torna">{{ t('torna_plana_aules_previa') }}</a>
-    <a href="{{ t('url.incidencia') }}" class="btn-incidencia LaunchesOWin">{{ t('entra_incidencia_millora') }}</a>
-    <a href="{{ t('url.questionari') }}{{ idp }}" class="btn-questionari LaunchesOWin">{{ t('questionari') }}</a>
-    -->
     <img src="/app/guaita/img/beta.png" class="right" />
 </div>
 
@@ -291,7 +286,7 @@
                                 {% for eina in aula.widget.eines %}
                                 {% if eina.mostrar %}
                                 <li>
-                                    <a href="{{ eina.viewItemsUrl }}" class="lbl LaunchesOWin" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                                    <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                                     <a href="{{ eina.viewItemsUrl }}" class="marcadors">
                                         <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
                                         <span class="visuallyhidden"> / </span>
