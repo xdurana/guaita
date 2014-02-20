@@ -21,6 +21,8 @@ var ws = require('../ws');
  */
 exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, s, callback) {
 
+    domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
+
     var struct = {
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
@@ -51,7 +53,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         },
         function (callback) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return callback(err);
+                if (err) return callback(null, struct);
                 struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
                 struct.recursos = result ? result[0].recurs : [];
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
@@ -127,7 +129,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                         recursos.forEach(function(recurs) {
                             try {
                                 if (recurs['$'].resourceId == eina.resourceId) {
-                                    config.debug(struct.isAulaca);
                                     eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : recurs.url[0]);
                                     eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
                                     eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);

@@ -207,7 +207,7 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 	async.parallel([
         function (callback) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) { console.log(err); return callback(err); }
+                if (err) return callback();
                 try {
                     struct.color = result[0].color[0];
                 } catch(e) {

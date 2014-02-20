@@ -216,6 +216,8 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
         domainCode: domainCode,
         s: s,
 		idp: idp,
+        recursos: [
+        ],
 		eines: [
 		]
 	};
@@ -223,7 +225,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
     async.parallel([
         function (next) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return next(err);
+                if (err) return next();
                 struct.recursos = result ? result[0].recurs : [];
                 return next();
             });

@@ -195,7 +195,8 @@ var getGroupServlet = exports.getGroupServlet = function(domainCode, s, next) {
         domainCode
     );
     service.xml(url, function(err, object) {
-        return next(err, object ? object.Dominis.domini : {});
+        if (err) return next(err);
+        return object && object.Dominis.domini ? next(err, object.Dominis.domini) : next("No s'ha trobat el domini");
     });
 }
 

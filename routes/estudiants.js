@@ -189,7 +189,7 @@ exports.aules = function(idp, s, callback) {
                     aula.domainFatherId,
                     aula.codAula,
                     aula.domainId,
-                    aula.domainCode,
+                    aula.domainCode.slice(0, -3),
                     idp,
                     [],
                     s,
