@@ -234,6 +234,9 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
         if (err) return callback(err);
         if (result) {
             result.forEach(function(activitat) {
+                if (!struct.primera) {
+                    struct.primera = activitat;
+                }
                 struct.ultima = activitat;
                 activitat.name = indicadors.decodeHtmlEntity(activitat.name);
                 try {
@@ -245,9 +248,15 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
                 }                
             })
         }
+        /*
         if (struct.activitats.length == 0 && struct.ultima) {
-            struct.activitats.push(struct.ultima);
+            struct.activitats.push(
+                struct.primera && new Date(struct.primera.startDate) > Date.now() ?
+                struct.primera :
+                struct.ultima
+            );
         }
+        */
         callback(null, struct);
     });
 }
