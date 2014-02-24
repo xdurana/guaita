@@ -94,6 +94,11 @@ exports.getResumEines = function(aula, callback) {
                 return callback();
             });
         },        
+        function(callback) {
+            //TODO GUAITA-55
+            aula.consultor.resum.comunicacio.ultimaConnexioCampus = config.nc();
+            return callback();
+        },
         function (callback) {            
             ws.lrs.byidpandclassroomandwidgetlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
                 if (err) { console.log(err); return callback(); }

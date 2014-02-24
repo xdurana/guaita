@@ -75,6 +75,11 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
                 });
             },
             function(callback) {
+                //TODO GUAITA-55
+                estudiant.resum.comunicacio.ultimaConnexioCampus = config.nc();
+                return callback();
+            },
+            function(callback) {
                 ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
                     if (err) { console.log(err); return callback(); }
                     estudiant.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);

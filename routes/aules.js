@@ -77,7 +77,6 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
 
         classroom.isAulaca = isAulaca(classroom);
-        classroom.isAulaca = true;
         classroom.codAula = classroom.domainCode.slice(-1);
         classroom.color = 'FF2600';
         classroom.codAssignatura = classroom.codi;

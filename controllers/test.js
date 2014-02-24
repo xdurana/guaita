@@ -45,7 +45,7 @@ var estudiant = exports.estudiant = function (req, res, next) {
  */
 var widget = exports.widget = function (req, res, next) {
     var idp = '755089';
-    res.redirect(config.util.format('/app/guaita/assignatures/20131/06.510/415940/aules/1/419029/131_06_510_01/widget?idp=%s&s=%s', idp, req.query.s));
+    res.redirect(config.util.format('/app/guaita/assignatures/20131/06.510/415940/aules/1/419029/131_06_510/widget?idp=%s&s=%s', idp, req.query.s));
 }
 
 /**
