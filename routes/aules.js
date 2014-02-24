@@ -76,6 +76,8 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
      */
     var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
 
+        classroom.isAulaca = isAulaca(classroom);
+        classroom.isAulaca = true;
         classroom.codAula = classroom.domainCode.slice(-1);
         classroom.color = 'FF2600';
         classroom.codAssignatura = classroom.codi;
@@ -93,6 +95,21 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
             idp
         );
 
+        consultors.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
+            if (err) return callback(null, classroom);
+            classroom.consultor = result;
+            struct.aules.push(classroom);
+            if (perfil == 'pra' || classroom.consultor.idp == idp) {
+                resum(s, idp, anyAcademic, codAssignatura, classroom, classroom.codAula, function(err, result) {
+                    if (err) return callback(null, classroom);
+                    consultors.getResumEines(classroom, function(err, result) {
+                        return callback(null, classroom);
+                    });
+                });
+            } else callback(null, classroom);
+        });
+
+        /*
         ws.aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
             if (err) return callback(null, classroom);
             classroom.isAulaca = result;
@@ -110,6 +127,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
                 } else callback(null, classroom);
             });
         });
+        */
     }
 
     var ordenaAules = function(a, b) {
@@ -210,18 +228,12 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
                 if (err) return callback();
                 try {
                     struct.color = result[0].color[0];
+                    struct.isAulaca = result ? result[0]['$']['idTipoPresent'] == 'AULACA' : false;
+                    struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
                 } catch(e) {
                     console.log(e.message);
                 }
-                return callback();
-            });
-       },
-       function (callback) {
-            ws.aulaca.isAulaca(domainCode, s, function(err, result) {
-                if (err) { console.log(err); return callback(); }
-                struct.isAulaca = result;
-                struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
-                struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
                 return callback();
             });
         },
