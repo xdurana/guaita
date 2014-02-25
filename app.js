@@ -74,6 +74,7 @@ app.use(function(err, req, res, next) {
 
 config.i18next.registerAppHelper(app);
 
+app.get('/app/guaita/calendari', user.authorize, user.calendari);
 app.get('/app/guaita/assignatures', user.authorize, user.getSubjects);
 
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', user.authorize, subject.classroom);

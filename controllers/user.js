@@ -2,6 +2,7 @@ var ws = require('../ws');
 var assignatures = require('../routes/assignatures');
 var estudiants = require('../routes/estudiants');
 var config = require('../config');
+var async = require('async');
 
 /**
  * [authorize description]
@@ -74,6 +75,42 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
                 }
             }
         })
+    }
+}
+
+/**
+ * [calendari description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var calendari = exports.calendari = function (req, res, next) {
+
+    var struct = {
+        assignatures: [],
+        aules: []
+    }
+
+    if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
+    if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
+    ws.aulaca.getAssignaturesPerIdpTest(req.query.s, req.query.idp, req.query.perfil, function(err, result) {
+        if (err) return next(err);
+        struct.assignatures = result || [];
+        async.each(struct.assignatures, aules, function(err) {
+            if (err) return next(err);
+            res.json(struct);
+        });
+    });
+
+    var aules = function(assignatura, next) {
+        ws.aulaca.getAulesAssignatura(assignatura.domainId, req.query.idp, req.query.s, function(err, result) {
+            if (err) return next(err);
+            result.forEach(function(aula) {
+                struct.aules.push(aula);
+            });
+            return next();
+        });
     }
 }
 
