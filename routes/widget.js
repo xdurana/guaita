@@ -65,9 +65,9 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                 struct.urlAula = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
 
                 struct.color = result[0].color[0];
-                struct.perfils = result ? result[0].perfils : [];
+                struct.perfils = result ? (result[0].perfils ? result[0].perfils : []) : [];
                 struct.perfils.forEach(function(perfil) {
-                    if (perfil['$']['tipus'] === 'CREADOR') {
+                    if (perfil['$']['tipus'] === 'CREADOR' && perfil.user) {
                         struct.consultor = {
                             idp: perfil.user[0]['$']['id'],
                             nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),
@@ -79,7 +79,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     }
                 });
                 struct.perfils.forEach(function(perfil) {
-                    if (perfil['$']['tipus'] === 'RESPONSABLE') {
+                    if (perfil['$']['tipus'] === 'RESPONSABLE' && perfil.user) {
                         struct.consultor = {
                             idp: perfil.user[0]['$']['id'],
                             nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),

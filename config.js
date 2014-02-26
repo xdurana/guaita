@@ -83,7 +83,7 @@ var debug = exports.debug = function(msg) {
  * @return {[type]}     [description]
  */
 var log = exports.log = function(msg) {    
-    console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:MM:SS"), msg));
+    console.log(util.format("%s: ", moment().format("YYYY/MM/DD hh:mm:ss"), msg));
 }
 
 /**
