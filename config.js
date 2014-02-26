@@ -46,6 +46,10 @@ var aulaca = exports.aulaca = function() {
     return nconf.get('wsdl:aulaca');
 }
 
+var aulacas = exports.aulacas = function() {
+    return nconf.get('wsdl:aulacas');
+}
+
 var lrs = exports.lrs = function() {
     return nconf.get('wsdl:lrs');
 }

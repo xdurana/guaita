@@ -170,8 +170,8 @@ var getEinesPerAula = exports.getEinesPerAula = function(domainId, domainIdAula,
  */
 var getAulesEstudiant = exports.getAulesEstudiant = function(idp, s, next) {
     var url = config.util.format(
-        '%s/webapps/aulaca/classroom/estudiant/%s/aules?s=%s',
-        config.cv(),
+        '%s/estudiant/%s/aules?s=%s',
+        config.aulaca(),
         idp,
         s
     );
@@ -209,8 +209,8 @@ var getGroupServlet = exports.getGroupServlet = function(domainCode, s, next) {
  */
 var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
     var url = config.util.format(
-        '%s/webapps/aulaca/classroom/usuaris/%s/id?s=%s',
-        config.cv(),
+        '%s/usuaris/%s/id?s=%s',
+        config.aulaca(),
         idp,
         s
     );
