@@ -348,7 +348,7 @@ var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId
 var getLinkDissenyAula = exports.getLinkDissenyAula = function(s, isAulaca, domainId) {
     return isAulaca ?
     config.util.format(
-        '%s/Classroom.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
+        '%s/Edit.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
         config.aulacas(),
         s,
         domainId
