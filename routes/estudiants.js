@@ -158,7 +158,7 @@ exports.aules = function(idp, s, callback) {
         struct.assignments = object.assignments;
         struct.subjects = object.subjects;
         if (struct.classrooms && struct.classrooms.length > 0) {
-            async.each(struct.classrooms, getAulaInfo.bind(null, struct, s), function(err) {
+            async.each(struct.classrooms, aules.events.bind(null, struct, s), function(err) {
                 buildCalendari(function(err, result) {
                     if (err) { console.log(err); return callback(null, struct); }
                     return callback(null, struct);
@@ -168,98 +168,6 @@ exports.aules = function(idp, s, callback) {
             return callback(null, struct);
         }
     });
-
-    var getAulaInfo = function(struct, s, aula, callback) {
-
-        aula.link = aules.getLinkAula(s, aules.isAulaca(aula), aula.domainId, aula.domainCode);
-        aula.color = '66AA00';
-        aula.codiAssignatura = aula.codi;
-        aula.nom = aula.title;
-        aula.codAula = aula.domainCode.slice(-1);
-
-
-        if (struct.assignments) {
-            struct.assignments.forEach(function(assignment) {
-                if (assignment.assignmentId.domainId == aula.domainFatherId) {
-                    aula.color = assignment.color;
-                }
-            });
-        }                
-
-        async.parallel([
-            function(callback) {
-                widget.one(
-                    aula.anyAcademic,
-                    aula.codiAssignatura,
-                    aula.domainFatherId,
-                    aula.codAula,
-                    aula.domainId,
-                    aula.domainCode.slice(0, -3),
-                    idp,
-                    [],
-                    s,
-                    function(err, result) {
-                        if (err) { console.log(err); return callback(); }
-                        aula.widget = result;
-                        return callback();
-                    }
-                );
-
-            },
-            function(callback) {
-                activitats.aula(
-                    aula.anyAcademic,
-                    aula.codiAssignatura,
-                    aula.domainFatherId,
-                    aula.codAula,
-                    aula.domainId,
-                    aula.domainCode,
-                    s,
-                    false,
-                    function(err, result) {
-                        if (err) { console.log(err); return callback(); }
-                        aula.activitats = result.activitats;
-                        if (aula.activitats) {
-                            aula.activitats.forEach(function(activitat) {
-                                activitat.link = aules.getLinkActivitat(s, aules.isAulaca(aula), aula.domainId, aula.domainCode, activitat.eventId);
-                                if (activitat.qualificationDate) {
-                                    setEventCalendari(struct.calendari, activitat, 'PI', config.i18next.t('events.inici.descripcio'), activitat.startDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PL', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PS', config.i18next.t('events.solucio.descripcio'), activitat.solutionDate);
-                                    setEventCalendari(struct.calendari, activitat, 'PQ', config.i18next.t('events.qualificacio.descripcio'), activitat.qualificationDate);
-                                    activitat.aula = aula.nom;
-                                    activitat.color = aula.color;
-                                    activitat.name = indicadors.decodeHtmlEntity(activitat.name);
-                                    activitat.domainId = aula.domainId;
-                                }
-                            });
-                        }
-                        struct.events.sort(ordenaEvents);
-                        return callback();
-                    }
-                );
-            },
-        ], function(err, results) {
-            if (err) { console.log(err); }
-            return callback();
-        });
-    }
-
-    var ordenaEvents = function(a, b) {
-        return a.data < b.data ? -1 : b.data < a.data ? 1 : 0;
-    }
-
-    var setEventCalendari = function(calendari, activitat, esdeveniment, tooltip, data) {
-        if (data) {
-            struct.events.push({
-                tipus: esdeveniment,
-                tooltip: tooltip,
-                activitat: activitat,
-                data: moment(data).format("YYYY-MM-DD"),
-                destacat: esdeveniment === 'PL' ? 'event-destacat' : 'event'
-            });
-        }
-    }
 
     var buildCalendari = function(callback) {
 
