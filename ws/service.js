@@ -10,7 +10,7 @@ var config = require('../config');
  */
 var operation = exports.operation = function(url, service, args, next) {
     var soap = require('soap');
-    config.log(url + service);
+    config.debug(url + service);
     soap.createClient(url, function(err, client) {
         if (err) return next(err);
         client[service](args, function(err, result) {
@@ -26,7 +26,7 @@ var operation = exports.operation = function(url, service, args, next) {
  * @return {[type]}
  */
 var json = exports.json = function(url, next) {
-    config.log(url);
+    config.debug(url);
     config.request({
       url: url,
       method: "GET"
@@ -48,7 +48,7 @@ var json = exports.json = function(url, next) {
  * @return {[type]}
  */
 var post = exports.post = function(url, data, next) {
-    config.log(url);
+    config.debug(url);
     config.request({
       url: url,
       method: "POST",
@@ -72,7 +72,7 @@ var post = exports.post = function(url, data, next) {
 var xml = exports.xml = function(url, next) {
     var xml2js = require('xml2js');
     var parser = new xml2js.Parser;
-    config.log(url);
+    config.debug(url);
     config.request({
       url: url,
       method: "GET"

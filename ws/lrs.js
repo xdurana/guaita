@@ -185,6 +185,40 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
 }
 
 /**
+ * [registraLog description]
+ * @param  {[type]} idp [description]
+ * @param  {[type]} url [description]
+ * @param  {[type]} s   [description]
+ * @return {[type]}     [description]
+ */
+var registraLog = exports.registraLog = function(idp, url, s) {
+    registra({
+        actor: {
+            objectType: "Agent",
+            account: {
+                name: idp
+            }
+        },
+        context: {
+            extensions: {
+                'uoc:lrs:app': 'guaita',
+                'uoc:lrs:component': 'log',
+                'uoc:lrs:session:id': s
+            }
+        },
+        verb: {
+            id: "http://adlnet.gov/expapi/verbs/experienced",
+            display: {
+                en: "experienced"
+            }
+        },
+        object: {
+            id: url
+        }
+    });
+}
+
+/**
  * [count description]
  * @param  {[type]}   data [description]
  * @param  {Function} next [description]

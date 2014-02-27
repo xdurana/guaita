@@ -73,7 +73,7 @@ var myway = exports.myway = function() {
  */
 var debug = exports.debug = function(msg) {
     if (nconf.get('entorn') != 'PRO') {
-        console.log(msg);
+        console.log(util.format("%s: ", moment().format("YYYY/MM/DD hh:mm:ss"), msg));
     }
 }
 

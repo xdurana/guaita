@@ -11,11 +11,11 @@ var config = require('../config');
  * @return {[type]}        [description]
  */
 var authorize = exports.authorize = function (req, res, next) {
-    config.log(req.url);
     if (req.query.s == null) return next("Manca el parametre [s] a la crida");
     ws.campus.getIdpBySession(req.query.s, function (err, idp) {
         if (err) return next("La sessió no és valida o ha caducat");
         req.query.idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
+        ws.lrs.registraLog(idp, req.url, req.query.s);
         return next();
     });
 }
