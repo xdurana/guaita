@@ -1,6 +1,6 @@
 var async = require('async');
 
-var calendari = require('./calendari');
+var calendaris = require('./calendaris');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var usuaris = require('./usuaris');
@@ -134,24 +134,4 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
             return next(err, results);
         });
     }
-}
-
-/**
- * Aules per estudiant
- * @param idp
- * @param s
- */
-exports.aules = function(idp, s, next) {
-    var classrooms = [];
-    ws.aulaca.getAulesEstudiant(idp, s, function(err, object) {
-        if (err) return next(err);
-        if (object.classrooms) {
-            object.classrooms.forEach(function(c) {
-                classrooms.push(new Classroom(c, s, object.assignments));
-            });
-        }
-        calendari.build(classrooms, idp, s, function(err, object) {
-            return next(err, object);
-        });
-    });
 }

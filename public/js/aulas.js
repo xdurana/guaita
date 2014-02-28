@@ -16,7 +16,7 @@ String.prototype.format = String.prototype.f = function() {
 var UOCAulas = (function($) {
 
     var baseURL = '/app/guaita';
-    var userRole = 'student'; // student, pra, consultor, aula
+    var mode = 'calendar'; // calendar, pra, consultor, aula
     var s = '';
     var idp = '';
 
@@ -390,7 +390,7 @@ var UOCAulas = (function($) {
                 subjectBaseURL(block),
                 s,
                 idp,
-                userRole === 'pra' ? 'pra' : 'consultor'
+                mode === 'pra' ? 'pra' : 'consultor'
             );
             if (acc.hasClass('loaded')) {
                 toggleSubject(acc);
@@ -667,15 +667,15 @@ var UOCAulas = (function($) {
 
     /* Initialize application */
     var init = function(role, session, _idp) {
-        userRole = role;
+        mode = role;
         s = session;
         idp = _idp;
 
-        switch (userRole){
+        switch (mode){
             case 'aula':
                 addSubjectEvents($('#block-aula'));
                 break;
-            case 'student':
+            case 'calendar':
                 setupAccordionStudent();
                 setupCalendars();
                 break;
@@ -692,7 +692,7 @@ var UOCAulas = (function($) {
     return { // public
         init: init,
         baseURL: baseURL,
-        userRole: userRole,
+        mode: mode,
         s: s,
         idp: idp
     };

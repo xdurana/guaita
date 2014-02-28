@@ -1,6 +1,7 @@
 var ws = require('../ws');
 var assignatures = require('../routes/assignatures');
 var estudiants = require('../routes/estudiants');
+var calendaris = require('../routes/calendaris');
 var config = require('../config');
 var async = require('async');
 
@@ -31,8 +32,9 @@ var authorize = exports.authorize = function (req, res, next) {
 var getSubjects = exports.getSubjects = function (req, res, next) {
     if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
+    
     if (req.query.perfil == 'estudiant') {
-        return estudiants.aules(req.query.idp, req.query.s, function (err, result) {
+        return calendaris.estudiant(req.query.s, req.query.isp, function (err, result) {
             if (err) return next(err);
             if (req.query.format === 'ical') {
                 res.attachment('student.ical');
@@ -85,32 +87,36 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-var calendari = exports.calendari = function (req, res, next) {
-
-    var struct = {
-        assignatures: [],
-        aules: []
-    }
+exports.calendari = function (req, res, next) {
 
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
-    ws.aulaca.getAssignaturesPerIdpTest(req.query.s, req.query.idp, req.query.perfil, function(err, result) {
-        if (err) return next(err);
-        struct.assignatures = result || [];
-        async.each(struct.assignatures, aules, function(err) {
-            if (err) return next(err);
-            res.json(struct);
-        });
-    });
 
-    var aules = function(assignatura, next) {
-        ws.aulaca.getAulesAssignatura(assignatura.domainId, req.query.idp, req.query.s, function(err, result) {
+    if (req.query.perfil == 'estudiant') {
+        calendaris.estudiant(req.query.s, req.query.isp, function (err, result) {
             if (err) return next(err);
-            result.forEach(function(aula) {
-                struct.aules.push(aula);
-            });
-            return next();
+            pinta(object);
         });
+    } else {
+        calendaris.docent(req.query.s, req.query.idp, req.query.perfil, function(err, object) {
+            if (err) return next(err);
+            pinta(object);
+        });
+    }
+
+    var pinta = function(object) {
+        if (req.query.format === 'ical') {
+            res.attachment('uoc.ical');
+            res.setHeader('Content-Type', 'text/calendar');
+            res.end(object.ical);
+        } else if (req.query.format) {
+            res.json(object);
+        } else {
+            ws.lrs.registraCalendari(req.query.idp, req.query.perfil, req.query.url, req.query.s);
+            res.render(req.query.perfil === 'pra' ? 'calendari-pra.html' : req.query.perfil === 'consultor' ? 'calendari-consultor.html' : 'calendari-estudiant', {
+                object: object
+            });
+        }
     }
 }
 

@@ -33,8 +33,8 @@ var json = exports.json = function(url, next) {
     }, function (err, response, body) {
         if (err) return next(err);
         try {
-            return next(null, JSON.parse(body));
-        } catch (e) {
+            body = JSON.parse(body);
+        } finally {
             return next(null, body);
         }
     });

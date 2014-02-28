@@ -2,25 +2,6 @@ var config = require('../config');
 var ws = require('../ws');
 
 /**
- * [esDocent description]
- * @param  {[type]}   s        [description]
- * @param  {[type]}   idp      [description]
- * @param  {[type]}   domainId [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
- */
-var esDocent = exports.esDocent = function(s, idp, domainId, callback) {
-    var docent = false;
-    ws.aulaca.getAssignaturesPerIdp(s, idp, function(err, result) {
-        if (err) return callback(null, false);
-        result.forEach(function(assignatura) {
-            docent = docent || domainId == assignatura.domainId;
-        });
-        return callback(null, docent);
-    });
-}
-
-/**
  * [getFitxa description]
  * @param  {[type]}   useridp  [description]
  * @param  {[type]}   idp      [description]

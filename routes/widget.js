@@ -95,7 +95,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (callback) {
-            usuaris.esDocent(s, idp, domainId, function(err, result) {
+            ws.aulaca.isDocent(s, idp, domainId, function(err, result) {
                 if (err) return callback(err);
                 struct.docent = result;
                 struct.urlAvaluacio = indicadors.getUrlRAC(s, domainId, result);

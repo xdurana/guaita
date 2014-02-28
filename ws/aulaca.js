@@ -3,61 +3,52 @@ var service = require('./service');
 var async = require('async');
 
 /**
- * [getAssignaturesPerIdp description]
- * @param  {[type]}   s    [description]
- * @param  {[type]}   idp  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
+ * [isDocent description]
+ * @param  {[type]}   s        [description]
+ * @param  {[type]}   idp      [description]
+ * @param  {[type]}   domainId [description]
+ * @param  {Function} next     [description]
+ * @return {[type]}            [description]
  */
-var getAssignaturesPerIdp = exports.getAssignaturesPerIdp = function(s, idp, next) {
+var isDocent = exports.isDocent = function(s, idp, domainId, next) {
+    var docent = false;
     var url = config.util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
         s,
         idp
     );
     service.json(url, function(err, object) {
-        return next(err, object.subjects || []);
-
-        object.subjects = object.subjects || [];
-        var active = [];
-        async.each(object.assignments || [], list, function(err) {
-            if (err) return next(err);
-            if (object.subjects) {
-                object.subjects = object.subjects.filter(function(assignatura) {
-                    //TODO GUAITA-85
-                    return active[assignatura.domainId] ? active[assignatura.domainId].userTypeId === 'CREADOR' || active[assignatura.domainId].userTypeId === 'RESPONSABLE' : true;
-                });
-            }
-            return next(null, object.subjects);
-        });
+        if (err) return next(err);
+        if (object.subjects) {
+            object.subjects.forEach(function(assignatura) {
+                docent = docent || domainId == assignatura.domainId;
+            });
+        }
+        return next(null, docent);
     });
-    var list = function(assignment, next) {
-        active[assignment.assignmentId.domainId] = assignment;
-        return next();
-    }
 }
 
 /**
- * [getAssignaturesPerIdpTest description]
- * @param  {[type]}   s    [description]
- * @param  {[type]}   idp  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
+ * [getAssignaturesPerIdpPerfil description]
+ * @param  {[type]}   s      [description]
+ * @param  {[type]}   idp    [description]
+ * @param  {[type]}   perfil [description]
+ * @param  {Function} next   [description]
+ * @return {[type]}          [description]
  */
-var getAssignaturesPerIdpTest = exports.getAssignaturesPerIdpTest = function(s, idp, perfil, next) {
+var getAssignaturesPerIdpPerfil = exports.getAssignaturesPerIdpPerfil = function(s, idp, perfil, next) {
 
     var userTypeId = perfil === 'pra' ? 'CREADOR' : 'RESPONSABLE';
     var url = config.util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
         s,
         idp
-    );    
+    );
+
     service.json(url, function(err, object) {
-        var subjects = object.subjects ? object.subjects : [];
-        var assignments = object.assignments ? object.assignments : [];
-        async.filter(subjects,
+        async.filter(object.subjects,
             function(subject, next) {
-                async.detect(assignments,
+                async.detect(object.assignments,
                     function(assignment, next) {
                         return next(assignment.userTypeId == userTypeId && assignment.assignmentId.domainId == subject.domainId);
                     },
@@ -66,8 +57,9 @@ var getAssignaturesPerIdpTest = exports.getAssignaturesPerIdpTest = function(s, 
                     }
                 );
             },
-            function(results) {
-                return next(null, results);
+            function(filtered) {
+                object.subjects = filtered;
+                return next(null, object);
             }
         );
     });
@@ -89,10 +81,7 @@ var getAulesAssignatura = exports.getAulesAssignatura = function(domainId, idp, 
         idp
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.classrooms);
+        return next(err, object ? object.classrooms : []);
     });
 }
 
@@ -112,10 +101,7 @@ var getActivitatsAula = exports.getActivitatsAula = function(domainId, domainIdA
         s
     );
     service.json(url, function(err, object) {
-        if (err) {
-            return next(err);
-        }
-        return next(null, object.activities);
+        return next(err, object ? object.activities : []);
     });
 }
 
@@ -218,17 +204,3 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
         return next(err, object ? object.userId : -1);
     });
 }
-
-/**
- * [isAulaca description]
- * @param  {[type]}   domainCode [description]
- * @param  {[type]}   s          [description]
- * @param  {Function} next       [description]
- * @return {Boolean}             [description]
- *
-var isAulaca = exports.isAulaca = function(domainCode, s, next) {
-    getGroupServlet(domainCode, s, function(err, object) {
-        return next(err, object ? object[0]['$']['idTipoPresent'] == 'AULACA' : false);
-    });
-}
-*/

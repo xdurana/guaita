@@ -3,21 +3,77 @@ var moment = require('moment');
 var calendar = require('node-calendar');
 
 var config = require('../config');
+var ws = require('../ws');
 var widget = require('../routes/widget');
 var activitats = require('../routes/activitats');
 
 var Event = require('../models/event');
 var Activity = require('../models/activity');
+var Classroom = require('../models/classroom');
 
 /**
- * [build description]
- * @param  {[type]}   classrooms [description]
- * @param  {[type]}   idp        [description]
- * @param  {[type]}   s          [description]
- * @param  {Function} next       [description]
- * @return {[type]}              [description]
+ * [docent description]
+ * @param  {[type]}   s      [description]
+ * @param  {[type]}   idp    [description]
+ * @param  {[type]}   perfil [description]
+ * @param  {Function} next   [description]
+ * @return {[type]}          [description]
  */
-var build = exports.build = function(classrooms, idp, s, next) {
+var docent = exports.docent = function(s, idp, perfil, next) {
+
+    ws.aulaca.getAssignaturesPerIdpPerfil(s, idp, perfil, function(err, object) {
+        if (err) return next(err);
+        var assignatures = object.subjects || [];
+        async.each(assignatures, getaules.bind(null, object.assignments), function(err) {
+            if (err) return next(err);
+            var classrooms = [];
+            assignatures.forEach(function(assignatura) {
+                classrooms = classrooms.concat(assignatura.aules);
+            });
+            build(classrooms, idp, s, function(err, object) {
+                return next(err, object);
+            });
+        });
+    });
+
+    var getaules = function(assignments, assignatura, next) {
+        assignatura.aules = [];
+        ws.aulaca.getAulesAssignatura(assignatura.domainId, idp, s, function(err, object) {
+            if (err) return next(err);
+            if (object) {
+                object.forEach(function(c) {
+                    var classroom = new Classroom(c, s, assignments);
+                    assignatura.aules.push(classroom);
+                });
+            }
+            return next();
+        });
+    }
+}
+
+/**
+ * [estudiant description]
+ * @param  {[type]}   s    [description]
+ * @param  {[type]}   idp  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var estudiant = exports.estudiant = function(s, idp, next) {
+    var classrooms = [];
+    ws.aulaca.getAulesEstudiant(idp, s, function(err, object) {
+        if (err) return next(err);
+        if (object.classrooms) {
+            object.classrooms.forEach(function(c) {
+                classrooms.push(new Classroom(c, s, object.assignments));
+            });
+        }
+        build(classrooms, idp, s, function(err, object) {
+            return next(err, object);
+        });
+    });
+}
+
+function build(classrooms, idp, s, next) {
 
     var mostraAula = function(aula, next) {
         async.parallel([
@@ -30,7 +86,6 @@ var build = exports.build = function(classrooms, idp, s, next) {
             },
             function(next) {
                 activitats.aula(aula.anyAcademic, aula.codiAssignatura, aula.domainFatherId, aula.codAula, aula.domainId, aula.domainCode, s, false, function(err, result) {
-                    config.debug('activitats');
                     if (err) return next(err);
                     if (result.activitats) {
                         result.activitats.forEach(function(a) {
@@ -65,22 +120,13 @@ var build = exports.build = function(classrooms, idp, s, next) {
     }
 }
 
-/**
- * [show description]
- * @param  {[type]}   classrooms [description]
- * @param  {[type]}   s          [description]
- * @param  {[type]}   idp        [description]
- * @param  {Function} next       [description]
- * @return {[type]}              [description]
- */
-var show = function(classrooms, s, idp, next) {
+function show(classrooms, s, idp, next) {
 
     var struct = {
         s: s,
         idp: idp,
         classrooms: classrooms,
         events: [],
-        items: {},
         calendar: []
     };
 

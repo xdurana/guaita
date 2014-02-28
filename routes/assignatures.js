@@ -13,21 +13,17 @@ var ws = require('../ws');
  */
 var byidp = exports.byidp = function(s, idp, perfil, next) {
 
-    var struct = {
-        s: s,
-        idp: idp,
-        assignatures: [
-        ]
-    };
-
-    //TODO canviar test per pro
-    ws.aulaca.getAssignaturesPerIdpTest(s, idp, perfil, function(err, result) {
+    ws.aulaca.getAssignaturesPerIdpPerfil(s, idp, perfil, function(err, object) {
         if (err) return next(err);
-        struct.assignatures = result || [];
-        async.each(struct.assignatures, getResum, function(err) {
+        var assignatures = object.subjects || [];
+        async.each(assignatures, getResum, function(err) {
             if (err) return next(err);
-            struct.assignatures.sort(ordenaAssignatures);
-            return next(null, struct);
+            assignatures.sort(ordenaAssignatures);
+            return next(null, {
+                s: s,
+                idp: idp,
+                assignatures: assignatures
+            });
         });
     });
 
