@@ -23,31 +23,20 @@ var authorize = exports.authorize = function (req, res, next) {
 }
 
 /**
- * [getSubjects description]
+ * [subjects description]
  * @param  {[type]}   req
  * @param  {[type]}   res
  * @param  {Function} next
  * @return {[type]}
  */
-var getSubjects = exports.getSubjects = function (req, res, next) {
+var subjects = exports.subjects = function (req, res, next) {
     if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     
     if (req.query.perfil == 'estudiant') {
-        return calendaris.estudiant(req.query.s, req.query.isp, function (err, result) {
-            if (err) return next(err);
-            if (req.query.format === 'ical') {
-                res.attachment('student.ical');
-                res.setHeader('Content-Type', 'text/calendar');
-                res.end(result.ical);
-            } else if (req.query.format) {
-                res.json(result);
-            } else {
-                ws.lrs.registraCalendari(req.query.idp, req.query.perfil, req.query.url, req.query.s);
-                res.render('estudiant.html', {
-                    object: result
-                });
-            }
+        return calendar(req, res, function (err, result) {
+            return next(err, result);
+
         });
     } else {
         return assignatures.byidp(req.query.s, req.query.idp, req.query.perfil, function (err, result) {
@@ -81,19 +70,19 @@ var getSubjects = exports.getSubjects = function (req, res, next) {
 }
 
 /**
- * [calendari description]
+ * [calendar description]
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-exports.calendari = function (req, res, next) {
+var calendar = exports.calendar = function (req, res, next) {
 
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     if (req.query.perfil == null) return next("Manca el parametre [perfil] a la crida");
 
     if (req.query.perfil == 'estudiant') {
-        calendaris.estudiant(req.query.s, req.query.isp, function (err, result) {
+        calendaris.estudiant(req.query.s, req.query.idp, function (err, object) {
             if (err) return next(err);
             pinta(object);
         });
