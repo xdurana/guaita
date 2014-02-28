@@ -39,21 +39,21 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     async.parallel([
         function (callback) {
             eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
-                if (err) { console.log(err); return callback(null, struct); }
+                if (err) return callback(err);
                 struct.eines = result.eines;                
                 return callback();
             });
         },
         function (callback) {
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
-                if (err) { console.log(err); return callback(null, struct); }
+                if (err) return callback(err);
                 struct.actives = result.activitats;
                 return callback();
             });
         },
         function (callback) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return callback(null, struct);
+                if (err) return callback(err);
                 struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
                 struct.recursos = result ? result[0].recurs : [];
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
@@ -103,7 +103,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         }
     ], function(err, results) {
-        if (err) callback(null, struct);
+        if (err) return callback(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
         if (true && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {

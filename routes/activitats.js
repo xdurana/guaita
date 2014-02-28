@@ -25,11 +25,21 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 		]
 	}
 
-	var getResumComunicacio = function(domainIdAula, activitat, callback) {
+    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+        if (err) return callback(err);
+        struct.activitats = result;
+        if (resum && struct.activitats) {
+            async.each(struct.activitats, resumeix.bind(null, domainIdAula), function(err) {
+                return callback(err, struct);
+            });
+        } else {
+            return callback(null, struct);
+        }
+    });
 
+	var resumeix = function(domainIdAula, activitat, callback) {
         activitat.nom = activitat.name;
         activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
-
 		activitat.resum = {
 			comunicacio: {
 				clicsAcumulats: config.nc(),
@@ -38,31 +48,12 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 				participacions: config.nc()
 			}
 		}
-
         ws.lrs.byactivityandclassroom(domainIdAula, activitat.eventId, s, function(err, result) {
-            if (err) { console.log(err); return callback(); }
+            if (err) return callback(err);
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return callback();
         });
 	}
-
-    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-        if (err) { console.log(err); return callback(null, struct); }
-        struct.activitats = result;
-        if (resum) {
-            try {
-                async.each(struct.activitats, getResumComunicacio.bind(null, domainIdAula), function(err) {
-                    if (err) { console.log(err); }
-                    return callback(null, struct);
-                });
-            } catch(e) {
-                console.log(e.message);
-                return callback(null, struct);
-            }
-        } else {
-            return callback(null, struct);
-        }
-    });
 }
 
 /**
@@ -187,16 +178,6 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
 
         async.parallel([
             function(callback) {
-                return callback();
-                /*
-                ws.rac.getNumEstudiantsQualificatsByActivitat(item, function(err, result) {
-                    if(err) { console.log(err); callback(err); return; }
-                    item.qualificats = result.out;
-                    callback();
-                });
-                */
-            },
-            function(callback) {
 
                 var tipusIndicador = 'RAC_CONSULTOR_AC';
                 var comptarEquivalents = '0';
@@ -239,11 +220,7 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
         if (err) return callback(err);
         if (result) {
             result.forEach(function(activitat) {
-                if (!struct.primera) {
-                    struct.primera = activitat;
-                }
                 struct.ultima = activitat;
-                activitat.name = indicadors.decodeHtmlEntity(activitat.name);
                 try {
                     if (new Date(activitat.startDate) <= Date.now() && new Date(activitat.deliveryDate) > Date.now()) {
                         struct.activitats.push(activitat);
@@ -253,15 +230,6 @@ exports.actives = function(domainId, domainIdAula, s, callback) {
                 }                
             })
         }
-        /*
-        if (struct.activitats.length == 0 && struct.ultima) {
-            struct.activitats.push(
-                struct.primera && new Date(struct.primera.startDate) > Date.now() ?
-                struct.primera :
-                struct.ultima
-            );
-        }
-        */
-        callback(null, struct);
+        return callback(null, struct);
     });
 }

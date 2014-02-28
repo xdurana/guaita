@@ -49,65 +49,6 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
-            /*
-            function(next) {
-                if (isForum(eina)) {
-                    async.parallel([
-                        function(next) {
-                            ws.forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                //TODO GUAITA-33
-                                //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
-                                return next();
-                            });
-                        },
-                        function(next) {
-                            next();
-                        },
-                        function(next) {
-                            next();
-                        }
-                    ], function(err, results) {
-                        if (err) { console.log(err); }
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            },
-            function(next) {
-                if (isPHPBB(eina)) {
-                    async.parallel([
-                        function(next) {
-                            ws.phpbb.one(eina.domainId, eina.resourceId, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
-                                return next();
-                            });
-                        },
-                        function(next) {
-                            ws.phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                eina.resum.comunicacio.participacions = result;
-                                return next();
-                            });
-                        },
-                        function(next) {
-                            ws.phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                eina.resum.comunicacio.lecturesPendents = result;
-                                return next();
-                            });
-                        }
-                    ], function(err, results) {
-                        if (err) { console.log(err); }
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            },
-            */
             function(next) {
                 ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
                     if (err) { console.log(err); return next(); }
@@ -248,52 +189,6 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
-            /*
-            function(next) {
-                if (isForum(eina)) {
-                    async.parallel([
-                        function(next) {
-                            ws.forum.one(eina.domainId, eina.resourceId, s, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                //TODO GUAITA-33
-                                //eina.resum.comunicacio.lecturesPendentsAcumulades = result.totalPendingUsersByClassroom;
-                                return next();
-                            });
-                        }
-                    ], function(err, results) {
-                        if (err) { console.log(err); }
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            },
-            function(next) {
-                if (isPHPBB(eina)) {
-                    async.parallel([
-                        function(next) {
-                            ws.phpbb.total(eina.domainId, eina.resourceId, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                eina.resum.comunicacio.participacions = result;
-                                return next();
-                            });
-                        },
-                        function(next) {
-                            ws.phpbb.alert(eina.domainId, eina.resourceId, idp, function(err, result) {
-                                if (err) { console.log(err); return next(); }
-                                eina.resum.comunicacio.lecturesPendents = result;
-                                return next();
-                            });
-                        }
-                    ], function(err, results) {
-                        if (err) { console.log(err); }
-                        next();
-                    });
-                } else {
-                    next();
-                }
-            },
-            */
             function(next) {
                 if (estadistiques) {
                     ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
