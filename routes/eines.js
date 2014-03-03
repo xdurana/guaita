@@ -20,15 +20,7 @@ var isForum = function(eina) {
 }
 
 var getToolDescription = function(eina) {
-    return eina.translatedDescription;
-    /*
-    description = eina.description;
-    description = description.replace(/\$TAULER\$/g, 'eina_tauler');
-    description = description.replace(/\$FORUM\$/g, 'eina_forum');
-    description = description.replace(/\$D_STATUS_FILEAREAS\$/g, 'eina_area_fitxers');
-    description = description.replace(/\$DEBAT\$/g, 'eina_debat');
-    return i18next.t(description);
-    */
+    return eina.translatedDescription ? eina.translatedDescription : eina.description;
 }
 
 exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
