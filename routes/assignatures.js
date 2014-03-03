@@ -122,7 +122,6 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
     }
 
     var seguimentACAula = function(aula, next) {
-        config.debug(aula);
         aula.codAula = aula.domainCode.slice(-1);
         aula.ac = {
             seguiment: 0,
