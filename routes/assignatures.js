@@ -122,16 +122,20 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
     }
 
     var seguimentACAula = function(aula, next) {
+        config.debug(aula);
         aula.codAula = aula.domainCode.slice(-1);
+        aula.ac = {
+            seguiment: 0,
+            superacio: 0
+        };
+
         ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codi, anyAcademic, aula.codAula, aula.codAula, '0', '0', function(err, result) {
-            if (err) return next();
-            aula.ac = {
-                seguiment: indicadors.getSeguimentACAula(result.out.ValorIndicadorVO),
-                superacio: indicadors.getSuperacioACAula(result.out.ValorIndicadorVO)
-            };
+            if (err) return next(err);
+            aula.ac.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
+            aula.ac.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
             return next();
         });
-    }    
+    }
 
     async.parallel([
         function (next) {
@@ -149,12 +153,15 @@ var resum = exports.resum = function(s, idp, anyAcademic, subject, codi, domainI
 
                 subject.resum.avaluacio.seguiment = 0;
                 subject.resum.avaluacio.superacio = 0;
+
                 async.each(result, seguimentACAula, function(err) {
-                    if (err) return next(err);
+                    if (err) return next();
                     if (result) {
                         result.forEach(function(aula) {
-                            subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
-                            subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
+                            if (aula.ac) {
+                                subject.resum.avaluacio.seguiment += parseInt(aula.ac.seguiment) || 0;
+                                subject.resum.avaluacio.superacio += parseInt(aula.ac.superacio) || 0;
+                            }
                         });
                     }
                     subject.resum.avaluacio.seguimentpercent = indicadors.getPercent(subject.resum.avaluacio.seguiment, subject.resum.estudiants.total);
