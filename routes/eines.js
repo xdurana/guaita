@@ -120,8 +120,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 
 	var getResumComunicacioEstudiant = function (eina, next) {
 		eina.nom = getToolDescription(eina);
-		eina.resum = indicadors.getResumComunicacio();
-
+		eina.resum = indicadors.getObjectComunicacio();
         ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
             if (err) { console.log(err); return next(); }
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();

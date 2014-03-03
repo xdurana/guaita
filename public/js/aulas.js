@@ -594,17 +594,6 @@ var UOCAulas = (function($) {
         $(acc).find('.activ-acc .lnk-expand').on('click', function(ev) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
-            var url = '{0}/activitats/{1}/eines?idp={2}&s={3}'.format(
-                classroomBaseURL(block),                
-                $(block).attr('data-guaita-eventId'),
-                $(block).attr('data-guaita-idp') == '' ? idp : $(block).attr('data-guaita-idp'),
-                s
-            );
-            getTable(this, url, false);
-        });
-        $(acc).find('.activ-item > .lnk-expand').on('click', function(ev) {
-            ev.preventDefault();
-            var block = $(this).closest('.acc');
             if (acc.hasClass('activ-student-acc')) {
                 var url = '{0}/activitats/{1}/eines?idp={2}&s={3}'.format(
                     classroomBaseURL(block),
@@ -614,10 +603,10 @@ var UOCAulas = (function($) {
                 );
                 getTable(this, url, false);
             } else {
-                var url = '{0}/activitats/{2}/eines?s={3}&idp={1}&perfil=estudiant'.format(
+                var url = '{0}/activitats/{1}/eines?idp={2}&s={3}&perfil=estudiant'.format(
                     classroomBaseURL(block),
-                    $(block).attr('data-guaita-idp'),
                     $(block).attr('data-guaita-eventId'),
+                    $(block).attr('data-guaita-idp'),
                     s
                 );
                 getTable(this, url, false);
