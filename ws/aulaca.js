@@ -19,7 +19,7 @@ var isDocent = exports.isDocent = function(s, idp, domainId, next) {
     );
     service.json(url, function(err, object) {
         if (err) return next(err);
-        if (object.subjects) {
+        if (object && object.subjects) {
             object.subjects.forEach(function(assignatura) {
                 docent = docent || domainId == assignatura.domainId;
             });

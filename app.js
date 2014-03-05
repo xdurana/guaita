@@ -104,6 +104,7 @@ app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/widget', user.byidpandclassroomandwidgetlast);
 
-http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
+var server = http.createServer(app);
+server.listen(app.get('port'), function() {
+    console.log('Express server listening on port ' + app.get('port'));
 });
