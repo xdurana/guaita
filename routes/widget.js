@@ -123,13 +123,14 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     if (eina.viewItemsUrl.indexOf("http") < 0) {
                         eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
                     }
+
                     eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
                     eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
                     if (recursos) {
                         recursos.forEach(function(recurs) {
                             try {
                                 if (recurs['$'].resourceId == eina.resourceId) {
-                                    eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : recurs.url[0]);
+                                    eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : eina.viewItemsUrl);
                                     eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
                                     eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
                                 }
