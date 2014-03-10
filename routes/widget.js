@@ -115,34 +115,31 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     });
 
     var calcularIndicadorsEines = function(eines, recursos) {
-        try {
-            if (eines) {
-                eines.forEach(function(eina) {
-                    eina.num_msg_pendents = "-";
-                    eina.num_msg_totals = "-";
-                    if (eina.viewItemsUrl.indexOf("http") < 0) {
-                        eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
-                    }
+        if (eines) {
+            eines.forEach(function(eina) {
+                eina.num_msg_pendents = "-";
+                eina.num_msg_totals = "-";
+                if (eina.viewItemsUrl.indexOf("http") < 0) {
+                    eina.viewItemsUrl = config.util.format('%s%s', config.cv(), eina.viewItemsUrl);
+                }
 
-                    eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
-                    eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
-                    if (recursos) {
-                        recursos.forEach(function(recurs) {
-                            try {
-                                if (recurs['$'].resourceId == eina.resourceId) {
-                                    eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : eina.viewItemsUrl);
-                                    eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], 0);
-                                    eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], 0);
-                                }
-                            } catch(e) {
-                                console.log(e.message);
+                eina.viewItemsUrl = eina.viewItemsUrl.replace("$PREVIEW$", '1');
+                eina.mostrar = (eina.visible == 0 || eina.visible == 1 && struct.docent);
+                if (recursos) {
+                    recursos.forEach(function(recurs) {
+                        try {
+                            if (recurs['$'].resourceId == eina.resourceId || (recurs['$'].tipus === 'GROUPFATHER' && eina.idTipoLink === 'GROUPFATHER')) {
+                                eina.viewItemsUrl = (eina.idTipoLink == 'MICROBLOG' && struct.isAulaca ? struct.urlAula : eina.viewItemsUrl);
+                                eina.num_msg_pendents = Math.max(recurs.num_msg_pendents[0], -1);
+                                eina.num_msg_totals = Math.max(recurs.num_msg_totals[0], recurs.num_msg_pendents[0]);
                             }
-                        });
-                    }
-                    eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'nous cap';
-                });
-            }
-        } catch(ex) {}
+                        } finally {
+                        }
+                    });
+                }
+                eina.num_msg_pendents_class = eina.num_msg_pendents > 0 ? 'nous' : 'nous cap';
+            });
+        }
     }
 
     var getEinesActivitat = function(activitat, callback) {
