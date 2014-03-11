@@ -10,7 +10,7 @@ var async = require('async');
  * @param  {Function} next     [description]
  * @return {[type]}            [description]
  */
-var isDocent = exports.isDocent = function(s, idp, domainId, next) {
+var isDocent_ = exports.isDocent_ = function(s, idp, domainId, next) {
     var docent = false;
     var url = config.util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
@@ -25,6 +25,29 @@ var isDocent = exports.isDocent = function(s, idp, domainId, next) {
             });
         }
         return next(null, docent);
+    });
+}
+
+/**
+ * [isDocent description]
+ * @param  {[type]}   s        [description]
+ * @param  {[type]}   idp      [description]
+ * @param  {[type]}   domainId [description]
+ * @param  {Function} next     [description]
+ * @return {Boolean}           [description]
+ */
+var isDocent = exports.isDocent = function(s, idp, domainId, next) {
+    var docent = false;
+    var url = config.util.format(
+        '%s/persones/%s/aula/%s/permisos?s=%s',
+        config.aulaca(),
+        idp,
+        domainId,
+        s
+    );
+    service.json(url, function(err, object) {
+        if (err) return next(null, false);
+        return next(err, object ? object.teacher && object.teacher == true : false);
     });
 }
 
@@ -214,7 +237,7 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
  */
 var getUltimaConnexioCampus = exports.getUltimaConnexioCampus = function(idp, s, next) {
     var url = config.util.format(
-        '%s/persones/{idp}/connexio?s=%s',
+        '%s/persones/%s/connexio?s=%s',
         config.aulaca(),
         idp,
         s
