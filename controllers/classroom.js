@@ -241,7 +241,7 @@ var get = exports.get = function (req, res, next) {
 var getWidget = exports.getWidget = function (req, res, next) {
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     var libs = req.query.libs ? req.query.libs.split(",") : [];
-    return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.s, function (err, result) {
+    return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.up_maximized, req.query.s, function (err, result) {
         if (err) return next("No s'ha pogut obtenir la informació del widget");
         if (req.query.format) {
             res.json(result);

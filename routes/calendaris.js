@@ -78,7 +78,7 @@ function build(classrooms, idp, s, next) {
     var mostraAula = function(aula, next) {
         async.parallel([
             function(next) {
-                widget.one(aula.anyAcademic, aula.codiAssignatura, aula.domainFatherId, aula.numeralAula, aula.domainId, aula.domainCode.slice(0, -3), idp, [], s, function(err, result) {
+                widget.one(aula.anyAcademic, aula.codiAssignatura, aula.domainFatherId, aula.numeralAula, aula.domainId, aula.domainCode.slice(0, -3), idp, [], false, s, function(err, result) {
                     if (err) return next(err);
                     aula.widget = result;
                     return next();

@@ -10,16 +10,21 @@ var config = require('../config');
 var ws = require('../ws');
 
 /**
- * Widget d'una aula per idp
- * @param anyAcademic
- * @param codAssignatura
- * @param domainId
- * @param codAula
- * @param domainIdAula
- * @param idp
- * @param s
+ * [one description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   codAula        [description]
+ * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   domainCode     [description]
+ * @param  {[type]}   idp            [description]
+ * @param  {[type]}   libs           [description]
+ * @param  {[type]}   up_maximized   [description]
+ * @param  {[type]}   s              [description]
+ * @param  {Function} callback       [description]
+ * @return {[type]}                  [description]
  */
-exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, s, callback) {
+exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, callback) {
 
     domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
 
@@ -33,6 +38,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         idp: idp,
         s: s,
         libs: libs,
+        style: up_maximized == 'false' ? 'display:none' : 'display:block',
         lang: config.lng()
     };
 
