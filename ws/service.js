@@ -34,9 +34,10 @@ var json = exports.json = function(url, next) {
         if (err) return next(err);
         try {
             body = JSON.parse(body);
-        } finally {
-            return next(null, body);
+        } catch(ex) {
+            return next(ex);
         }
+        return next(null, body);
     });
 }
 
@@ -56,10 +57,11 @@ var post = exports.post = function(url, data, next) {
     }, function (err, response, body) {
         if (err) return next(err);
         try {
-            return next(null, JSON.parse(body));
-        } catch (e) {
-            return next(null, body);
+            body = JSON.parse(body);
+        } catch (ex) {
+            return next(ex);
         }
+        return next(null, body);
     });
 }
 

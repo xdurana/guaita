@@ -3,14 +3,14 @@ var service = require('./service');
 var async = require('async');
 
 /**
- * [isDocent description]
+ * [isDocentAlternative description]
  * @param  {[type]}   s        [description]
  * @param  {[type]}   idp      [description]
  * @param  {[type]}   domainId [description]
  * @param  {Function} next     [description]
  * @return {[type]}            [description]
  */
-var isDocent_ = exports.isDocent_ = function(s, idp, domainId, next) {
+var isDocentAlternative = exports.isDocentAlternative = function(s, idp, domainId, next) {
     var docent = false;
     var url = config.util.format('%s/assignatures?s=%s&idp=%s',
         config.aulaca(),
@@ -38,16 +38,17 @@ var isDocent_ = exports.isDocent_ = function(s, idp, domainId, next) {
  */
 var isDocent = exports.isDocent = function(s, idp, domainId, next) {
     var docent = false;
-    var url = config.util.format(
-        '%s/persones/%s/aula/%s/permisos?s=%s',
+    var url = config.util.format('%s/persones/%s/aula/%s/permisos?s=%s',
         config.aulaca(),
         idp,
         domainId,
         s
     );
     service.json(url, function(err, object) {
-        if (err) return next(null, false);
-        return next(err, object ? object.teacher && object.teacher == true : false);
+        if (!err) return next(err, object ? object.teacher && object.teacher == true : false);
+        isDocentAlternative(s, idp, domainId, function(err, result) {
+            return next(err, result);
+        });
     });
 }
 
