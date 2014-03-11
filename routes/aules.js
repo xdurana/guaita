@@ -249,7 +249,6 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
             });
         },
 		function (callback) {
-            return callback();
 			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
 				if (err) { console.log(err); return callback(); }
                 struct.estudiants = result;
@@ -263,6 +262,7 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 			});
 		},
         function (callback) {
+            return callback();
             estudiants.minimum(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
                 if (err) return callback(err);
                 if (result) {

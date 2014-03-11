@@ -204,3 +204,22 @@ var getUserIdPerIdp = exports.getUserIdPerIdp = function(idp, s, next) {
         return next(err, object ? object.userId : -1);
     });
 }
+
+/**
+ * [getUltimaConnexioCampus description]
+ * @param  {[type]}   idp  [description]
+ * @param  {[type]}   s    [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getUltimaConnexioCampus = exports.getUltimaConnexioCampus = function(idp, s, next) {
+    var url = config.util.format(
+        '%s/persones/{idp}/connexio?s=%s',
+        config.aulaca(),
+        idp,
+        s
+    );
+    service.json(url, function(err, object) {
+        return next(err, object ? object.lastConnectionToCampus : config.nc());
+    });
+}

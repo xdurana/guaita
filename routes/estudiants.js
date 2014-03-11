@@ -75,9 +75,11 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
                 });
             },
             function(next) {
-                //TODO GUAITA-55
-                estudiant.resum.comunicacio.ultimaConnexioCampus = config.nc();
-                return next();
+                ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
+                    if (err) { console.log(err); return next(); }
+                    estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
+                    return next();
+                });
             },
             function(next) {
                 ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
@@ -119,7 +121,15 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
     });
 
     var getResumEstudiant = function(estudiant, next) {
+        estudiant.resum = indicadors.getObjectComunicacio();
         async.parallel([
+            function(next) {
+                ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
+                    if (err) { console.log(err); return next(); }
+                    estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
+                    return next();
+                });
+            },
             function(next) {
                 estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
                 estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);

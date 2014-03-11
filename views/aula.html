@@ -92,10 +92,10 @@
                                                         <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
-                                                <td class="bd clics-estudiant"></td>
-                                                <td class="bd-open connexio-aula-estudiant"></td>
-                                                <td class="bd-open connexio-campus-estudiant">N/D</td>
-                                                <td class="bd-open connexio-widget-estudiant"></td>
+                                                <td class="bd clics-estudiant">{{ estudiant.resum.comunicacio.clicsAcumulats }}</td>
+                                                <td class="bd-open connexio-aula-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
+                                                <td class="bd-open connexio-campus-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioCampus }}</td>
+                                                <td class="bd-open connexio-widget-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioWidget }}</td>
                                             </tr>
                                             <tr class="tr-wrap">
                                                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>
@@ -138,10 +138,10 @@
                                                         <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
                                                     </span>
                                                 </td>
-                                                <td class="bd clics-estudiant"></td>
-                                                <td class="bd-open connexio-aula-estudiant"></td>
-                                                <td class="bd-open connexio-campus-estudiant">N/D</td>
-                                                <td class="bd-open connexio-widget-estudiant"></td>
+                                                <td class="bd clics-estudiant">{{ estudiant.resum.comunicacio.clicsAcumulats }}</td>
+                                                <td class="bd-open connexio-aula-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
+                                                <td class="bd-open connexio-campus-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioCampus }}</td>
+                                                <td class="bd-open connexio-widget-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioWidget }}</td>
                                             </tr>
                                             <tr class="tr-wrap">
                                                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>

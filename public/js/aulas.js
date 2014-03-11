@@ -152,6 +152,7 @@ var UOCAulas = (function($) {
         }
 
         $(".activ-aula-acc" ).each(function() {
+            return;
             loadclicks($(this));
             loadlastclassroomconnection($(this));
             loadlastclassroomwidgetconnection($(this));

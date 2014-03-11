@@ -93,7 +93,16 @@ var getTotalAules = exports.getTotalAules = function(AulaVO) {
  * @return {[type]}        [description]
  */
 var getUltimaConnexio = exports.getUltimaConnexio = function(object) {
-    return getValor(object.value) ? moment(getValor(object.value).stored).format("DD/MM/YYYY") : config.nc();
+    return getValor(object.value) ? formatDate(getValor(object.value).stored) : config.nc();
+}
+
+/**
+ * [formatDate description]
+ * @param  {[type]} date [description]
+ * @return {[type]}      [description]
+ */
+var formatDate = exports.formatDate = function(date) {
+    return date && moment(date).isValid() ? moment(date).format("DD/MM/YYYY") : config.nc();
 }
 
 /**

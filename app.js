@@ -56,7 +56,7 @@ app.use(function(req, res, next) {
 });
 
 /**
- * [description]
+ * 500
  * @param  {[type]}   err  [description]
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
