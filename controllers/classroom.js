@@ -6,6 +6,9 @@ var ws = require('../ws');
 
 var config = require('../config');
 
+var moment = require('moment');
+var async = require('async');
+
 /**
  * [getTools description]
  * @param  {[type]}   req
@@ -250,4 +253,51 @@ var getWidget = exports.getWidget = function (req, res, next) {
             res.render('widget-aula.html', { widget: result });
         }
     });
+}
+
+/**
+ * [heatmap description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var heatmap = exports.heatmap = function (req, res, next) {
+
+    if (req.query.format != 'json') {
+        return res.render('heatmap.html', { object: { s: req.query.s }});
+    }
+
+    var hm = [];
+    var actual = moment('2014-02-26T00:00:00.000');
+    var fi = moment('2014-02-27T00:00:00.000');
+
+    var getCount = function(hour, next) {
+        ws.lrs.bydatetime(hour.filter, function (err, data) {
+            if (err) return next(err);
+            hour.value = data.value;
+            return next();
+        });
+    }
+
+    async.whilst(
+        function () {
+            return actual.isBefore(fi);
+        },
+        function (next) {
+            hm.push({
+                filter: actual.format('YYYY-MM-DDTHH'),
+                day: actual.weekday(),
+                hour: actual.get('hour')
+            });
+            actual = actual.add('hours', 1);
+            return next();
+        },
+        function (err) {
+            async.each(hm, getCount, function(err) {
+                if (err) return next(err);
+                return res.json(hm);
+            });
+        }
+    );
 }
