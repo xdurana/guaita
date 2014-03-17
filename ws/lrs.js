@@ -349,8 +349,6 @@ exports.byidpandclassroom = function(idp, domainId, s, next) {
     var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
-        config.debug(data);
-        config.debug(result);
         return next(null, { value: result });
     });
 }

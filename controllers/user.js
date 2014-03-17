@@ -14,15 +14,6 @@ var async = require('async');
  */
 var authorize = exports.authorize = function (req, res, next) {
     if (req.query.s == null) return next("Manca el parametre [s] a la crida");
-
-    req.on('socket', function (socket) {
-        socket.setTimeout(1);
-        //socket.setTimeout(2*60*1000);
-        socket.on('timeout', function() {
-            req.abort();
-        });
-    });
-
     ws.campus.getIdpBySession(req.query.s, function (err, idp) {
         if (err) return next("La sessió no és valida o ha caducat");
         req.query.idp = (req.query.idp && idp == config.idpadmin()) ? req.query.idp : idp;
