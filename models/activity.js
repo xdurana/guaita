@@ -24,19 +24,19 @@ function Activity(activitat, aula, s) {
     this.events = [];
 
     if (activitat.startDate) {
-        this.events.push(new Event(this, 'PI', config.i18next.t('events.inici.descripcio'), activitat.startDate));
+        this.events.push(new Event(this, 'I', config.i18next.t('events.inici.descripcio'), activitat.startDate));
     }
 
     if (activitat.deliveryDate) {
-        this.events.push(new Event(this, 'PL', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate));
+        this.events.push(new Event(this, 'L', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate));
     }
 
     if (activitat.solutionDate) {
-        this.events.push(new Event(this, 'PS', config.i18next.t('events.solucio.descripcio'), activitat.solutionDate));
+        this.events.push(new Event(this, 'S', config.i18next.t('events.solucio.descripcio'), activitat.solutionDate));
     }
 
     if (activitat.qualificationDate) {
-        this.events.push(new Event(this, 'PQ', config.i18next.t('events.qualificacio.descripcio'), activitat.qualificationDate));
+        this.events.push(new Event(this, 'Q', config.i18next.t('events.qualificacio.descripcio'), activitat.qualificationDate));
     }
 }
 

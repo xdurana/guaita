@@ -55,19 +55,19 @@
                             <h3><span class="lbl">{{ t('tipologies') }}</span></h3>
                             <ul class="list typology-list">
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_1" value="PI" checked="checked">
+                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_1" value="I" checked="checked">
                                     <label for="type_1">{{ t('events.inici.abreviatura') }} - {{ t('events.inici.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_2" value="PL" checked="checked">
+                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_2" value="L" checked="checked">
                                     <label for="type_2">{{ t('events.entrega.abreviatura') }} - {{ t('events.entrega.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_3" value="PS" checked="checked">
+                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_3" value="S" checked="checked">
                                     <label for="type_3">{{ t('events.solucio.abreviatura') }} - {{ t('events.solucio.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                                 <li>
-                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_4" value="PQ" checked="checked">
+                                    <input type="checkbox" class="check-filter" name="filter_type[]" id="type_4" value="Q" checked="checked">
                                     <label for="type_4">{{ t('events.qualificacio.abreviatura') }} - {{ t('events.qualificacio.descripcio') }} / {{ t('pac') }}</label>
                                 </li>
                             </ul>
@@ -287,11 +287,13 @@
                                 {% if eina.mostrar %}
                                 <li>
                                     <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                                    {% if eina.num_msg_totals > 0 %}
                                     <a href="{{ eina.viewItemsUrl }}" class="marcadors">
                                         <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
                                         <span class="visuallyhidden"> / </span>
                                         <span title="{{ t('missatges_totals') }}" class="all">{{ eina.num_msg_totals }}</span>
                                     </a>
+                                    {% endif %}
                                 </li>
                                 {% endif %}
                                 {% endfor %}

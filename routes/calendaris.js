@@ -19,7 +19,7 @@ var Classroom = require('../models/classroom');
  * @return {[type]}          [description]
  */
 var getUrlSala = exports.getUrlSala = function(s, domainId) {
-    return config.util.format('%s/classroom/sala.do?nav=sala_inici&s=%s&domainId=%s', config.cv(), s, domainId);
+    return config.util.format('%s/webapps/classroom/sala.do?nav=sala_inici&s=%s&domainId=%s', config.cv(), s, domainId);
 }
 
 
