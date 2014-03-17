@@ -106,32 +106,12 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
             if (perfil == 'pra' || classroom.consultor.idp == idp) {
                 resum(s, idp, anyAcademic, codAssignatura, classroom, classroom.codAula, function(err, result) {
                     if (err) return callback(null, classroom);
-                    consultors.getResumEines(classroom, function(err, result) {
+                    consultors.getResumEines(classroom, s, function(err, result) {
                         return callback(null, classroom);
                     });
                 });
             } else callback(null, classroom);
         });
-
-        /*
-        ws.aulaca.isAulaca(classroom.domainCode, s, function(err, result) {
-            if (err) return callback(null, classroom);
-            classroom.isAulaca = result;
-            consultors.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
-                if (err) return callback(null, classroom);
-                classroom.consultor = result;
-                struct.aules.push(classroom);
-                if (perfil == 'pra' || classroom.consultor.idp == idp) {
-                    resum(s, idp, anyAcademic, codAssignatura, classroom, classroom.codAula, function(err, result) {
-                        if (err) return callback(null, classroom);
-                        consultors.getResumEines(classroom, function(err, result) {
-                            return callback(null, classroom);
-                        });
-                    });
-                } else callback(null, classroom);
-            });
-        });
-        */
     }
 
     var ordenaAules = function(a, b) {

@@ -274,7 +274,7 @@ exports.byidplast = function(idp, s, next) {
 }
 
 exports.bysubject = function(domainId, s, next) {
-    var data = { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) };
+    var data = { "$and":[{ "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -282,7 +282,7 @@ exports.bysubject = function(domainId, s, next) {
 }
 
 exports.bysubjectall = function(domainId, s, next) {
-    var data = { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) };
+    var data = { "$and":[{ "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     all(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -290,7 +290,7 @@ exports.bysubjectall = function(domainId, s, next) {
 }
 
 exports.byclassroom = function(domainId, s, next) {
-    var data = { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) };
+    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -298,7 +298,7 @@ exports.byclassroom = function(domainId, s, next) {
 }
 
 exports.byactivity = function(eventId, s, next) {
-    var data = { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) };
+    var data = { "$and":[{ "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -306,7 +306,7 @@ exports.byactivity = function(eventId, s, next) {
 }
 
 exports.byactivityandclassroom = function(domainId, eventId, s, next) {
-    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }]};
+    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -314,7 +314,7 @@ exports.byactivityandclassroom = function(domainId, eventId, s, next) {
 }
 
 exports.bytool = function(resourceId, s, next) {
-    var data = { "object.id" : config.util.format("T:%s", resourceId) };
+    var data = { "$and":[{ "object.id" : config.util.format("T:%s", resourceId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -322,7 +322,7 @@ exports.bytool = function(resourceId, s, next) {
 }
 
 exports.bytoolandclassroom = function(domainId, resourceId, s, next) {
-    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : config.util.format("%s", domainId) }, { "object.id" : config.util.format("T:%s", resourceId) }]};
+    var data = { "$and":[{ "context.extensions.uoc:lrs:classroom:id" : config.util.format("%s", domainId) }, { "object.id" : config.util.format("T:%s", resourceId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -330,7 +330,7 @@ exports.bytoolandclassroom = function(domainId, resourceId, s, next) {
 }
 
 exports.byidpandsubject = function(idp, domainId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -338,7 +338,7 @@ exports.byidpandsubject = function(idp, domainId, s, next) {
 }
 
 exports.byidpandsubjectlast = function(idp, domainId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:subject:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     last(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -346,18 +346,19 @@ exports.byidpandsubjectlast = function(idp, domainId, s, next) {
 }
 
 exports.byidpandclassroom = function(idp, domainId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
+        config.debug(data);
+        config.debug(result);
         return next(null, { value: result });
     });
 }
 
 exports.byidpandclassroomlast = function(idp, domainId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:classroom:id": config.util.format("%s", domainId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     last(data, function(err, result) {
-        if(err) { console.log(err); return next(err); }
-        return next(null, { value: result });
+        return next(err, { value: result });
     });
 }
 
@@ -370,7 +371,7 @@ exports.byidpandclassroomandwidgetlast = function(idp, domainId, s, next) {
 }
 
 exports.byidpandactivity = function(idp, eventId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -378,7 +379,7 @@ exports.byidpandactivity = function(idp, eventId, s, next) {
 }
 
 exports.byidpandactivitylast = function(idp, eventId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "context.extensions.uoc:lrs:activity:id": config.util.format("%s", eventId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     last(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -394,7 +395,7 @@ exports.byidpandactivityandwidgetlast = function(idp, eventId, s, next) {
 }
 
 exports.byidpandtool = function(idp, resourceId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "object.id": config.util.format("T:%s", resourceId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "object.id": config.util.format("T:%s", resourceId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     count(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });
@@ -402,7 +403,7 @@ exports.byidpandtool = function(idp, resourceId, s, next) {
 }
 
 exports.byidpandtoollast = function(idp, resourceId, s, next) {
-    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "object.id": config.util.format("T:%s", resourceId) }]};
+    var data = { "$and":[{ "actor.account.name" : config.util.format("%s", idp) }, { "object.id": config.util.format("T:%s", resourceId) }, { "context.extensions.uoc:lrs:app": "aulaca" }]};
     last(data, function(err, result) {
         if(err) { console.log(err); return next(err); }
         return next(null, { value: result });

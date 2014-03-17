@@ -35,7 +35,6 @@ var json = exports.json = function(url, next) {
         try {
             body = JSON.parse(body);
         } catch(ex) {
-            return next(ex);
         }
         return next(null, body);
     });
@@ -59,7 +58,6 @@ var post = exports.post = function(url, data, next) {
         try {
             body = JSON.parse(body);
         } catch (ex) {
-            return next(ex);
         }
         return next(null, body);
     });

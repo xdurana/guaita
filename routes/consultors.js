@@ -77,32 +77,32 @@ exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, next) {
  * @param  {Function} next [description]
  * @return {[type]}            [description]
  */
-exports.getResumEines = function(aula, next) {
+exports.getResumEines = function(aula, s, next) {
 	aula.consultor.resum = indicadors.getObjectComunicacio();
     async.parallel([
         function (next) {
-            ws.lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+            ws.lrs.byidpandclassroom(aula.consultor.idp, aula.domainId, s, function(err, result) {
                 if (err) { console.log(err); return next(); }
                 aula.consultor.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return next();
             });
         },        
         function (next) {            
-            ws.lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+            ws.lrs.byidpandclassroomlast(aula.consultor.idp, aula.domainId, s, function(err, result) {
                 if (err) { console.log(err); return next(); }
                 aula.consultor.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                 return next();
             });
         },        
         function(next) {
-            ws.aulaca.getUltimaConnexioCampus(aula.consultor.idp, aula.s, function(err, result) {
+            ws.aulaca.getUltimaConnexioCampus(aula.consultor.idp, s, function(err, result) {
                 if (err) { console.log(err); return next(); }
                 aula.consultor.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
                 return next();
             });
         },
         function (next) {            
-            ws.lrs.byidpandclassroomandwidgetlast(aula.consultor.idp, aula.domainId, aula.s, function(err, result) {
+            ws.lrs.byidpandclassroomandwidgetlast(aula.consultor.idp, aula.domainId, s, function(err, result) {
                 if (err) { console.log(err); return next(); }
                 aula.consultor.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                 return next();

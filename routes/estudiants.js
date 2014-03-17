@@ -55,35 +55,35 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         async.parallel([
             function(next) {
                 usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) { console.log(err.stack); return next(); }
                     estudiant.fitxa = url;
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) { console.log(err.stack); return next(); }
                     estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) { console.log(err.stack); return next(); }
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return next();
                 });
             },
             function(next) {
                 ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) { console.log(err.stack); return next(); }
                     estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) { console.log(err.stack); return next(); }
                     estudiant.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                     return next();
                 });
