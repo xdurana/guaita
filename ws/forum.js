@@ -1,9 +1,9 @@
 var config = require('../config');
 var service = require('./service');
 
-exports.one = function(domainId, forumId, s, callback) {
+exports.one = function(domainId, forumId, s, next) {
 
-    return callback();
+    return next();
 
     var rangeItems = -1; //$RANGEITEMS$
     var convId = -1; //$CONVID$
@@ -20,7 +20,6 @@ exports.one = function(domainId, forumId, s, callback) {
     );
 
     service.json(url, function(err, result) {
-        if(err) { console.log(err); callback(err); return; }
-        callback(err, result);
+        return next(err, result);
     });
 }

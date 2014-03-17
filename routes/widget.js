@@ -21,10 +21,10 @@ var ws = require('../ws');
  * @param  {[type]}   libs           [description]
  * @param  {[type]}   up_maximized   [description]
  * @param  {[type]}   s              [description]
- * @param  {Function} callback       [description]
+ * @param  {Function} next       [description]
  * @return {[type]}                  [description]
  */
-exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, callback) {
+exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, next) {
 
     domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
 
@@ -43,23 +43,23 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     };
 
     async.parallel([
-        function (callback) {
+        function (next) {
             eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 struct.eines = result.eines;                
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 struct.actives = result.activitats;
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
                 struct.recursos = result ? result[0].recurs : [];
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
@@ -97,26 +97,26 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                     }
                 });
 
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.aulaca.isDocent(s, idp, domainId, function(err, result) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 struct.docent = result;
                 struct.urlAvaluacio = indicadors.getUrlRAC(s, domainIdAula, result);
-                return callback();
+                return next();
             });
         }
     ], function(err, results) {
-        if (err) return callback(err);
+        if (err) return next(err);
         calcularIndicadorsEines(struct.eines, struct.recursos);
         if (true && struct.actives && struct.actives.length > 0) {
             async.each(struct.actives, getEinesActivitat, function(err) {
-                return callback(err, struct);
+                return next(err, struct);
             });
         } else {
-            return callback(null, struct);
+            return next(null, struct);
         }
     });
 
@@ -148,16 +148,16 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         }
     }
 
-    var getEinesActivitat = function(activitat, callback) {
+    var getEinesActivitat = function(activitat, next) {
         activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
-        return callback();
+        return next();
         calcularIndicadorsEines(activitat.eines, struct.recursos);
         ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
-            if (err) { console.log(err); return callback(); }
+            if (err) return next(err);
             activitat.eines = result;
             activitat.startDateStr = activitat.startDateStr.replace(/-/g, '/');
             activitat.deliveryDateStr = activitat.deliveryDateStr.replace(/-/g, '/');
-            return callback();
+            return next();
         });
     }
 }

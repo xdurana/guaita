@@ -301,6 +301,16 @@
                     {% endif %}
                 </li>
                 {% endfor %}
+                {% for room in object.rooms %}
+                <li class="block accordion">                    
+                    <div class="block-color c_sala" data-color="c_sala">
+                        <a href="{{ room.url }}" title="{{ room.widgetTitle }}" class="LaunchesOWin" target="_blank"><i class="icon icon-pop"></i></a>
+                    </div>
+                    <div class="block-title">
+                        <h3><a href="{{ room.url }}">{{ room.widgetTitle }}</a></h3>
+                    </div>
+                </li>
+                {% endfor %}                
             </ul>
         </div>
 

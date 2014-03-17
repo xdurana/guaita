@@ -43,26 +43,24 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         async.parallel([
             function(next) {
                 ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return next();
                 });
             }
         ], function(err, results) {
-            if (err) { console.log(err); }
-            next();
+            return next(err);
         });
 	}
 
 	ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
-		if (err) { console.log(err); return next(null, struct); }
+		if (err) return next(err);
 		struct.eines = result;
         try {
     		async.each(struct.eines, getResumComunicacio, function(err) {
     			return next(null, struct);
     		});
         } catch(e) {
-            console.log(e.message);
             return next(null, struct);
         }
 	});
@@ -87,7 +85,7 @@ exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, dom
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
         ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
-            if (err) { console.log(err); return next(); }
+            if (err) return next(err);
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return next();
         });
@@ -122,7 +120,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
         ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
-            if (err) { console.log(err); return next(); }
+            if (err) return next(err);
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return next();
         });
@@ -183,7 +181,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
             function(next) {
                 if (estadistiques) {
                     ws.lrs.byidpandtool(idp, eina.resourceId, s, function(err, result) {
-                        if (err) { console.log(err); return next(); }
+                        if (err) return next(err);
                         eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                         return next();
                     });
@@ -194,7 +192,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
             function(next) {
                 if (estadistiques) {
                     ws.lrs.byidpandtoollast(idp, eina.resourceId, s, function(err, result) {
-                        if (err) { console.log(err); return next(); }
+                        if (err) return next(err);
                         eina.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                         return next();
                     });

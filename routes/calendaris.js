@@ -11,6 +11,18 @@ var Event = require('../models/event');
 var Activity = require('../models/activity');
 var Classroom = require('../models/classroom');
 
+
+/**
+ * [getUrlSala description]
+ * @param  {[type]} s        [description]
+ * @param  {[type]} domainId [description]
+ * @return {[type]}          [description]
+ */
+var getUrlSala = exports.getUrlSala = function(s, domainId) {
+    return config.util.format('%s/classroom/sala.do?nav=sala_inici&s=%s&domainId=%s', config.cv(), s, domainId);
+}
+
+
 /**
  * [docent description]
  * @param  {[type]}   s      [description]
@@ -75,6 +87,14 @@ var estudiant = exports.estudiant = function(s, idp, next) {
 
 function build(classrooms, idp, s, next) {
 
+    var struct = {
+        s: s,
+        idp: idp,
+        classrooms: classrooms,
+        events: [],
+        calendar: []
+    };
+
     var mostraAula = function(aula, next) {
         async.parallel([
             function(next) {
@@ -101,34 +121,38 @@ function build(classrooms, idp, s, next) {
         });
     }
 
-    if (classrooms && classrooms.length > 0) {
-        async.each(classrooms, mostraAula, function(err) {
-            if (err) return next(err);
-            show(classrooms, idp, s, function(err, result) {
-                return next(err, result);
+    ws.aulaca.getSales(idp, s, function(err, rooms) {
+        if (err) return next(err);
+
+        if (rooms) {
+            struct.rooms = rooms;
+            rooms.forEach(function(room) {
+                room.url = getUrlSala(s, room.domainId);
             });
-        });
-    } else {
-        return next(null, {
-            s: s,
-            idp: idp,
-            classrooms: [],
-            events: [],
-            items: {},
-            calendar: []
-        });
-    }
+        }
+
+        if (classrooms && classrooms.length > 0) {
+            async.each(classrooms, mostraAula, function(err) {
+                if (err) return next(err);
+                show(classrooms, idp, s, struct, function(err, result) {
+                    return next(err, result);
+                });
+            });
+        } else {
+            return next(null, {
+                s: s,
+                idp: idp,
+                classrooms: [],
+                rooms: rooms,
+                events: [],
+                items: {},
+                calendar: []
+            });
+        }
+    });
 }
 
-function show(classrooms, s, idp, next) {
-
-    var struct = {
-        s: s,
-        idp: idp,
-        classrooms: classrooms,
-        events: [],
-        calendar: []
-    };
+function show(classrooms, s, idp, struct, next) {
 
     if (classrooms) {
         classrooms.forEach(function(classroom) {

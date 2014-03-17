@@ -120,19 +120,7 @@ var decodeHtmlEntity = exports.decodeHtmlEntity = function(html) {
  * @return {[type]}      [description]
  */
 var getDataLliurament = exports.getDataLliurament = function(data) {
-    if (!data) {
-        return config.nc();
-    }
-    try {
-        var dt = new Date(getValor(data));
-        return config.util.format('%s-%s-%s',
-            dt.getDate(),
-            dt.getMonth() + 1,
-            dt.getFullYear()
-        );
-    } catch(e) {
-        return config.nc();
-    }
+    return formatDate(getValor(data));
 }
 
 /**

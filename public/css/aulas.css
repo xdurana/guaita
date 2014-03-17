@@ -216,6 +216,7 @@ sub { top: .5ex; }
 .c_BC924C,.c_BC924C:focus,.c_BC924C:hover{background-color: #BC924C;border:1px solid #BC924C;color:#fff;}
 .c_EEA400,.c_EEA400:focus,.c_EEA400:hover{background-color: #EEA400;border:1px solid #EEA400;color:#fff;}
 .c_D6AE00,.c_D6AE00:focus,.c_D6AE00:hover{background-color: #D6AE00;border:1px solid #D6AE00;color:#fff;}
+.c_sala,.c_sala:focus,.c_sala:hover{background-color: #A2C8D2;border:1px solid #A2C8D2;color:#fff;} 
 
 /* ==========================================================================
    Default Layout (980px and up)

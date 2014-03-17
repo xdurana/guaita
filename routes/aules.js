@@ -15,7 +15,7 @@ var widget = require('./widget');
 
 var ws = require('../ws');
 
-var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, callback) {
+var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, next) {
 
     var struct = {
         s: s,
@@ -31,22 +31,22 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
     }
 
     ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, aules) {
-        if (err) return callback(err);
+        if (err) return next(err);
         async.parallel([
-            function (callback) {
+            function (next) {
                 if (aules) {
                     async.each(aules, procesa.bind(null, anyAcademic, codAssignatura, idp, s, perfil), function(err) {
-                        if (err) return callback(err);
+                        if (err) return next(err);
                         struct.aules.sort(ordenaAules);
                         struct.linkedicioaula = getLinkDissenyAula(s, struct.aules.length > 0 ? struct.aules[0].isAulaca : true, domainId);
-                        return callback();
+                        return next();
                     });
-                } else return callback();
+                } else return next();
             },
-            function (callback) {
-                return callback();
+            function (next) {
+                return next();
                 ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
-                    if (err) return callback(err);
+                    if (err) return next(err);
                     if (result.out.ActivitatVO) {
                         result.out.ActivitatVO.forEach(function(activitat) {
                             if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
@@ -54,17 +54,17 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
                             }
                         })
                     }
-                    return callback();
+                    return next();
                 });
             },
-            function (callback) {
-                return callback();
+            function (next) {
+                return next();
                 assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
-                    return callback(err);
+                    return next(err);
                 });
             }
         ], function(err, result) {
-            return callback(err, struct);
+            return next(err, struct);
         });
     }); 
 
@@ -76,10 +76,10 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
      * @param  {[type]}   s              [description]
      * @param  {[type]}   perfil         [description]
      * @param  {[type]}   classroom      [description]
-     * @param  {Function} callback       [description]
+     * @param  {Function} next       [description]
      * @return {[type]}                  [description]
      */
-    var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, callback) {
+    var procesa = function(anyAcademic, codAssignatura, idp, s, perfil, classroom, next) {
 
         classroom.isAulaca = isAulaca(classroom);
         classroom.codAula = classroom.domainCode.slice(-1);
@@ -100,17 +100,17 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
         );
 
         consultors.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
-            if (err) return callback(null, classroom);
+            if (err) return next(null, classroom);
             classroom.consultor = result;
             struct.aules.push(classroom);
             if (perfil == 'pra' || classroom.consultor.idp == idp) {
                 resum(s, idp, anyAcademic, codAssignatura, classroom, classroom.codAula, function(err, result) {
-                    if (err) return callback(null, classroom);
+                    if (err) return next(null, classroom);
                     consultors.getResumEines(classroom, s, function(err, result) {
-                        return callback(null, classroom);
+                        return next(null, classroom);
                     });
                 });
-            } else callback(null, classroom);
+            } else next(null, classroom);
         });
     }
 
@@ -119,7 +119,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
     }
 }
 
-var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, callback) {
+var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classroom, codAula, next) {
 
     classroom.resum = {
         estudiants: {
@@ -140,53 +140,52 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
     };
 
     async.parallel([
-        function (callback) {
-            callback();
+        function (next) {
+            next();
         },
-        function (callback) {
+        function (next) {
             ws.rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
-                if (err) return callback();
+                if (err) return next();
                 classroom.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 classroom.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.rac.calcularIndicadorsAula('RAC_CONSULTOR_AC', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
-                if (err) return callback();
+                if (err) return next();
                 classroom.resum.avaluacio.seguiment = indicadors.getSeguimentACAula(result.out.ValorIndicadorVO);
                 classroom.resum.avaluacio.superacio = indicadors.getSuperacioACAula(result.out.ValorIndicadorVO);
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.lrs.byclassroom(classroom.domainId, s, function(err, result) {
-                if (err) return callback();
+                if (err) return next();
                 classroom.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.aulaca.getGroupServlet(classroom.domainCode, s, function(err, result) {
-                if (err) return callback();
+                if (err) return next();
                 try {
                     classroom.resum.comunicacio.lecturesPendents = result[0]['$']['numMsgPendents'];
                     classroom.color = result[0].color[0];
                 } catch(e) {
-                    console.log(e.message);
                 }
-                return callback();
+                return next();
             });
         }
     ], function(err, result) {
-        if (err) { console.log(err); }
+        if (err) return next(err);
         classroom.resum.avaluacio.seguimentpercent = indicadors.getPercent(classroom.resum.avaluacio.seguiment, classroom.resum.estudiants.total);
         classroom.resum.avaluacio.superaciopercent = indicadors.getPercent(classroom.resum.avaluacio.superacio, classroom.resum.estudiants.total);
-        return callback();
+        return next();
     });
 }
 
-var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, callback) {
+var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
 
 	var struct = {
 		s: s,
@@ -207,30 +206,29 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 	}
 
 	async.parallel([
-        function (callback) {
+        function (next) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return callback();
+                if (err) return next();
                 try {
                     struct.color = result[0].color[0];
                     struct.isAulaca = result ? result[0]['$']['idTipoPresent'] == 'AULACA' : false;
                     struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
                     struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
                 } catch(e) {
-                    console.log(e.message);
                 }
-                return callback();
+                return next();
             });
         },
-        function (callback) {
+        function (next) {
             ws.infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
-                if (err) { console.log(err); return callback(); }
+                if (err) return next(err);
                 struct.nomAssignatura = result.out.descAssignatura;
-                return callback();
+                return next();
             });
         },
-		function (callback) {
+		function (next) {
 			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
-				if (err) { console.log(err); return callback(); }
+				if (err) return next(err);
                 struct.estudiants = result;
                 if (struct.estudiants) {
                     struct.totalEstudiants = struct.estudiants.length;
@@ -238,13 +236,13 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
                         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
                     });
                 }
-				return callback();
+				return next();
 			});
 		},
-        function (callback) {
-            return callback();
+        function (next) {
+            return next();
             estudiants.minimum(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
-                if (err) return callback(err);
+                if (err) return next(err);
                 if (result) {
                     struct.estudiants = result;
                     struct.totalEstudiants = struct.estudiants.length;
@@ -252,19 +250,18 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
                         estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
                     });
                 }
-                return callback();
+                return next();
             });
         },
-		function (callback) {
+		function (next) {
 			consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
-				if (err) { console.log(err); return callback(); }
+				if (err) return next(err);
 				struct.consultor = result;
-				return callback();
+				return next();
 			});
 		},
 	], function(err, results) {
-		if (err) { console.log(err); }
-		callback(null, struct);
+		next(err, struct);
 	});
 }
 

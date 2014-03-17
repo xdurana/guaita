@@ -247,3 +247,22 @@ var getUltimaConnexioCampus = exports.getUltimaConnexioCampus = function(idp, s,
         return next(err, object ? object.lastConnectionToCampus : config.nc());
     });
 }
+
+/**
+ * [getSales description]
+ * @param  {[type]}   idp  [description]
+ * @param  {[type]}   s    [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getSales = exports.getSales = function(idp, s, next) {
+    var url = config.util.format(
+        '%s/estudiant/%s/sales?s=%s',
+        config.aulaca(),
+        idp,
+        s
+    );
+    service.json(url, function(err, object) {
+        return next(err, object ? object.rooms : config.nc());
+    });
+}

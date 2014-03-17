@@ -37,7 +37,7 @@ app.use(app.router);
  * @return {[type]}
  */
 app.use(function(err, req, res, next) {
-    console.error(err.stack);
+    config.error(new Error(err));
     next(err);
 });
 

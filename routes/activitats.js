@@ -1,4 +1,4 @@
-var async = require('async');
+ async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
@@ -86,48 +86,45 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         async.parallel([
             function(next) {
                 ws.lrs.byidpandactivity(idp, activitat.eventId, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandactivitylast(idp, activitat.eventId, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     activitat.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return next();
                 });
             },
             function(next) {
                 ws.aulaca.getUltimaConnexioCampus(idp, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     activitat.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandactivityandwidgetlast(idp, activitat.eventId, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     activitat.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                     return next();
                 });
             }
         ], function(err, results) {
-            if (err) { console.log(err); }
-            return next();
+            return next(err);
         });
 	}
 
 	ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
-        if (err) { console.log(err); return next(null, struct); }
-		struct.activitats = result;
+        if (err) return next(null, struct);
         try {
+            struct.activitats = result;
     		async.each(struct.activitats, getResumComunicacioActivitatIdp, function(err) {
-                if (err) { console.log(err); }
-                return next(null, struct);
+                return next(err, struct);
     		});
         } catch(e) {
-            console.log(e.message);
             next(null, struct);
         }
 	});
@@ -153,15 +150,13 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
 	}
 
 	ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-        if (err) { console.log(err); return next(null, struct); }
+        if (err) return next(null, struct);
         try {
     		struct.activitats = result.out.ActivitatVO;
     		async.each(struct.activitats, getIndicadorsActivitat, function(err) {
-                if (err) { console.log(err); }
-    	  		return next(null, struct);
+    	  		return next(err, struct);
     		});
         } catch(e) {
-            console.log(e.message);
             return next(null, struct);
         }
 	});
@@ -195,8 +190,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
                 });
             }
         ], function(err, results) {
-            if (err) { console.log(err); }
-            return next();
+            return next(err);
         });
     }    
 }
@@ -228,7 +222,6 @@ exports.actives = function(domainId, domainIdAula, s, next) {
                         struct.activitats.push(activitat);
                     }
                 } catch(e) {
-                    console.log(e.message);
                 }                
             })
         }

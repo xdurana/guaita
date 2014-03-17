@@ -23,16 +23,15 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
 	];
 
 	ws.rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-		if (err) { console.log(err); return next(null, struct); }
+		if (err) return next(err);
 		struct = result.out.EstudiantAulaVO;
         try {
     		async.each(struct, getResumEstudiant, function(err) {
-    			if (err) { console.log(err); }
+    			if (err) return next(err);
                 struct.sort(ordenaEstudiants);
     			return next(null, struct);
     		});
         } catch(e) {
-            console.log(e.message);
             return next(null, struct);
         }
 	});
@@ -55,42 +54,41 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         async.parallel([
             function(next) {
                 usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
-                    if (err) { console.log(err.stack); return next(); }
+                    if (err) return next(err);
                     estudiant.fitxa = url;
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err.stack); return next(); }
+                    if (err) return next(err);
                     estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err.stack); return next(); }
+                    if (err) return next(err);
                     estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                     return next();
                 });
             },
             function(next) {
                 ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
-                    if (err) { console.log(err.stack); return next(); }
+                    if (err) return next(err);
                     estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
                     return next();
                 });
             },
             function(next) {
                 ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) { console.log(err.stack); return next(); }
+                    if (err) return next(err);
                     estudiant.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                     return next();
                 });
             }
         ], function(err, results) {
-            if (err) { console.log(err); }
-            return next();
+            return next(err);
         });
 	}
 }
@@ -125,7 +123,7 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
         async.parallel([
             function(next) {
                 ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
-                    if (err) { console.log(err); return next(); }
+                    if (err) return next(err);
                     estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
                     return next();
                 });
@@ -135,7 +133,7 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
                 estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
                 estudiant.resum = indicadors.getObjectComunicacio();
                 usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
-                    if (err) return next(err, url);
+                    if (err) return next(err);
                     estudiant.fitxa = url;
                     return next();
                 });

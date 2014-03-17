@@ -73,7 +73,7 @@ var myway = exports.myway = function() {
  */
 var debug = exports.debug = function(msg) {
     if (nconf.get('entorn') != 'PRO') {
-        console.log(util.format("%s: ", moment().format("YYYY/MM/DD hh:mm:ss"), msg));
+        console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), msg));
     }
 }
 
@@ -83,7 +83,16 @@ var debug = exports.debug = function(msg) {
  * @return {[type]}     [description]
  */
 var log = exports.log = function(msg) {    
-    console.log(util.format("%s: ", moment().format("YYYY/MM/DD hh:mm:ss"), msg));
+    console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), msg));
+}
+
+/**
+ * [error description]
+ * @param  {[type]} err [description]
+ * @return {[type]}     [description]
+ */
+var error = exports.error = function(err) {
+    console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), err.stack));
 }
 
 /**
