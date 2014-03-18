@@ -20,6 +20,8 @@
     "i18next": "1.7.x",
     "xml2js": "0.4.x",
     "tincanjs": "0.20.x",
-    "csv": "0.2.x"
+    "csv": "0.2.x",
+    "node-calendar": "0.1.x",
+    "moment": "2.5.x"
   }
 }

@@ -5,6 +5,7 @@ var swig = require('swig');
 
 var config = require('./config');
 var controllers = require('./controllers/controllers');
+
 var user = controllers.user;
 var subject = controllers.subject;
 var classroom = controllers.classroom;
@@ -99,6 +100,8 @@ app.get('/app/guaita/test/widget', user.authorize, test.widget);
 app.get('/app/guaita/test/aula', user.authorize, test.aula);
 app.get('/app/guaita/test/material', user.authorize, test.material);
 app.get('/app/guaita/test/restart', user.authorize, test.restart);
+app.get('/app/guaita/test/hang', test.hang);
+app.get('/app/guaita/test/fail', test.fail);
 
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
@@ -109,6 +112,28 @@ server.listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
+var gracefulShutdown = function() {
+    console.log("Received kill signal, shutting down gracefully.");
+    server.close(function() {
+        console.log("Closed out remaining connections.");
+        process.exit();
+    });
+
+    setTimeout(function() {
+        console.error("Could not close connections in time, forcefully shutting down");
+        process.exit();
+    }, 10*1000);
+}
+
+process.on('uncaughtException', function (err) {
+    console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
+    console.error(err.stack);
+    gracefulShutdown();
+});
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
+
 server.on('connection', function(socket) {
-    socket.setTimeout(0);
+    socket.setTimeout(1000);
 });

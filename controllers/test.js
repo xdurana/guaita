@@ -87,3 +87,25 @@ var material = exports.material = function(req, res, next) {
 var restart = exports.restart = function(req, res, next) {
     return next('Restart');
 }
+
+/**
+ * [hang description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var hang = exports.hang = function(req, res, next) {
+    return;
+}
+
+/**
+ * [fail description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var fail = exports.fail = function(req, res, next) {
+    asfdhjiudfohdf;
+}
