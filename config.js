@@ -72,7 +72,7 @@ var myway = exports.myway = function() {
  * @return {[type]}     [description]
  */
 var debug = exports.debug = function(msg) {
-    if (nconf.get('entorn') != 'PRO') {
+    if (true || nconf.get('entorn') != 'PRO') {
         console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), msg));
     }
 }
@@ -92,6 +92,7 @@ var log = exports.log = function(msg) {
  * @return {[type]}     [description]
  */
 var error = exports.error = function(err) {
+    console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), err.message));
     console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), err.stack));
 }
 

@@ -154,13 +154,6 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 
     async.parallel([
         function (next) {
-            ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
-                if (err) return next();
-                struct.recursos = result ? result[0].recurs : [];
-                return next();
-            });
-        },
-        function (next) {
             ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
                 if (err) return next(err);
                 struct.eines = result || [];
@@ -177,6 +170,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
+        if (!estadistiques) return next();
         async.parallel([
             function(next) {
                 if (estadistiques) {
@@ -186,7 +180,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                         return next();
                     });
                 } else {
-                    next();
+                    return next();
                 }
             },
             function(next) {
@@ -197,7 +191,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
                         return next();
                     });
                 } else {
-                    next();
+                    return next();
                 }
             }
         ], function(err, results) {

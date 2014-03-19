@@ -78,34 +78,12 @@ var material = exports.material = function(req, res, next) {
 }
 
 /**
- * [restart description]
+ * [authenticate description]
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-var restart = exports.restart = function(req, res, next) {
-    return next('Restart');
-}
-
-/**
- * [hang description]
- * @param  {[type]}   req  [description]
- * @param  {[type]}   res  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
- */
-var hang = exports.hang = function(req, res, next) {
-    return;
-}
-
-/**
- * [fail description]
- * @param  {[type]}   req  [description]
- * @param  {[type]}   res  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
- */
-var fail = exports.fail = function(req, res, next) {
-    asfdhjiudfohdf;
+var authenticate = exports.authenticate = function(req, res, next) {
+    return res.json({'ok': 'authenticated'});
 }

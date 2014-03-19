@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="{{ widget.lang }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta content="UOC - Universitat Oberta de Catalunya" name="author">
+    <meta content="text/javascript" http-equiv="Content-Script-Type">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/general.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/modul.css" />
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/style.css" />
+
+    {% for lib in widget.libs %}
+        <script type="text/javascript" src="{{lib}}"></script>
+    {% endfor %}
+     
+    <script LANGUAGE="JavaScript" type="text/javascript">
+    var MAXIM_MSG='Minimizar';
+    var MINIM_MSG='Maximizar';
+    var DESPLEGA_OBRE = "{{ t('obre') }}";
+    var DESPLEGA_TANCA = "{{ t('tanca') }}";
+    var url_img = 'UOC/mc-icons/general';
+
+    var DATA_BOCAMOLL_USER_IDP = '{{ widget.idp }}';
+    var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ widget.domainId }}';
+    var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ widget.domainIdAula }}';
+    var DATA_BOCAMOLL_ACTIVITY_EVENTID = '';
+    var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
+    var SESSION = '{{ widget.s }}';
+
+    var MAXIMIZED = false;
+    </script>
+
+    <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
+    <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
+</head>
+
+<body id="widget" class="aula c_{{ widget.color }}" onload="_IG_AdjustIFrameHeight();">
+    {% include 'ga.html' %}
+
+    <div class="agora identifica">
+        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        {% if widget.consultor %}
+        <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
+        {% endif %}
+        <span class="marcadors">
+            <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
+        </span>
+    </div>
+                
+    <div id="divMaximizedPart" style="{{ widget.style }}">
+
+    </div>
+    
+    <div class="minmax">
+        <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">{{ t('minimitzar') }}</a>
+    </div>
+
+</body>
+</html>

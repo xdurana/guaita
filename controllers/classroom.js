@@ -241,13 +241,55 @@ var get = exports.get = function (req, res, next) {
 var getWidget = exports.getWidget = function (req, res, next) {
     if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
     var libs = req.query.libs ? req.query.libs.split(",") : [];
-    return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.up_maximized, req.query.s, function (err, result) {
-        if (err) return next("No s'ha pogut obtenir la informació del widget");
+    return widget.minim(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.up_maximized, req.query.s, function (err, result) {
+        if (err) return next(err);
         if (req.query.format) {
             res.json(result);
         } else {
             ws.lrs.registraWidget(req.query.idp, req.params.domainId, req.params.domainIdAula, req.url, req.query.s);
-            res.render('widget-aula.html', { widget: result });
+            //res.render('widget-aula.html', { widget: result });
+            res.render('widget-minim.html', { widget: result });
+        }
+    });
+}
+
+/**
+ * [getWidgetDesplegable description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var getWidgetDesplegable = exports.getWidgetDesplegable = function (req, res, next) {
+    if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
+    var libs = req.query.libs ? req.query.libs.split(",") : [];
+    return widget.minim(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.up_maximized, req.query.s, function (err, result) {
+        if (err) return next(err);
+        if (req.query.format) {
+            res.json(result);
+        } else {
+            ws.lrs.registraWidget(req.query.idp, req.params.domainId, req.params.domainIdAula, req.url, req.query.s);
+            res.render('widget-desplegable.html', { widget: result });
+        }
+    });
+}
+
+/**
+ * [getWidgetEines description]
+ * @param  {[type]}   req
+ * @param  {[type]}   res
+ * @param  {Function} next
+ * @return {[type]}
+ */
+var getWidgetEines = exports.getWidgetEines = function (req, res, next) {
+    if (req.query.idp == null) return next("Manca el parametre [idp] a la crida");
+    var libs = req.query.libs ? req.query.libs.split(",") : [];
+    return widget.one(req.params.anyAcademic, req.params.codAssignatura, req.params.domainId, req.params.codAula, req.params.domainIdAula, req.params.domainCode, req.query.idp, libs, req.query.up_maximized, req.query.s, function (err, result) {
+        if (err) return next(err);
+        if (req.query.format) {
+            res.json(result);
+        } else {
+            res.render('widget-eines.html', { widget: result });
         }
     });
 }

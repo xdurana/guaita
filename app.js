@@ -38,7 +38,7 @@ app.use(app.router);
  * @return {[type]}
  */
 app.use(function(err, req, res, next) {
-    config.error(new Error(err));
+    config.log(err);
     next(err);
 });
 
@@ -87,6 +87,8 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', user.authorize, classroom.getWidget);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widgetdesplegable', user.authorize, classroom.getWidgetDesplegable);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eineswidget', user.authorize, classroom.getWidgetEines);
 
 app.get('/app/guaita/materials', user.authorize, materials.get);
 app.get('/app/guaita/materials/:pid', user.authorize, materials.getHTML5);
@@ -99,9 +101,7 @@ app.get('/app/guaita/test/estudiant', user.authorize, test.estudiant);
 app.get('/app/guaita/test/widget', user.authorize, test.widget);
 app.get('/app/guaita/test/aula', user.authorize, test.aula);
 app.get('/app/guaita/test/material', user.authorize, test.material);
-app.get('/app/guaita/test/restart', user.authorize, test.restart);
-app.get('/app/guaita/test/hang', test.hang);
-app.get('/app/guaita/test/fail', test.fail);
+app.get('/app/guaita/test/authenticate', test.authenticate);
 
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
@@ -109,31 +109,26 @@ app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/widget', user.byidpandclassroo
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function() {
-    console.log('Express server listening on port ' + app.get('port'));
+    config.log('Express server listening on port ' + app.get('port'));
 });
 
 var gracefulShutdown = function() {
-    console.log("Received kill signal, shutting down gracefully.");
+    config.log("Received kill signal, shutting down gracefully.");
     server.close(function() {
-        console.log("Closed out remaining connections.");
+        config.log("Closed out remaining connections.");
         process.exit();
     });
 
     setTimeout(function() {
-        console.error("Could not close connections in time, forcefully shutting down");
+        config.log("Could not close connections in time, forcefully shutting down");
         process.exit();
     }, 10*1000);
 }
 
 process.on('uncaughtException', function (err) {
-    console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
-    console.error(err.stack);
+    config.log(err);
     gracefulShutdown();
 });
 
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
-
-server.on('connection', function(socket) {
-    socket.setTimeout(1000);
-});
