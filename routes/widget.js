@@ -152,7 +152,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     }
 
     var getEinesActivitat = function(activitat, next) {
-        activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode ,activitat.eventId);
+        activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode, activitat.eventId);
         return next();
         calcularIndicadorsEines(activitat.eines, struct.recursos);
         ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {

@@ -76,14 +76,3 @@ var material = exports.material = function(req, res, next) {
     var classroom = '1000';
     res.redirect(config.util.format('/app/guaita/materials/%s?s=%s&idp=%s&login=%s&role=%s&subject=%s&classroom=%s&language=%s', pid, req.query.s, idp, login, role, subject, classroom, config.lng()));
 }
-
-/**
- * [authenticate description]
- * @param  {[type]}   req  [description]
- * @param  {[type]}   res  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
- */
-var authenticate = exports.authenticate = function(req, res, next) {
-    return res.json({'ok': 'authenticated'});
-}

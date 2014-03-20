@@ -24,6 +24,22 @@ var authorize = exports.authorize = function (req, res, next) {
 }
 
 /**
+ * [admin description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var admin = exports.admin = function (req, res, next) {
+    if (req.query.s == null) return next("Manca el parametre [s] a la crida");
+    ws.campus.getIdpBySession(req.query.s, function (err, idp) {
+        if (err) return next("La sessió no és valida o ha caducat");
+        if (idp != config.idpadmin()) return next("Permis denegat");
+        return next();
+    });
+}
+
+/**
  * [subjects description]
  * @param  {[type]}   req
  * @param  {[type]}   res

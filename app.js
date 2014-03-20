@@ -90,18 +90,17 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widgetdesplegable', user.authorize, classroom.getWidgetDesplegable);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eineswidget', user.authorize, classroom.getWidgetEines);
 
-app.get('/app/guaita/materials', user.authorize, materials.get);
-app.get('/app/guaita/materials/:pid', user.authorize, materials.getHTML5);
-
 app.get('/app/guaita/registre', user.authorize, user.registre);
 
-app.get('/app/guaita/test/pra', user.authorize, test.pra);
-app.get('/app/guaita/test/consultor', user.authorize, test.consultor);
-app.get('/app/guaita/test/estudiant', user.authorize, test.estudiant);
-app.get('/app/guaita/test/widget', user.authorize, test.widget);
-app.get('/app/guaita/test/aula', user.authorize, test.aula);
-app.get('/app/guaita/test/material', user.authorize, test.material);
-app.get('/app/guaita/test/authenticate', test.authenticate);
+app.get('/app/guaita/materials', user.admin, materials.get);
+app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
+
+app.get('/app/guaita/test/pra', user.admin, test.pra);
+app.get('/app/guaita/test/consultor', user.admin, test.consultor);
+app.get('/app/guaita/test/estudiant', user.admin, test.estudiant);
+app.get('/app/guaita/test/widget', user.admin, test.widget);
+app.get('/app/guaita/test/aula', user.admin, test.aula);
+app.get('/app/guaita/test/material', user.admin, test.material);
 
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
