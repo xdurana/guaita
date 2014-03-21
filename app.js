@@ -87,8 +87,6 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', user.authorize, classroom.getWidget);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widgetdesplegable', user.authorize, classroom.getWidgetDesplegable);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eineswidget', user.authorize, classroom.getWidgetEines);
 
 app.get('/app/guaita/registre', user.authorize, user.registre);
 
