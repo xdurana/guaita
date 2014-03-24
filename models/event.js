@@ -4,7 +4,7 @@ function Event(activitat, esdeveniment, tooltip, data) {
     this.tipus = esdeveniment;
     this.tooltip = tooltip;
     this.data = moment(data).format("YYYY-MM-DD");
-    this.destacat = esdeveniment === 'PL' ? 'event-destacat' : 'event';
+    this.destacat = esdeveniment === 'E' ? 'event-destacat' : 'event';
     this.activitat = {
         link: activitat.link,
         color: activitat.color,

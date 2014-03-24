@@ -28,7 +28,7 @@ function Activity(activitat, aula, s) {
     }
 
     if (activitat.deliveryDate) {
-        this.events.push(new Event(this, 'L', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate));
+        this.events.push(new Event(this, 'E', config.i18next.t('events.entrega.descripcio'), activitat.deliveryDate));
     }
 
     if (activitat.solutionDate) {
