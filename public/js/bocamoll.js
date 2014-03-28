@@ -10,7 +10,7 @@ function getActor() {
 function getContext() {
     return {
         extensions: {
-            'uoc:lrs:app': 'aulaca',
+            'uoc:lrs:app': typeof DATA_BOCAMOLL_CONTEXT_APP === 'undefined' ? 'aulaca' : DATA_BOCAMOLL_CONTEXT_APP,
             'uoc:lrs:subject:id': DATA_BOCAMOLL_SUBJECT_DOMAINID,
             'uoc:lrs:classroom:id': DATA_BOCAMOLL_CLASSROOM_DOMAINID,
             'uoc:lrs:activity:id': DATA_BOCAMOLL_ACTIVITY_EVENTID,
@@ -37,15 +37,29 @@ function getConnection() {
     }
 }
 
+function getLink(object) {
+    return {
+        id: "C:" + object.attr('data-bocamoll-object-link'),
+        definition: {
+            type: object.attr('data-bocamoll-object-idtipolink'),
+            name: {
+                ca: object.attr('data-bocamoll-object-description')
+            }
+        }
+    }
+}
+
 function getObject(object) {
     return {
         id: "T:" + object.attr('data-bocamoll-object-resourceid'),
-        type: object.attr('data-bocamoll-object-idtipolink'),
-        name: {
-            ca: object.attr('data-bocamoll-object-description')
-        },
-        extensions: {
-            "uoc:lrs:tool:id": object.attr('data-bocamoll-object-resourceid'),
+        definition: {        
+            type: object.attr('data-bocamoll-object-idtipolink'),
+            name: {
+                ca: object.attr('data-bocamoll-object-description')
+            },
+            extensions: {
+                "uoc:lrs:tool:id": object.attr('data-bocamoll-object-resourceid')
+            }
         }
     }
 }
@@ -53,12 +67,14 @@ function getObject(object) {
 function getMaterial(object) {
     return {
         id: "M:" + object.attr('data-bocamoll-object-materialid'),
-        type: object.attr('data-bocamoll-object-format'),
-        name: {
-            ca: object.attr('data-bocamoll-object-description')
-        },
-        extensions: {
-            "uoc:lrs:material:id": object.attr('data-bocamoll-object-materialid'),
+        definition: {
+            type: object.attr('data-bocamoll-object-format'),
+            name: {
+                ca: object.attr('data-bocamoll-object-description')
+            },
+            extensions: {
+                "uoc:lrs:material:id": object.attr('data-bocamoll-object-materialid')
+            }
         }
     }
 }
@@ -66,12 +82,14 @@ function getMaterial(object) {
 function getFontsInformacio(object) {
     return {
         id: "F:" + object.attr('data-bocamoll-object-informationSourceId'),
-        type: 'fonts-informacio',
-        name: {
-            ca: object.attr('data-bocamoll-object-description')
-        },
-        extensions: {
-            "uoc:lrs:material:id": object.attr('data-bocamoll-object-informationSourceId'),
+        definition: {
+            type: 'fonts-informacio',
+            name: {
+                ca: object.attr('data-bocamoll-object-description')
+            },
+            extensions: {
+                "uoc:lrs:material:id": object.attr('data-bocamoll-object-informationSourceId')
+            }
         }
     }
 }
@@ -97,6 +115,16 @@ $(document).ready(function() {
         object: getConnection()
     });
 
+    $("a[data-bocamoll-object-link]").on("click", function (e) {
+        var statement = {
+            actor: getActor(),
+            context: getContext(),
+            verb: getVerb(),
+            object: getLink($(this))
+        };
+        registra(statement);
+    });
+
     $("a[data-bocamoll-object-resourceid]").on("click", function (e) {
         var statement = {
             actor: getActor(),
@@ -105,7 +133,6 @@ $(document).ready(function() {
             object: getObject($(this))
         };
         registra(statement);
-        return false;
     });
 
     $("a[data-bocamoll-object-informationSourceId]").on("click", function (e) {
@@ -116,7 +143,6 @@ $(document).ready(function() {
             object: getFontsInformacio($(this))
         };
         registra(statement);
-        return false;
     });
 
     $("a[data-bocamoll-object-materialid]").on("click", function (e) {
@@ -127,6 +153,5 @@ $(document).ready(function() {
             object: getMaterial($(this))
         };
         registra(statement);
-        return false;
     });
 });
