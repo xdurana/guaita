@@ -386,3 +386,12 @@ exports.byidpandtoollast = function(idp, resourceId, s, next) {
         return next(err, { value: result });
     });
 }
+
+exports.bydatetime = function(datetime, next) {
+    var data = { "timestamp": { "$regex": config.util.format("%s", datetime) } };
+    count(data, function(err, result) {
+        if(err) { console.log(err); return next(err); }
+        config.debug(result);
+        return next(null, { value: result });
+    });    
+}

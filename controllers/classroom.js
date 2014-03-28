@@ -6,6 +6,9 @@ var ws = require('../ws');
 
 var config = require('../config');
 
+var moment = require('moment');
+var async = require('async');
+
 /**
  * [getTools description]
  * @param  {[type]}   req
