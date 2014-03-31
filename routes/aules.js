@@ -141,12 +141,15 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
 
     async.parallel([
         function (next) {
-            next();
+            ws.rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
+                if (err) return next();
+                classroom.resum.estudiants.total = result.out.numPlacesAssignades;
+                return next();
+            });
         },
         function (next) {
             ws.rac.calcularIndicadorsAula('RAC_PRA_2', codAssignatura, anyAcademic, codAula, codAula, '0', '0', function(err, result) {
                 if (err) return next();
-                classroom.resum.estudiants.total = indicadors.getTotalEstudiantsTotal(result.out.ValorIndicadorVO);
                 classroom.resum.estudiants.repetidors = indicadors.getTotalEstudiantsRepetidors(result.out.ValorIndicadorVO);
                 return next();
             });
