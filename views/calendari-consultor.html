@@ -10,7 +10,7 @@
 </div>
 
 <!-- container -->
-<div id="container" class="student">
+<div id="container" class="consultor">
 
     <ul id="accessibility" class="visuallyhidden">
         <li><a href="#menu" accesskey="m" title="{{ t('acces_directe_menu_navegacio') }}">{{ t('acces_directe_menu_navegacio') }}</a></li>
@@ -286,7 +286,7 @@
                                 {% for eina in aula.widget.eines %}
                                 {% if eina.mostrar %}
                                 <li>
-                                    <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                                    <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-classroom-id="{{ aula.widget.domainIdAula }}" data-bocamoll-subject-id="{{ aula.domainId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                                     {% if eina.num_msg_totals > 0 %}
                                     <a href="{{ eina.viewItemsUrl }}" class="marcadors">
                                         <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
@@ -303,6 +303,16 @@
                     {% endif %}
                 </li>
                 {% endfor %}
+                {% for room in object.rooms %}
+                <li class="block accordion">                    
+                    <div class="block-color c_sala" data-color="c_sala">
+                        <a href="{{ room.url }}" title="{{ room.widgetTitle }}" class="LaunchesOWin" target="_blank"><i class="icon icon-pop"></i></a>
+                    </div>
+                    <div class="block-title">
+                        <h3><a href="{{ room.url }}">{{ room.widgetTitle }}</a></h3>
+                    </div>
+                </li>
+                {% endfor %}                
             </ul>
         </div>
 
@@ -318,9 +328,17 @@
 <script type="text/javascript" src="/app/guaita/js/spin.min.js"></script>
 <script type="text/javascript" src="/app/guaita/js/helper.js"></script>
 <script type="text/javascript" src="/app/guaita/js/aulas.js"></script>
+<script type="text/javascript" src="/app/guaita/js/tincan.js"></script>
+<script type="text/javascript" src="/app/guaita/js/bocamoll-guaita.js"></script>
+
 <script>
+    var DATA_BOCAMOLL_USER_IDP = '{{ object.idp }}';
+    var DATA_BOCAMOLL_CONTEXT_APP = 'guaita';
+    var SESSION = '{{ object.s }}';
+
     $(document).ready(function() {
         UOCAulas.init('calendar');
     });
 </script>
+
 {% endblock %}

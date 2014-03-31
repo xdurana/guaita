@@ -58,7 +58,7 @@ exports.calcularIndicadorsAula = function(tipusIndicador, codAssignatura, anyAca
 		in1: codAssignatura,
 		in2: anyAcademic,
 		in3: numAula,
-		in4: ordre,
+		in4: '1',
 		in5: comptarEquivalents,
 		in6: comptarRelacions,
         in7: config.lng()
