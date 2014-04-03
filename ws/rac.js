@@ -143,3 +143,15 @@ exports.getActivitat = function(codAssignatura, anyAcademic, numAula, ordre, cal
 		return callback(err, result);
 	});
 }
+
+exports.getEstudiantsByAulaAmbActivitats = function(codAssignatura, anyAcademic, numAula, callback) {
+    var args = {
+        in0: anyAcademic,
+        in1: codAssignatura,
+        in2: numAula,
+        in4: config.lng()
+    }
+    service.operation(config.racwsdl(), 'getEstudiantsByAulaAmbActivitats', args, function(err, result) {
+        return callback(err, result);
+    });
+}

@@ -256,13 +256,20 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
                 return next();
             });
         },
+        function (next) {
+            consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+                if (err) return next(err);
+                struct.consultor = result;
+                return next();
+            });
+        },
 		function (next) {
-			consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+			estudiants.ultimaPACEntregada(anyAcademic, codAssignatura, codAula, function(err, result) {
 				if (err) return next(err);
-				struct.consultor = result;
+				struct.pac = result;
 				return next();
 			});
-		},
+		}
 	], function(err, results) {
 		next(err, struct);
 	});

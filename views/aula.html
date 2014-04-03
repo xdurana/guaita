@@ -57,6 +57,7 @@
                                 <ul>
                                     <li><a href="#tabs-1" class="tab">{{ t('activitats') }}</a></li>
                                     <li><a href="#tabs-2" class="tab">{{ t('eines') }}</a></li>
+                                    <li><a href="#tabs-3" class="tab">{{ t('avaluacio') }}</a></li>
                                 </ul>
                                 <div id="tabs-1">
                                     <div class="options">
@@ -142,6 +143,53 @@
                                                 <td class="bd-open connexio-aula-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexio }}</td>
                                                 <td class="bd-open connexio-campus-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioCampus }}</td>
                                                 <td class="bd-open connexio-widget-estudiant">{{ estudiant.resum.comunicacio.ultimaConnexioWidget }}</td>
+                                            </tr>
+                                            <tr class="tr-wrap">
+                                                <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>
+                                            </tr>
+                                        </tbody>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <div id="tabs-3">
+                                    <div class="options">
+                                        <a href="#" class="lnk-contact-all LaunchesOWin" target="_blank"><i class="icon"></i>{{ t('escriure_seleccionats') }} <i class="arrow"></i></a>
+                                    </div>
+                                    <table class="tbl tbl-subject tbl-users">
+                                        <caption>{{ t('avaluacio') }}</caption>
+                                        <colgroup>
+                                            <col>
+                                            <col style="width:18%">
+                                            <col style="width:18%">
+                                            <col style="width:18%">
+                                            <col style="width:18%">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" class="check-all-users" name="check_all_users_2" id="check_all_users_2"><label for="check_all_users_2">{{ t('seleccionar_tots') }}</label>
+                                                </th>
+                                                <th>{{ t('dataDescarregaConsultor') }}</th>
+                                                <th>{{ t('dataEnviament') }}</th>
+                                                <th>{{ t('numLliurament') }}</th>
+                                                <th>{{ t('ordre') }}</th>
+                                            </tr>
+                                        </thead>
+                                        {% for e in aula.pac %}
+                                        {% set estudiant = e.tercer %}
+                                        {% set ultima = e.ultima %}
+                                            <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
+                                            <tr>
+                                                <td>
+                                                    <span class="user-item">                                                        
+                                                        <input type="checkbox" class="check-user" name="check_users_1[]" value="{{ estudiant.idp }}" data-guaita-username="{{ estudiant.nomComplert }}">
+                                                        <a href="{{ estudiant.fitxa }}" class="lnk-user LaunchesOWinInactive" title="{{ t('fitxa_usuari') }}">{{ estudiant.nomComplert }}</a>
+                                                    </span>
+                                                </td>
+                                                <td class="bd clics-estudiant">{{ ultima.dataDescarregaConsultor }}</td>
+                                                <td class="bd-open">{{ ultima.dataEnviament }}</td>
+                                                <td class="bd-open">{{ ultima.codQualificacio }}</td>
+                                                <td class="bd-open">{{ ultima.ordre }}</td>
                                             </tr>
                                             <tr class="tr-wrap">
                                                 <td colspan="5" class="td-wrap"><div class="acc-content" id="item_1_{{ estudiant.idp }}"></div></td>

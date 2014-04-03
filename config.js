@@ -19,7 +19,7 @@ exports.port = function() {
 }
 
 exports.nc = function() {
-    return "N/D";
+    return "-";
 }
 
 var expedientwsdl = exports.expedientwsdl = function() {

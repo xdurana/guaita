@@ -1,4 +1,5 @@
 var async = require('async');
+var moment = require('moment');
 
 var calendaris = require('./calendaris');
 var indicadors = require('./indicadors');
@@ -142,4 +143,42 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
             return next(err, results);
         });
     }
+}
+
+/**
+ * [ultimaPACEntregada description]
+ * @param {[type]}   anyAcademic    [description]
+ * @param {[type]}   codAssignatura [description]
+ * @param {[type]}   codAula        [description]
+ * @param {Function} next           [description]
+ */
+exports.ultimaPACEntregada = function(anyAcademic, codAssignatura, codAula, next) {
+    var estudiants = [];
+    ws.rac.getEstudiantsByAulaAmbActivitats(codAssignatura, anyAcademic, codAula, function(err, result) {
+        if (err) return next(err);
+        if (result.out.EstudiantAulaVO) {
+            result.out.EstudiantAulaVO.forEach(function(e) {
+                var estudiant = {
+                    tercer: e.tercer[0],
+                    ultima: {
+                    }
+                };
+                estudiant.tercer.nomComplert = indicadors.getNomComplert(estudiant.tercer);
+                e.activitats[0].ActivitatEstudiantAulaVO.forEach(function(activitat) {
+                    activitat.lliuraments.forEach(function(lliurament) {
+                        if (lliurament.LliuramentActivitatEstudiantVO) {
+                            lliurament.LliuramentActivitatEstudiantVO.forEach(function(ll) {
+                                estudiant.ultima = ll;
+                                estudiant.ultima.dataEnviament = moment(estudiant.ultima.dataEnviament[0]).format("DD/MM/YYYY HH:mm:ss");
+                                estudiant.ultima.dataDescarregaConsultor = moment(estudiant.ultima.dataDescarregaConsultor[0]).format("DD/MM/YYYY HH:mm:ss");                                
+                                estudiant.ultima.codQualificacio = activitat.codQualificacio[0].constructor === Object ? config.nc() : activitat.codQualificacio[0];
+                            });
+                        }
+                    });
+                });
+                estudiants.push(estudiant);
+            });
+        }
+        return next(null, estudiants);
+    });
 }
