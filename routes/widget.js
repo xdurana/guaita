@@ -4,10 +4,11 @@ var indicadors = require('./indicadors');
 var activitats = require('./activitats');
 var aules = require('./aules');
 var consultors = require('./consultors');
-var usuaris = require('./usuaris');
 var eines = require('./eines');
 var config = require('../config');
 var ws = require('../ws');
+
+var Tercer = require('../models/tercer');
 
 /**
  * [one description]
@@ -75,27 +76,27 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
                 struct.color = result[0].color[0];
                 struct.perfils = result ? (result[0].perfils ? result[0].perfils : []) : [];
+
                 struct.perfils.forEach(function(perfil) {
                     if (perfil['$']['tipus'] === 'CREADOR' && perfil.user) {
-                        struct.consultor = {
+                        struct.consultor = new Tercer({
                             idp: perfil.user[0]['$']['id'],
-                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),
-                            fitxa: '#'
-                        }
-                        usuaris.getFitxaUserId(struct.consultor.idp, idp, s, function(err, url) {
-                            struct.consultor.fitxa = err ? '#' : url;
+                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom'])
+                        });
+                        struct.consultor.getFitxaUserId(idp, s, function(err, url) {
+                            struct.consultor.fitxa = url;
                         });
                     }
                 });
+
                 struct.perfils.forEach(function(perfil) {
                     if (perfil['$']['tipus'] === 'RESPONSABLE' && perfil.user) {
-                        struct.consultor = {
+                        struct.consultor = new Tercer({
                             idp: perfil.user[0]['$']['id'],
-                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom']),
-                            fitxa: '#'
-                        }
-                        usuaris.getFitxaUserId(struct.consultor.idp, idp, s, function(err, url) {
-                            struct.consultor.fitxa = err ? '#' : url;
+                            nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom'])
+                        });
+                        struct.consultor.getFitxaUserId(idp, s, function(err, url) {
+                            struct.consultor.fitxa = url;
                         });
                     }
                 });

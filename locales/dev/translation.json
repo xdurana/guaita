@@ -73,6 +73,10 @@
     "comunicacio_aula": "Comunicació de l'aula",
     "filtra": "Filtra",
     "calendari": "Calendari",
+    "dataDescarregaConsultor": "Data descàrrega",
+    "dataEnviament": "Data enviament",
+    "qualificacio": "Qualificació",
+    "ultimLliurament": "Últim lliurament",
     "events": {
         "inici": {
             "abreviatura": "I",

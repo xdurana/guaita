@@ -2,8 +2,9 @@ var async = require('async');
 
 var config = require('../config');
 var indicadors = require('./indicadors');
-var usuaris = require('./usuaris');
 var ws = require('../ws');
+
+var Tercer = require('../models/tercer');
 
 /**
  * [all description]
@@ -35,39 +36,6 @@ exports.all = function(codAssignatura, anyAcademic, next) {
             codAula: indicadors.getValor(item.codAula)
 		});
 	}
-}
-
-/**
- * [aula description]
- * @param  {[type]}   anyAcademic    [description]
- * @param  {[type]}   codAssignatura [description]
- * @param  {[type]}   codAula        [description]
- * @param  {[type]}   idp            [description]
- * @param  {[type]}   s              [description]
- * @param  {Function} next       [description]
- * @return {[type]}                  [description]
- */
-exports.aula = function(anyAcademic, codAssignatura, codAula, idp, s, next) {
-    var consultor = {
-        nomComplert: config.nc(),
-        fitxa: '#'
-    };
-	ws.rac.getAula(codAssignatura, anyAcademic, codAula, function(err, result) {
-		if (err) return next(err);
-        try {
-            if (result.out.consultors) {
-                consultor = indicadors.getValor(indicadors.getValor(result.out.consultors).ConsultorAulaVO);
-                consultor.nomComplert = indicadors.getNomComplert(consultor.tercer);
-                consultor.idp = indicadors.getValor(indicadors.getValor(consultor.tercer).idp);
-                usuaris.getFitxa(consultor.idp, idp, s, function(err, url) {
-                    if (err) return next(err);
-                    consultor.fitxa = err ? '#' : url;
-                });
-            }
-        } catch(e) {
-        }
-        return next(null, consultor);
-	});
 }
 
 /**

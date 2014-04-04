@@ -88,6 +88,7 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', user.authorize, classroom.getWidget);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/rac', user.authorize, classroom.rac);
 
 app.get('/app/guaita/registre', user.authorize, user.registre);
 
@@ -126,6 +127,7 @@ var gracefulShutdown = function() {
     }, 10*1000);
 }
 
+/*
 process.on('uncaughtException', function (err) {
     config.log(err);
     gracefulShutdown();
@@ -133,3 +135,4 @@ process.on('uncaughtException', function (err) {
 
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
+*/

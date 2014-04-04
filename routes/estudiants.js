@@ -4,13 +4,13 @@ var moment = require('moment');
 var calendaris = require('./calendaris');
 var indicadors = require('./indicadors');
 var activitats = require('./activitats');
-var usuaris = require('./usuaris');
 var aules = require('./aules');
 var widget = require('./widget');
 var config = require('../config');
 var ws = require('../ws');
 
 var Classroom = require('../models/classroom');
+var Tercer = require('../models/tercer');
 
 /**
  * Estudiants d'una aula
@@ -20,20 +20,19 @@ var Classroom = require('../models/classroom');
  */
 exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, next) {
 
-	var struct = [
+	var estudiants = [
 	];
 
 	ws.rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
 		if (err) return next(err);
-		struct = result.out.EstudiantAulaVO;
         try {
-    		async.each(struct, getResumEstudiant, function(err) {
+    		async.each(result.out.EstudiantAulaVO, getResumEstudiant, function(err) {
     			if (err) return next(err);
-                struct.sort(ordenaEstudiants);
-    			return next(null, struct);
+                estudiants.sort(ordenaEstudiants);
+    			return next(null, estudiants);
     		});
         } catch(e) {
-            return next(null, struct);
+            return next(null, estudiants);
         }
 	});
 
@@ -49,100 +48,25 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
     }  
 
 	var getResumEstudiant = function(estudiant, next) {
-		estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
-        estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-        estudiant.resum = indicadors.getObjectComunicacio();
+        var tercer = new Tercer(indicadors.getValor(estudiant.tercer));
         async.parallel([
-            function(next) {
-                usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
-                    if (err) return next(err);
-                    estudiant.fitxa = url;
+            function (next) {
+                tercer.getResumActivitatAula(tercer.idp, domainIdAula, s, function(err, resum) {
+                    tercer.resum = resum;
                     return next();
                 });
             },
-            function(next) {
-                ws.lrs.byidpandclassroom(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) return next(err);
-                    estudiant.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
-                    return next();
-                });
-            },
-            function(next) {
-                ws.lrs.byidpandclassroomlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) return next(err);
-                    estudiant.resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
-                    return next();
-                });
-            },
-            function(next) {
-                ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
-                    if (err) return next(err);
-                    estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
-                    return next();
-                });
-            },
-            function(next) {
-                ws.lrs.byidpandclassroomandwidgetlast(estudiant.idp, domainIdAula, s, function(err, result) {
-                    if (err) return next(err);
-                    estudiant.resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
+            function (next) {
+                tercer.getFitxa(idp, s, function(err, url) {
+                    tercer.fitxa = url;
                     return next();
                 });
             }
         ], function(err, results) {
+            estudiants.push(tercer);
             return next(err);
         });
 	}
-}
-
-/**
- * Estudiants d'una aula (minimalistic version)
- * @param codAssignatura
- * @param anyAcademic
- * @param codAula
- * @param idp
- * @param s
- */
-exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, next) {
-
-    var struct = [
-    ];
-
-    ws.rac.getEstudiantsPerAula(anyAcademic, codAssignatura, codAula, function(err, result) {
-        if (err) return next(err, result);
-        if (result.out.EstudiantAulaVO) {
-            struct = result.out.EstudiantAulaVO;
-            async.each(struct, getResumEstudiant, function(err) {
-                return next(err, struct);
-            });
-        } else {
-            return next(null, struct);
-        }
-    });
-
-    var getResumEstudiant = function(estudiant, next) {
-        estudiant.resum = indicadors.getObjectComunicacio();
-        async.parallel([
-            function(next) {
-                ws.aulaca.getUltimaConnexioCampus(estudiant.idp, s, function(err, result) {
-                    if (err) return next(err);
-                    estudiant.resum.comunicacio.ultimaConnexioCampus = indicadors.formatDate(result);
-                    return next();
-                });
-            },
-            function(next) {
-                estudiant.nomComplert = indicadors.getNomComplert(estudiant.tercer);
-                estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-                estudiant.resum = indicadors.getObjectComunicacio();
-                usuaris.getFitxa(estudiant.idp, idp, s, function(err, url) {
-                    if (err) return next(err);
-                    estudiant.fitxa = url;
-                    return next();
-                });
-            }
-        ], function(err, results) {
-            return next(err, results);
-        });
-    }
 }
 
 /**
@@ -153,32 +77,43 @@ exports.minimum = function(anyAcademic, codAssignatura, codAula, domainIdAula, i
  * @param {Function} next           [description]
  */
 exports.ultimaPACEntregada = function(anyAcademic, codAssignatura, codAula, next) {
+
     var estudiants = [];
-    ws.rac.getEstudiantsByAulaAmbActivitats(codAssignatura, anyAcademic, codAula, function(err, result) {
+    var activitats = {};
+
+    ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
         if (err) return next(err);
-        if (result.out.EstudiantAulaVO) {
-            result.out.EstudiantAulaVO.forEach(function(e) {
-                var estudiant = {
-                    tercer: e.tercer[0],
-                    ultima: {
-                    }
-                };
-                estudiant.tercer.nomComplert = indicadors.getNomComplert(estudiant.tercer);
-                e.activitats[0].ActivitatEstudiantAulaVO.forEach(function(activitat) {
-                    activitat.lliuraments.forEach(function(lliurament) {
-                        if (lliurament.LliuramentActivitatEstudiantVO) {
-                            lliurament.LliuramentActivitatEstudiantVO.forEach(function(ll) {
-                                estudiant.ultima = ll;
-                                estudiant.ultima.dataEnviament = moment(estudiant.ultima.dataEnviament[0]).format("DD/MM/YYYY HH:mm:ss");
-                                estudiant.ultima.dataDescarregaConsultor = moment(estudiant.ultima.dataDescarregaConsultor[0]).format("DD/MM/YYYY HH:mm:ss");                                
-                                estudiant.ultima.codQualificacio = activitat.codQualificacio[0].constructor === Object ? config.nc() : activitat.codQualificacio[0];
-                            });
-                        }
-                    });
-                });
-                estudiants.push(estudiant);
+        if (result.out.ActivitatVO) {
+            result.out.ActivitatVO.forEach(function(activitat) {
+                activitat.entregada = moment(activitat.dataLliurament).isBefore(moment());
+                activitats[indicadors.getValor(activitat.ordre)] = activitat;
             });
         }
-        return next(null, estudiants);
+
+        ws.rac.getEstudiantsByAulaAmbActivitats(codAssignatura, anyAcademic, codAula, function(err, result) {
+            if (err) return next(err);
+            if (result.out.EstudiantAulaVO) {
+                result.out.EstudiantAulaVO.forEach(function(estudiant) {
+                    var tercer = new Tercer(indicadors.getValor(estudiant.tercer));
+                    tercer.ultima = {};
+                    indicadors.getValor(estudiant.activitats).ActivitatEstudiantAulaVO.forEach(function(activitat) {
+                        activitat.lliuraments.forEach(function(lliurament) {
+                            if (lliurament.LliuramentActivitatEstudiantVO) {
+                                lliurament.LliuramentActivitatEstudiantVO.forEach(function(ll) {
+                                    tercer.ultima = {
+                                        dataEnviament: moment(indicadors.getValor(ll.dataEnviament)).format("DD/MM/YYYY HH:mm:ss"),
+                                        dataDescarregaConsultor: moment(indicadors.getValor(ll.dataDescarregaConsultor)).format("DD/MM/YYYY HH:mm:ss"),
+                                        codQualificacio: indicadors.getValor(activitat.codQualificacio).constructor === Object ? config.nc() : indicadors.getValor(activitat.codQualificacio),
+                                        descripcio: indicadors.getValor(activitats[indicadors.getValor(ll.ordre)].descripcio)
+                                    }
+                                });
+                            }
+                        });
+                    });                   
+                    estudiants.push(tercer);
+                });
+            }
+            return next(null, estudiants);
+        });
     });
 }

@@ -14,8 +14,4 @@ function Event(activitat, esdeveniment, tooltip, data) {
     };
 }
 
-Event.prototype.fooBar = function() {
-
-};
-
 module.exports = Event;

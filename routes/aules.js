@@ -10,6 +10,7 @@ var assignatures = require('./assignatures');
 
 var Event = require('../models/event');
 var Activity = require('../models/activity');
+var Consultor = require('../models/consultor');
 
 var widget = require('./widget');
 
@@ -99,7 +100,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
             idp
         );
 
-        consultors.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
+        Consultor.aula(anyAcademic, codAssignatura, classroom.codAula, idp, s, function(err, result) {
             if (err) return next(null, classroom);
             classroom.consultor = result;
             struct.aules.push(classroom);
@@ -188,6 +189,19 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
     });
 }
 
+/**
+ * [one description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   codAula        [description]
+ * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   domainCode     [description]
+ * @param  {[type]}   idp            [description]
+ * @param  {[type]}   s              [description]
+ * @param  {Function} next           [description]
+ * @return {[type]}                  [description]
+ */
 var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
 
 	var struct = {
@@ -233,46 +247,93 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
 			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
 				if (err) return next(err);
                 struct.estudiants = result;
-                if (struct.estudiants) {
-                    struct.totalEstudiants = struct.estudiants.length;
-                    struct.estudiants.forEach(function(estudiant) {
-                        estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-                    });
-                }
+                struct.totalEstudiants = struct.estudiants ? struct.estudiants.length : 0;
 				return next();
 			});
 		},
         function (next) {
-            return next();
-            estudiants.minimum(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
+            Consultor.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
                 if (err) return next(err);
-                if (result) {
-                    struct.estudiants = result;
-                    struct.totalEstudiants = struct.estudiants.length;
-                    struct.estudiants.forEach(function(estudiant) {
-                        estudiant.idp = indicadors.getValor(indicadors.getValor(estudiant.tercer).idp);
-                    });
+                struct.consultor = result;
+                return next();
+            });
+        }
+	], function(err, results) {
+		next(err, struct);
+	});
+}
+
+/**
+ * [avaluacio description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   codAula        [description]
+ * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   domainCode     [description]
+ * @param  {[type]}   idp            [description]
+ * @param  {[type]}   s              [description]
+ * @param  {Function} next           [description]
+ * @return {[type]}                  [description]
+ */
+var avaluacio = exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
+
+    var struct = {
+        s: s,
+        anyAcademic: anyAcademic,
+        codAssignatura: codAssignatura,
+        domainId: domainId,
+        codAula: codAula,
+        domainIdAula: domainIdAula,
+        domainCode: domainCode,
+        totalEstudiants: 0,
+        link: '#',
+        linkedicioaula: '#',
+        color: 'FF2600',
+        consultor: {
+        },
+        estudiants: [
+        ]
+    }
+
+    async.parallel([
+        function (next) {
+            ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
+                if (err) return next();
+                try {
+                    struct.color = result[0].color[0];
+                    struct.isAulaca = result ? result[0]['$']['idTipoPresent'] == 'AULACA' : false;
+                    struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
+                } catch(e) {
                 }
                 return next();
             });
         },
         function (next) {
-            consultors.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
+            ws.infoacademica.getAssignaturaByCodi(anyAcademic, codAssignatura, function(err, result) {
+                if (err) return next(err);
+                struct.nomAssignatura = result.out.descAssignatura;
+                return next();
+            });
+        },
+        function (next) {
+            Consultor.aula(anyAcademic, codAssignatura, codAula, idp, s, function(err, result) {
                 if (err) return next(err);
                 struct.consultor = result;
                 return next();
             });
         },
-		function (next) {
-			estudiants.ultimaPACEntregada(anyAcademic, codAssignatura, codAula, function(err, result) {
-				if (err) return next(err);
-				struct.pac = result;
-				return next();
-			});
-		}
-	], function(err, results) {
-		next(err, struct);
-	});
+        function (next) {
+            estudiants.ultimaPACEntregada(anyAcademic, codAssignatura, codAula, function(err, result) {
+                if (err) return next(err);
+                struct.estudiants = result;
+                return next();
+            });
+        }
+    ], function(err, results) {
+        next(err, struct);
+    });
 }
 
 /**

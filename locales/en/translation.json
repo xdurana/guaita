@@ -73,6 +73,10 @@
     "comunicacio_aula": "Classroom communication",
     "filtra": "Filter",
     "calendari": "Calendar",
+    "dataDescarregaConsultor": "Dowloaded date",
+    "dataEnviament": "Sent date",
+    "qualificacio": "Qualification",
+    "ultimLliurament": "Last delivery",
     "events": {
         "inici": {
             "abreviatura": "I",
