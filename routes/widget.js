@@ -80,7 +80,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
                             idp: perfil.user[0]['$']['id'],
                             nomComplert: indicadors.decodeHtmlEntity(perfil.user[0]['$']['nom'])
                         });
-                        struct.consultor.getFitxaUserId(struct.consultor.idp, idp, struct.consultor.idp, s, function(err, url) {
+                        struct.consultor.getFitxaUserId(struct.consultor.idp, idp, s, function(err, url) {
                             struct.consultor.fitxa = url;
                         });
                     }
