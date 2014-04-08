@@ -123,10 +123,5 @@ var gracefulShutdown = function() {
     }, 10*1000);
 }
 
-process.on('uncaughtException', function (err) {
-    config.log(err);
-    gracefulShutdown();
-});
-
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
