@@ -11,7 +11,6 @@ var subject = controllers.subject;
 var classroom = controllers.classroom;
 var materials = controllers.materials;
 var test = controllers.test;
-var stats = controllers.stats;
 
 var app = express();
 
@@ -100,9 +99,6 @@ app.get('/app/guaita/test/estudiant', user.admin, test.estudiant);
 app.get('/app/guaita/test/widget', user.admin, test.widget);
 app.get('/app/guaita/test/aula', user.admin, test.aula);
 app.get('/app/guaita/test/material', user.admin, test.material);
-
-app.get('/app/guaita/stats/heatmap', user.authorize, stats.heatmap);
-app.get('/app/guaita/stats/aula', user.authorize, stats.bydomainid);
 
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId', user.byidpandclassroom);
 app.get('/app/guaita/lrs/idp/:idp/aules/:domainId/last', user.byidpandclassroomlast);
