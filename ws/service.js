@@ -9,14 +9,44 @@ var config = require('../config');
  * @return {[type]}
  */
 var operation = exports.operation = function(url, service, args, next) {
+
+    if (config.useCache()) {
+        var cache = require('memory-cache');
+        var key = JSON.stringify({
+            url: url,
+            service: service,
+            args: args
+        });
+
+        var h = hash(key);
+        var r = cache.get(h);
+        if (r) {
+            return next(null, r);
+        }
+    }
+
     var soap = require('soap');
-    config.debug(url + service);
     soap.createClient(url, function(err, client) {
         if (err) return next(err);
         client[service](args, function(err, result) {
+
+            if (config.useCache()) {
+                cache.put(h, result);
+            }
+            
             return next(err, result);
         });
     });
+}
+
+/**
+ * [hash description]
+ * @param  {[type]} object [description]
+ * @return {[type]}        [description]
+ */
+var hash = function(key) {
+    var crypto = require('crypto');
+    return crypto.createHash('md5').update(key).digest('hex');
 }
 
 /**

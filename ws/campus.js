@@ -8,7 +8,6 @@ var service = require('./service');
  * @return {[type]}            [description]
  */
 exports.getIdpBySession = function(s, next) {
-    config.debug(config.cv());
     var url = config.util.format('%s/webapps/campusGateway/sessions/%s.xml',
         config.cv(),
         s

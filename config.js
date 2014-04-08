@@ -127,3 +127,11 @@ var getAppLang = exports.getAppLang = function() {
 var getAppActiva = exports.getAppActiva = function() {
     return 'UOC';
 }
+
+/**
+ * [useCache description]
+ * @return {[type]} [description]
+ */
+var useCache = exports.useCache = function() {
+    return false;
+}
