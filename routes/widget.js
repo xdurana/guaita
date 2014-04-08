@@ -46,7 +46,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         function (next) {
             eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
                 if (err) return next(err);
-                config.log("Eines recuperades");
                 struct.eines = result.eines;                
                 return next();
             });
@@ -54,7 +53,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         function (next) {
             activitats.actives(domainId, domainIdAula, s, function(err, result) {
                 if (err) return next(err);
-                config.log("Activitats recuperades");
                 struct.actives = result.activitats;
                 return next();
             });
@@ -62,7 +60,6 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         function (next) {
             ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
                 if (err) return next(err);
-                config.log("GroupServlet recuperat");
                 struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
                 struct.recursos = result ? result[0].recurs : [];
                 struct.missatgesPendents = result[0]['$']['numMsgPendents'];
@@ -200,7 +197,6 @@ exports.minim = function(anyAcademic, codAssignatura, domainId, codAula, domainI
 
     ws.aulaca.getGroupServlet(domainCode, s, function(err, result) {
         if (err) return next(err);
-        config.log("GroupServlet recuperat");
         struct.nomAssignatura = indicadors.decodeHtmlEntity(result[0].titol[0]);
         struct.recursos = result ? result[0].recurs : [];
         struct.missatgesPendents = result[0]['$']['numMsgPendents'];
