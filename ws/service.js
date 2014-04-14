@@ -1,4 +1,5 @@
 var config = require('../config');
+var iconv = require('iconv');
 
 /**
  * SOAP
@@ -63,6 +64,31 @@ var json = exports.json = function(url, next) {
     }, function (err, response, body) {
         if (err) return next(err);
         try {
+            body = JSON.parse(body);
+        } catch(ex) {
+        }
+        return next(null, body);
+    });
+}
+
+/**
+ * HTTP GET JSON
+ * @param  {[type]}   url
+ * @param  {Function} next
+ * @return {[type]}
+ */
+var json2 = exports.json2 = function(url, next) {
+    config.debug(url);
+    config.request({
+        url: url,
+        method: "GET",
+        headers: {  
+            'Content-Type': 'application/json; charset=iso-8859-1'
+        }
+    }, function (err, response, body) {
+        if (err) return next(err);
+        try {
+            config.debug(response);
             body = JSON.parse(body);
         } catch(ex) {
         }

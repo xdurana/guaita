@@ -88,3 +88,21 @@ var getHTML5 = exports.getHTML5 = function(req, res, next) {
         return res.redirect(format);
     });
 }
+
+/**
+ * [assignatura description]
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
+var assignatura = exports.assignatura = function(req, res, next) {
+    var userId = '212204';
+    ws.mymat.listMaterialsAjax(req.query.s, req.params.codAssignatura, userId, function (err, object) {
+        if (err) return next(err);
+        return req.query.format ? res.json(data) : res.render('materials.html', { 
+            object: object,
+            cv: config.cv()
+        });
+    });
+}

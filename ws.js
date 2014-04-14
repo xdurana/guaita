@@ -8,3 +8,4 @@ var rac = exports.rac = require('./ws/rac');
 
 var myway = exports.myway = require('./ws/myway');
 var dadesexpedient = exports.dadesexpedient = require('./ws/dadesexpedient');
+var mymat = exports.mymat = require('./ws/mymat');

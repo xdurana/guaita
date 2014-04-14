@@ -93,6 +93,7 @@ app.get('/app/guaita/registre', user.authorize, user.registre);
 
 app.get('/app/guaita/materials', user.admin, materials.get);
 app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
+app.get('/app/guaita/materials/assignatura/:codAssignatura', user.admin, materials.assignatura);
 
 app.get('/app/guaita/test/pra', user.admin, test.pra);
 app.get('/app/guaita/test/consultor', user.admin, test.consultor);
