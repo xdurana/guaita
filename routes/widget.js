@@ -27,7 +27,11 @@ var Tercer = require('../models/tercer');
  */
 exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, next) {
 
-    domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
+    if (domainCode.indexOf('ibp') == 0 || domainCode.indexOf('fc') == 0) {
+        domainCode = config.util.format('%s_%s', domainCode, codAula);
+    } else {
+        domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
+    }
 
     var struct = {
         anyAcademic: anyAcademic,
