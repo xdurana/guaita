@@ -1,5 +1,4 @@
 var config = require('../config');
-var iconv = require('iconv');
 
 /**
  * SOAP
