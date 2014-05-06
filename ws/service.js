@@ -103,7 +103,7 @@ var json2 = exports.json2 = function(url, next) {
  * @return {[type]}
  */
 var post = exports.post = function(url, data, next) {
-    config.debug(url);
+    var inici = new Date();
     config.request({
       url: url,
       method: "POST",
@@ -114,6 +114,9 @@ var post = exports.post = function(url, data, next) {
             body = JSON.parse(body);
         } catch (ex) {
         }
+        config.debug(url);
+        //config.debug(data);
+        //config.debug(new Date() - inici);
         return next(null, body);
     });
 }

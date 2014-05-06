@@ -70,22 +70,26 @@ var getAssignaturesPerIdpPerfil = exports.getAssignaturesPerIdpPerfil = function
     );
 
     service.json(url, function(err, object) {
-        async.filter(object.subjects,
-            function(subject, next) {
-                async.detect(object.assignments,
-                    function(assignment, next) {
-                        return next(assignment.userTypeId == userTypeId && assignment.assignmentId.domainId == subject.domainId);
-                    },
-                    function(result) {
-                        return next(typeof(result) != "undefined");
-                    }
-                );
-            },
-            function(filtered) {
-                object.subjects = filtered;
-                return next(null, object);
-            }
-        );
+        if (object.subjects && object.assignments) {
+            async.filter(object.subjects,
+                function(subject, next) {
+                    async.detect(object.assignments,
+                        function(assignment, next) {
+                            return next(assignment.userTypeId == userTypeId && assignment.assignmentId.domainId == subject.domainId);
+                        },
+                        function(result) {
+                            return next(typeof(result) != "undefined");
+                        }
+                    );
+                },
+                function(filtered) {
+                    object.subjects = filtered;
+                    return next(null, object);
+                }
+            );
+        } else {
+            return next(null, object);
+        }
     });
 }
 
