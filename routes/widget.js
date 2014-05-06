@@ -14,9 +14,9 @@ var Tercer = require('../models/tercer');
  * [one description]
  * @param  {[type]}   anyAcademic    [description]
  * @param  {[type]}   codAssignatura [description]
- * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   subjectId       [description]
  * @param  {[type]}   codAula        [description]
- * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   classroomId   [description]
  * @param  {[type]}   domainCode     [description]
  * @param  {[type]}   idp            [description]
  * @param  {[type]}   libs           [description]
@@ -25,7 +25,7 @@ var Tercer = require('../models/tercer');
  * @param  {Function} next       [description]
  * @return {[type]}                  [description]
  */
-exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, next) {
+exports.one = function(anyAcademic, codAssignatura, subjectId, codAula, classroomId, domainCode, idp, libs, up_maximized, s, next) {
 
     if (domainCode.indexOf('ibp') == 0 || domainCode.indexOf('fc') == 0) {
         domainCode = config.util.format('%s_%s', domainCode, codAula);
@@ -36,9 +36,10 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     var struct = {
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
-        domainId: domainId,
+        domainId: subjectId,
+        subjectId: subjectId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
         idp: idp,
         s: s,
@@ -49,14 +50,14 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
     async.parallel([
         function (next) {
-            eines.aulaidp(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, false, function(err, result) {
+            eines.aulaidp(anyAcademic, codAssignatura, subjectId, codAula, classroomId, domainCode, idp, s, false, function(err, result) {
                 if (err) return next(err);
                 struct.eines = result.eines;                
                 return next();
             });
         },
         function (next) {
-            activitats.actives(domainId, domainIdAula, s, function(err, result) {
+            activitats.actives(subjectId, classroomId, s, function(err, result) {
                 if (err) return next(err);
                 struct.actives = result.activitats;
                 return next();
@@ -73,7 +74,7 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 
                 var idTipoPresent = result[0]['$']['idTipoPresent'];
                 struct.isAulaca = idTipoPresent.match(/AULACA/) ? true : false;
-                struct.urlAula = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+                struct.urlAula = aules.getLinkAula(s, struct.isAulaca, subjectId, classroomId, domainCode);
 
                 struct.color = result[0].color[0];
                 struct.perfils = result ? (result[0].perfils ? result[0].perfils : []) : [];
@@ -106,10 +107,10 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
             });
         },
         function (next) {
-            ws.aulaca.isDocent(s, idp, domainId, function(err, result) {
+            ws.aulaca.isDocent(s, idp, subjectId, function(err, result) {
                 if (err) return next(err);
                 struct.docent = result;
-                struct.urlAvaluacio = indicadors.getUrlRAC(s, domainIdAula, result);
+                struct.urlAvaluacio = indicadors.getUrlRAC(s, classroomId, result);
                 return next();
             });
         }
@@ -154,10 +155,10 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
     }
 
     var getEinesActivitat = function(activitat, next) {
-        activitat.link = aules.getLinkActivitat(s, struct.isAulaca, domainIdAula, struct.domainCode, activitat.eventId);
+        activitat.link = aules.getLinkActivitat(s, struct.isAulaca, subjectId, classroomId, struct.domainCode, activitat.eventId);
         return next();
         calcularIndicadorsEines(activitat.eines, struct.recursos);
-        ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, activitat.eventId, s, function(err, result) {
+        ws.aulaca.getEinesPerActivitat(subjectId, classroomId, activitat.eventId, s, function(err, result) {
             if (err) return next(err);
             activitat.eines = result;
             activitat.startDateStr = activitat.startDateStr.replace(/-/g, '/');
@@ -171,9 +172,9 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
  * [minim description]
  * @param  {[type]}   anyAcademic    [description]
  * @param  {[type]}   codAssignatura [description]
- * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   subjectId       [description]
  * @param  {[type]}   codAula        [description]
- * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   classroomId   [description]
  * @param  {[type]}   domainCode     [description]
  * @param  {[type]}   idp            [description]
  * @param  {[type]}   libs           [description]
@@ -182,16 +183,17 @@ exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
  * @param  {Function} next           [description]
  * @return {[type]}                  [description]
  */
-exports.minim = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, libs, up_maximized, s, next) {
+exports.minim = function(anyAcademic, codAssignatura, subjectId, codAula, classroomId, domainCode, idp, libs, up_maximized, s, next) {
 
     domainCode = config.util.format('%s_%s', domainCode, parseInt(codAula) > 9 ? codAula : "0" + codAula);
 
     var struct = {
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
-        domainId: domainId,
+        domainId: subjectId,
+        subjectId: subjectId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
         idp: idp,
         s: s,
@@ -210,7 +212,7 @@ exports.minim = function(anyAcademic, codAssignatura, domainId, codAula, domainI
 
         var idTipoPresent = result[0]['$']['idTipoPresent'];
         struct.isAulaca = idTipoPresent.match(/AULACA/) ? true : false;
-        struct.urlAula = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
+        struct.urlAula = aules.getLinkAula(s, struct.isAulaca, subjectId, classroomId, domainCode);
 
         struct.color = result[0].color[0];
         struct.perfils = result ? (result[0].perfils ? result[0].perfils : []) : [];

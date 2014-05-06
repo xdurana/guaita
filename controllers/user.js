@@ -133,7 +133,7 @@ var calendar = exports.calendar = function (req, res, next) {
  * @return {[type]}        [description]
  */
 var registre = exports.registre = function (req, res, next) {
-    ws.lrs.registraGeneric(req.query.idp, req.query.perfil, req.query.app, req.query.component, req.query.domainId, req.query.domainIdAula, req.query.eventId, req.query.url, req.query.s);
+    ws.lrs.registraGeneric(req.query.idp, req.query.perfil, req.query.app, req.query.component, req.query.domainId, req.query.classroomId, req.query.eventId, req.query.url, req.query.s);
     res.json({
         status: 200,
         url: req.url

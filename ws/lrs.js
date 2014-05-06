@@ -31,13 +31,13 @@ var registra = function(statement) {
  * @param  {[type]} app          [description]
  * @param  {[type]} component    [description]
  * @param  {[type]} domainId     [description]
- * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} classroomId [description]
  * @param  {[type]} eventId      [description]
  * @param  {[type]} url          [description]
  * @param  {[type]} s            [description]
  * @return {[type]}              [description]
  */
-var registraGeneric = exports.registraGeneric = function(idp, perfil, app, component, domainId, domainIdAula, eventId, url, s) {
+var registraGeneric = exports.registraGeneric = function(idp, perfil, app, component, domainId, classroomId, eventId, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -50,7 +50,7 @@ var registraGeneric = exports.registraGeneric = function(idp, perfil, app, compo
                 'uoc:lrs:app': app,
                 'uoc:lrs:component': component,
                 'uoc:lrs:subject:id': domainId,
-                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:classroom:id': classroomId,
                 'uoc:lrs:activity:id': eventId,
                 'uoc:lrs:perfil': perfil,
                 'uoc:lrs:session:id': s
@@ -106,11 +106,11 @@ var registraCalendari = exports.registraCalendari = function(idp, perfil, url, s
  * [registraWidget description]
  * @param  {[type]} idp          [description]
  * @param  {[type]} domainId     [description]
- * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} classroomId [description]
  * @param  {[type]} s            [description]
  * @return {[type]}              [description]
  */
-var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAula, url, s) {
+var registraWidget = exports.registraWidget = function(idp, domainId, classroomId, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -123,7 +123,7 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
                 'uoc:lrs:app': 'guaita',
                 'uoc:lrs:component': 'widget',
                 'uoc:lrs:subject:id': domainId,
-                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:classroom:id': classroomId,
                 'uoc:lrs:session:id': s
             }
         },
@@ -144,13 +144,13 @@ var registraWidget = exports.registraWidget = function(idp, domainId, domainIdAu
  * @param  {[type]} idp          [description]
  * @param  {[type]} app          [description]
  * @param  {[type]} domainId     [description]
- * @param  {[type]} domainIdAula [description]
+ * @param  {[type]} classroomId [description]
  * @param  {[type]} eventId      [description]
  * @param  {[type]} pid          [description]
  * @param  {[type]} s            [description]
  * @return {[type]}              [description]
  */
-var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainIdAula, eventId, pid, url, s) {
+var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, classroomId, eventId, pid, url, s) {
     registra({
         actor: {
             objectType: "Agent",
@@ -163,7 +163,7 @@ var registraHTML5 = exports.registraHTML5 = function(idp, app, domainId, domainI
                 'uoc:lrs:app': 'guaita',
                 'uoc:lrs:component': 'anotacions',
                 'uoc:lrs:subject:id': domainId,
-                'uoc:lrs:classroom:id': domainIdAula,
+                'uoc:lrs:classroom:id': classroomId,
                 'uoc:lrs:activity:id': eventId,
                 'uoc:lrs:session:id': s
             }

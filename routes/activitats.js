@@ -7,11 +7,11 @@ var ws = require('../ws');
 /**
  * Activitats d'una aula
  * @param domainId
- * @param domainIdAula
+ * @param classroomId
  * @param s
  * @param resum
  */
-exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, s, resum, next) {
+exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, s, resum, next) {
 
 	var struct = {
 		s: s,
@@ -19,17 +19,17 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         codAssignatura: codAssignatura,
 		domainId: domainId,
         codAula: codAula,
-		domainIdAula: domainIdAula,
+		classroomId: classroomId,
         domainCode: domainCode,
 		activitats: [
 		]
 	}
 
-    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+    ws.aulaca.getActivitatsAula(domainId, classroomId, s, function(err, result) {
         if (err) return next(err);
         struct.activitats = result;
         if (resum && struct.activitats) {
-            async.each(struct.activitats, resumeix.bind(null, domainIdAula), function(err) {
+            async.each(struct.activitats, resumeix.bind(null, classroomId), function(err) {
                 return next(err, struct);
             });
         } else {
@@ -37,7 +37,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         }
     });
 
-	var resumeix = function(domainIdAula, activitat, next) {
+	var resumeix = function(classroomId, activitat, next) {
         activitat.nom = activitat.name;
         activitat.nom = indicadors.decodeHtmlEntity(activitat.nom);
 		activitat.resum = {
@@ -48,7 +48,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 				participacions: config.nc()
 			}
 		}
-        ws.lrs.byactivityandclassroom(domainIdAula, activitat.eventId, s, function(err, result) {
+        ws.lrs.byactivityandclassroom(classroomId, activitat.eventId, s, function(err, result) {
             if (err) return next(err);
             activitat.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return next();
@@ -59,10 +59,10 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 /**
  * Activitats d'un idp
  * @param domainId
- * @param domainIdAula
+ * @param classroomId
  * @param idp
  */
-exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
+exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, idp, s, next) {
 
 	var struct = {
 		s: s,
@@ -70,7 +70,7 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
 		idp: idp,
 		activitats: [
@@ -117,7 +117,7 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
         });
 	}
 
-	ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+	ws.aulaca.getActivitatsAula(domainId, classroomId, s, function(err, result) {
         if (err) return next(null, struct);
         try {
             struct.activitats = result;
@@ -133,9 +133,9 @@ exports.idp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdA
 /**
  * Indicadors d'avaluació d'una aula
  * @param domainId
- * @param domainIdAula
+ * @param classroomId
  */
-exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, s, next) {
+exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, s, next) {
 
 	var struct = {
 		s: s,
@@ -143,7 +143,7 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
 		activitats: [
 		]
@@ -198,21 +198,21 @@ exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, dom
 /**
  * Activitat actual d'una aula
  * @param domainId
- * @param domainIdAula
+ * @param classroomId
  * @param s
  * @param resum
  */
-exports.actives = function(domainId, domainIdAula, s, next) {
+exports.actives = function(domainId, classroomId, s, next) {
 
     var struct = {
         s: s,
         domainId: domainId,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         activitats: [
         ]
     }
 
-    ws.aulaca.getActivitatsAula(domainId, domainIdAula, s, function(err, result) {
+    ws.aulaca.getActivitatsAula(domainId, classroomId, s, function(err, result) {
         if (err) return next(err);
         if (result) {
             result.forEach(function(activitat) {

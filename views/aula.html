@@ -83,7 +83,7 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
+                                        <tbody class="acc activ-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-classroomId="{{ aula.classroomId }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
@@ -129,7 +129,7 @@
                                             </tr>
                                         </thead>
                                         {% for estudiant in aula.estudiants %}
-                                            <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-domainIdAula="{{ aula.domainIdAula }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
+                                            <tbody class="acc tools-aula-acc" data-guaita-idp="{{ estudiant.idp }}" data-guaita-assignatura="{{ aula.codAssignatura }}" data-guaita-domainId="{{ aula.domainId }}" data-guaita-anyacademic="{{ aula.anyAcademic }}" data-guaita-codAula="{{ aula.codAula }}" data-guaita-classroomId="{{ aula.classroomId }}" data-guaita-domainCode="{{ aula.domainCode }}" data-guaita-s="{{ aula.s }}">
                                             <tr>
                                                 <td>
                                                     <span class="user-item">
@@ -154,7 +154,7 @@
 
                             <div class="tabs-links-wrap">
                                 <div class="tabs-links">                                    
-                                    <a href="http://cv.uoc.edu/webapps/rac/RacInici.action?s={{ aula.s }}&domainId={{ aula.domainIdAula }}" class="lnk-extern">{{ t('ves_rac') }}<i class="icon"></i></a>
+                                    <a href="http://cv.uoc.edu/webapps/rac/RacInici.action?s={{ aula.s }}&domainId={{ aula.classroomId }}" class="lnk-extern">{{ t('ves_rac') }}<i class="icon"></i></a>
                                     <a href="{{ aula.link }}" class="lnk-extern">{{ t('ves_aula') }}<i class="icon"></i></a>
                                     <a href="http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico={{ aula.anyAcademic }}&cod_asignatura={{ aula.codAssignatura }}&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S" class="lnk-extern">{{ t('fitxa_assignatura') }}<i class="icon"></i></a>
                                     <a href="{{ aula.linkedicioaula }}" class="lnk-extern">{{ t('disseny_aula') }}<i class="icon"></i></a>

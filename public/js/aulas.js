@@ -126,8 +126,8 @@ var UOCAulas = (function($) {
 
         var loadclicks = function(cell) {            
             var idp = $(cell).attr('data-guaita-idp');
-            var domainidaula = $(cell).attr('data-guaita-domainidaula');
-            var url = '{0}/lrs/idp/{1}/aules/{2}?s={3}'.format(baseURL, idp, domainidaula, s);
+            var classroomId = $(cell).attr('data-guaita-classroomId');
+            var url = '{0}/lrs/idp/{1}/aules/{2}?s={3}'.format(baseURL, idp, classroomId, s);
             var c1 = $(cell).find('.clics-estudiant');
             var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.clics-estudiant');
             getcount(url, c1, c2);
@@ -135,8 +135,8 @@ var UOCAulas = (function($) {
 
         var loadlastclassroomconnection = function(cell) {
             var idp = $(cell).attr('data-guaita-idp');
-            var domainidaula = $(cell).attr('data-guaita-domainidaula');
-            var url = '{0}/lrs/idp/{1}/aules/{2}/last?s={3}'.format(baseURL, idp, domainidaula, s);
+            var classroomId = $(cell).attr('data-guaita-classroomId');
+            var url = '{0}/lrs/idp/{1}/aules/{2}/last?s={3}'.format(baseURL, idp, classroomId, s);
             var c1 = $(cell).find('.connexio-aula-estudiant');
             var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.connexio-aula-estudiant');
             getdate(url, c1, c2);
@@ -144,8 +144,8 @@ var UOCAulas = (function($) {
 
         var loadlastclassroomwidgetconnection = function(cell) {
             var idp = $(cell).attr('data-guaita-idp');
-            var domainidaula = $(cell).attr('data-guaita-domainidaula');
-            var url = '{0}/lrs/idp/{1}/aules/{2}/widget?s={3}'.format(baseURL, idp, domainidaula, s);
+            var classroomId = $(cell).attr('data-guaita-classroomId');
+            var url = '{0}/lrs/idp/{1}/aules/{2}/widget?s={3}'.format(baseURL, idp, classroomId, s);
             var c1 = $(cell).find('.connexio-widget-estudiant');
             var c2 = $('.tools-aula-acc[data-guaita-idp="' + idp + '"]').find('.connexio-widget-estudiant');
             getdate(url, c1, c2);
@@ -485,7 +485,7 @@ var UOCAulas = (function($) {
         return '{0}/aules/{1}/{2}/{3}'.format(
             subjectBaseURL(block),
             $(block).attr('data-guaita-codaula'),
-            $(block).attr('data-guaita-domainIdAula'),
+            $(block).attr('data-guaita-classroomId'),
             $(block).attr('data-guaita-domainCode')
         );
     }
@@ -523,7 +523,7 @@ var UOCAulas = (function($) {
             ev.preventDefault();
             var block = $(this).closest('.acc');
             var domainId = $(block).attr('data-guaita-domainId');
-            var domainIdAula = $(block).attr('data-guaita-domainIdAula');
+            var classroomId = $(block).attr('data-guaita-classroomId');
 
             var head = $(acc).find('.block-head');
             var codAssignatura = $(head).attr('data-guaita-assignatura');

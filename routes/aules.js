@@ -16,14 +16,15 @@ var widget = require('./widget');
 
 var ws = require('../ws');
 
-var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, perfil, next) {
+var all = exports.all = function(anyAcademic, codAssignatura, subjectId, idp, s, perfil, next) {
 
     var struct = {
         s: s,
         idp: idp,
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
-        domainId: domainId,
+        domainId: subjectId,
+        subjectId: subjectId,
         dataLliurament: config.nc(),
         linkfitxaassignatura: config.util.format("http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=%s&cod_asignatura=%s&idioma=CAT&pagina=PD_PREV_PORTAL&cache=S", anyAcademic, codAssignatura),
         isAulaca: false,
@@ -31,7 +32,7 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
         ]
     }
 
-    ws.aulaca.getAulesAssignatura(domainId, idp, s, function(err, aules) {
+    ws.aulaca.getAulesAssignatura(subjectId, idp, s, function(err, aules) {
         if (err) return next(err);
         async.parallel([
             function (next) {
@@ -39,30 +40,10 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
                     async.each(aules, procesa.bind(null, anyAcademic, codAssignatura, idp, s, perfil), function(err) {
                         if (err) return next(err);
                         struct.aules.sort(ordenaAules);
-                        struct.linkedicioaula = getLinkDissenyAula(s, struct.aules.length > 0 ? struct.aules[0].isAulaca : true, domainId);
+                        struct.linkedicioaula = getLinkDissenyAula(s, struct.aules.length > 0 ? struct.aules[0].isAulaca : true, subjectId, subjectId);
                         return next();
                     });
                 } else return next();
-            },
-            function (next) {
-                return next();
-                ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, 1, function(err, result) {
-                    if (err) return next(err);
-                    if (result.out.ActivitatVO) {
-                        result.out.ActivitatVO.forEach(function(activitat) {
-                            if (struct.dataLliurament == config.nc() && new Date(activitat.dataLliurament) > new Date()) {
-                                struct.dataLliurament = indicadors.getDataLliurament(activitat.dataLliurament);
-                            }
-                        })
-                    }
-                    return next();
-                });
-            },
-            function (next) {
-                return next();
-                assignatures.resum(s, idp, anyAcademic, struct, codAssignatura, domainId, function(err, result) {
-                    return next(err);
-                });
             }
         ], function(err, result) {
             return next(err, struct);
@@ -86,15 +67,16 @@ var all = exports.all = function(anyAcademic, codAssignatura, domainId, idp, s, 
         classroom.codAula = classroom.domainCode.slice(-1);
         classroom.color = 'FF2600';
         classroom.codAssignatura = classroom.codi;
-        classroom.domainIdAula = classroom.domainId;
-        classroom.link = aules.getLinkAula(s, classroom.isAulaca, classroom.domainIdAula, classroom.domainCode);
+        classroom.subjectId = classroom.domainFatherId;
+        classroom.classroomId = classroom.domainId;
+        classroom.link = aules.getLinkAula(s, classroom.isAulaca, classroom.subjectId, classroom.classroomId, classroom.domainCode);
         classroom.linkdetall = config.util.format(
             '/app/guaita/assignatures/%s/%s/%s/aules/%s/%s/%s?s=%s&idp=%s',
             anyAcademic,
             classroom.codAssignatura,
-            classroom.domainFatherId,
+            classroom.subjectId,
             classroom.codAula,
-            classroom.domainIdAula,
+            classroom.classroomId,
             classroom.domainCode,
             s,
             idp
@@ -195,22 +177,23 @@ var resum = exports.resum = function(s, idp, anyAcademic, codAssignatura, classr
  * @param  {[type]}   codAssignatura [description]
  * @param  {[type]}   domainId       [description]
  * @param  {[type]}   codAula        [description]
- * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   classroomId   [description]
  * @param  {[type]}   domainCode     [description]
  * @param  {[type]}   idp            [description]
  * @param  {[type]}   s              [description]
  * @param  {Function} next           [description]
  * @return {[type]}                  [description]
  */
-var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
+var one = exports.one = function(anyAcademic, codAssignatura, subjectId, codAula, classroomId, domainCode, idp, s, next) {
 
 	var struct = {
 		s: s,
 		anyAcademic: anyAcademic,
 		codAssignatura: codAssignatura,
-        domainId: domainId,
+        domainId: subjectId,
+        subjectId: subjectId,
 		codAula: codAula,
-		domainIdAula: domainIdAula,
+		classroomId: classroomId,
         domainCode: domainCode,
         totalEstudiants: 0,
         link: '#',
@@ -229,8 +212,8 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
                 try {
                     struct.color = result[0].color[0];
                     struct.isAulaca = result ? result[0]['$']['idTipoPresent'] == 'AULACA' : false;
-                    struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
-                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
+                    struct.link = aules.getLinkAula(s, struct.isAulaca, subjectId, classroomId, domainCode);
+                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, subjectId, classroomId);
                 } catch(e) {
                 }
                 return next();
@@ -244,7 +227,7 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
             });
         },
 		function (next) {
-			estudiants.all(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, function(err, result) {
+			estudiants.all(anyAcademic, codAssignatura, codAula, classroomId, idp, s, function(err, result) {
 				if (err) return next(err);
                 struct.estudiants = result;
                 struct.totalEstudiants = struct.estudiants ? struct.estudiants.length : 0;
@@ -267,24 +250,25 @@ var one = exports.one = function(anyAcademic, codAssignatura, domainId, codAula,
  * [avaluacio description]
  * @param  {[type]}   anyAcademic    [description]
  * @param  {[type]}   codAssignatura [description]
- * @param  {[type]}   domainId       [description]
+ * @param  {[type]}   subjectId       [description]
  * @param  {[type]}   codAula        [description]
- * @param  {[type]}   domainIdAula   [description]
+ * @param  {[type]}   classroomId   [description]
  * @param  {[type]}   domainCode     [description]
  * @param  {[type]}   idp            [description]
  * @param  {[type]}   s              [description]
  * @param  {Function} next           [description]
  * @return {[type]}                  [description]
  */
-var avaluacio = exports.avaluacio = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
+var avaluacio = exports.avaluacio = function(anyAcademic, codAssignatura, subjectId, codAula, classroomId, domainCode, idp, s, next) {
 
     var struct = {
         s: s,
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
-        domainId: domainId,
+        domainId: subjectId,
+        subjectId: subjectId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
         totalEstudiants: 0,
         link: '#',
@@ -303,8 +287,8 @@ var avaluacio = exports.avaluacio = function(anyAcademic, codAssignatura, domain
                 try {
                     struct.color = result[0].color[0];
                     struct.isAulaca = result ? result[0]['$']['idTipoPresent'] == 'AULACA' : false;
-                    struct.link = aules.getLinkAula(s, struct.isAulaca, domainIdAula, domainCode);
-                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, domainIdAula);
+                    struct.link = aules.getLinkAula(s, struct.isAulaca, subjectId, classroomId, domainCode);
+                    struct.linkedicioaula = aules.getLinkDissenyAula(s, struct.isAulaca, subjectId, classroomId);
                 } catch(e) {
                 }
                 return next();
@@ -337,31 +321,6 @@ var avaluacio = exports.avaluacio = function(anyAcademic, codAssignatura, domain
 }
 
 /**
- * [getLinkAula description]
- * @param  {[type]}  s          [description]
- * @param  {Boolean} isAulaca   [description]
- * @param  {[type]}  domainId   [description]
- * @param  {[type]}  domainCode [description]
- * @return {[type]}             [description]
- */
-var getLinkAula = exports.getLinkAula = function(s, isAulaca, domainId, domainCode) { 
-    return isAulaca ?
-    config.util.format(
-        '%s/Classroom.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
-        config.aulacas(),
-        s,
-        domainId
-    ) :
-    config.util.format(
-        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
-        config.cv(),
-        s,
-        domainId,
-        domainCode
-    );
-}
-
-/**
  * [isAulaca description]
  * @param  {[type]}  aula [description]
  * @return {Boolean}      [description]
@@ -371,24 +330,53 @@ var isAulaca = exports.isAulaca = function(aula) {
 }
 
 /**
+ * [getLinkAula description]
+ * @param  {[type]}  s          [description]
+ * @param  {Boolean} isAulaca   [description]
+ * @param  {[type]}  domainId   [description]
+ * @param  {[type]}  domainCode [description]
+ * @return {[type]}             [description]
+ */
+var getLinkAula = exports.getLinkAula = function(s, isAulaca, subjectId, classroomId, domainCode) {
+    return isAulaca ?
+    config.util.format(
+        '%s/Classroom.action?s=%s&domainId=%s&subjectId=%s&classroomId=%s&javascriptDisabled=false&origin=guaita',
+        config.aulacas(),
+        s,
+        classroomId,
+        subjectId,
+        classroomId
+    ) :
+    config.util.format(
+        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
+        config.cv(),
+        s,
+        classroomId,
+        domainCode
+    );
+}
+
+/**
  * [getLinkActivitat description]
  * @param  {[type]}  s          [description]
  * @param  {Boolean} isAulaca   [description]
  * @param  {[type]}  domainId   [description]
  * @param  {[type]}  domainCode [description]
- * @param  {[type]}  activityId [description]
+ * @param  {[type]}  eventId [description]
  * @return {[type]}             [description]
  */
-var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId, domainCode, activityId) {
+var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, subjectId, classroomId, domainCode, eventId) {
     return isAulaca ?
     config.util.format(
-        '%s/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false&origin=guaita',
+        '%s/Classroom.action?s=%s&domainId=%s&subjectId=%s&classroomId=%s&activityId=%s&javascriptDisabled=false&origin=guaita',
         config.aulacas(),
         s,
-        domainId,
-        activityId
+        classroomId,
+        subjectId,
+        classroomId,
+        eventId
     ) :
-    getLinkAula(s, isAulaca, domainId, domainCode);
+    getLinkAula(s, isAulaca, subjectId, classroomId, domainCode);
 }
 
 /**
@@ -398,18 +386,20 @@ var getLinkActivitat = exports.getLinkActivitat = function(s, isAulaca, domainId
  * @param  {[type]}  domainId [description]
  * @return {[type]}           [description]
  */
-var getLinkDissenyAula = exports.getLinkDissenyAula = function(s, isAulaca, domainId) {
+var getLinkDissenyAula = exports.getLinkDissenyAula = function(s, isAulaca, subjectId, classroomId) {
     return isAulaca ?
     config.util.format(
-        '%s/Edit.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
+        '%s/Edit.action?s=%s&domainId=%s&subjectId=%s&classroomId=%s&javascriptDisabled=false&origin=guaita',
         config.aulacas(),
         s,
-        domainId
+        classroomId,
+        subjectId,
+        classroomId
     ) :
     config.util.format(
         '%s/webapps/classroom/classroom.do?nav=dissenydomini_inici&s=%s&domainId=%s&domainTypeId=AULA&idLang=a&ajax=true',
         config.cv(),
         s,
-        domainId
+        classroomId
     );
 }

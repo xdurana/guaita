@@ -23,7 +23,7 @@ var getToolDescription = function(eina) {
     return eina.translatedDescription ? eina.translatedDescription : eina.description;
 }
 
-exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, next) {
+exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, idp, s, next) {
 
 	var struct = {
 		s: s,
@@ -31,7 +31,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
 		eines: [
 		]
@@ -42,7 +42,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 		eina.resum = indicadors.getObjectComunicacio();
         async.parallel([
             function(next) {
-                ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
+                ws.lrs.bytoolandclassroom(classroomId, eina.resourceId, s, function(err, result) {
                     if (err) return next(err);
                     eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                     return next();
@@ -53,7 +53,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
         });
 	}
 
-	ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+	ws.aulaca.getEinesPerAula(domainId, classroomId, s, function(err, result) {
 		if (err) return next(err);
 		struct.eines = result;
         try {
@@ -66,7 +66,7 @@ exports.aula = function(anyAcademic, codAssignatura, domainId, codAula, domainId
 	});
 }
 
-exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, eventId, idp, s, next) {
+exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, eventId, idp, s, next) {
 
     var struct = {
     	s: s,
@@ -74,33 +74,33 @@ exports.activitat = function(anyAcademic, codAssignatura, domainId, codAula, dom
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
         eventId: eventId,
         eines: [
         ]
     };
 
-	var getResumComunicacio = function (domainIdAula, eina, next) {
+	var getResumComunicacio = function (classroomId, eina, next) {
 		eina.nom = getToolDescription(eina);
 		eina.resum = indicadors.getObjectComunicacio();
-        ws.lrs.bytoolandclassroom(domainIdAula, eina.resourceId, s, function(err, result) {
+        ws.lrs.bytoolandclassroom(classroomId, eina.resourceId, s, function(err, result) {
             if (err) return next(err);
             eina.resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
             return next();
         });
 	}
 
-    ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
+    ws.aulaca.getEinesPerActivitat(domainId, classroomId, eventId, s, function(err, result) {
 		if (err) return next(err);
 		struct.eines = result || [];
-		async.each(struct.eines, getResumComunicacio.bind(null, domainIdAula), function(err) {
+		async.each(struct.eines, getResumComunicacio.bind(null, classroomId), function(err) {
 			return next(err, struct);
 		});
     });
 }
 
-exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, eventId, idp, s, next) {
+exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, eventId, idp, s, next) {
 
 	var struct = {
 		s: s,
@@ -108,7 +108,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
 		eventId: eventId,
 		idp: idp,
@@ -126,7 +126,7 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
         });
 	}
 
-	ws.aulaca.getEinesPerActivitat(domainId, domainIdAula, eventId, s, function(err, result) {
+	ws.aulaca.getEinesPerActivitat(domainId, classroomId, eventId, s, function(err, result) {
         if (err) return next(err);
         struct.eines = result || [];
         async.each(struct.eines, getResumComunicacioEstudiant, function(err) {
@@ -135,14 +135,14 @@ exports.activitatEstudiant = function(anyAcademic, codAssignatura, domainId, cod
 	});
 }
 
-exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domainIdAula, domainCode, idp, s, estadistiques, next) {
+exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, classroomId, domainCode, idp, s, estadistiques, next) {
 
 	var struct = {
         anyAcademic: anyAcademic,
         codAssignatura: codAssignatura,
         domainId: domainId,
         codAula: codAula,
-        domainIdAula: domainIdAula,
+        classroomId: classroomId,
         domainCode: domainCode,
         s: s,
 		idp: idp,
@@ -154,7 +154,7 @@ exports.aulaidp = function(anyAcademic, codAssignatura, domainId, codAula, domai
 
     async.parallel([
         function (next) {
-            ws.aulaca.getEinesPerAula(domainId, domainIdAula, s, function(err, result) {
+            ws.aulaca.getEinesPerAula(domainId, classroomId, s, function(err, result) {
                 if (err) return next(err);
                 struct.eines = result || [];
                 async.each(struct.eines, getResumComunicacioIdp, function(err) {

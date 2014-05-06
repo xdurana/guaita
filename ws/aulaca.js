@@ -112,16 +112,16 @@ var getAulesAssignatura = exports.getAulesAssignatura = function(domainId, idp, 
 /**
  * [getActivitatsAula description]
  * @param  {[type]}   domainId     [description]
- * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   classroomId [description]
  * @param  {[type]}   s            [description]
  * @param  {Function} next         [description]
  * @return {[type]}                [description]
  */
-var getActivitatsAula = exports.getActivitatsAula = function(domainId, domainIdAula, s, next) {
+var getActivitatsAula = exports.getActivitatsAula = function(domainId, classroomId, s, next) {
     var url = config.util.format('%s/assignatures/%s/aules/%s/activitats?s=%s',
         config.aulaca(),
         domainId,
-        domainIdAula,
+        classroomId,
         s
     );
     service.json(url, function(err, object) {
@@ -132,17 +132,17 @@ var getActivitatsAula = exports.getActivitatsAula = function(domainId, domainIdA
 /**
  * [getEinesPerActivitat description]
  * @param  {[type]}   domainId     [description]
- * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   classroomId [description]
  * @param  {[type]}   eventId      [description]
  * @param  {[type]}   s            [description]
  * @param  {Function} next         [description]
  * @return {[type]}                [description]
  */
-var getEinesPerActivitat = exports.getEinesPerActivitat = function(domainId, domainIdAula, eventId, s, next) {
+var getEinesPerActivitat = exports.getEinesPerActivitat = function(domainId, classroomId, eventId, s, next) {
     var url = config.util.format('%s/assignatures/%s/aules/%s/activitats/%s/eines?s=%s',
         config.aulaca(),
         domainId,
-        domainIdAula,
+        classroomId,
         eventId,
         s
     );
@@ -154,16 +154,16 @@ var getEinesPerActivitat = exports.getEinesPerActivitat = function(domainId, dom
 /**
  * [getEinesPerAula description]
  * @param  {[type]}   domainId     [description]
- * @param  {[type]}   domainIdAula [description]
+ * @param  {[type]}   classroomId [description]
  * @param  {[type]}   s            [description]
  * @param  {Function} next         [description]
  * @return {[type]}                [description]
  */
-var getEinesPerAula = exports.getEinesPerAula = function(domainId, domainIdAula, s, next) {
+var getEinesPerAula = exports.getEinesPerAula = function(domainId, classroomId, s, next) {
     var url = config.util.format('%s/assignatures/%s/aules/%s/eines?s=%s',
         config.aulaca(),
         domainId,
-        domainIdAula,
+        classroomId,
         s
     );
     service.json(url, function(err, object) {

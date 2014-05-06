@@ -44,20 +44,20 @@ Tercer.prototype.getFitxaUserId = function(userid, idp, s, next) {
     ));
 }
 
-Tercer.prototype.getResumActivitatAula = function(idp, domainIdAula, s, next) {
+Tercer.prototype.getResumActivitatAula = function(idp, classroomId, s, next) {
 
     var resum = indicadors.getObjectComunicacio();
 
     async.parallel([
         function(next) {
-            ws.lrs.byidpandclassroom(idp, domainIdAula, s, function(err, result) {
+            ws.lrs.byidpandclassroom(idp, classroomId, s, function(err, result) {
                 if (err) return next(err);
                 resum.comunicacio.clicsAcumulats = result ? result.value : config.nc();
                 return next();
             });
         },
         function(next) {
-            ws.lrs.byidpandclassroomlast(idp, domainIdAula, s, function(err, result) {
+            ws.lrs.byidpandclassroomlast(idp, classroomId, s, function(err, result) {
                 if (err) return next(err);
                 resum.comunicacio.ultimaConnexio = indicadors.getUltimaConnexio(result);
                 return next();
@@ -71,7 +71,7 @@ Tercer.prototype.getResumActivitatAula = function(idp, domainIdAula, s, next) {
             });
         },
         function(next) {
-            ws.lrs.byidpandclassroomandwidgetlast(idp, domainIdAula, s, function(err, result) {
+            ws.lrs.byidpandclassroomandwidgetlast(idp, classroomId, s, function(err, result) {
                 if (err) return next(err);
                 resum.comunicacio.ultimaConnexioWidget = indicadors.getUltimaConnexio(result);
                 return next();

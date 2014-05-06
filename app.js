@@ -81,13 +81,13 @@ app.get('/app/guaita/assignatures', user.authorize, user.subjects);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules', user.authorize, subject.classroom);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/estadistiques', user.authorize, subject.estadistiques);
 
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode', user.authorize, classroom.get);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/eines', user.authorize, classroom.getTools);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats', user.authorize, classroom.getActivities);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/widget', user.authorize, classroom.getWidget);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:domainIdAula/:domainCode/rac', user.authorize, classroom.rac);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode', user.authorize, classroom.get);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/eines', user.authorize, classroom.getTools);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/activitats', user.authorize, classroom.getActivities);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/widget', user.authorize, classroom.getWidget);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/rac', user.authorize, classroom.rac);
 
 app.get('/app/guaita/registre', user.authorize, user.registre);
 

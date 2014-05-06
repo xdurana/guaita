@@ -18,7 +18,7 @@ var Tercer = require('../models/tercer');
  * @param anyAcademic
  * @param codAula
  */
-exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, s, next) {
+exports.all = function(anyAcademic, codAssignatura, codAula, classroomId, idp, s, next) {
 
 	var estudiants = [
 	];
@@ -51,7 +51,7 @@ exports.all = function(anyAcademic, codAssignatura, codAula, domainIdAula, idp, 
         var tercer = new Tercer(indicadors.getValor(estudiant.tercer));
         async.parallel([
             function (next) {
-                tercer.getResumActivitatAula(tercer.idp, domainIdAula, s, function(err, resum) {
+                tercer.getResumActivitatAula(tercer.idp, classroomId, s, function(err, resum) {
                     tercer.resum = resum;
                     return next();
                 });

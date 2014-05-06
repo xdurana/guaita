@@ -1,5 +1,6 @@
 var config = require('../config');
 var indicadors = require('../routes/indicadors');
+var aules = require('../routes/aules');
 var Event = require('./event');
 
 function Activity(activitat, aula, s) {
@@ -11,16 +12,11 @@ function Activity(activitat, aula, s) {
     this.aula = aula.nom;
     this.color = aula.color;
     this.name = indicadors.decodeHtmlEntity(activitat.name);
+    this.subjectId = aula.domainFatherId;
+    this.classroomId = aula.domainId;
     this.domainId = aula.domainId;
-
-    this.link = aula.aulaca ? config.util.format(
-        '%s/Classroom.action?s=%s&domainId=%s&activityId=%s&javascriptDisabled=false&origin=guaita',
-        config.aulacas(),
-        s,
-        aula.domainId,
-        this.eventId
-    ) : aula.link;
-
+    this.link = aula.aulaca ? aules.getLinkActivitat(s, true, this.subjectId, this.classroomId, this.domainCode, this.eventId) : aula.link;
+    
     this.events = [];
 
     if (activitat.startDate) {

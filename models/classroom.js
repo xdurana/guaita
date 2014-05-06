@@ -1,4 +1,5 @@
 var config = require('../config');
+var aules = require('../routes/aules');
 
 function Classroom(c, s, assignments) {
 
@@ -12,20 +13,9 @@ function Classroom(c, s, assignments) {
     this.nom = c.title;
     this.aulaca = this.presentation == 'AULACA';
     this.activitats = [];
-
-    this.link = this.aulaca ? config.util.format(
-        '%s/Classroom.action?s=%s&domainId=%s&javascriptDisabled=false&origin=guaita',
-        config.aulacas(),
-        s,
-        this.domainId
-    ) :
-    config.util.format(
-        '%s/webapps/classroom/081_common/jsp/iniciAula.jsp?s=%s&domainId=%s&domainCode=%s&img=aules&preview=1&idLang=a&ajax=true',
-        config.cv(),
-        s,
-        this.domainId,
-        this.domainCode
-    );
+    this.subjectId = this.domainFatherId;
+    this.classroomId = this.domainId;
+    this.link = aules.getLinkAula(s, this.aulaca, this.subjectId, this.classroomId, this.domainCode);
 
     var color = '66AA00';
     if (assignments) {

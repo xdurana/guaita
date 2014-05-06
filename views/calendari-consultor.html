@@ -286,7 +286,7 @@
                                 {% for eina in aula.widget.eines %}
                                 {% if eina.mostrar %}
                                 <li>
-                                    <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-classroom-id="{{ aula.widget.domainIdAula }}" data-bocamoll-subject-id="{{ aula.domainId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                                    <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-classroom-id="{{ aula.widget.classroomId }}" data-bocamoll-subject-id="{{ aula.domainId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                                     {% if eina.num_msg_totals > 0 %}
                                     <a href="{{ eina.viewItemsUrl }}" class="marcadors">
                                         <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
