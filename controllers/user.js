@@ -110,6 +110,7 @@ var calendar = exports.calendar = function (req, res, next) {
     }
 
     var pinta = function(object) {
+        object.icalurl = config.util.format('/app/guaita/calendari?idp=%s&perfil=%s&s=%s&format=ical', req.query.idp, req.query.perfil, req.query.s);
         if (req.query.format === 'ical') {            
             var ical = calendaris.getiCal(object);
             res.attachment('uoc.ical');
