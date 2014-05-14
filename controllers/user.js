@@ -110,10 +110,11 @@ var calendar = exports.calendar = function (req, res, next) {
     }
 
     var pinta = function(object) {
-        if (req.query.format === 'ical') {
+        if (req.query.format === 'ical') {            
+            var ical = calendaris.getiCal(object);
             res.attachment('uoc.ical');
             res.setHeader('Content-Type', 'text/calendar');
-            res.end(object.ical);
+            res.end(ical);
         } else if (req.query.format) {
             res.json(object);
         } else {

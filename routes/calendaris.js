@@ -1,6 +1,7 @@
 var async = require('async');
 var moment = require('moment');
 var calendar = require('node-calendar');
+var icalg = require('../routes/ical-generator');
 
 var config = require('../config');
 var ws = require('../ws');
@@ -11,6 +12,24 @@ var Event = require('../models/event');
 var Activity = require('../models/activity');
 var Classroom = require('../models/classroom');
 
+/**
+ * [getiCal description]
+ * @param  {[type]} object [description]
+ * @return {[type]}        [description]
+ */
+var getiCal = exports.getiCal = function(object) {
+    object.ical = icalg();
+    object.ical.setDomain('uoc.edu').setName('calendari aules');
+    object.events.forEach(function(e) {
+        var date = moment(e.data, "YYYY-MM-DD").format("YYYYMMDD");
+        var summary = config.util.format('%s [%s] (%s)', e.activitat.name, e.activitat.aula, e.tooltip);
+        object.ical.addEvent({
+            start: date,
+            summary: summary
+        });
+    });
+    return object.ical.toString();
+}
 
 /**
  * [getUrlSala description]
