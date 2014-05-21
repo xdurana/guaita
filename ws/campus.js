@@ -14,7 +14,7 @@ exports.getIdpBySession = function(s, next) {
     );
     service.xml(url, function(err, object) {
         if (err) return next(err);
-        return object.session.authenticated[0] === 'true' ?
+        return object && object.session && object.session.authenticated && object.session.userNumber && object.session.authenticated[0] === 'true' ?
         next(null, object.session.userNumber[0]) :
         next(config.util.format("(campusGateway) No s'ha pogut comprovar la sessió [%s]", url));
     });
