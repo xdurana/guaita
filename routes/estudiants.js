@@ -117,3 +117,67 @@ exports.ultimaPACEntregada = function(anyAcademic, codAssignatura, codAula, next
         });
     });
 }
+
+/**
+ * [ultimaActivitatEntregada description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   codAula        [description]
+ * @param  {Function} next           [description]
+ * @return {[type]}                  [description]
+ */
+exports.ultimaActivitatEntregada = function(anyAcademic, codAssignatura, codAula, next) {
+    var ultima = 0;
+    ws.rac.getActivitatsByAula(anyAcademic, codAssignatura, codAula, function(err, result) {
+        if (err) return next(err);
+        if (result.out.ActivitatVO) {
+            result.out.ActivitatVO.forEach(function(activitat) {
+                if (moment(activitat.dataLliurament).isBefore(moment())) {
+                    ultima = activitat.ordre;
+                }
+            });
+        }
+        return next(null, ultima);
+    });
+}
+
+/**
+ * [estudiantsActivitatNoEntregada description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   codAula        [description]
+ * @param  {[type]}   ordre          [description]
+ * @param  {Function} next           [description]
+ * @return {[type]}                  [description]
+ */
+exports.estudiantsAmbActivitatNoEntregada = function(anyAcademic, codAssignatura, codAula, ordre, next) {
+    var estudiants = [];
+    ws.rac.getEstudiantsByAulaAmbActivitats(codAssignatura, anyAcademic, codAula, function(err, result) {
+        if (err) return next(err);
+        if (result.out.EstudiantAulaVO) {
+            result.out.EstudiantAulaVO.forEach(function(estudiant) {
+                var tercer = new Tercer(indicadors.getValor(estudiant.tercer));
+                tercer.entregada = false;
+                indicadors.getValor(estudiant.activitats).ActivitatEstudiantAulaVO.forEach(function(activitat) {
+                    activitat.lliuraments.forEach(function(lliurament) {
+                        if (lliurament.LliuramentActivitatEstudiantVO) {
+                            lliurament.LliuramentActivitatEstudiantVO.forEach(function(ll) {
+                                if (ll.ordre == ordre) {
+                                    tercer.ultima = {
+                                        dataEnviament: moment(indicadors.getValor(ll.dataEnviament)).format("DD/MM/YYYY HH:mm:ss"),
+                                        dataDescarregaConsultor: moment(indicadors.getValor(ll.dataDescarregaConsultor)).format("DD/MM/YYYY HH:mm:ss"),
+                                        codQualificacio: indicadors.getValor(activitat.codQualificacio).constructor === Object ? config.nc() : indicadors.getValor(activitat.codQualificacio),
+                                        descripcio: indicadors.getValor(activitats[indicadors.getValor(ll.ordre)].descripcio)
+                                    };
+                                    tercer.entregada = true;
+                                }
+                            });
+                        }
+                    });
+                });                   
+                estudiants.push(tercer);
+            });
+        }
+        return next(null, estudiants);
+    });
+}
