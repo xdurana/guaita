@@ -76,7 +76,7 @@
                     {% if eina.mostrar %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
-                            {% if eina.num_msg_totals > 0 %}
+                            {% if eina.num_msg_totals >= 0 %}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
@@ -99,7 +99,7 @@
                     {% if eina.mostrar %}
                     <li>
                         <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
-                            {% if eina.num_msg_totals > 0 %}
+                            {% if eina.num_msg_totals >= 0 %}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
                                 <span class="amagar">{{ t('missatges_nous_de') }}</span>
