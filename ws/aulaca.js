@@ -270,3 +270,24 @@ var getSales = exports.getSales = function(idp, s, next) {
         return next(err, object ? object.rooms : config.nc());
     });
 }
+
+/**
+ * [getFontsInformacioAssignatura description]
+ * @param  {[type]}   anyAcademic    [description]
+ * @param  {[type]}   codAssignatura [description]
+ * @param  {[type]}   s              [description]
+ * @param  {Function} next           [description]
+ * @return {[type]}                  [description]
+ */
+var getFontsInformacioAssignatura = exports.getFontsInformacioAssignatura = function(anyAcademic, codAssignatura, s, next) {
+    var url = config.util.format(
+        '%s/anyacademic/%s/codiassignatura/%s/fontsinformacio?s=%s',
+        config.aulaca(),
+        anyAcademic,
+        codAssignatura,
+        s
+    );
+    service.json(url, function(err, object) {
+        return next(err, object ? object.rooms : config.nc());
+    });
+}
