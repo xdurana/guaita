@@ -1,10 +1,12 @@
+global.__base = __dirname;
+
 var express = require('express');
 var http = require('http')
 var path = require('path');
 var swig = require('swig');
 
-var config = require('./config');
-var controllers = require('./controllers/controllers');
+var config = require(__base + '/config');
+var controllers = require(__base + '/lib/controllers/controllers');
 
 var user = controllers.user;
 var subject = controllers.subject;
@@ -18,7 +20,7 @@ app.set('port', config.port());
 
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/lib/views');
 app.set('view cache', false);
 
 app.use(express.favicon());
