@@ -91,8 +91,6 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/widget', user.authorize, classroom.getWidget);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/rac', user.authorize, classroom.rac);
 
-app.get('/app/guaita/registre', user.authorize, user.registre);
-
 app.get('/app/guaita/materials', user.admin, materials.get);
 app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
 app.get('/app/guaita/materials/assignatura/:codAssignatura', user.admin, materials.assignatura);
