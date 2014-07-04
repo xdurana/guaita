@@ -1,7 +1,7 @@
 global.__base = __dirname;
 
 var express = require('express');
-var http = require('http')
+var http = require('http');
 var path = require('path');
 var swig = require('swig');
 
@@ -122,7 +122,7 @@ var gracefulShutdown = function() {
         config.log("Could not close connections in time, forcefully shutting down");
         process.exit();
     }, 10*1000);
-}
+};
 
 process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
