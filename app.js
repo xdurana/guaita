@@ -90,7 +90,7 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/widget', user.authorize, classroom.getWidget);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/rac', user.authorize, classroom.rac);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/connectats/:dies', user.admin, subject.connexio);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estudiants', user.admin, classroom.getStudents);
 
 app.get('/app/guaita/materials', user.admin, materials.get);
 app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
