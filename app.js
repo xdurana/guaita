@@ -94,6 +94,8 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estudiants', user.admin, classroom.getStudents);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estadistiques', user.admin, classroom.getStats);
 
+app.post('/app/guaita/bocamoll', user.bytool, classroom.bocamoll);
+
 app.get('/app/guaita/materials', user.admin, materials.get);
 app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
 app.get('/app/guaita/materials/assignatura/:codAssignatura', user.admin, materials.assignatura);
