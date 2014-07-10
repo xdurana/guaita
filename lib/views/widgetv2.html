@@ -46,7 +46,7 @@
     {% include 'ga.html' %}
 
     <div class="agora identifica">
-        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
+        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULA">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
         {% if widget.consultor %}
         <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
         {% endif %}
@@ -63,7 +63,7 @@
                 {% set activa = widget.actives|last %}
 
                 {% if activa %}
-                <h4 class="text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}">{{ activa.name }}</a></h4>
+                <h4 class="text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ activa.name }}</a></h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
@@ -92,7 +92,7 @@
                 {% endif %}
             </li>
             <li class="aula-item">
-                <h4 class="text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}">{{ t('comunicacio_aula') }}</a></h4>
+                <h4 class="text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('comunicacio_aula') }}</a></h4>
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}
@@ -118,11 +118,11 @@
         <ul class="decorada llistaBlock">
             <li>
                 {% for link in widget.avaluacio %}
-                <a class="link" target="wevento" href="{{ link.url }}" onclick="oWin(this.href);return false;">{{ link.name }}</a>
+                <a class="link" target="wevento" href="{{ link.url }}" data-bocamoll-object-link="{{ link.url }}" data-bocamoll-object-idtipolink="AVALUACIO" data-bocamoll-object-description="{{ link.name }}" onclick="oWin(this.href);return false;">{{ link.name }}</a>
                 {% endfor %}
             </li>
             <li class="ultim">
-                <a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-domainid="{{ widget.domainId }}">
+                <a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">
                     <span class="noLink">{{ t('estudiants_connectats') }} ({{ widget.connectats }})</span>
                 </a>
             </li>
