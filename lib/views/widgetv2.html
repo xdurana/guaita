@@ -63,7 +63,7 @@
 		    {% if widget.consultor %}
 		    <h5 class="aula-profile aula-text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
 		    {% endif %}
-			<a class="aula-link">
+			<a class="aula-link" target="grid" href="{{ widget.urlAula }}">
 				<span class="aula-arrow-fallback"></span>
 				<svg  xmlns="http://www.w3.org/2000/svg" version="1.1" class="aula-arrow" viewBox="0 0 60 60" preserveAspectRatio="none">
 					<defs xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +82,7 @@
 					<polygon points="0,0 40,30 0,60" class="aula-arrow-triangle" filter="url(#shadow)" />
 					<polyline points="0,0 40,30 0,60" class="aula-arrow-line" />
 				</svg>
-				<span class="aula-link-lbl"><span class="aula-link-lbl-inside">AULA</span></span>
+				<span class="aula-link-lbl"><span class="aula-link-lbl-inside">{{ t('aula_up') }}</span></span>
 			</a>
 		</div>
 		
