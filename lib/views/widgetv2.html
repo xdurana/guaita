@@ -13,6 +13,13 @@
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/modul.css" />
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/style.css" />
 
+	<!--[if lt IE 9]>
+	<style>
+		.aula .aula-arrow{ display:none; }
+		.aula .aula-arrow-fallback { display:block; }
+	</style>
+	<![endif]-->
+
     {% for lib in widget.libs %}
         <script type="text/javascript" src="{{lib}}"></script>
     {% endfor %}
@@ -45,25 +52,48 @@
 <body id="widget" class="aula c_{{ widget.color }}" onload="_IG_AdjustIFrameHeight();">
     {% include 'ga.html' %}
 
-    <div class="agora identifica">
-        <h3 class="aula-title"><a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULA">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a></h3>
-        {% if widget.consultor %}
-        <h5 class="aula-profile text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
-        {% endif %}
-        <span class="marcadors">
-            <span class="nous unic" title="{{ t('missatges_nous') }}">{{ widget.missatgesPendents }}</span>
-        </span>
-    </div>
-                
+	<div class="agora identifica">
+		<div class="aula-head aula-bg-color">
+		    <h3 class="aula-title">
+				<a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.domainId }}" data-bocamoll-object-idtipolink="AULA">{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</a>
+			</h3>
+		    {% if widget.consultor %}
+		    <h5 class="aula-profile aula-text-color-alt"><a target="wevento" href="{{ widget.consultor.fitxa }}">{{ widget.consultor.nomComplert }}</a></h5>
+		    {% endif %}
+			<a class="aula-link">
+				<span class="aula-arrow-fallback"></span>
+				<svg  xmlns="http://www.w3.org/2000/svg" version="1.1" class="aula-arrow" viewBox="0 0 60 60" preserveAspectRatio="none">
+					<defs xmlns="http://www.w3.org/2000/svg">
+					    <filter xmlns="http://www.w3.org/2000/svg" id="shadow" height="130%">
+					      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/> 
+					      <feOffset dx="4" dy="1" result="offsetblur"/>
+					      <feComponentTransfer>
+					        <feFuncA type="linear" slope="0.3"/>
+					      </feComponentTransfer>
+					      <feMerge> 
+					        <feMergeNode/>
+					        <feMergeNode in="SourceGraphic"/> 
+					      </feMerge>
+					    </filter>
+					</defs>
+					<polygon points="0,0 40,30 0,60" class="aula-arrow-triangle" filter="url(#shadow)" />
+					<polyline points="0,0 40,30 0,60" class="aula-arrow-line" />
+				</svg>
+				<span class="aula-link-lbl"><span class="aula-link-lbl-inside">AULA</span></span>
+			</a>
+		</div>
+		
+	</div>           
+
     <div id="divMaximizedPart" style="{{ widget.style }}">
 
-        <ul class="llistaBlock">
+        <ul class="llistaBlock separador">
             <li class="aula-item">
 
                 {% set activa = widget.actives|last %}
 
                 {% if activa %}
-                <h4 class="text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ activa.name }}</a></h4>
+                <h4 class="aula-text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ activa.name }}</a></h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
@@ -91,8 +121,10 @@
                 </ul>
                 {% endif %}
             </li>
+		</ul>
+		<ul class="llistaBlock separador">
             <li class="aula-item">
-                <h4 class="text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('comunicacio_aula') }}</a></h4>
+                <h4 class="aula-text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('comunicacio_aula') }}</a></h4>
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}

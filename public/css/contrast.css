@@ -1,0 +1,516 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* modifica colors general */
+body {
+	color: #000;
+}
+h1, h2, h3, h4, h5, h6 {
+	color: #000;
+}
+html a {
+	color: #003CC8;
+}
+a.text {
+	color: #000;
+}
+.inactiu {
+	background-color: #F1F1F1;
+	color: #999;
+	cursor: default;
+	border: 1px solid #E2E2E2;
+}
+select.inactiu, input.inactiu, .inactiu textarea {
+	border-color: #999;
+}
+.link:hover {
+	background-color: #003CC8;
+	color: #FFF !important;
+}
+.link:hover a, .link:hover td {
+	color: #FFF !important;
+}
+.link .link:hover {
+	background-color: #FFF;
+	color: #003CC8;
+}
+.link:hover .boto:hover {
+	color: #003CC8 !important;
+}
+
+/* Estils pel text */
+/* encapcalaments */
+.contingut strong {
+	color: #000;
+}
+.contingut h1, .contingut h2, .contingut h3, .contingut h4, .contingut h5, .contingut h6 {
+	color: #000;
+}
+.contingut caption {
+	background-color: #545454;
+	color: #FFF;
+}
+.contingut th {
+	background-color: #002782;
+}
+.contingut td {
+	border-color: #000;
+}
+.contingut ul {
+	border-left-color: #000;
+}
+
+/* Llistes */
+.separador {
+	border-bottom-color: #000;
+}
+.decorada li {
+	border-bottom-color: #000; /* ie6 */ 
+}
+.desplegar .actiu {            
+	background: #000;
+	color: #FFF;
+}
+.llistacheck .subllista {
+	border-top-color: #000;
+}
+.noLink .subllista {
+	border-top-color: #000;
+}
+
+/* botons */
+.boto {
+	color: #FFF;
+	text-decoration: none;
+	background: #003CC8;
+	border-color: #003CC8;
+}
+.boto img {
+	display: none;
+	}
+.boto:hover {
+	background: #FFF;
+	color: #003CC8;
+	border-color: #003CC8;
+}
+.semilink {
+	background: none;
+	color: #003CC8;
+}
+.semilink:hover {
+	background: #FFF;
+}
+.inactiu, .inactiu:hover {
+	background: #545454;
+	color: #FFF;
+	border-color: #545454;
+}
+.botoimg img {
+	display: block;
+}
+.formulari input.boto {
+    border-color: #003CC8;
+}
+/* caixes */
+.caixa {
+	border-color: #000;
+}
+.caixa h2 {
+	color: #333;
+}
+.destacat {
+	background-color: #545454;
+	border-color: #545454;
+	color: #FFF;
+}
+.destacat h2, .destacat h3, .destacat h4, .destacat h5, .destacat h6 {
+	color: #FFF;
+}
+.destacat a {
+	color: #FFF;
+} 
+.capcalera .titol {
+	background: #000;
+	border-color: #000;
+}
+
+/* pestanyes */
+.pestanyes {
+	background-image: url(mc-icons/imgcontrast/pestanyes-border.png);
+}
+.pestanyes a {
+	border-color: #000;
+	background: #003CC8;
+	color: #FFF;
+}
+.pestanyes a:hover {
+	background: #FFF;
+	color: #003CC8;
+}
+.pestanyes .actiu a, .pestanyes .selectedTab a, .pestanyes .ui-tabs-active a, .pestanyes .ui-state-active a {
+	background: #FFF;
+	color: #003CC8;
+}
+.pestanyes .actiu a:hover, .pestanyes .selectedTab a:hover {
+	background: #FFF;
+	color: #003CC8;
+}
+.psimple a {
+	border-color: #000;
+}
+.psimple .actiu a, .psimple .selectedTab a, .psimple .ui-tabs-active a, .psimple .ui-state-active a {
+	border-color: #000;
+	border-bottom-color: #FFF;
+}
+
+/* Marcadors */
+.marcadors span {
+	color: #FFF;
+}
+.marcadors span.nous  {
+	background-color: #CE0000;
+}
+.marcadors span.cap {
+	background-color: #575757;
+}
+.marcadors span.total {
+	background-color: #575757;
+	border-left-color: #FFF;
+}
+.link:hover .marcadors span, .actiu .marcadors span {
+	color: #000;
+}
+.link:hover .marcadors span.nous, .actiu .marcadors span.nous {
+	background-color: #FFCCCC;
+}
+.link:hover .marcadors span.cap, .actiu .marcadors span.cap {
+	background-color: #BFB9B9;
+}
+.link:hover .marcadors span.total, .actiu .marcadors span.total {
+	background-color: #A9A9A9;
+	border-left-color: #000;
+}
+
+/* informacio i errors */
+.info {
+	background: #944B1E;
+	color: #FFF;
+}
+.info a {
+	color: #FFF;
+}
+
+/* formularis */
+.formulari fieldset {
+	border-bottom-color: #000;
+}
+
+.formulari input, .formulari select, .formulari textarea, .paginador input {
+	border-color: #003CC8;
+}
+.formulari input.boto {
+	border-color: 1px solid #003CC8;
+}
+
+/*  Paginadors  */
+.pagines {
+	background-color: #545454;
+	color: #FFF;
+}
+
+/* pijama */
+.even, fieldset.even {
+	border-bottom: 1px solid #000;
+}
+.odd, fieldset.odd {
+	border-bottom: 1px solid #000;
+}
+/* fi modifica colors general */
+
+/* especÃ­fics PLIN */
+#profile {
+	color: #003CC8;
+	}
+.invert #main_navigation_name_item {
+	background-color: #003CC8;
+	color: #FFF;
+}
+.invert #main_navigation_logout_item {
+	color: #FFF;
+}
+.invert #main_navigation_logout_item:hover {
+	color: #003CC8;
+}
+.dock-item a, .dock-item a:hover, .dock-item a .selected {
+	color: #000;
+	}
+#navigation a {
+	background-color: #003CC8;
+	color: #FFF; 
+	}
+.modul .modulHandle {
+    background-image: none;
+	background-color: #666;
+	border-color: #666;
+}
+.modul .modulHandle h2 {
+	color: #FFF;
+}
+.modul .modulHandle h2 img {
+	display: none;
+}
+.modulContent {
+	border-color: #666;
+}
+
+/* caixa modul avisos */
+.modulFFB01D .modulHandle {
+	background-color: #CE0000;
+	border-color: #CE0000;
+}
+.modulFFB01D .modulContent {
+	border-color: #CE0000;
+}
+/* color */
+.modulFF2600 .modulHandle { 
+	background: #FF2600;
+	border-color: #FF2600;
+}
+.modullDD4477 .modulHandle { 
+	background: #lDD4477;
+	border-color: #lDD4477;
+}
+.modulC31A8A .modulHandle { 
+	background: #C31A8A;
+	border-color: #C31A8A;
+}
+.modulDD5511 .modulHandle { 
+	background: #DD5511;
+	border-color: #DD5511;
+}
+.modulB86060 .modulHandle { 
+	background: #B86060;
+	border-color: #B86060;
+}
+.modul9E5A9E .modulHandle { 
+	background: #9E5A9E;
+	border-color: #9E5A9E;
+}
+.modul7083A8 .modulHandle { 
+	background: #7083A8;
+	border-color: #7083A8;
+}
+.modul1B814B .modulHandle { 
+	background: #1B814B;
+	border-color: #1B814B;
+}
+.modul329260 .modulHandle { 
+	background: #329260;
+	border-color: #329260;
+}
+.modul51978E .modulHandle { 
+	background: #51978E;
+	border-color: #51978E;
+}
+.modul339DCC .modulHandle { 
+	background: #51978E;
+	border-color: #51978E;
+}
+.modul0580C7 .modulHandle { 
+	background: #l0580C7;
+	border-color: #l0580C7;
+}
+.modul3366CC .modulHandle { 
+	background: #3366CC;
+	border-color: #3366CC;
+}
+.modul2C92B6 .modulHandle { 
+	background: #2C92B6;
+	border-color: #2C92B6;
+}
+.modul30A600 .modulHandle { 
+	background: #30A600;
+	border-color: #30A600;
+}
+.modul66AA00 .modulHandle { 
+	background: #66AA00;
+	border-color: #66AA00;
+}
+.modul90AA11 .modulHandle { 
+	background: #90AA11;
+	border-color: #90AA11;
+}
+.modul909049 .modulHandle { 
+	background: #909049;
+	border-color: #909049;
+}
+.modulBC924C .modulHandle { 
+	background: #BC924C;
+	border-color: #BC924C;
+}
+.modulEEA400 .modulHandle { 
+	background: #EEA400;
+	border-color: #EEA400;
+}
+.modulD6AE00 .modulHandle { 
+	background: #D6AE00;
+	border-color: #D6AE00;
+}
+.modulFFB01D .modulHandle {
+	background-color: #CE0000;
+	border-color: #CE0000;
+}
+.modulFFB01D .modulContent {
+	border-color: #CE0000;
+}
+/* color */
+.column .modulFF2600 .modulHandle h2, .column .modullDD4477 .modulHandle h2, .column .modulC31A8A .modulHandle h2, .column .modulDD5511 .modulHandle h2, .column .modulB86060 .modulHandle h2, .column .modul9E5A9E .modulHandle h2, .column .modul7083A8 .modulHandle h2, .column .modul1B814B .modulHandle h2, .column .modul329260 .modulHandle h2, .column .modul51978E .modulHandle h2, .column .modul339DCC .modulHandle h2, .column .modul0580C7 .modulHandle h2, .column .modul3366CC .modulHandle h2, .column .modul2C92B6 .modulHandle h2, .column .modul30A600 .modulHandle h2, .column .modul66AA00 .modulHandle h2, .column .modul90AA11 .modulHandle h2, .column .modul909049 .modulHandle h2, .column .modulBC924C .modulHandle h2, .column .modulEEA400 .modulHandle h2, .column .modulD6AE00 .modulHandle h2 {
+	color: #FFF;
+	}
+/* fi especifics PLIN */
+
+/* especific widgets */
+/* modul.css */
+.links h3, .comissions h3, .bustiacarpetes h3, .forums h3 {
+    border-bottom: 1px dotted #000;
+}
+.notes_agenda ul, .sabiesque #footer {
+	border-top: 1px dotted #000;
+	}
+.bustia table td, .bustiacarpetes table td {
+	color: #000;
+	}
+/* calendari */
+.agenda .calendari {
+    border-top: 1px dotted #000;
+}
+.cites .eventPassat {
+	background: #666;
+	}
+.calendari .actual, .cites .actual {
+    background-color: #944B1E;
+	color: #FFF;
+}
+.calendari .dies td {
+    border: 1px solid #000;
+}
+.calendari .dies td a {
+    color: #000;
+}
+.cites tbody td {
+	color: #003CC8;
+} 
+.calendari .dies .actual a, .cites .actual a, .cites .actual td {
+	color: #FFF;
+}
+.cites .eventPassat .eventDate {
+	color: #FFF;
+	}
+.calendari .dies .capSetmana, .calendari .dies .capSetmana a, .calendari .dies .seguentCapSetmana, .calendari .dies .seguentCapSetmana a {
+	color: #CE0000;
+	}
+.calendari .dies .anterior, .calendari .dies .seguent, .calendari .dies .anterior a, .calendari .dies .seguent a {
+	color: #000;
+	}
+.cites tbody .totDia td {
+    border-top: 1px dotted #000;
+}
+.link .remarcar .link:hover {
+	color: #003CC8 !important;
+	}
+.cites tbody td {
+    border-bottom: 1px dotted #000;
+}
+
+/* aules */
+.aula .separador, .agregador_aules_assignatura .separador {
+    border-bottom: 2px solid #000;
+}
+/* identificador aula */
+.assignatura_aula {
+	color: #FFFFFF;
+}
+.assignaturaUOCAula {
+	background-color: #666600;
+}
+.assignaturaUOC2000Aula {
+	background-color: #CC6600;
+}
+.assignaturaGlobalCampusAula {
+	background-color: #2E3B68;
+}
+/* caixa modul avisos */
+.modulFFB01D .modulHandle {
+	background-color: #CE0000;
+	border-color: #CE0000;
+}
+.modulFFB01D .modulContent {
+	border-color: #CE0000;
+}
+
+/* what's up */
+.notice, .profile, .application {
+    border-top: 1px dotted #000;
+}
+#content .notices li:hover, #content .notices li.notice:nth-child(even):hover {
+    background-color: #003CC8;
+	color: #FFF;
+}
+#content .notices li:hover a, #content .notices li:hover abbr {
+	color: #FFF;
+}
+#content .notices li:hover .botopetit {
+	background-color: #FFF;
+	color: #003CC8;
+}
+#content .notices li .botopetit:hover {
+	background-color: #003CC8;
+	color: #FFF;
+	border-color: #FFF;
+}
+/* fi especifics widgets */
+
+/* preferencies widgets */
+.optionsMenu div.main {
+	border: 2px solid #000;
+	border-bottom: 1px solid #000;
+	background: #FFF;
+	}
+.optionsMenu div.close {
+	border: 2px solid #000;
+	border-top: none;
+	background: #FFF;
+	}
+.optionsMenu div.top {
+	background-image: url(mc-icons/imgcontrast/fletxa_pref_modul.png);
+	}
+
+/* css pels botons de les preferencies - obert jira per canviar-ho a css generals */
+html div.blueButton, html .formbutton {
+	color: #FFF;
+	text-decoration: none;
+	background: #003CC8;
+	border-color: #003CC8;
+}
+html div.blueButton:hover, html .formbutton:hover {
+	background: #FFF;
+	color: #003CC8;
+	border-color: #003CC8;
+}
+html div.blueButton a {
+	color: #FFF;
+	}
+html div.blueButton:hover a {
+	color: #003CC8;
+	text-decoration: none;
+	}
+.botoicona, .botoicona:hover {
+	padding: 4px  10px 5px;
+	border: 1px solid #003CC8;
+	}
+.inici-form .submit, .inici-form .cancel, .inici-form .formbutton {
+	color: #003CC8;
+	}
+.optionsMenu div.main p input, .optionsMenu div.main p select {
+	border-color: #003CC8;
+	}
