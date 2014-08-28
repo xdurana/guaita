@@ -12,13 +12,24 @@
     <meta name="description" content="{{ t('Materials') }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="initial-scale=1,width=device-width">
+
+    <script LANGUAGE="JavaScript" type="text/javascript">
+        var DATA_BOCAMOLL_USER_IDP = '{{ object.idp }}';
+        var DATA_BOCAMOLL_SUBJECT_SEMESTER = '{{ object.anyAcademic }}';
+        var DATA_BOCAMOLL_SUBJECT_CODE = '{{ object.codiAssignatura }}';
+        var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ object.subjectId }}';
+        var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ object.classroomId }}';
+        var DATA_BOCAMOLL_ACTIVITY_EVENTID = '{{ object.eventId }}';
+        var DATA_BOCAMOLL_CONTEXT_APP = 'materials';
+        var SESSION = '{{ object.s }}';
+    </script>
+    <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
+
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/aulas.css" media="all">
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/jquery.dynatable.css" media="all">
 </head>
 <body>
-
-{% set session = object.usuari.s %}
-{% set idp = object.usuari.userNumber %}
 
 <!-- container -->
 <div id="container" class="student">
@@ -42,14 +53,15 @@
 
                     <div class="block-head">
                         <h3>
-                            <span>{{ t('materials_i_fonts_informacio') }}</span>
+                            <span>{{ t('fonts_informacio') }}</span>
                         </h3>
                     </div>
-                  
+
+                    {% if false %}
                     <div class="block-content">
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
-                            {% for material in object.dades %}
+                            {% for material in object.materials %}
                             {% if material.defecte %}
                                 <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">{{ material.titol |safe}}
                                     {% for format in material.formats %}
@@ -58,7 +70,21 @@
                                 </li>
                             {% endif %}
                             {% endfor %}
+                            </ul>
                         </div>                        
+                    </div>
+                    {% endif %}
+
+                    <div class="block-content">
+                        <div class="block-inside clearfix">
+                            <ul class="list subject-list">
+                                {% for font in object.fonts %}
+                                <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">
+                                    <span><a href="{{ font.urlResolved }}" data-bocamoll-object-informationsourceid="{{ font.id }}" target="_blank" class="LaunchesOWin GAMF" title="{{ font.titulo }}">{{ font.titulo }}</a></span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
 
                 </li><!-- /block -->

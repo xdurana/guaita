@@ -90,15 +90,14 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/widget', user.authorize, classroom.getWidget);
 
-
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estudiants', user.admin, classroom.getStudents);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estadistiques', user.admin, classroom.getStats);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/materials', user.admin, materials.assignatura);
 
 app.post('/app/guaita/bocamoll', user.bytool, classroom.bocamoll);
 
 app.get('/app/guaita/materials', user.admin, materials.get);
 app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
-app.get('/app/guaita/materials/assignatura/:anyAcademic/:codAssignatura', user.admin, materials.assignatura);
 
 app.get('/app/guaita/test/pra', user.admin, test.pra);
 app.get('/app/guaita/test/consultor', user.admin, test.consultor);
