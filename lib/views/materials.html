@@ -79,9 +79,11 @@
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
                                 {% for font in object.fonts %}
+                                {% if font.visible == '1' %}
                                 <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">
                                     <span><a href="{{ font.urlResolved }}" data-bocamoll-object-informationsourceid="{{ font.id }}" target="_blank" class="LaunchesOWin GAMF" title="{{ font.titulo }}">{{ font.titulo }}</a></span>
                                 </li>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
