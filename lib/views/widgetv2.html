@@ -157,9 +157,13 @@
                 {% endfor %}
             </li>
             <li class="ultim">
-                <a target="grid" href="{{ widget.urlAula }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">
+                {% if widget.connectedStudentsAccessUrl != '' %}
+                <a target="grid" href="{{ widget.connectedStudentsAccessUrl }}" data-bocamoll-object-link="{{ widget.connectedStudentsAccessUrl }}" data-bocamoll-object-idtipolink="AULA">
                     <span class="noLink">{{ t('estudiants_connectats') }} ({{ widget.connectats }})</span>
                 </a>
+                {% else %}
+                <span class="noLink">{{ t('estudiants_connectats') }} ({{ widget.connectats }})</span>
+                {% endif %}
             </li>
         </ul>
 
