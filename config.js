@@ -12,59 +12,63 @@ i18next.init({
 
 exports.get = function(param) {
 	return nconf.get(param);
-}
+};
 
 exports.port = function() {
 	return process.env.PORT || 3000;
-}
+};
 
 exports.nc = function() {
     return "-";
-}
+};
 
 var expedientwsdl = exports.expedientwsdl = function() {
 	return nconf.get('wsdl:expedient');
-}
+};
 
 var dadesacademiqueswsdl = exports.dadesacademiqueswsdl = function() {
     return nconf.get('wsdl:dadesacademiques');
-}
+};
 
 var infoacademicawsdl = exports.infoacademicawsdl = function() {
 	return nconf.get('wsdl:infoacademica');
+};
+
+var matriculawsdl = exports.matriculawsdl = function() {
+    return nconf.get('wsdl:matricula');
 }
 
 var racwsdl = exports.racwsdl = function() {
 	return nconf.get('wsdl:rac');
-}
+};
 
 var authwsdl = exports.authwdsl = function() {
 	return nconf.get('wsdl:auth');
-}
+};
 
 var aulaca = exports.aulaca = function() {
     return nconf.get('wsdl:aulaca');
-}
+};
 
 var aulacas = exports.aulacas = function() {
     return nconf.get('wsdl:aulacas');
-}
+};
 
 var lrs = exports.lrs = function() {
     return nconf.get('wsdl:lrs');
-}
+};
 
 var cv = exports.cv = function() {
     return nconf.get('wsdl:cv');
-}
+};
 
 var phpbb = exports.phpbb = function() {
     return nconf.get('wsdl:phpbb');
-}
+};
 
 var myway = exports.myway = function() {
     return nconf.get('wsdl:myway');
-}
+};
 
 /**
  * [debug description]
@@ -75,7 +79,7 @@ var debug = exports.debug = function(msg) {
     if (true || nconf.get('entorn') != 'PRO') {
         console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), msg));
     }
-}
+};
 
 /**
  * [log description]
@@ -84,7 +88,7 @@ var debug = exports.debug = function(msg) {
  */
 var log = exports.log = function(msg) {    
     console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), msg));
-}
+};
 
 /**
  * [error description]
@@ -94,7 +98,7 @@ var log = exports.log = function(msg) {
 var error = exports.error = function(err) {
     console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), err.message));
     console.log(util.format("%s: ", moment().format("YYYY/MM/DD HH:mm:ss"), err.stack));
-}
+};
 
 /**
  * [idpadmin description]
@@ -102,7 +106,7 @@ var error = exports.error = function(err) {
  */
 var idpadmin = exports.idpadmin = function() {
     return '30000020';
-}
+};
 
 /**
  * [lng description]
@@ -110,7 +114,7 @@ var idpadmin = exports.idpadmin = function() {
  */
 var lng = exports.lng = function() {
     return i18next.lng();
-}
+};
 
 /**
  * [getAppLang description]
@@ -118,7 +122,7 @@ var lng = exports.lng = function() {
  */
 var getAppLang = exports.getAppLang = function() {
     return lng() == 'ca' ? 'a' : lng() == 'es' ? 'b' : 'c';
-}
+};
 
 /**
  * [getAppActiva description]
@@ -126,7 +130,7 @@ var getAppLang = exports.getAppLang = function() {
  */
 var getAppActiva = exports.getAppActiva = function() {
     return 'UOC';
-}
+};
 
 /**
  * [useCache description]
@@ -134,4 +138,4 @@ var getAppActiva = exports.getAppActiva = function() {
  */
 var useCache = exports.useCache = function() {
     return false;
-}
+};
