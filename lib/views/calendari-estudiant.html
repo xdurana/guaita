@@ -274,7 +274,7 @@
                     <div class="block-head">
                         <h4>
                             <span class="lbl">{{ t('comunicacio_recent') }}</span>
-                            <span title="{{ t('missatges_nous') }}" class="new">{{ aula.widget.missatgesPendents }}</span>
+                            <span title="{{ t('missatges_nous') }}" class="new pendents">{{ aula.widget.missatgesPendents }}</span>
                         </h4>
                     </div>
                     {% if aula.widget.eines %}
@@ -285,13 +285,6 @@
                                 {% if eina.mostrar %}
                                 <li>
                                     <a href="{{ eina.viewItemsUrl }}" class="lbl lnk-extern" data-bocamoll-classroom-id="{{ aula.widget.classroomId }}" data-bocamoll-subject-id="{{ aula.domainId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
-                                    {% if eina.num_msg_totals > 0 %}
-                                    <a href="{{ eina.viewItemsUrl }}" class="marcadors">
-                                        <span title="{{ t('missatges_nous') }}" class="new">{{ eina.num_msg_pendents }}</span>
-                                        <span class="visuallyhidden"> / </span>
-                                        <span title="{{ t('missatges_totals') }}" class="all">{{ eina.num_msg_totals }}</span>
-                                    </a>
-                                    {% endif %}
                                 </li>
                                 {% endif %}
                                 {% endfor %}
@@ -336,7 +329,49 @@
 
     $(document).ready(function() {
         UOCAulas.init('calendar');
+
+
     });
+
+    $("a[data-bocamoll-object-resourceid]").each(function() {
+
+        var element = $(this);
+
+        var subjectid = $(element).data('bocamoll-subject-id');
+        var classroomid= $(element).data('bocamoll-classroom-id');
+        var resourceid = $(element).data('bocamoll-object-resourceid');
+
+        var missatges_nous = "{{ t('missatges_nous') }}";
+        var missatges_totals = "{{ t('missatges_totals') }}";
+
+        $.ajax({
+            url: 'http://cv.uoc.edu/webapps/aulaca/classroom/LoadResource.action?sectionId=-1&pageSize=0&pageCount=0'
+                    + '&s=' + SESSION
+                    + '&classroomId=' + classroomid
+                    + '&subjectId=' + subjectid
+                    + '&resourceId=' + resourceid,
+
+            success: function(data) {
+
+                var num_msg_pendents = Math.max(data.resource.newItems, 0);
+                var num_msg_totals = data.resource.totalItems;
+
+                var pendents = element.closest('.accordion').find('.pendents');
+                pendents.html(parseInt(pendents.html()) +  num_msg_pendents);
+
+                if (num_msg_totals > 0) {
+                    $(element).after(
+                        '<a href="' + data.resource.viewItemsUrl + '" class="marcadors">'
+                        + '<span title=' + missatges_nous + ' class="new">' + num_msg_pendents + '</span>'
+                        + '<span class="visuallyhidden"> / </span>'
+                        + '<span title="' + missatges_totals + '" class="all">' + num_msg_totals + '</span>'
+                        + '</a>'
+                    );
+                }
+            }
+        });
+    });
+
 </script>
 
 {% endblock %}
