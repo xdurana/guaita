@@ -173,5 +173,16 @@
         <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">{{ t('minimitzar') }}</a>
     </div>
 
+    <script language="JavaScript">
+        window.onload = function () {
+            var links = document.getElementsByTagName('a');
+            for (var i = 0; i < links.length; i ++) {
+                if (links.item(i).href.indexOf('webapps/aulaca') > 0) {
+                    links.item(i).href = links.item(i).href + '&javascriptDisabled=false';
+                }
+            }
+        };
+    </script>
+
 </body>
 </html>

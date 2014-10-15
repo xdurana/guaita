@@ -679,6 +679,10 @@ var UOCAulas = (function($) {
         setupGlobalAdjusts();
     };
 
+    $("a[href*='webapps/aulaca']").each(function() {
+        this.href = this.href + '&javascriptDisabled=false';
+    });
+
     return { // public
         init: init,
         baseURL: baseURL,
