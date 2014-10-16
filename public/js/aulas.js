@@ -680,7 +680,9 @@ var UOCAulas = (function($) {
     };
 
     $("a[href*='webapps/aulaca']").each(function() {
-        this.href = this.href + '&javascriptDisabled=false';
+        var url = this.href.split('#');
+        url[0] = url[0] + '&javascriptDisabled=false';
+        this.href = url.join('#');
     });
 
     return { // public

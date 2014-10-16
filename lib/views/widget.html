@@ -170,7 +170,9 @@
         var $j = jQuery.noConflict();
         $j(document).ready(function() {
             $j("a[href*='webapps/aulaca']").each(function() {
-                this.href = this.href + '&javascriptDisabled=false';
+                var url = this.href.split('#');
+                url[0] = url[0] + '&javascriptDisabled=false';
+                this.href = url.join('#');
             });
 
             $j("a[data-bocamoll-object-resourceid]").each(function() {
