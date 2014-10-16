@@ -329,8 +329,6 @@
 
     $(document).ready(function() {
         UOCAulas.init('calendar');
-
-
     });
 
     $("a[data-bocamoll-object-resourceid]").each(function() {
@@ -357,19 +355,20 @@
 
                 var num_msg_pendents = Math.max(data.resource.newItems, 0);
                 var num_msg_totals = data.resource.totalItems;
-
-                var pendents = element.closest('.accordion').find('.pendents');
-                pendents.html(parseInt(pendents.html()) +  num_msg_pendents);
+                var num_msg_pendents_class = num_msg_pendents > 0 ? 'nous' : 'nous cap';
 
                 if (num_msg_totals > 0) {
                     $(element).after(
                         '<a href="' + data.resource.viewItemsUrl + '" class="marcadors">'
-                        + '<span title=' + missatges_nous + ' class="new">' + num_msg_pendents + '</span>'
+                        + '<span title=' + missatges_nous + ' class="' + num_msg_pendents_class + ">' + num_msg_pendents + '</span>'
                         + '<span class="visuallyhidden"> / </span>'
                         + '<span title="' + missatges_totals + '" class="all">' + num_msg_totals + '</span>'
                         + '</a>'
                     );
                 }
+
+                var pendents = element.closest('.accordion').find('.pendents');
+                pendents.html(parseInt(pendents.html()) +  num_msg_pendents);
             }
         });
     });

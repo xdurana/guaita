@@ -24,7 +24,7 @@
 	<![endif]-->
 
     {% for lib in widget.libs %}
-        <script type="text/javascript" src="{{lib}}"></script>
+        <script type="text/javascript" src="{{ widget.cv }}{{ lib }}"></script>
     {% endfor %}
      
     <script LANGUAGE="JavaScript" type="text/javascript">
@@ -47,8 +47,8 @@
     <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
     <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
     <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ widget.cv }}/bocamoll/tincan.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{{ widget.cv }}/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
     <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
 </head>
 
@@ -108,7 +108,7 @@
                     {% for eina in activa.eines %}
                     {% if eina.mostrar %}
                     <li>
-                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-subject-id="{{ widget.domainId }}" data-bocamoll-classroom-id="{{ widget.classroomId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
                             {% if eina.num_msg_totals >= 0 %}
                             <span class="marcadors">
                                 <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
@@ -133,15 +133,7 @@
                     {% for eina in widget.eines %}
                     {% if eina.mostrar %}
                     <li>
-                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}
-                            {% if eina.num_msg_totals >= 0 %}
-                            <span class="marcadors">
-                                <span title="{{ t('missatges_nous') }}" class="{{ eina.num_msg_pendents_class }}">{{ eina.num_msg_pendents }}</span>
-                                <span class="amagar">{{ t('missatges_nous_de') }}</span>
-                                <span title="{{ t('missatges_totals') }}" class="total">{{ eina.num_msg_totals }}</span>
-                            </span>
-                            {% endif %}
-                        </a>
+                        <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-subject-id="{{ widget.domainId }}" data-bocamoll-classroom-id="{{ widget.classroomId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                     </li>
                     {% endif %}
                     {% endfor %}
@@ -173,16 +165,54 @@
         <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">{{ t('minimitzar') }}</a>
     </div>
 
-    <script language="JavaScript">
-        window.onload = function () {
-            var links = document.getElementsByTagName('a');
-            for (var i = 0; i < links.length; i ++) {
-                if (links.item(i).href.indexOf('webapps/aulaca') > 0) {
-                    links.item(i).href = links.item(i).href + '&javascriptDisabled=false';
-                }
-            }
-        };
-    </script>
+    <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+        $j(document).ready(function() {
+            $j("a[href*='webapps/aulaca']").each(function() {
+                this.href = this.href + '&javascriptDisabled=false';
+            });
 
+            $j("a[data-bocamoll-object-resourceid]").each(function() {
+
+                var element = $j(this);
+
+                var subjectid = $j(element).data('bocamoll-subject-id');
+                var classroomid= $j(element).data('bocamoll-classroom-id');
+                var resourceid = $j(element).data('bocamoll-object-resourceid');
+
+                var missatges_nous = "{{ t('missatges_nous') }}";
+                var missatges_totals = "{{ t('missatges_totals') }}";
+                var missatges_nous_de = "{{ t('missatges_nous_de') }}";
+
+                var aulaca = '{{ widget.aulaca }}';
+
+                $j.ajax({
+                    url: '{{ widget.aulaca }}/LoadResource.action?sectionId=-1&pageSize=0&pageCount=0'
+                            + '&s=' + SESSION
+                            + '&classroomId=' + classroomid
+                            + '&subjectId=' + subjectid
+                            + '&resourceId=' + resourceid,
+
+                    success: function(data) {
+
+                        var num_msg_pendents = Math.max(data.resource.newItems, 0);
+                        var num_msg_totals = data.resource.totalItems;
+                        var num_msg_pendents_class = num_msg_pendents > 0 ? 'nous' : 'nous cap';
+
+                        if (num_msg_totals > 0) {
+                            $j(element).append(
+                                            '<span class="marcadors">'
+                                            + '<span title=' + missatges_nous + ' class="' + num_msg_pendents_class + '">' + num_msg_pendents + '</span>'
+                                            + '<span class="amagar">' + missatges_nous_de + '</span>'
+                                            + '<span title="' + missatges_totals + '" class="total">' + num_msg_totals + '</span>'
+                                            + '</a>'
+                            );
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
