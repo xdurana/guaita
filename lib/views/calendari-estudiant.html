@@ -344,8 +344,10 @@
         var missatges_nous = "{{ t('missatges_nous') }}";
         var missatges_totals = "{{ t('missatges_totals') }}";
 
+        var aulaca = '{{ object.aulaca }}';
+
         $.ajax({
-            url: 'http://cv.uoc.edu/webapps/aulaca/classroom/LoadResource.action?sectionId=-1&pageSize=0&pageCount=0'
+            url: '{{ object.aulaca }}/LoadResource.action?sectionId=-1&pageSize=0&pageCount=0'
                     + '&s=' + SESSION
                     + '&classroomId=' + classroomid
                     + '&subjectId=' + subjectid
