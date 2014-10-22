@@ -6,13 +6,12 @@ var path = require('path');
 var swig = require('swig');
 
 var config = require(__base + '/config');
-var controllers = require(__base + '/lib/controllers/controllers');
 
-var user = controllers.user;
-var subject = controllers.subject;
-var classroom = controllers.classroom;
-var materials = controllers.materials;
-var test = controllers.test;
+var classroom = require(__base + '/lib/controllers/classroom');
+var resource = require(__base + '/lib/controllers/resource');
+var subject = require(__base + '/lib/controllers/subject');
+var test = require(__base + '/lib/controllers/test');
+var user = require(__base + '/lib/controllers/user');
 
 var app = express();
 
@@ -89,15 +88,16 @@ app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/activitats/:eventId/eines', user.authorize, classroom.getActivityTools);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/avaluacio', user.authorize, classroom.getAssessment);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/widget', user.authorize, classroom.getWidget);
-app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/materials', user.authorize, materials.assignatura);
+
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/materials', user.authorize, resource.getMaterials);
+app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/fonts', user.authorize, resource.getFontsInformacio);
+app.get('/app/guaita/materials/:pid', user.admin, resource.getHTML5);
+app.get('/app/guaita/sala', user.admin, user.sala);
 
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estudiants', user.admin, classroom.getStudents);
 app.get('/app/guaita/assignatures/:anyAcademic/:codAssignatura/:domainId/aules/:codAula/:classroomId/:domainCode/estadistiques', user.admin, classroom.getStats);
 
 app.post('/app/guaita/bocamoll', user.bytool, classroom.bocamoll);
-
-app.get('/app/guaita/materials', user.admin, materials.get);
-app.get('/app/guaita/materials/:pid', user.admin, materials.getHTML5);
 
 app.get('/app/guaita/test/pra', user.admin, test.pra);
 app.get('/app/guaita/test/consultor', user.admin, test.consultor);

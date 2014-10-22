@@ -105,7 +105,7 @@ $(document).ready(function() {
 
     var registra = function(statement) {
         tincan.sendStatement(statement);
-    }
+    };
 
     $("a[data-bocamoll-object-link]").on("click", function (e) {
         var statement = {
