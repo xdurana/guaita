@@ -14,17 +14,12 @@
     <meta name="viewport" content="initial-scale=1,width=device-width">
 
     <script LANGUAGE="JavaScript" type="text/javascript">
-        var DATA_BOCAMOLL_USER_IDP = '{{ object.idp }}';
-        var DATA_BOCAMOLL_SUBJECT_SEMESTER = '{{ object.anyAcademic }}';
-        var DATA_BOCAMOLL_SUBJECT_CODE = '{{ object.codiAssignatura }}';
-        var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ object.subjectId }}';
-        var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ object.classroomId }}';
-        var DATA_BOCAMOLL_ACTIVITY_EVENTID = '{{ object.eventId }}';
+        var DATA_BOCAMOLL_USER_IDP = '{{ idp }}';
+        var DATA_BOCAMOLL_SUBJECT_SEMESTER = '{{ anyAcademic }}';
+        var DATA_BOCAMOLL_SUBJECT_CODE = '{{ codiAssignatura }}';
         var DATA_BOCAMOLL_CONTEXT_APP = 'materials';
-        var SESSION = '{{ object.s }}';
+        var SESSION = '{{ s }}';
     </script>
-    <script type="text/javascript" src="/bocamoll/tincan.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/bocamoll/bocamoll-widget.js" charset="utf-8"></script>
 
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/aulas.css" media="all">
     <link rel="stylesheet" type="text/css" href="/app/guaita/css/jquery.dynatable.css" media="all">
@@ -60,17 +55,14 @@
                     <div class="block-content">
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
-                                {% for font in object.fonts %}
-                                {% if font.visible == '1' %}
-                                <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">
-                                    <span><a href="{{ font.urlResolved }}" data-bocamoll-object-informationsourceid="{{ font.id }}" target="_blank" class="LaunchesOWin GAMF" title="{{ font.titulo }}">{{ font.titulo }}</a></span>
-                                </li>
+                                {% for font in fonts %}
+                                {% if font.wait[0] == 'N' %}
+                                <li><a href="{{ cv }}{{ font.url[0] }}" target="_blank">{{ font.titol[0]}}</a></li>
                                 {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
-
                 </li><!-- /block -->
 
             </ul><!-- /blocks -->
