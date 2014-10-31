@@ -1,4 +1,5 @@
 var moment = require('moment');
+var async = require('async');
 var nconf = require('nconf');
 
 var util = exports.util = require('util');
