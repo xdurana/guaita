@@ -1,0 +1,174 @@
+{"id" : "1",
+ "title" : "Aula 1",
+ "students" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Ramon Antones Salvatella",
+		"total" : 7,
+		"days_off" : {"7": 1, "15": 3, "30": 3},
+		"last_conn_aula" : 3,
+		"last_pac_delivered" : 0,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 2,
+		"name" : "Maria Bargans Mestre",
+		"total" : 5,
+		"days_off" : {"7": 3, "15": 3, "30": 3},
+		"last_conn_aula" : 5,
+		"last_pac_delivered" : 3,
+		"is_rep" : "yes",
+		"is_new" : "no"
+	},
+	{
+		"id" : 3,
+		"name" : "Ramon Bassols Cornudella",
+		"total" : 3,
+		"days_off" : {"7": 0, "15": 3, "30": 3},
+		"last_conn_aula" : 0,
+		"last_pac_delivered" : 0,
+		"is_rep" : "no",
+		"is_new" : "yes"
+	},
+	{
+		"id" : 4,
+		"name" : "Olga De Bergé Pineo",
+		"total" : 2,
+		"days_off" : {"7": 0, "15": 1, "30": 2},
+		"last_conn_aula" : 2,
+		"last_pac_delivered" : 2,
+		"is_rep" : "yes",
+		"is_new" : "no"
+	},
+	{
+		"id" : 5,
+		"name" : "Rafael Boj Galisteo",
+		"total" : 1,
+		"days_off" : {"7": 0, "15": 0, "30": 0},
+		"last_conn_aula" : 1,
+		"last_pac_delivered" : 0,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 6,
+		"name" : "Francesc Bordonau Colldecarrera",
+		"total" : 7,
+		"days_off" : {"7": 0, "15": 0, "30": 0},
+		"last_conn_aula" : 5,
+		"last_pac_delivered" : 3,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 7,
+		"name" : "Adrian Bueno Junquero",
+		"total" : 3,
+		"days_off" : {"7": 3, "15": 3, "30": 3},
+		"last_conn_aula" : 0,
+		"last_pac_delivered" : 0,
+		"is_rep" : "yes",
+		"is_new" : "no"
+	},
+	{
+		"id" : 8,
+		"name" : "Maria Cami Subira",
+		"total" : 4,
+		"days_off" : {"7": 2, "15": 2, "30": 4},
+		"last_conn_aula" : 4,
+		"last_pac_delivered" : 4,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 9,
+		"name" : "Eva Cano Maymó",
+		"total" : 2,
+		"days_off" : {"7": 2, "15": 2, "30": 2},
+		"last_conn_aula" : 2,
+		"last_pac_delivered" : 1,
+		"is_rep" : "yes",
+		"is_new" : "no"
+	},
+	{
+		"id" : 10,
+		"name" : "Laura Casado Perez",
+		"total" : 6,
+		"days_off" : {"7": 0, "15": 3, "30": 6},
+		"last_conn_aula" : 3,
+		"last_pac_delivered" : 2,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 11,
+		"name" : "Alicia Castro Vila",
+		"total" : 3,
+		"days_off" : {"7": 0, "15": 0, "30": 2},
+		"last_conn_aula" : 3,
+		"last_pac_delivered" : 1,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 12,
+		"name" : "Lidia Ceschi Caro",
+		"total" : 2,
+		"days_off" : {"7": 1, "15": 2, "30": 2},
+		"last_conn_aula" : 1,
+		"last_pac_delivered" : 0,
+		"is_rep" : "yes",
+		"is_new" : "yes"
+	},
+	{
+		"id" : 13,
+		"name" : "Maria Luisa Colom Regue",
+		"total" : 2,
+		"days_off" : {"7": 2, "15": 2, "30": 2},
+		"last_conn_aula" : 1,
+		"last_pac_delivered" : 1,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 14,
+		"name" : "Rosa Maria Corbacho Baquero",
+		"total" : 4,
+		"days_off" : {"7": 0, "15": 3, "30": 4},
+		"last_conn_aula" : 1,
+		"last_pac_delivered" : 2,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 15,
+		"name" : "Adela Maria Felecan",
+		"total" : 1,
+		"days_off" : {"7": 1, "15": 1, "30": 1},
+		"last_conn_aula" : 1,
+		"last_pac_delivered" : 0,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 16,
+		"name" : "Gemma Felip Gironés",
+		"total" : 7,
+		"days_off" : {"7": 1, "15": 3, "30": 5},
+		"last_conn_aula" : 7,
+		"last_pac_delivered" : 5,
+		"is_rep" : "no",
+		"is_new" : "no"
+	},
+	{
+		"id" : 17,
+		"name" : "Felix Fernandez Lop",
+		"total" : 7,
+		"days_off" : {"7": 1, "15": 3, "30": 7},
+		"last_conn_aula" : 5,
+		"last_pac_delivered" : 7,
+		"is_rep" : "no",
+		"is_new" : "no"
+	}]
+}

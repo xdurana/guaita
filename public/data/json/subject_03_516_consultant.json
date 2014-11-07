@@ -1,0 +1,43 @@
+{"id" : "03_516",
+ "title" : "CAT - 03.516 Dret financer i tributari II",
+ "updated" : "18-11-2014. 14:19 h.",
+ "lnk_card" : "#",
+ "lnk_design" : "#",
+ "aulas" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Aula 1",
+		"color" : "C31A8A",
+		"students" : {"total": 143, "is_rep": 9, "is_new": 1},
+		"days_off" : {"7": 7, "15": 5, "30": 3},
+		"pac_undelivered" : 23,
+		"pac_unpassed" : 36
+	},
+	{
+		"id" : 2,
+		"name" : "Aula 2",
+		"color" : "30A600",
+		"students" : {"total": 98, "is_rep": 0, "is_new": 5},
+		"days_off" : {"7": 12, "15": 3, "30": 9},
+		"pac_undelivered" : 45,
+		"pac_unpassed" : 52
+	},
+	{
+		"id" : 3,
+		"name" : "Aula 3",
+		"color" : "339DCC",
+		"students" : {"total": 56, "is_rep": 1, "is_new": 1},
+		"days_off" : {"7": 5, "15": 3, "30": 0},
+		"pac_undelivered" : 12,
+		"pac_unpassed" : 13
+	},
+	{
+		"id" : 4,
+		"name" : "Aula 4",
+		"color" : "B86060",
+		"students" : {"total": 111, "is_rep": 7, "is_new": 6},
+		"days_off" : {"7": 1, "15": 0, "30": 0},
+		"pac_undelivered" : 1,
+		"pac_unpassed" : 1
+	}]
+}

@@ -1,0 +1,60 @@
+{"id" : "1",
+ "name" : "Carolina Villaecija Torregrosa",
+ "email" : "cvillaecijat@uoc.edu",
+ "lnk_card" : "#",
+ "tutor" : "Francesc Bordonau Colldecarrera",
+ "studies" : "Grau Multimedia",
+ "photo_url" : "../data/img/user_1.jpg",
+ "personal_data" : [
+ 	"Lorem ipsum dolor sit amet, consectetuer adipiscing elit",
+ 	"Duis autem vel eum iriure dolor in hendrerit in vulputate"
+ ],
+ "business_data" : [
+ 	"Lorem ipsum dolor sit amet, consectetuer adipiscing elit",
+ 	"Duis autem vel eum iriure dolor in hendrerit in vulputate"
+ ],
+ "subjects" : [ 
+ 	{
+		"id" : "03.515",
+		"name" : "Dret financer i tributari I",
+		"days_without_conn" : "06/09/2014",
+		"last_conn_aula" : "07/09/2014",
+		"last_conn_tutor" : "01/07/2014",
+		"last_pac_delivered": "PAC 2 - 01/08/2014"
+	},{
+		"id" : "03.516",
+		"name" : "Dret financer i tributari II",
+		"days_without_conn" : "07/09/2014",
+		"last_conn_aula" : "07/09/2014",
+		"last_conn_tutor" : "07/09/2014",
+		"last_pac_delivered": null
+	},{
+		"id" : "03.402",
+		"name" : "Introducción a la Teoría económica",
+		"days_without_conn" : "28/08/2014",
+		"last_conn_aula" : "28/08/2014",
+		"last_conn_tutor" : "17/07/2014",
+		"last_pac_delivered": "PAC 1 - 28/08/2014"
+	},{
+		"id" : "03.507",
+		"name" : "Política i societat",
+		"days_without_conn" : "07/09/2014",
+		"last_conn_aula" : "07/09/2014",
+		"last_conn_tutor" : "06/09/2014",
+		"last_pac_delivered": "PAC 2 - 07/09/2014"
+	},{
+		"id" : "03.522",
+		"name" : "Dret penal I",
+		"days_without_conn" : "14/08/2014",
+		"last_conn_aula" : "12/08/2014",
+		"last_conn_tutor" : "01/07/2014",
+		"last_pac_delivered": null
+	},{
+		"id" : "03.517",
+		"name" : "Dret mercantil I",
+		"days_without_conn" : "14/07/2014",
+		"last_conn_aula" : "14/07/2014",
+		"last_conn_tutor" : "01/07/2014",
+		"last_pac_delivered": null
+	}]
+}

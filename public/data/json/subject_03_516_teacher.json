@@ -1,0 +1,94 @@
+{"id" : "03_516",
+ "title" : "CAT - 03.516 Dret financer i tributari II",
+ "lnk_design" : "#",
+ "tools" : [
+ 	{
+		"id" : 1,
+		"name" : "Actividad 1"
+	},{
+		"id" : 2,
+		"name" : "Actividad 2"
+	},{
+		"id" : 3,
+		"name" : "Actividad 3"
+	},{
+		"id" : 4,
+		"name" : "Actividad 4"
+	},{
+		"id" : 5,
+		"name" : "Actividad 5"
+	},{
+		"id" : 6,
+		"name" : "Actividad 6"
+	},{
+		"id" : 7,
+		"name" : "Actividad 7"
+	},{
+		"id" : 8,
+		"name" : "Actividad 8"
+	},{
+		"id" : 9,
+		"name" : "Actividad 9"
+	},{
+		"id" : 10,
+		"name" : "Actividad 10"
+	}],
+ "students" : {
+ 	"next_delivery" : "18-11-2014",
+ 	"aulas" : [
+	 	{
+			"id" : 1,
+			"name" : "Aula 1",
+			"color" : "DD5511",
+			"students" : {"total": 143, "is_rep": 3, "is_new": 5},
+			"days_off" : {"7": 7, "15": 5, "30": 5},
+			"pac_undelivered" : 23,
+			"pac_unpassed" : 36
+		},
+		{
+			"id" : 2,
+			"name" : "Aula 2",
+			"color" : "EEA400",
+			"students" : {"total": 43, "is_rep": 1, "is_new": 0},
+			"days_off" : {"7": 12, "15": 3, "30": 9},
+			"pac_undelivered" : 23,
+			"pac_unpassed" : 36
+		}]
+	},
+ "consultants" : {
+	"next_delivery" : "18-11-2014",
+ 	"aulas": [
+	 	{
+			"id" : 1,
+			"name" : "Aula 1",
+			"color" : "DD5511",
+			"consultant" : "Maria Luisa Colom Regue",
+			"last_conn_campus" : "14/08/2014",
+			"last_conn_aula" : "12/08/2014",
+			"last_rac_download" : "01/07/2014",
+			"last_grade": "01/08/2014",
+			"pending_msgs" : 0
+		},
+		{
+			"id" : 2,
+			"name" : "Aula 2",
+			"color" : "EEA400",
+			"consultant" : "Rosa Maria Corbacho Baquero",
+			"last_conn_campus" : "14/07/2014",
+			"last_conn_aula" : "04/06/2014",
+			"last_rac_download" : "04/06/2014",
+			"last_grade": "02/07/2014",
+			"pending_msgs" : 8
+		},{
+			"id" : 3,
+			"name" : "Aula 3",
+			"color" : "339DCC",
+			"consultant" : "Felix Fernandez Lopez",
+			"last_conn_campus" : "19/08/2014",
+			"last_conn_aula" : "19/08/2014",
+			"last_rac_download" : "19/08/2014",
+			"last_grade": "19/08/2014",
+			"pending_msgs" : 15
+		}]
+ 	}
+}

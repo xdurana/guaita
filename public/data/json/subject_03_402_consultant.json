@@ -1,0 +1,25 @@
+{"id" : "03_402",
+ "title" : "CAT - 03.402 Introducción a la Teoría económica",
+ "updated" : "18-11-2014. 14:19 h.",
+ "lnk_card" : "#",
+ "lnk_design" : "#",
+ "aulas" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Aula 1",
+		"color" : "DD5511",
+		"students" : {"total": 143, "is_rep": 3, "is_new": 5},
+		"days_off" : {"7": 7, "15": 5, "30": 5},
+		"pac_undelivered" : 23,
+		"pac_unpassed" : 36
+	},
+	{
+		"id" : 2,
+		"name" : "Aula 2",
+		"color" : "EEA400",
+		"students" : {"total": 43, "is_rep": 1, "is_new": 0},
+		"days_off" : {"7": 12, "15": 3, "30": 9},
+		"pac_undelivered" : 23,
+		"pac_unpassed" : 36
+	}]
+}

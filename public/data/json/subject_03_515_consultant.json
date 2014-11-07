@@ -1,0 +1,34 @@
+{"id" : "03_515",
+ "title" : "CAT - 03.515 Dret financer i tributari I",
+ "updated" : "18-11-2014. 14:19 h.",
+ "lnk_card" : "#",
+ "lnk_design" : "#",
+ "aulas" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Aula 1",
+		"color" : "C31A8A",
+		"students" : {"total": 143, "is_rep": 9, "is_new": 1},
+		"days_off" : {"7": 7, "15": 5, "30": 3},
+		"pac_undelivered" : 23,
+		"pac_unpassed" : 36
+	},
+	{
+		"id" : 2,
+		"name" : "Aula 2",
+		"color" : "30A600",
+		"students" : {"total": 98, "is_rep": 0, "is_new": 5},
+		"days_off" : {"7": 12, "15": 3, "30": 9},
+		"pac_undelivered" : 45,
+		"pac_unpassed" : 52
+	},
+	{
+		"id" : 3,
+		"name" : "Aula 3",
+		"color" : "339DCC",
+		"students" : {"total": 56, "is_rep": 1, "is_new": 1},
+		"days_off" : {"7": 5, "15": 3, "30": 0},
+		"pac_undelivered" : 12,
+		"pac_unpassed" : 13
+	}]
+}

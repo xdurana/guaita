@@ -1,0 +1,75 @@
+{"id" : "0",
+"name" : "Generales del Aula",
+"tools" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Foro"
+	},{
+		"id" : 2,
+		"name" : "Tablón"
+	},{
+		"id" : 3,
+		"name" : "Debate"
+	},{
+		"id" : 4,
+		"name" : "Langblog"
+	},{
+		"id" : 5,
+		"name" : "Microblog"
+	},{
+		"id" : 6,
+		"name" : "Wikispace"
+	},{
+		"id" : 7,
+		"name" : "Lab"
+	},{
+		"id" : 8,
+		"name" : "Chat"
+	}],
+"aulas" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Aula 1",
+		"color" : "C31A8A",
+		"tools" : [
+			{ "id": 1, "pending" : null , "total": null },
+			{ "id": 2, "pending" : 225, "total": 230 },
+			{ "id": 3, "pending" : null, "total": null },
+			{ "id": 4, "pending" : 98, "total": 101 },
+			{ "id": 5, "pending" : 11, "total": 23 },
+			{ "id": 6, "pending" : 8, "total": 15 },
+			{ "id": 7, "pending" : null, "total": null },
+			{ "id": 8, "pending" : 25, "total": 25 }
+		]
+	},
+	{
+		"id" : 2,
+		"name" : "Aula 2",
+		"color" : "30A600",
+		"tools" : [
+			{ "id": 1, "pending" : 125, "total": 130 },
+			{ "id": 2, "pending" : 85, "total": 87 },
+			{ "id": 3, "pending" : 98, "total": 234 },
+			{ "id": 4, "pending" : null, "total": null },
+			{ "id": 5, "pending" : 34, "total": 36 },
+			{ "id": 6, "pending" : 27, "total": 27 },
+			{ "id": 7, "pending" : 15, "total": 25 },
+			{ "id": 8, "pending" : null, "total": null }
+		]
+	},
+	{
+		"id" : 3,
+		"name" : "Aula 3",
+		"color" : "339DCC",
+		"tools" : [
+			{ "id": 1, "pending" : null, "total": null },
+			{ "id": 2, "pending" : 63, "total": 63 },
+			{ "id": 3, "pending" : 33, "total": 34 },
+			{ "id": 4, "pending" : 98, "total": 234 },
+			{ "id": 5, "pending" : null, "total": null },
+			{ "id": 6, "pending" : null, "total": null },
+			{ "id": 7, "pending" : null, "total": null },
+			{ "id": 8, "pending" : null, "total": null }
+		]
+	}]
+}

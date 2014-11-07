@@ -33,6 +33,7 @@ require('./lib/controllers/rooms/index')(app, config);
 require('./lib/controllers/statistics/index')(app, config);
 require('./lib/controllers/test/index')(app, config);
 require('./lib/controllers/widget/index')(app, config);
+require('./lib/controllers/plana/index')(app, config);
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function() {

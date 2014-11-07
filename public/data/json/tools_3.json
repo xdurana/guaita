@@ -1,0 +1,33 @@
+{"id" : "3",
+"name" : "Actividad 3",
+"tools" : [ 
+ 	{
+		"id" : 8,
+		"name" : "Chat"
+	}],
+"aulas" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Aula 1",
+		"color" : "C31A8A",
+		"tools" : [
+			{ "id": 8, "pending" : 25, "total": 25 }
+		]
+	},
+	{
+		"id" : 2,
+		"name" : "Aula 2",
+		"color" : "30A600",
+		"tools" : [
+			{ "id": 8, "pending" : null, "total": null }
+		]
+	},
+	{
+		"id" : 3,
+		"name" : "Aula 3",
+		"color" : "339DCC",
+		"tools" : [
+			{ "id": 8, "pending" : null, "total": null }
+		]
+	}]
+}

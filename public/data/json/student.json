@@ -1,0 +1,111 @@
+{"id" : "1",
+ "name" : "Carolina Villaecija Torregrosa",
+ "email" : "cvillaecijat@uoc.edu",
+ "lnk_rac" : "#",
+ "tutor" : "Francesc Bordonau Colldecarrera",
+ "studies" : "Grau Multimedia",
+ "photo_url" : "../data/img/user_1.jpg",
+ "personal_data" : [
+ 	"Lorem ipsum dolor sit amet, consectetuer adipiscing elit",
+ 	"Duis autem vel eum iriure dolor in hendrerit in vulputate"
+ ],
+ "business_data" : [
+ 	"Lorem ipsum dolor sit amet, consectetuer adipiscing elit",
+ 	"Duis autem vel eum iriure dolor in hendrerit in vulputate"
+ ],
+ "activities" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Actividad 1: Lorem ipsum dolor sit",
+		"last_visit" : "04/05/2014",
+		"delivery_date" : "14/06/2014",
+		"grade" : "C",
+		"pac_plagi" :  "20%",
+		"current_activ_status" :  [0]
+	},{
+		"id" : 2,
+		"name" : "Actividad 2: Am liber tempor soluta nobis",
+		"last_visit" : "14/06/2014",
+		"delivery_date" : "10/07/2014",
+		"grade" : "A",
+		"pac_plagi" :  "86%",
+		"current_activ_status" :  [1]
+	},{
+		"id" : 3,
+		"name" : "Actividad 3: am liber tempor soluta nobis typi non habent claritatem",
+		"last_visit" : "10/06/2014",
+		"delivery_date" : "11/08/2014",
+		"grade" : "B",
+		"pac_plagi" :  "&mdash;",
+		"current_activ_status" :  [1]
+	},{
+		"id" : 4,
+		"name" : "Actividad 4: am liber tempor soluta nobis typi non habent claritatem",
+		"last_visit" : "10/06/2014",
+		"delivery_date" : "11/08/2014",
+		"grade" : "D",
+		"pac_plagi" :  "&mdash;",
+		"current_activ_status" :  [0]
+	},{
+		"id" : 5,
+		"name" : "Actividad 5: am liber tempor soluta nobis typi non habent claritatem",
+		"last_visit" : "10/06/2014",
+		"delivery_date" : "11/08/2014",
+		"grade" : "&mdash;",
+		"pac_plagi" : "<a href=\"#\">Activar</a>",
+		"current_activ_status" :  [0]
+	}],
+ "materials" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Nam liber tempor cum soluta nobis eleifend option congue nihil",
+		"annotations" : "<a href=\"#\">9</a>",
+		"last_visit" : "14/08/2014"
+	},{
+		"id" : 2,
+		"name" : "Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. lorem ipsum dolor",
+		"annotations" : "<a href=\"#\">12</a>",
+		"last_visit" : "14/06/2014"
+	},{
+		"id" : 3,
+		"name" : "Nam liber tempor cum soluta nobis eleifend option congue nihil",
+		"annotations" : "&mdash;",
+		"last_visit" : "10/08/2014"
+	},{
+		"id" : 4,
+		"name" : "Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. lorem ipsum dolor",
+		"annotations" : "<a href=\"#\">7</a>",
+		"last_visit" : "01/08/2014"
+	},{
+		"id" : 5,
+		"name" : "Nam liber tempor cum soluta nobis eleifend option congue nihil",
+		"annotations" : "<a href=\"#\">5</a>",
+		"last_visit" : "02/08/2014"
+	}],
+"tools" : [ 
+ 	{
+		"id" : 1,
+		"name" : "Foro",
+		"pending_msgs" : 5,
+		"total_msgs": 56,
+		"last_visit" : "04/05/2014"
+	},{
+		"id" : 2,
+		"name" : "Tablón",
+		"pending_msgs" : 8,
+		"total_msgs": 87,
+		"last_visit" : "12/05/2014"
+	},{
+		"id" : 3,
+		"name" : "Debate",
+		"pending_msgs" : 0,
+		"total_msgs": 26,
+		"last_visit" : "25/04/2014"
+	},{
+		"id" : 4,
+		"name" : "Langblog",
+		"pending_msgs" : 3,
+		"total_msgs": 47,
+		"last_visit" : "25/06/2014"
+	}]
+}
