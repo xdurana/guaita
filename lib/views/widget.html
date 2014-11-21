@@ -41,7 +41,7 @@
     var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
     var SESSION = '{{ widget.s }}';
 
-    var MAXIMIZED = false;
+    var maximized = '{{ widget.maximized }}';
     </script>
 
     <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
@@ -162,7 +162,7 @@
     </div>
     
     <div class="minmax">
-        <a class="minim" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()">{{ t('minimitzar') }}</a>
+        <a class="{{ widget.classminmax }}" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()"></a>
     </div>
 
     <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
