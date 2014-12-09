@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="{{ widget.lang }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta content="UOC - Universitat Oberta de Catalunya" name="author">
+    <meta content="text/javascript" http-equiv="Content-Script-Type">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/general.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/modul.css" />
+{% if widget.contrast %}
+    <link rel="stylesheet" type="text/css" href="/app/guaita/css/contrast.css" />
+{% endif %}
+    <!--link rel="stylesheet" type="text/css" href="/app/guaita/css/style.css" /-->
+
+    <style type="text/css">
+        .aula .identifica {
+            background: #F5F5F5;
+            border-bottom: 2px solid #{{ widget.color }};
+        }
+        .aula .professor {
+            background: #F5F5F5;
+            border-bottom: 2px solid #BBB641;
+        }
+        .agora {
+            padding: 5px 10px;
+            overflow: hidden;
+        }
+    </style>
+
+	<!--[if lt IE 9]>
+	<style>
+		.aula .aula-arrow{ display:none; }
+		.aula .aula-arrow-fallback { display:block; }
+	</style>
+	<![endif]-->
+
+
+    <script type="text/javascript" LANGUAGE="JavaScript">
+
+        var win = null;
+        var seconds = 1;
+
+        function oWin(url) {
+            window.open(url,getWinNm(),'width=630,height=500,menubar=no,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no');
+        }
+
+        function openNotes(url) {
+            window.open(url,'{{ widget.s }}','width=630,height=500,menubar=no,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no');
+        }
+
+        function oWinActualitzar(url) {
+            this.win = window.open(url, getWinNm(),'width=630,height=500,menubar=no,resizable=yes,scrollbars=yes,status=no,location=no,toolbar=no');
+            actualizarBustiaAula();
+        }
+
+        function imatgeBorder(identificador) {
+            if (document.getElementById(identificador).src != "{{ widget.cv }}/UOC/mc-icons/general/puja-ico2.png"){
+                document.getElementById(identificador).src = "{{ widget.cv }}/UOC/mc-icons/general/baixa-ico2.png";
+            }
+        }
+
+        function imatgeNormalBorder(identificador) {
+            if (document.getElementById(identificador).src != "{{ widget.cv }}/UOC/mc-icons/general/puja-ico2.png") {
+                document.getElementById(identificador).src = "{{ widget.cv }}/UOC/mc-icons/general/baixa-ico2.png";
+            }
+        }
+
+        function actualizarBustiaAula(){
+
+            var aux = document.location.href;
+
+            if (this.win.closed==false) {
+                window.setTimeout("actualizarBustiaAula()",this.seconds *1000);
+            } else {
+                document.location.href= aux;
+            }
+        }
+
+        var url = 'http://cv.uoc.edu';
+
+        function init() {
+            if (document.getElementById("llista_0_detalls") != null) {
+                document.getElementById("llista_0_detalls").style.display="none";
+                document.getElementById("img_llista_0_detalls").src = "{{ widget.cv }}/UOC/mc-icons/general/baixa-ico2.png";
+                _IG_AdjustIFrameHeight();
+            }
+        }
+
+    </script>
+
+    {% for lib in widget.libs %}
+        <script type="text/javascript" src="{{ widget.cv }}{{ lib }}"></script>
+    {% endfor %}
+     
+    <script LANGUAGE="JavaScript" type="text/javascript">
+    var MAXIM_MSG='Minimizar';
+    var MINIM_MSG='Maximizar';
+    var DESPLEGA_OBRE = "{{ t('obre') }}";
+    var DESPLEGA_TANCA = "{{ t('tanca') }}";
+    var url_img = 'UOC/mc-icons/general';
+
+    var DATA_BOCAMOLL_USER_IDP = '{{ widget.idp }}';
+    var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ widget.domainId }}';
+    var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ widget.classroomId }}';
+    var DATA_BOCAMOLL_ACTIVITY_EVENTID = '';
+    var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
+    var SESSION = '{{ widget.s }}';
+
+    var maximized = '{{ widget.maximized }}';
+    </script>
+
+    <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/detalls.js"></script>
+    <script type="text/javascript" src="/app/guaita/js/stdFuncs.js" charset="utf-8"></script>
+    <title>{{ widget.codAssignatura }} {{ widget.nomAssignatura }}</title>
+</head>
+
+<body id="widget" class="aula c_{{ widget.color }}" onload="_IG_AdjustIFrameHeight();">
+    {% include 'ga.html' %}
+
+    <div class="agora identifica ">
+        {% if !widget.referenceUsers %}
+        <img src="{{ widget.consultor.foto }}" alt="" class="foto" />
+        {% endif %}
+        <h3 class="positionAula">
+            <a accesskey="3" target="grid" href="{{ widget.urlAula }}">{{ widget.nomAssignatura }} aula {{ widget.codAula }}</a>
+        </h3>
+        {% if widget.referenceUsers %}
+        <div class="divImatge divImatgeEstil" onmouseover="imatgeBorder('img_llista_0_detalls');" onmouseout="imatgeNormalBorder('img_llista_0_detalls');">
+            <a id="img_llista_0" class="boto semilink" href="#" onclick="desplegableAula('agregadorAula');return false;">
+                <img class="desplegable" src="{{ widget.cv }}/UOC/mc-icons/general/baixa-ico2.png" alt="Obre" title="Obre" name="img_llista_0_detalls" id="img_llista_0_detalls">
+                {{ t('responsables') }}
+            </a>
+        </div>
+        <div id="llista_0_detalls" class="sinScriptDesplegable" style="display: none;">
+            <ul class="decorada responsables">
+                {% for consultor in widget.referenceUsers %}
+                <li>
+                    <p>
+                        <img src="{{ consultor.photo }}" alt="imatge responsable" class="foto">
+                        <a onclick="oWin(this.href);return false;" target="wevento" href="{{ consultor.userResume }}" title="Obre una fitxa en una finestra nova">
+                            {{ consultor.fullName }}
+                        </a>
+                        <br>
+                        <a accesskey="9" onclick="oWin(this.href);return false;" target="wevento" href="{{ widget.cv }}{{ consultor.writeTo }}" title="Obre una fitxa en una finestra nova">
+                            <img src="{{ widget.cv }}/UOC/mc-icons/general/escriu.png" alt="Escriu un missatge">
+                        </a>
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        <div id="divMaximizedPartMov"	style="display:block">
+            <!--
+            <span class="marcadors">
+                <span class="nous unic"	title="Mensajes nuevos">76</span>
+            </span>
+            -->
+        </div>
+        {% if !widget.referenceUsers %}
+        <p class="escriure">
+            <a onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.consultor.fitxa }}" title="Obre una fitxa en una finestra nova">{{ widget.consultor.nomComplert }}</a>
+            <a accesskey="9" onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.cv }}/{{ widget.consultor.writeTo }}" title="Obre una fitxa en una finestra nova">
+                <img src="{{ widget.cv }}/UOC/mc-icons/general/escriu.png" alt="Escriu un missatge" />
+            </a>
+        </p>
+        {% endif %}
+    </div>
+
+
+        <div id="divMaximizedPart" style="{{ widget.style }}">
+
+            <ul class="llistaBlock separador">
+                <li class="aula-item">
+                    <ul class="decorada llistaBlock">
+                        {% if widget.eines %}
+                        {% for eina in widget.eines %}
+                        {% if eina.mostrar %}
+                        <li>
+                            <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-subject-id="{{ widget.domainId }}" data-bocamoll-classroom-id="{{ widget.classroomId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="decorada llistaBlock">
+                <li>
+                    {% for link in widget.avaluacio %}
+                    <a class="link" target="wevento" href="{{ link.url }}" data-bocamoll-object-link="{{ link.url }}" data-bocamoll-object-idtipolink="AVALUACIO" data-bocamoll-object-description="{{ link.name }}" onclick="oWin(this.href);return false;">{{ link.name }}</a>
+                    {% endfor %}
+                </li>
+                <li class="ultim">
+                    {% if widget.connectedStudentsAccessUrl != '' %}
+                    <a target="grid" href="{{ widget.connectedStudentsAccessUrl }}" data-bocamoll-object-link="{{ widget.connectedStudentsAccessUrl }}" data-bocamoll-object-idtipolink="AULA">
+                        <span class="noLink">{{ t('estudiants_connectats') }} ({{ widget.connectats }})</span>
+                    </a>
+                    {% else %}
+                    <span class="noLink">{{ t('estudiants_connectats') }} ({{ widget.connectats }})</span>
+                    {% endif %}
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="minmax">
+            <a class="{{ widget.classminmax }}" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()"></a>
+        </div>
+
+        <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
+        <script>
+            var $j = jQuery.noConflict();
+            $j(document).ready(function() {
+                $j("a[href*='webapps/aulaca']").each(function() {
+                    var url = this.href.split('#');
+                    url[0] = url[0] + '&javascriptDisabled=false';
+                    this.href = url.join('#');
+                });
+
+                $j("a[data-bocamoll-object-resourceid]").each(function() {
+
+                    var element = $j(this);
+
+                    var subjectid = $j(element).data('bocamoll-subject-id');
+                    var classroomid= $j(element).data('bocamoll-classroom-id');
+                    var resourceid = $j(element).data('bocamoll-object-resourceid');
+
+                    var missatges_nous = "{{ t('missatges_nous') }}";
+                    var missatges_totals = "{{ t('missatges_totals') }}";
+                    var missatges_nous_de = "{{ t('missatges_nous_de') }}";
+
+                    var aulaca = '{{ widget.aulaca }}';
+
+                    $j.ajax({
+                        url: '{{ widget.aulaca }}/LoadResource.action?sectionId=-1&pageSize=0&pageCount=0'
+                                + '&s=' + SESSION
+                                + '&classroomId=' + classroomid
+                                + '&subjectId=' + subjectid
+                                + '&resourceId=' + resourceid,
+
+                        success: function(data) {
+
+                            var num_msg_pendents = Math.max(data.resource.newItems, 0);
+                            var num_msg_totals = data.resource.totalItems;
+                            var num_msg_pendents_class = num_msg_pendents > 0 ? 'nous' : 'nous cap';
+
+                            if (num_msg_totals > 0) {
+                                $j(element).append(
+                                                '<span class="marcadors">'
+                                                + '<span title=' + missatges_nous + ' class="' + num_msg_pendents_class + '">' + num_msg_pendents + '</span>'
+                                                + '<span class="amagar">' + missatges_nous_de + '</span>'
+                                                + '<span title="' + missatges_totals + '" class="total">' + num_msg_totals + '</span>'
+                                                + '</a>'
+                                );
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+    </html>
