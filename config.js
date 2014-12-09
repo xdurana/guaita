@@ -37,7 +37,7 @@ var infoacademicawsdl = exports.infoacademicawsdl = function() {
 
 var matriculawsdl = exports.matriculawsdl = function() {
     return nconf.get('wsdl:matricula');
-}
+};
 
 var racwsdl = exports.racwsdl = function() {
 	return nconf.get('wsdl:rac');
