@@ -123,11 +123,15 @@
     {% include 'ga.html' %}
 
     <div class="agora identifica ">
+        <p>
+            <span class="assignatura_aula assignaturaUOCAula">{{ widget.campus }}</span>
+            <span class="domainCodeAula"> {{ widget.codAssignatura }}</span>
+        </p>
         {% if !widget.referenceUsers %}
         <img src="{{ widget.consultor.foto }}" alt="" class="foto" />
         {% endif %}
         <h3 class="positionAula">
-            <a accesskey="3" target="grid" href="{{ widget.urlAula }}">{{ widget.nomAssignatura }} aula {{ widget.codAula }}</a>
+            <a accesskey="3" target="grid" href="{{ widget.urlAula }}">{{ widget.nomAssignatura }}</a>
         </h3>
         {% if widget.referenceUsers %}
         <div class="divImatge divImatgeEstil" onmouseover="imatgeBorder('img_llista_0_detalls');" onmouseout="imatgeNormalBorder('img_llista_0_detalls');">
@@ -155,12 +159,10 @@
             </ul>
         </div>
         {% endif %}
-        <div id="divMaximizedPartMov"	style="display:block">
-            <!--
+        <div id="divMaximizedPartMov" style="display:block">
             <span class="marcadors">
-                <span class="nous unic"	title="Mensajes nuevos">76</span>
+                <span id="pendents" class="nous unic" title="Mensajes nuevos"></span>
             </span>
-            -->
         </div>
         {% if !widget.referenceUsers %}
         <p class="escriure">
@@ -224,6 +226,12 @@
                     this.href = url.join('#');
                 });
 
+                var pendents = 0;
+
+                if (maximized == 'true') {
+                    $j("#divMaximizedPartMov").hide();
+                }
+
                 $j("a[data-bocamoll-object-resourceid]").each(function() {
 
                     var element = $j(this);
@@ -250,6 +258,8 @@
                             var num_msg_pendents = Math.max(data.resource.newItems, 0);
                             var num_msg_totals = data.resource.totalItems;
                             var num_msg_pendents_class = num_msg_pendents > 0 ? 'nous' : 'nous cap';
+                            pendents += num_msg_pendents;
+                            $j("#pendents").text(pendents);
 
                             if (num_msg_totals > 0) {
                                 $j(element).append(

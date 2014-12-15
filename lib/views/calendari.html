@@ -263,6 +263,7 @@
         <div id="sidebar">
             <ul class="blocks">
                 {% for aula in object.classrooms %}
+                {% if aula.widget.permisos %}
                 <li class="block accordion">
                     
                     <div class="block-color c_{{ aula.color }}" data-color="{{ aula.color }}">
@@ -293,6 +294,7 @@
                     </div>
                     {% endif %}
                 </li>
+                {% endif %}
                 {% endfor %}
                 {% for room in object.rooms %}
                 <li class="block accordion">                    
