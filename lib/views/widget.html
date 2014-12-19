@@ -160,10 +160,12 @@
         </ul>
 
     </div>
-    
+
+    {% if !widget.mobil %}
     <div class="minmax">
         <a class="{{ widget.classminmax }}" id="styleDisplayMsg" href="javascript:toggleDisplayStatus()"></a>
     </div>
+    {% endif %}
 
     <script type="text/javascript" src="/app/guaita/js/jquery-1.10.2.min.js"></script>
     <script>
