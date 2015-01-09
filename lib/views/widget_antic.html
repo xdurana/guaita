@@ -110,7 +110,7 @@
     var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
     var SESSION = '{{ widget.s }}';
 
-    var maximized = '{{ widget.maximized }}';
+    var maximized = {{ widget.maximized }};
     </script>
 
     <script type="text/javascript" src="/app/guaita/js/includeDisplayStatus.js"></script>
@@ -230,7 +230,7 @@
 
                 var pendents = 0;
 
-                if (maximized == 'true') {
+                if (maximized) {
                     $j("#divMaximizedPartMov").hide();
                 }
 
