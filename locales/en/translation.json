@@ -63,11 +63,9 @@
     "resum": "Summary",
     "programa_estudis": "Studies programme",
     "aules": "Classrooms",
-    "missatges_nous": "New messages",
     "inici": "Begin",
     "fi": "End",
     "missatges_nous_de": "new messages from",
-    "missatges_totals": "Total messages",
     "estudiants_connectats": "Connected students",
     "minimitzar": "Minimize",
     "registre_avaluacio_continuada": "Continuous assessment register",
@@ -82,6 +80,7 @@
     "materiales": "Materials",
     "fonts_informacio": "Information sources",
     "responsables": "display managers",
+    "activitat_en_curs": "Activity in process",
     "events": {
         "inici": {
             "abreviatura": "I",

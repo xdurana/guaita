@@ -92,11 +92,14 @@
 
         <ul class="llistaBlock separador">
             <li class="aula-item">
-
                 {% set activa = widget.activa %}
-
                 {% if activa %}
-                <h4 class="aula-text-color"><a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ activa.name }}</a></h4>
+                <h4 class="aula-tit-secc">
+                    <a target="grid" class="link" href="{{ activa.link }}" title="{{ t('activitat_en_curs') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('activitat_en_curs') }}</a>
+                </h4>
+                <h4 class="aula-text-color">
+                    <a target="grid" class="link" href="{{ activa.link }}" title="{{ activa.name }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ activa.name }}</a>
+                </h4>
                 <ul class="decorada llistaBlock">
                     <li>
                         <div class="aula-data">
@@ -127,7 +130,9 @@
 		</ul>
 		<ul class="llistaBlock separador">
             <li class="aula-item">
-                <h4 class="aula-text-color"><a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('comunicacio_aula') }}</a></h4>
+                <h4 class="aula-tit-secc">
+                    <a target="grid" class="link" href="{{ widget.urlAula }}" title="{{ t('comunicacio_aula') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('comunicacio_aula') }}</a>
+                </h4>
                 <ul class="decorada llistaBlock">
                     {% if widget.eines %}
                     {% for eina in widget.eines %}

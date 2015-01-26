@@ -236,6 +236,14 @@
 	color: inherit;
 }
 
+.aula .aula-tit-secc{
+    background-color:#f2f2f2;
+}
+.aula .aula-tit-secc a,
+.aula .aula-tit-secc > span{
+    font-weight:inherit;
+}
+
 .aula .identifica h3 a:hover,
 .aula .identifica h5 a:hover, 
 .aula .identifica h3 a:focus,

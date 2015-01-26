@@ -47,7 +47,6 @@
     "imprimir": "Imprimeix",
     "comunicacio_recent": "Comunicació recent",
     "missatges_nous": "Missatges nous",
-    "missatges_totals": "Missatges totals",
     "questionari": "Ajuda'ns a millorar!",
     "eina_tauler": "Tauler",
     "eina_forum": "Fòrum",
@@ -62,7 +61,6 @@
     "resum": "Resum",
     "programa_estudis": "Programa d'estudis",
     "aules": "Aules",
-    "missatges_nous": "Missatges nous",
     "inici": "Inici",
     "fi": "Fi",
     "missatges_nous_de": "missatges nous de",
@@ -81,7 +79,8 @@
     "materials": "Materials",
     "fonts_informacio": "Fonts d'informació",
     "responsables": "visualització responsables",
-    "events": {
+    "activitat_en_curs": "Activitat en curs",
+        "events": {
         "inici": {
             "abreviatura": "I",
             "descripcio": "Inici pràctica"

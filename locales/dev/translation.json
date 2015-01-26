@@ -63,11 +63,9 @@
     "resum": "Resum",
     "programa_estudis": "Programa d'estudis",
     "aules": "Aules",
-    "missatges_nous": "Missatges nous",
     "inici": "Inici",
     "fi": "Fi",
     "missatges_nous_de": "missatges nous de",
-    "missatges_totals": "Missatges totals",
     "estudiants_connectats": "Estudiants connectats",
     "minimitzar": "Minimitza",
     "registre_avaluacio_continuada": "Registre d'avaluació continuada",
@@ -82,6 +80,7 @@
     "materials": "Materials",
     "fonts_informacio": "Fonts d'informació",
     "responsables": "visualització responsables",
+    "activitat_en_curs": "Activitat en curs",
     "events": {
         "inici": {
             "abreviatura": "I",
