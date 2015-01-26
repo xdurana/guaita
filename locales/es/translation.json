@@ -38,7 +38,7 @@
     "assignatures": "Asignaturas",
     "assignatura": "Asignatura",
     "esdeveniment": "Evento",
-    "pac": "PAC",
+    "pac": "PEC",
     "dia": "Día",
     "nom": "Nombre",
     "tipologies": "Tipologías",
@@ -63,11 +63,9 @@
     "resum": "Resumen",
     "programa_estudis": "Programa de estudios",
     "aules": "Aulas",
-    "missatges_nous": "Mensajes nuevos",
     "inici": "Inicio",
     "fi": "Fin",
     "missatges_nous_de": "mensajes nuevos de",
-    "missatges_totals": "Mensajes totales",
     "estudiants_connectats": "Estudiantes connectados",
     "minimitzar": "Minimiza",
     "registre_avaluacio_continuada": "Registro de evaluación continua",
@@ -82,6 +80,7 @@
     "materials": "Materiales",
     "fonts_informacio": "Fuentes de información",
     "responsables": "visualización responsables",
+    "activitat_en_curs": "Actividad en curso",
     "events": {
         "inici": {
             "abreviatura": "I",
