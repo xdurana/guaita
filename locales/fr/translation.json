@@ -1,0 +1,133 @@
+{
+    "expandeix": "déployer",
+    "ordena": "classer",
+    "aules_totals": "Salles de classe totales",
+    "estudiants": "Étudiants",
+    "comunicacio_activitats_eines": "Communication des activités et des outils",
+    "avaluacio": "Évaluation",
+    "repetidors": "Redoublants",
+    "clics_acumulats": "Clics accumulés",
+    "lectures_pendents_acumulades": "Lectures en attente accumulées",
+    "lectures_pendents": "Lectures en attente",
+    "participacions_totals": "Participations totales",
+    "participacions": "Participations",
+    "ultima_connexio": "Dernière connexion à la salle de classe",
+    "ultima_connexio_campus": "Dernière connexion au Campus",
+    "ultima_connexio_widget": "Dernière connexion au widget",
+    "seguiment_ac": "Suivi de l'AC",
+    "superacio_ac": "Résolution de l'AC",
+    "data_lliurament": "Date de remise",
+    "escriure_seleccionats": "Écrire aux sélectionnés",
+    "activitats_consultors": "Activités des consultants",
+    "seleccionar_tots": "Les sélectionner tous",
+    "total": "Total",
+    "fitxa_usuari": "Fiche d'utilisateur",
+    "eines_consultors": "Outils des consultants",
+    "eines": "Outils",
+    "activitats": "Activités",
+    "aula": "Salle de classe",
+    "aula_up": "SALLE DE CLASSE",
+    "acces_directe_menu_navegacio": "Accès direct au menu de navigation",
+    "acces_directe__contingut": "Accès direct au contenu",
+    "javascript_no_habilitat": "JavaScript n'est pas activé pour le navigateur",
+    "activa_javaScript": "Pour accéder à toutes les caractéristiques, activez JavaScript ou mettez à jour le navigateur avec une version prenant en charge JavaScript",
+    "llista_complerta_aules": "Retour à la liste complète des salles de classe",
+    "fitxa_assignatura": "Fiche de la matière",
+    "disseny_aula": "Configuration de la salle de classe",
+    "assignatures_tipologies": "Matières et typologies",
+    "assignatura": "Matière",
+    "esdeveniment": "Événement",
+    "pac": "PAC",
+    "dia": "Jour",
+    "nom": "Prénom",
+    "tipologies": "Typologies",
+    "mensual": "Mensuel",
+    "semestral": "Semestriel",
+    "exportar": "Exporter",
+    "imprimir": "Imprimer",
+    "comunicacio_recent": "Communication récente",
+    "missatges_nous": "Nouveaux messages",
+    "missatges_totals": "Total des messages",
+    "questionari": "Aidez-nous à mieux faire !",
+    "eina_tauler": "Tableau",
+    "eina_forum": "Forum",
+    "eina_area_fitxers": "Zone des fichiers",
+    "eina_debat": "Débat",
+    "obre": "Ouvrir",
+    "tanca": "Fermer",
+    "ves_aula": "Allez à la salle de classe",
+    "ves_rac": "Allez au RAC",
+    "torna_plana_aules_previa":"Revenez à la page précédente des salles de classe",
+    "entra_incidencia_millora": "Signaler un problème ou une amélioration",
+    "resum": "Résumé",
+    "programa_estudis": "Programme d'études",
+    "aules": "Salles de classe",
+    "inici": "Début",
+    "fi": "Fin",
+    "missatges_nous_de": "nouveaux messages de",
+    "estudiants_connectats": "Étudiants connectés",
+    "minimitzar": "Minimiser",
+    "registre_avaluacio_continuada": "Registre d'évaluation continue",
+    "comunicacio_aula": "Communication de la salle de classe",
+    "filtra": "Filtrer",
+    "calendari": "Calendrier",
+    "dataDescarregaConsultor": "Date de téléchargement",
+    "dataEnviament": "Date d'envoi",
+    "qualificacio": "Note",
+    "ultimLliurament": "Dernière remise",
+    "materials_i_fonts_informacio": "Matériel et sources d'information",
+    "materials": "Matériel",
+    "fonts_informacio": "Sources d'information",
+    "events": {
+        "inici": {
+            "abreviatura": "D",
+            "descripcio": "Début du travail pratique"
+        },
+        "entrega": {
+            "abreviatura": "R",
+            "descripcio": "Remise du travail pratique"
+        },
+        "solucio": {
+            "abreviatura": "S",
+            "descripcio": "Solution du travail pratique"
+        },
+        "qualificacio": {
+            "abreviatura": "N",
+            "descripcio": "Note du travail pratique"
+        }
+    },
+    "dies": {
+        "dilluns": {
+            "abreviatura": "lu",
+            "descripcio": "Lundi"
+        },
+        "dimarts": {
+            "abreviatura": "ma",
+            "descripcio": "Mardi"
+        },
+        "dimecres": {
+            "abreviatura": "me",
+            "descripcio": "Mercredi"
+        },
+        "dijous": {
+            "abreviatura": "je",
+            "descripcio": "Jeudi"
+        },
+        "divendres": {
+            "abreviatura": "ve",
+            "descripcio": "Vendredi"
+        },
+        "dissabte": {
+            "abreviatura": "sa",
+            "descripcio": "Samedi"
+        },
+        "diumenge": {
+            "abreviatura": "di",
+            "descripcio": "Dimanche"
+        }
+    },
+    "url": {
+        "incidencia": "https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false",
+        "questionari": "http://www.surveyit.com.es/UOC_docentes_cat?post="
+    }    
+}

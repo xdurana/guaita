@@ -1,7 +1,7 @@
 {
     "expandeix": "expandeix",
     "ordena": "ordena",
-    "aules_totals": "Aules Totals",
+    "aules_totals": "Aules totals",
     "estudiants": "Estudiants",
     "comunicacio_activitats_eines": "Comunicació d'activitats i eines",
     "avaluacio": "Avaluació",
@@ -11,9 +11,9 @@
     "lectures_pendents": "Lectures pendents",
     "participacions_totals": "Participacions totals",
     "participacions": "Participacions",
-    "ultima_connexio": "Última connexió aula",
-    "ultima_connexio_campus": "Última connexió campus",
-    "ultima_connexio_widget": "Última connexió widget",
+    "ultima_connexio": "Última connexió a l'aula",
+    "ultima_connexio_campus": "Última connexió al Campus",
+    "ultima_connexio_widget": "Última connexió al giny",
     "seguiment_ac": "Seguiment de l'AC",
     "superacio_ac": "Superació de l'AC",
     "data_lliurament": "Data de lliurament",
@@ -67,12 +67,12 @@
     "missatges_totals": "Missatges totals",
     "estudiants_connectats": "Estudiants connectats",
     "minimitzar": "Minimitza",
-    "registre_avaluacio_continuada": "Registre d'avaluació continuada",
+    "registre_avaluacio_continuada": "Registre d'avaluació contínua",
     "comunicacio_aula": "Comunicació de l'aula",
     "filtra": "Filtra",
     "calendari": "Calendari",
-    "dataDescarregaConsultor": "Data descàrrega",
-    "dataEnviament": "Data enviament",
+    "dataDescarregaConsultor": "Data de baixada",
+    "dataEnviament": "Data d'enviament",
     "qualificacio": "Qualificació",
     "ultimLliurament": "Últim lliurament",
     "materials_i_fonts_informacio": "Materials i fonts d'informació",
@@ -83,19 +83,19 @@
         "events": {
         "inici": {
             "abreviatura": "I",
-            "descripcio": "Inici pràctica"
+            "descripcio": "Inici de la pràctica"
         },
         "entrega": {
             "abreviatura": "LL",
-            "descripcio": "Lliurament pràctica"
+            "descripcio": "Lliurament de la pràctica"
         },
         "solucio": {
             "abreviatura": "S",
-            "descripcio": "Solució pràctica"
+            "descripcio": "Solució de la pràctica"
         },
         "qualificacio": {
             "abreviatura": "Q",
-            "descripcio": "Qualificació pràctica"
+            "descripcio": "Qualificació de la pràctica"
         }
     },
     "dies": {

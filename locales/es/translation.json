@@ -11,9 +11,9 @@
     "lectures_pendents": "Lecturas pendientes",
     "participacions_totals": "Participaciones totales",
     "participacions": "Participaciones",
-    "ultima_connexio": "Última connexión aula",
-    "ultima_connexio_campus": "Última connexión campus",
-    "ultima_connexio_widget": "Última connexión widget",
+    "ultima_connexio": "Última connexión al aula",
+    "ultima_connexio_campus": "Última connexión al Campus",
+    "ultima_connexio_widget": "Última connexión al widget",
     "seguiment_ac": "Seguimiento de la EC",
     "superacio_ac": "Superación de la EC",
     "data_lliurament": "Fecha de entrega",
@@ -29,15 +29,15 @@
     "aula_up": "AULA",
     "acces_directe_menu_navegacio": "Acceso directo al menú de navegación",
     "acces_directe__contingut": "Acceso directo al contenido",
-    "javascript_no_habilitat": "Javascript no está habilitado en tu navegador",
-    "activa_javaScript": "Para acceder a todas las características, activa Javascript o actualiza tu navegador con una versión que acepte Javascript",
+    "javascript_no_habilitat": "No tienes habilitado el Javascript en el navegador",
+    "activa_javaScript": "Para acceder a todas las características, activa el Javascript o actualiza el navegador con una versión que acepte Javascript",
     "llista_complerta_aules": "Volver a la lista completa de aulas",
     "fitxa_assignatura": "Ficha de la asignatura",
-    "disseny_aula": "Diseño de la aula",
+    "disseny_aula": "Diseño del aula",
     "assignatures_tipologies": "Asignaturas y tipologías",
     "assignatures": "Asignaturas",
     "assignatura": "Asignatura",
-    "esdeveniment": "Evento",
+    "esdeveniment": "Acontecimiento",
     "pac": "PEC",
     "dia": "Día",
     "nom": "Nombre",
@@ -49,17 +49,17 @@
     "comunicacio_recent": "Comunicación reciente",
     "missatges_nous": "Mensajes nuevos",
     "missatges_totals": "Mensajes totales",
-    "questionari": "¡Ayúdanos a mejorar!",
+    "questionari": "Ayúdanos a mejorar!",
     "eina_tauler": "Tablón",
     "eina_forum": "Foro",
     "eina_area_fitxers": "Área de ficheros",
     "eina_debat": "Debate",
     "obre": "Abrir",
     "tanca": "Cerrar",
-    "ves_aula": "Ir a la aula",
+    "ves_aula": "Ir al aula",
     "ves_rac": "Ir al RAC",
     "torna_plana_aules_previa":"Volver a la página de aulas previa",
-    "entra_incidencia_millora": "Introduce una incidencia/mejora",
+    "entra_incidencia_millora": "Entrar una incidencia/mejora",
     "resum": "Resumen",
     "programa_estudis": "Programa de estudios",
     "aules": "Aulas",
@@ -84,19 +84,19 @@
     "events": {
         "inici": {
             "abreviatura": "I",
-            "descripcio": "Inicio práctica"
+            "descripcio": "Inicio de la práctica"
         },
         "entrega": {
             "abreviatura": "LL",
-            "descripcio": "Entrega práctica"
+            "descripcio": "Entrega de la práctica"
         },
         "solucio": {
             "abreviatura": "S",
-            "descripcio": "Solución práctica"
+            "descripcio": "Solución de la práctica"
         },
         "qualificacio": {
             "abreviatura": "C",
-            "descripcio": "Calificación práctica"
+            "descripcio": "Calificación de la práctica"
         }
     },
     "dies": {
