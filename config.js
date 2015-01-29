@@ -4,7 +4,6 @@ var util = exports.util = require('util');
 var i18next = exports.i18next = require('i18next');
 var async = exports.async = require('async');
 var moment = exports.moment = require('moment');
-var request = exports.request = require('request');
 
 nconf.argv().env().file({ file: process.env.NODE_CONFIG });
 i18next.init({

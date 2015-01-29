@@ -1,6 +1,6 @@
 {
     "name": "guaita",
-    "version": "0.7.1",
+    "version": "1.0.5",
     "description": "Serveis de monitorització de l'activitat docent a les aules i llurs eines",
     "repository" : {
         "type" : "git",
