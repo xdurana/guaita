@@ -127,7 +127,7 @@
             <span class="assignatura_aula assignaturaUOCAula">{{ widget.campus }}</span>
             <span class="domainCodeAula"> {{ widget.codAssignatura }}</span>
         </p>
-        {% if !widget.referenceUsers %}
+        {% if !widget.referenceUsers && widget.consultor %}
         <img src="{{ widget.consultor.foto }}" alt="" class="foto" />
         {% endif %}
         <h3 class="positionAula">
@@ -164,7 +164,7 @@
                 <span id="pendents" class="nous unic" title="Mensajes nuevos"></span>
             </span>
         </div>
-        {% if !widget.referenceUsers %}
+        {% if !widget.referenceUsers && widget.consultor %}
         <p class="escriure">
             <a onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.consultor.fitxa }}" title="Obre una fitxa en una finestra nova">{{ widget.consultor.nomComplert }}</a>
             <a accesskey="9" onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.cv }}/{{ widget.consultor.writeTo }}" title="Obre una fitxa en una finestra nova">
@@ -229,6 +229,7 @@
                 });
 
                 var pendents = 0;
+                $j("#pendents").text(pendents);
 
                 if (maximized) {
                     $j("#divMaximizedPartMov").hide();
