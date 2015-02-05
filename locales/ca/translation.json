@@ -131,5 +131,6 @@
     "url": {
         "incidencia": "https://docs.google.com/forms/d/1Ol5b161Vc912D1NIzqeU2W5IS78cbQb58e2lr3f2Jds/viewform?javascriptDisabled=false",
         "questionari": "http://www.surveyit.com.es/UOC_docentes_cat?post="
-    }    
+    },
+    "error_general": "El servei no està disponible temporalment. Si us plau, intenteu-ho més tard."
 }

@@ -133,5 +133,6 @@
         "incidencia": "https://docs.google.com/forms/d/1lSTSz8L85gE5WlIjsu13r8bkoXOB6JvO1wINyLgLPwk/viewform?javascriptDisabled=false",
         "questionari": "http://www.surveyit.com.es/UOC_docentes_esp?post="
 
-    }    
+    },
+    "error_general": "El servicio no está disponible temporalmente. Por favor, inténtalo de nuevo más tarde."
 }
