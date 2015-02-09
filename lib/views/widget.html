@@ -93,7 +93,7 @@
         <ul class="llistaBlock separador">
             <li class="aula-item">
                 {% set activa = widget.activa %}
-                {% if activa %}
+                {% if activa && activa.name %}
                 <h4 class="aula-tit-secc">
                     <a target="grid" class="link" href="{{ activa.link }}" title="{{ t('activitat_en_curs') }}" data-bocamoll-object-link="{{ widget.urlAula }}" data-bocamoll-object-idtipolink="AULA">{{ t('activitat_en_curs') }}</a>
                 </h4>
