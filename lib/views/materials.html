@@ -56,15 +56,13 @@
                         <div class="block-inside clearfix">
                             <ul class="list subject-list">
                             {% for material in materials %}
-                            {% if material.defecte %}
-                                <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">{{ material.titol |safe}}
-                                    {% for format in material.formats %}
-                                    <a href="{{ format.url }}" target="_blank" class="LaunchesOWin GAMF" title="{{ format.tipus._name }}">
-                                        <img src="{{ cv }}/webapps/mymat/img/iPad/{{ format.tipus.src }}" alt="{{ format.tipus._name }}">
-                                    </a>
-                                    {% endfor %}
-                                </li>
-                            {% endif %}
+                            <li class="ui-accordion ui-widget ui-helper-reset" role="tablist">{{ material.titol |safe}}
+                                {% for format in material.formats %}
+                                <a href="{{ format.url }}" target="_blank" class="LaunchesOWin GAMF" title="{{ format.tipus._name }}">
+                                    <img src="{{ cv }}/webapps/mymat/img/iPad/{{ format.tipus.src }}" alt="{{ format.tipus._name }}">
+                                </a>
+                                {% endfor %}
+                            </li>
                             {% endfor %}
                             </ul>
                         </div>                        
