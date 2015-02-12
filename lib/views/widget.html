@@ -150,7 +150,7 @@
         <ul class="decorada llistaBlock">
             <li>
                 {% for link in widget.avaluacio %}
-                <a class="link" target="wevento" href="{{ link.url }}" data-bocamoll-object-link="{{ link.url }}" data-bocamoll-object-idtipolink="AVALUACIO" data-bocamoll-object-description="{{ link.name }}" onclick="oWin(this.href);return false;">{{ link.name }}</a>
+                <a class="link" target="wevento" href="{{ link.url }}" data-bocamoll-object-link="{{ link.url }}" data-bocamoll-object-idtipolink="AVALUACIO" data-bocamoll-object-description="{{ link.name |raw }}" onclick="oWin(this.href);return false;">{{ link.name |raw }}</a>
                 {% endfor %}
             </li>
             <li class="ultim">
