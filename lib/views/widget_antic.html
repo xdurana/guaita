@@ -104,7 +104,7 @@
     var url_img = 'UOC/mc-icons/general';
 
     var DATA_BOCAMOLL_USER_IDP = '{{ widget.idp }}';
-    var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ widget.domainId }}';
+    var DATA_BOCAMOLL_SUBJECT_DOMAINID = '{{ widget.subjectId }}';
     var DATA_BOCAMOLL_CLASSROOM_DOMAINID = '{{ widget.classroomId }}';
     var DATA_BOCAMOLL_ACTIVITY_EVENTID = '';
     var DATA_BOCAMOLL_CONTEXT_APP = 'widget';
@@ -184,7 +184,7 @@
                         {% for eina in widget.eines %}
                         {% if eina.mostrar %}
                         <li>
-                            <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-subject-id="{{ widget.domainId }}" data-bocamoll-classroom-id="{{ widget.classroomId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
+                            <a class="link" target="wevento" href="{{ eina.viewItemsUrl }}" title="{{ eina.nom }}" data-bocamoll-subject-id="{{ widget.subjectId }}" data-bocamoll-classroom-id="{{ widget.classroomId }}" data-bocamoll-object-resourceid="{{ eina.resourceId }}" data-bocamoll-object-idtipolink="{{ eina.idTipoLink }}" data-bocamoll-object-description="{{ eina.nom }}">{{ eina.nom }}</a>
                         </li>
                         {% endif %}
                         {% endfor %}
