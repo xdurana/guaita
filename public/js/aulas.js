@@ -72,10 +72,10 @@ var UOCAulas = (function($) {
             students.each(function(){
                 var checkeds = $(this).find('input[type=checkbox]:checked');
                 if (checkeds.length > 0) {
-                    to.push(encodeURI($(checkeds).attr('data-guaita-username')));
+                    to.push($(checkeds).attr('data-guaita-username'));
                 }
             });
-            oWin(event, 'http://cv.uoc.edu/WebMail/writeMail.do?s=' + s + '&to=' + to.join(',') + '&cc=&re=&body=&l=pers&type=popup');
+            oWin(event, 'http://cv.uoc.edu/WebMail/writeMail.do?s=' + s + '&to=' + escape(to.join(',')) + '&cc=&re=&body=&l=pers&type=popup');
             return false;
         });
 
