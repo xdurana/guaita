@@ -167,7 +167,7 @@
         {% if widget.referenceUsers.length == 1 && widget.consultor %}
         <p class="escriure">
             <a onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.consultor.fitxa }}" title="Obre una fitxa en una finestra nova">{{ widget.consultor.nomComplert }}</a>
-            <a accesskey="9" onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.cv }}/{{ widget.consultor.writeTo }}" title="Obre una fitxa en una finestra nova">
+            <a accesskey="9" onClick="oWin(this.href);return false;" target='wevento' href="{{ widget.cv }}{{ widget.consultor.writeTo }}" title="Obre una fitxa en una finestra nova">
                 <img src="{{ widget.cv }}/UOC/mc-icons/general/escriu.png" alt="Escriu un missatge" />
             </a>
         </p>
